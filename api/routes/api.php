@@ -10,3 +10,10 @@
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\GameController;
+use App\Http\Controllers\WalletController;
+
+Route::resource('/game', GameController::class);
+Route::resource('/wallet', WalletController::class);
