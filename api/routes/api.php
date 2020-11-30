@@ -13,7 +13,9 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
+use App\Http\Controllers\UserSettingsController;
 use App\Http\Controllers\WalletController;
 
+Route::resource('/user/settings', UserSettingsController::class);
 Route::resource('/game', GameController::class);
 Route::resource('/wallet', WalletController::class);
