@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
     display: 'flex',
     flexDirection: 'row',
     height: 150,
+    position: 'relative',
   },
   header: {
     display: 'flex',
