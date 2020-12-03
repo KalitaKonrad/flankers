@@ -1,8 +1,10 @@
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { Button, StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text } from 'react-native';
+import { Button } from 'react-native-paper';
 
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
+import MyAvatar from '../../components/shared/MyAvatar';
 import { theme } from '../../theme';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
@@ -21,9 +23,17 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   return (
     <>
       <HeaderWithAvatar color={theme.colors.primary}>
-        <Button title="Edytuj" onPress={onEdit} />
+        <Button //podswitla blad a dzila
+          icon="account-edit"
+          {...theme.whiteButton} //czemu ...?
+          onPress={onEdit}>
+          Edytuj
+        </Button>
         <Text>Profil</Text>
-        <Button title="Wyloguj" onPress={onLogout} />
+        <Button icon="logout" {...theme.whiteButton} onPress={onLogout}>
+          Wyloguj
+        </Button>
+        <MyAvatar />
       </HeaderWithAvatar>
     </>
   );
@@ -46,5 +56,8 @@ const styles = StyleSheet.create({
     fontSize: 25,
 
     fontWeight: 'bold',
+  },
+  avatar: {
+    display: 'flex',
   },
 });

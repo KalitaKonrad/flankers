@@ -1,4 +1,5 @@
-import { DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
+import React from 'react';
+import { Button, DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
 
 export const theme = {
   ...PaperDefaultTheme,
@@ -20,5 +21,9 @@ export const theme = {
       elevation: 0,
     },
     headerTintColor: '#FFFFFF',
+  },
+  whiteButton: {
+    color: '#FFFFFF',
+    mode: 'text',
   },
 };
