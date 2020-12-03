@@ -1,20 +1,24 @@
+import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { Provider as PaperProvider } from 'react-native-paper';
+
+import { BottomTabNavigation } from './src/components/BottomTabNavigation';
 
 const App: React.FC = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <PaperProvider>
+      <NavigationContainer>
+        <BottomTabNavigation />
+      </NavigationContainer>
+    </PaperProvider>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#0d241f',
     alignItems: 'center',
     justifyContent: 'center',
   },
