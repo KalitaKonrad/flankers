@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
-import theme from '../../theme';
+import { theme } from '../../theme';
 import { LoginScreen } from './LoginScreen';
 import { PasswordResetConfirmScreen } from './PasswordResetConfirmScreen';
 import { PasswordResetScreen } from './PasswordResetScreen';

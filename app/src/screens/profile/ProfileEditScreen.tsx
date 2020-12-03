@@ -4,10 +4,10 @@ import { Text } from 'react-native';
 
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
-type ProfileEditScreen = object &
+type ProfileEditScreenProps = object &
   StackScreenProps<ProfileScreenStackParamList, 'ProfileEdit'>;
 
-export const ProfileEditScreen: React.FC<ProfileEditScreen> = ({
+export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   navigation,
 }) => {
   const onEdit = () => {
