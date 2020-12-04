@@ -1,4 +1,5 @@
 import React from 'react';
+import { StyleSheet } from 'react-native';
 import { Button, DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
 
 export const theme = {
@@ -27,3 +28,21 @@ export const theme = {
     mode: 'text',
   },
 };
+
+export const TextStyle = StyleSheet.create({
+  noteH1: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  noteH2: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  noteH3: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});

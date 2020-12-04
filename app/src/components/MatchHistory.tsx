@@ -1,5 +1,4 @@
 import React from 'react';
-import { View } from 'react-native';
 import { List } from 'react-native-paper';
 
 import { Match } from '../types/match';
