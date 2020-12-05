@@ -1,6 +1,5 @@
 import * as React from 'react';
-import { Image, StyleSheet, View } from 'react-native';
-import { Avatar } from 'react-native-paper';
+import { Image, StyleSheet } from 'react-native';
 
 import { theme } from '../../theme';
 
