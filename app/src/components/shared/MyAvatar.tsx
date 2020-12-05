@@ -6,11 +6,12 @@ import { theme } from '../../theme';
 interface MyAvatarProps {
   height: number;
   width: number;
+  src: string;
 }
 const MyAvatar: React.FC<MyAvatarProps> = (props) => (
   <Image
     style={[styles.image, { height: props.height, width: props.width }]}
-    source={require('../../../assets/avatar.png')}
+    source={require(props.src)}
   />
 );
 

@@ -41,4 +41,24 @@ export const TextStyle = StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center',
   },
+  headerWithAvatarTitle: {
+    position: 'relative',
+    top: 0,
+    textAlign: 'center',
+    color: '#fff',
+    fontSize: 30,
+    fontWeight: 'bold',
+    letterSpacing: 0.95,
+  },
+});
+
+export const ObjectStyle = StyleSheet.create({
+  headerWithAvatarImage: {
+    display: 'flex',
+    position: 'absolute',
+    alignItems: 'center',
+    left: 0,
+    right: 0,
+    bottom: -60,
+  },
 });
