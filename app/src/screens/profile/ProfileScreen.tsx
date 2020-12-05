@@ -24,7 +24,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   return (
     <>
       <HeaderWithAvatar color={theme.colors.primary}>
-        <Button //podswitla blad a dzila
+        <Button
           icon="account-edit"
           mode="text"
           color={theme.colors.background.white}
