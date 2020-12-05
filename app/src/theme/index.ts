@@ -1,4 +1,6 @@
-import { DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
+import React from 'react';
+import { StyleSheet } from 'react-native';
+import { Button, DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
 
 export const theme = {
   ...PaperDefaultTheme,
@@ -22,3 +24,21 @@ export const theme = {
     headerTintColor: '#FFFFFF',
   },
 };
+
+export const TextStyle = StyleSheet.create({
+  noteH1: {
+    fontSize: 30,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  noteH2: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+  noteH3: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    textAlign: 'center',
+  },
+});

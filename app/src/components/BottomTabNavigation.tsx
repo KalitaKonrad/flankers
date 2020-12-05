@@ -26,7 +26,6 @@ export type BottomTabNavigationParamList = {
   Wallet: undefined;
   Ranking: undefined;
 };
-
 const Tab = createMaterialBottomTabNavigator<BottomTabNavigationParamList>();
 
 const ROUTE_TO_ICON_MAP: Record<keyof BottomTabNavigationParamList, string> = {

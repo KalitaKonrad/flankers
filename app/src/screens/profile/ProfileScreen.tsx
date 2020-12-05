@@ -1,9 +1,12 @@
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { Button, StyleSheet, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { Button, Text } from 'react-native-paper';
 
+import { MatchHistory } from '../../components/MatchHistory';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
-import { theme } from '../../theme';
+import MyAvatar from '../../components/shared/MyAvatar';
+import { theme, TextStyle } from '../../theme';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
 type ProfileScreenProps = object &
@@ -21,30 +24,62 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   return (
     <>
       <HeaderWithAvatar color={theme.colors.primary}>
-        <Button title="Edytuj" onPress={onEdit} />
-        <Text>Profil</Text>
-        <Button title="Wyloguj" onPress={onLogout} />
+        <Button
+          icon="account-edit"
+          mode="text"
+          color={theme.colors.background.white}
+          onPress={onEdit}>
+          Edytuj
+        </Button>
+        <Text style={styles.title}>Profil</Text>
+        <Button
+          icon="logout"
+          mode="text"
+          color={theme.colors.background.white}
+          onPress={onLogout}>
+          Wyloguj
+        </Button>
+        <View style={styles.avatar}>
+          <MyAvatar height={150} width={150} />
+        </View>
       </HeaderWithAvatar>
+      <View style={styles.note}>
+        <Text style={[TextStyle.noteH1]}>USERNAME</Text>
+        <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 2137</Text>
+      </View>
+      <View style={styles.matchHistory}>
+        <MatchHistory name="name" matchHistory={[]} />
+      </View>
     </>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    backgroundColor: 'rgba(199,253,255,0.98)',
-  },
-  header: {
+  note: {
     display: 'flex',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 70,
   },
   title: {
-    top: 50,
+    position: 'relative',
+    top: 0,
     textAlign: 'center',
     color: '#fff',
-    fontSize: 25,
-
+    fontSize: 30,
     fontWeight: 'bold',
+    letterSpacing: 0.95,
+  },
+  avatar: {
+    display: 'flex',
+    position: 'absolute',
+    alignItems: 'center',
+    left: 0,
+    right: 0,
+    bottom: -60,
+  },
+  matchHistory: {
+    display: 'flex',
+    top: 90,
   },
 });

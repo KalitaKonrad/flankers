@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import { List } from 'react-native-paper';
 
 import { Match } from '../types/match';
 
@@ -12,5 +12,11 @@ export const MatchHistory: React.FC<MatchHistoryProps> = ({
   name,
   matchHistory,
 }) => {
-  return <View>match history</View>;
+  return (
+    <List.Item
+      title="Match"
+      description="Result"
+      left={(props) => <List.Icon {...props} icon="star" />}
+    />
+  );
 };

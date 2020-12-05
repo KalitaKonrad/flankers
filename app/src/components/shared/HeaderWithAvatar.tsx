@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 interface HeaderWithAvatarProps {
   color?: string;
@@ -29,6 +29,8 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'row',
+    height: 150,
+    position: 'relative',
   },
   header: {
     display: 'flex',
