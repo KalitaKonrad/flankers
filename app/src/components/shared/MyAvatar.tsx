@@ -1,18 +1,25 @@
 import * as React from 'react';
+import { Image, StyleSheet, View } from 'react-native';
 import { Avatar } from 'react-native-paper';
 
 import { theme } from '../../theme';
 
-const MyAvatar = () => (
-  <Avatar.Image
-    size={150}
-    style={{
-      //dziwny filoetowy pasek w lewym gorym rogu, jesli nie uda sie go wyeliminowac border trzeba odrzucic
-      overflow: 'hidden',
-      borderWidth: 3,
-      borderColor: theme.colors.background.white,
-    }}
+interface MyAvatarProps {
+  height: number;
+  width: number;
+}
+const MyAvatar: React.FC<MyAvatarProps> = (props) => (
+  <Image
+    style={[styles.image, { height: props.height, width: props.width }]}
     source={require('../../../assets/avatar.png')}
   />
 );
+
+const styles = StyleSheet.create({
+  image: {
+    borderRadius: 100,
+    borderWidth: 4,
+    borderColor: theme.colors.background.white,
+  },
+});
 export default MyAvatar;

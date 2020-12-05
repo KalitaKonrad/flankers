@@ -26,16 +26,21 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       <HeaderWithAvatar color={theme.colors.primary}>
         <Button //podswitla blad a dzila
           icon="account-edit"
-          {...theme.whiteButton} //czemu ...?
+          mode="text"
+          color={theme.colors.background.white}
           onPress={onEdit}>
           Edytuj
         </Button>
         <Text style={styles.title}>Profil</Text>
-        <Button icon="logout" {...theme.whiteButton} onPress={onLogout}>
+        <Button
+          icon="logout"
+          mode="text"
+          color={theme.colors.background.white}
+          onPress={onLogout}>
           Wyloguj
         </Button>
         <View style={styles.avatar}>
-          <MyAvatar />
+          <MyAvatar height={150} width={150} />
         </View>
       </HeaderWithAvatar>
       <View style={styles.note}>

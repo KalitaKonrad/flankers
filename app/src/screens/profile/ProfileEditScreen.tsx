@@ -1,9 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, TextInput, View } from 'react-native';
+import InputScrollView from 'react-native-input-scroll-view';
+import { Button } from 'react-native-paper';
 
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
+import { SubmitButton } from '../../components/shared/SubmitButton';
 import { TextStyle, theme } from '../../theme';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
@@ -23,50 +26,59 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   };
 
   return (
-    <ScrollView>
-      <HeaderWithAvatar color={theme.colors.primary} center>
-        <View style={styles.title}>
-          <Text style={styles.title}>Edycja profilu</Text>
+    <>
+      <InputScrollView>
+        <HeaderWithAvatar color={theme.colors.primary} center>
+          <View style={styles.title}>
+            <Text style={styles.title}>Edycja profilu</Text>
+          </View>
+          <View style={styles.avatar}>
+            <MyAvatar height={150} width={150} />
+          </View>
+        </HeaderWithAvatar>
+        <View style={styles.note}>
+          <Text style={[TextStyle.noteH2]}>Zmiana danych</Text>
         </View>
-        <View style={styles.avatar}>
-          <MyAvatar />
+        <View style={styles.container}>
+          <View style={styles.placeholder} />
+          <TextInput
+            style={styles.textInputStyle}
+            placeholder="Nazwa użytkownika"
+            blurOnSubmit
+            selectionColor={theme.colors.primary}
+            defaultValue=""
+            onChangeText={(text) => setUsername(text)}
+          />
+          <TextInput
+            style={styles.textInputStyle}
+            placeholder="Aktualne hasło"
+            blurOnSubmit
+            selectionColor={theme.colors.primary}
+            onChangeText={(text) => setActualPassword(text)}
+          />
+          <TextInput
+            style={styles.textInputStyle}
+            placeholder="Nowe hasło"
+            blurOnSubmit
+            selectionColor={theme.colors.primary}
+            onChangeText={(text) => setNewPassword(text)}
+          />
+          <TextInput
+            style={styles.textInputStyle}
+            placeholder="Powtórz nowe hasło"
+            blurOnSubmit
+            selectionColor={theme.colors.primary}
+            onChangeText={(text) => setNewPasswordRep(text)}
+          />
         </View>
-      </HeaderWithAvatar>
-      <View style={styles.note}>
-        <Text style={[TextStyle.noteH2]}>Zmiana danych</Text>
-      </View>
-      <View style={styles.inputContainer}>
-        <TextInput
-          style={styles.textInputStyle}
-          placeholder="Nazwa użytkownika"
-          blurOnSubmit
-          selectionColor={theme.colors.primary}
-          defaultValue={username}
-          onChangeText={(text) => setUsername(text)}
-        />
-        <TextInput
-          style={styles.textInputStyle}
-          placeholder="Aktualne hasło"
-          blurOnSubmit
-          selectionColor={theme.colors.primary}
-          onChangeText={(text) => setActualPassword(text)}
-        />
-        <TextInput
-          style={styles.textInputStyle}
-          placeholder="Jebać Jasło"
-          blurOnSubmit
-          selectionColor={theme.colors.primary}
-          onChangeText={(text) => setNewPassword(text)}
-        />
-        <TextInput
-          style={styles.textInputStyle}
-          placeholder="Powtórz nowe hasło"
-          blurOnSubmit
-          selectionColor={theme.colors.primary}
-          onChangeText={(text) => setNewPasswordRep(text)}
-        />
-      </View>
-    </ScrollView>
+        <SubmitButton
+          backgroundColor={theme.colors.primary}
+          labelColor={theme.colors.background.white}
+          onPress={onEdit}>
+          Zapisz zmiany
+        </SubmitButton>
+      </InputScrollView>
+    </>
   );
 };
 
@@ -94,20 +106,24 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: -60,
   },
-  inputContainer: {
-    top: 90,
-    display: 'flex',
-    flex: 0.7,
-    justifyContent: 'space-around',
-    padding: 17,
-  },
   textInputStyle: {
-    backgroundColor: theme.colors.background.darkGray,
-    height: 60,
-    textAlign: 'left',
     borderTopLeftRadius: 12,
     borderTopRightRadius: 12,
     borderBottomLeftRadius: 12,
     borderBottomRightRadius: 12,
+    margin: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
+    backgroundColor: theme.colors.background.darkGray,
+  },
+  container: {
+    top: 90,
+    height: 350,
+  },
+  placeholder: {
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

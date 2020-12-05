@@ -23,10 +23,6 @@ export const theme = {
     },
     headerTintColor: '#FFFFFF',
   },
-  whiteButton: {
-    color: '#FFFFFF',
-    mode: 'text',
-  },
 };
 
 export const TextStyle = StyleSheet.create({
