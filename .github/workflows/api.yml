@@ -12,11 +12,10 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: ./api
+        working-directory: ${{ github.workspace }}/api
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-        working-directory: ./
 
       - name: Cache dependencies
         uses: actions/cache@v1
