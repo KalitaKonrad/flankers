@@ -36,7 +36,9 @@ jobs:
         run: composer install --prefer-dist --no-interaction --no-suggest
       
       - name: Provision database for tests
-        run: php artisan migrate
+        run: |
+          touch ./database/database.sqlite
+          php artisan migrate
       
       - name: Generate docs routes
         run: php artisan scribe:generate
