@@ -1,7 +1,11 @@
 name: API CI
 on:
   push:
+    paths: 
+      - 'api/*'
   pull_request:
+    paths:
+      - 'api/*'
 env:
   APP_ENV: local
   APP_DEBUG: true
