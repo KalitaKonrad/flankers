@@ -38,14 +38,22 @@ jobs:
 
       - name: Install Composer dependencies
         run: composer install --prefer-dist --no-interaction --no-suggest
-      
+
       - name: Provision database for tests
         run: |
           touch ./database/database.sqlite
-          php artisan migrate
       
+      - name: Prepare application keys
+        run: |
+          php artisan jwt:secret
+
+      - name: Migrate the database
+        run: php artisan migrate
+        
       - name: Generate docs routes
-        run: php artisan scribe:generate
+        run: |
+          php artisan scribe:generate
+          
     
       - name: Execute tests
         run: composer run test
