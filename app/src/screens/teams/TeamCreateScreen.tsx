@@ -27,7 +27,7 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
       <InputScrollView>
         <HeaderWithAvatar color={theme.colors.primary} center>
           <View style={TextStyle.headerWithAvatarTitle}>
-            <Text style={TextStyle.headerWithAvatarTitle}>Zespół</Text>
+            <Text style={TextStyle.headerWithAvatarTitle}>Utwórz zespół</Text>
           </View>
           <View style={ObjectStyle.headerWithAvatarImage}>
             <MyAvatar src="../assets/avatar.png" height={150} width={150} />
@@ -83,10 +83,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   textInputStyle: {
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
+    borderRadius: 12,
     margin: 10,
     paddingVertical: 6,
     paddingHorizontal: 10,
@@ -95,10 +92,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.background.darkGray,
   },
   textMultiLineInputStyle: {
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
+    borderRadius: 12,
     height: 150,
     textAlignVertical: 'top',
     margin: 10,
