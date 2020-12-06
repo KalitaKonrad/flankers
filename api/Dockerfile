@@ -2,6 +2,7 @@ FROM webdevops/php-nginx-dev:7.4
 
 # Set any ENVs
 ARG APP_KEY=${APP_KEY}
+ARG JWT_SECRET=${JWT_SECRET}
 ARG APP_NAME=${APP_NAME}
 ARG APP_URL=${APP_URL}
 ARG APP_ENV=${APP_ENV}
