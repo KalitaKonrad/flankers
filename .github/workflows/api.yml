@@ -3,6 +3,8 @@ on:
   push:
   pull_request:
 env:
+  APP_ENV: local
+  APP_DEBUG: true
   LOG_CHANNEL: stack
   LOG_LEVEL: debug
   DB_CONNECTION: sqlite
