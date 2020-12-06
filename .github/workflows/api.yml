@@ -54,6 +54,5 @@ jobs:
         run: |
           php artisan scribe:generate
           
-    
       - name: Execute tests
         run: composer run test
