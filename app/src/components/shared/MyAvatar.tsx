@@ -8,10 +8,14 @@ interface MyAvatarProps {
   width: number;
   src: string;
 }
+
+const tempImage: string = '../../../assets/avatar.png';
+
 const MyAvatar: React.FC<MyAvatarProps> = (props) => (
   <Image
     style={[styles.image, { height: props.height, width: props.width }]}
-    source={require(props.src)}
+    // source={{ uri: props.src }}
+    source={require(tempImage)}
   />
 );
 
