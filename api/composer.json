@@ -15,7 +15,9 @@
         "laravel/framework": "^8.12",
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.5",
-        "mpociot/teamwork": "^6.1"
+        "mpociot/teamwork": "^6.1",
+        "protoqol/prequel": "^1.22",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
