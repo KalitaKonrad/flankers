@@ -19,4 +19,5 @@ RUN touch database/database.sqlite && \
 
 RUN composer install && \
     php artisan migrate && \
+    php artisan db:seed --class StagingSeeder && \
     php artisan scribe:generate
