@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\Auth;
 class Signout extends Controller
 {
     /**
+     * Instantiate a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('api:auth');
+    }
+
+    /**
      * Sign out current user
      * 
      * Posting to this route with valid user access token
