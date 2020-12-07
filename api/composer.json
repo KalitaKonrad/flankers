@@ -16,7 +16,6 @@
         "laravel/sanctum": "^2.8",
         "laravel/tinker": "^2.5",
         "mpociot/teamwork": "^6.1",
-        "protoqol/prequel": "^1.22",
         "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
@@ -25,10 +24,10 @@
         "knuckleswtf/scribe": "^2.4",
         "laravel/telescope": "^4.3",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "5.0",
+        "nunomaduro/collision": "^5.0",
         "pestphp/pest": "^0.3.14",
         "pestphp/pest-plugin-laravel": "^0.3.0",
-        "phpunit/phpunit": "9.3.10"
+        "phpunit/phpunit": "^9.3.10"
     },
     "config": {
         "optimize-autoloader": true,
