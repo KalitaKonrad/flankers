@@ -16,7 +16,7 @@ import {
   TeamScreenStack,
   TeamScreenStackParamList,
 } from '../screens/teams/TeamScreenStack';
-import { WalletScreen } from '../screens/wallet/WalletScreen';
+import { WalletScreenStack } from '../screens/wallet/WalletScreenStack';
 import { theme } from '../theme';
 
 export type BottomTabNavigationParamList = {
@@ -40,7 +40,7 @@ export const BottomTabNavigation: React.FC = () => {
   return (
     <Tab.Navigator
       activeColor="#FFF"
-      initialRouteName="Profile"
+      initialRouteName="Wallet"
       inactiveColor={theme.colors.secondary}
       labeled
       barStyle={{ backgroundColor: theme.colors.primary }}
@@ -62,7 +62,6 @@ export const BottomTabNavigation: React.FC = () => {
         component={TeamScreenStack}
         options={{ tabBarLabel: 'Teams' }}
       />
-
       <Tab.Screen
         name="Profile"
         component={ProfileScreenStack}
@@ -70,7 +69,7 @@ export const BottomTabNavigation: React.FC = () => {
       />
       <Tab.Screen
         name="Wallet"
-        component={WalletScreen}
+        component={WalletScreenStack}
         options={{ tabBarLabel: 'Wallet' }}
       />
       <Tab.Screen

@@ -1,6 +1,5 @@
-import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
+import { DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
 
 export const theme = {
   ...PaperDefaultTheme,
@@ -13,6 +12,7 @@ export const theme = {
       white: '#FFFFFF',
     },
     black: '#000',
+    white: '#fff',
   },
   headerOptions: {
     title: '',
