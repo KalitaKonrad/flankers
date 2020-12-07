@@ -11,16 +11,21 @@
 |
 */
 
+use App\Http\Controllers\ConfirmSignup;
 use App\Http\Controllers\FindGame;
+use App\Http\Controllers\ForgotPassword;
 use App\Http\Controllers\GameBetsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\GameController;
 use App\Http\Controllers\GameInviteController;
 use App\Http\Controllers\GameScoreController;
 use App\Http\Controllers\JoinGame;
+use App\Http\Controllers\RefreshToken;
+use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\SettleGame;
 use App\Http\Controllers\Signin;
 use App\Http\Controllers\Signout;
+use App\Http\Controllers\Signup;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamMembershipController;
 use App\Http\Controllers\UserAvatarController;
@@ -29,8 +34,18 @@ use App\Http\Controllers\WalletController;
 
 Route::prefix('auth')->group(function () {
     Route::post('signin', Signin::class);
-    Route::middleware('auth:api')->post('signout', Signout::class);
+    Route::post('signout', Signout::class);
+    Route::post('refresh-token', RefreshToken::class);
+
+    Route::post('signup', Signup::class);
+    Route::post('signup/verify/{id}/{hash}', ConfirmSignup::class);
+
+    Route::post('forgot-password', ForgotPassword::class);
+    Route::post('reset-password/{token}', ResetPassword::class);
 });
+
+
+
 Route::resource('/user/settings', UserSettingsController::class);
 Route::resource('/user/avatar', UserAvatarController::class);
 Route::resource('/teams', TeamController::class);
