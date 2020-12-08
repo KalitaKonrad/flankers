@@ -57,6 +57,7 @@
     "prefer-stable": true,
     "scripts": {
         "test": "pest",
+        "coverage": "pest --coverage --min=30",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
