@@ -18,7 +18,7 @@ it('returns user token on valid signin', function () {
 it('returns unauthorized response on invalid auth data', function () {
     $this->postJson('/auth/signin', ['email' => 'foo@gmail.com', 'password' => 'baz'])
         ->assertStatus(401)
-        ->assertJson(['error' => true]);
+        ->assertJson(['errors' => true]);
 });
 
 it('should not allow fresh, unverified user', function () {
