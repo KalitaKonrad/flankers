@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Http\Requests\SigninRequest;
 use App\Http\Traits\RespondsWithJwt;
 use Illuminate\Support\Facades\Auth;
@@ -30,8 +31,18 @@ class Signin extends Controller
         if (!$token = Auth::attempt($credentials)) {
             return response()
                 ->json([
-                    'error' => 'Invalid auth credentials provided'
+                    'errors' => [
+                        'all' => 'Invalid auth credentials provided'
+                    ]
                 ], 401);
+        }
+
+        if (!User::where('email', $credentials['email'])->first()->hasVerifiedEmail()) {
+            return response()->json([
+                'errors' => [
+                    'email' => __('Your email is not verified, please check your mailbox and active it')
+                ]
+            ], 401);
         }
 
         return $this->respondWithToken($token);
