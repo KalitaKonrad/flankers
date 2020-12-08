@@ -1,9 +1,10 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use function Tests\unverifiedUser;
 use function Tests\validAuthCreds;
+use function Tests\withDefaultPassword;
 
 uses(RefreshDatabase::class);
 
@@ -22,7 +23,8 @@ it('returns unauthorized response on invalid auth data', function () {
 });
 
 it('should not allow fresh, unverified user', function () {
-    $creds = User::factory()->create()->only(['email', 'password']);
-    $this->postJson('/auth/signin', $creds)
+    $user = unverifiedUser();
+
+    $this->postJson('/auth/signin', withDefaultPassword($user->only('email')))
         ->assertStatus(401);
 });
