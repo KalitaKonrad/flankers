@@ -52,4 +52,4 @@ jobs:
           php artisan scribe:generate
           
       - name: Execute tests
-        run: composer run test
+        run: composer coverage
