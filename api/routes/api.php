@@ -42,7 +42,7 @@ Route::prefix('auth')->group(function () {
         ->name('verification.verify');
 
     Route::post('forgot-password', ForgotPassword::class);
-    Route::post('reset-password/{token}', ResetPassword::class);
+    Route::post('reset-password', ResetPassword::class);
 });
 
 
