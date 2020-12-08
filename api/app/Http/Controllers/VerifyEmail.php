@@ -7,7 +7,7 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
 
-class ConfirmSignup extends Controller
+class VerifyEmail extends Controller
 {
     /**
      * Instantiate a new controller instance.
