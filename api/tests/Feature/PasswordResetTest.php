@@ -13,7 +13,7 @@ it('should reset user password with correct token and data', function () {
     $token = app(Illuminate\Auth\Passwords\PasswordBroker::class)->createToken($user);
     $pass = 'kwakwa5!';
 
-    $res = $this->postJson("/auth/reset-password", [
+    $this->postJson("/auth/reset-password", [
         'email' => $user->email,
         'token' => $token,
         'password' => $pass,
