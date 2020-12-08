@@ -35,7 +35,7 @@ use App\Http\Controllers\WalletController;
 Route::prefix('auth')->group(function () {
     Route::post('signin', Signin::class);
     Route::post('signout', Signout::class);
-    Route::post('refresh-token', RefreshToken::class);
+    Route::post('refresh', RefreshToken::class);
 
     Route::post('signup', Signup::class);
     Route::post('signup/verify/{id}/{hash}', ConfirmSignup::class);
