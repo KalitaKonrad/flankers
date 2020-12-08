@@ -1,18 +1,13 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Arr;
+
+use function Tests\validAuthCreds;
 
 uses(RefreshDatabase::class);
 
-beforeEach(function () {
-    $user = User::factory()->create();
-    $this->authData = Arr::add($user->only(['email']), 'password', 'password');
-});
-
 it('returns user token on valid signin', function () {
-    $this->postJson('/auth/signin', $this->authData)
+    $this->postJson('/auth/signin', validAuthCreds())
         ->assertOk()
         ->assertJson([
             'access_token' => true
