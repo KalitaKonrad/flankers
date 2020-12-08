@@ -7,7 +7,7 @@ import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MultilineTextInput } from '../../components/shared/MultilineTextInput';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
-import { theme, TextStyle, ObjectStyle } from '../../theme';
+import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
 type TeamCreateScreenProps = object &
@@ -24,7 +24,7 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   };
 
   return (
-    <View>
+    <InputScrollView>
       <HeaderWithAvatar color={theme.colors.primary} center>
         <View style={TextStyle.headerWithAvatarTitle}>
           <Text style={TextStyle.headerWithAvatarTitle}>Utwórz zespół</Text>
@@ -38,7 +38,6 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
         <Text style={[TextStyle.noteH2]}>Dane zespołu</Text>
       </View>
       <View style={styles.container}>
-        <View style={styles.placeholder} />
         <TextInput
           style={styles.textInputStyle}
           placeholder="Nazwa użytkownika"
@@ -64,7 +63,7 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
         onPress={onPress}>
         Utwórz
       </SubmitButton>
-    </View>
+    </InputScrollView>
   );
 };
 

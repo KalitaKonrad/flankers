@@ -1,24 +1,26 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
 
+import { MatchHistory } from '../../components/MatchHistory';
+import { MemberList } from '../../components/MembersList';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { Switch } from '../../components/shared/Switch';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { TeamScreenStackParamList } from './TeamScreenStack';
+
 type TeamManageScreenProps = object &
   StackScreenProps<TeamScreenStackParamList, 'TeamManage'>;
 
 export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
   navigation,
 }) => {
+  const [switched, setSwitched] = useState<boolean>(false);
+
   const onExit = () => {
     navigation.push('TeamCreate');
-  };
-  const onSwitch = () => {
-    console.log('switched');
   };
 
   return (
@@ -45,7 +47,16 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
         <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 1000</Text>
       </View>
       <View style={styles.toggle}>
-        <Switch leftLabel="Członkowie" rightLabel="Mecze" />
+        <Switch
+          leftLabel="Członkowie"
+          rightLabel="Mecze"
+          leftSideToggled={(res) => setSwitched(res)}
+        />
+        {switched ? (
+          <MatchHistory name="teamMatchHistory" matchHistory={[]} />
+        ) : (
+          <MemberList name="teamMembers" teamMembers={[]} />
+        )}
       </View>
     </>
   );
@@ -70,6 +81,6 @@ const styles = StyleSheet.create({
   },
   toggle: {
     flex: 1,
-    top: 70,
+    top: 90,
   },
 });

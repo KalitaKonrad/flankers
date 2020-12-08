@@ -6,14 +6,18 @@ import { theme } from '../../theme';
 interface SwitchProps {
   leftLabel: string;
   rightLabel: string;
+  leftSideToggled: (arg: boolean) => void;
 }
 
 export const Switch: React.FC<SwitchProps> = (props) => {
+  const [leftBtnIsActive, setLeftBtnIsActive] = useState<boolean>(true);
+
   return (
     <SwitchSelector
       initial={0}
-      onPress={() => {
-        console.log('pushed');
+      onPress={(value) => {
+        value === 'left' ? setLeftBtnIsActive(true) : setLeftBtnIsActive(false);
+        props.leftSideToggled(leftBtnIsActive);
       }}
       textColor="#7f8581"
       selectedColor={theme.colors.primary}
@@ -25,8 +29,8 @@ export const Switch: React.FC<SwitchProps> = (props) => {
       fontSize={20}
       bold
       options={[
-        { label: props.leftLabel, value: 'f' }, //images.feminino = require('./path_to/assets/img/feminino.png')
-        { label: props.rightLabel, value: 'm' }, //images.masculino = require('./path_to/assets/img/masculino.png')
+        { label: props.leftLabel, value: 'left' },
+        { label: props.rightLabel, value: 'right' },
       ]}
     />
   );
