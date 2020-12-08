@@ -19,12 +19,18 @@ use App\Http\Controllers\GameInviteController;
 use App\Http\Controllers\GameScoreController;
 use App\Http\Controllers\JoinGame;
 use App\Http\Controllers\SettleGame;
+use App\Http\Controllers\Signin;
+use App\Http\Controllers\Signout;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamMembershipController;
 use App\Http\Controllers\UserAvatarController;
 use App\Http\Controllers\UserSettingsController;
 use App\Http\Controllers\WalletController;
 
+Route::prefix('auth')->group(function () {
+    Route::post('signin', Signin::class);
+    Route::middleware('auth:api')->post('signout', Signout::class);
+});
 Route::resource('/user/settings', UserSettingsController::class);
 Route::resource('/user/avatar', UserAvatarController::class);
 Route::resource('/teams', TeamController::class);
