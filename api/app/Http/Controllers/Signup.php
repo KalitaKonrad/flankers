@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\SignupRequest;
 use Illuminate\Auth\Events\Registered;
-use Illuminate\Support\Facades\DB;
 
 class Signup extends Controller
 {
@@ -17,12 +18,18 @@ class Signup extends Controller
      */
     public function __invoke(SignupRequest $request)
     {
-        DB::transaction(function () use ($request) {
+        try {
+            DB::beginTransaction();
+
             $data = $request->only(['email', 'name', 'password']);
             $user = User::create($data);
-
             event(new Registered($user));
-        });
+
+            DB::commit();
+        } catch (Exception $e) {
+            DB::rollBack();
+            return $e;
+        }
 
         return [
             'message' => __('User registered successfully, check your email for confirmation link')
