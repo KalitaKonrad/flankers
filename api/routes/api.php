@@ -11,7 +11,6 @@
 |
 */
 
-use App\Http\Controllers\ConfirmSignup;
 use App\Http\Controllers\FindGame;
 use App\Http\Controllers\ForgotPassword;
 use App\Http\Controllers\GameBetsController;
@@ -30,6 +29,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamMembershipController;
 use App\Http\Controllers\UserAvatarController;
 use App\Http\Controllers\UserSettingsController;
+use App\Http\Controllers\VerifyEmail;
 use App\Http\Controllers\WalletController;
 
 Route::prefix('auth')->group(function () {
@@ -38,7 +38,7 @@ Route::prefix('auth')->group(function () {
     Route::post('refresh', RefreshToken::class);
 
     Route::post('signup', Signup::class);
-    Route::post('signup/verify/{id}/{hash}', ConfirmSignup::class)
+    Route::post('signup/verify/{id}/{hash}', VerifyEmail::class)
         ->name('verification.verify');
 
     Route::post('forgot-password', ForgotPassword::class);
