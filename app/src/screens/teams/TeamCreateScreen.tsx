@@ -46,15 +46,6 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
           defaultValue=""
           onChangeText={(text) => setTeamName(text)}
         />
-        {/*<TextInput*/}
-        {/*  style={styles.textMultiLineInputStyle}*/}
-        {/*  placeholder="Opis"*/}
-        {/*  blurOnSubmit*/}
-        {/*  multiline*/}
-        {/*  selectionColor={theme.colors.primary}*/}
-        {/*  defaultValue=""*/}
-        {/*  onChangeText={(text) => setDescription(text)}*/}
-        {/*/>*/}
         <MultilineTextInput placeholder="Opis" />
       </View>
       <SubmitButton
