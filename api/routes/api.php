@@ -38,7 +38,8 @@ Route::prefix('auth')->group(function () {
     Route::post('refresh', RefreshToken::class);
 
     Route::post('signup', Signup::class);
-    Route::post('signup/verify/{id}/{hash}', ConfirmSignup::class);
+    Route::post('signup/verify/{id}/{hash}', ConfirmSignup::class)
+        ->name('verification.verify');
 
     Route::post('forgot-password', ForgotPassword::class);
     Route::post('reset-password/{token}', ResetPassword::class);
