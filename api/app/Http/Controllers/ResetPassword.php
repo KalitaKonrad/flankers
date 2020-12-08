@@ -21,8 +21,16 @@ class ResetPassword extends Controller
     }
 
     /**
-     * Handle the incoming request.
-     *
+     * Reset user password
+     * 
+     * Passwords which are sent must be strong i.e. min. 8 characters
+     * 
+     * @group Authentication
+     * @bodyParam email string required Example: foo@bar.com
+     * @bodyParam token string required One time reset token from email used for auth Example: YOUR_TOKEN_HERE
+     * @bodyParam password string required New password Example: kwakwa5!
+     * @bodyParam password_confirmation required Password confirmation Example: kwakwa5!
+     * 
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */

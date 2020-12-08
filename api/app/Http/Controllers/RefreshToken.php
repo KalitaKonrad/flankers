@@ -23,6 +23,9 @@ class RefreshToken extends Controller
     /**
      * Refresh user JWT token.
      * 
+     * If authenticated user will access this route new token
+     * metadata will be returned as a response.
+     * 
      * @group Authentication
      * @header Authorization Bearer YOUR_TOKEN_HERE
      * 
