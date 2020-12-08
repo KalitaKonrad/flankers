@@ -16,7 +16,6 @@
     "*.{.js,jsx,ts,tsx}": "eslint --fix"
   },
   "dependencies": {
-    "@dooboo-ui/native-switch-toggle": "^0.7.0",
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/material-bottom-tabs": "^5.3.10",
     "@react-navigation/native": "^5.8.10",
@@ -32,6 +31,7 @@
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
+    "react-native-switch-selector": "^2.0.6",
     "react-native-web": "^0.14.8"
   },
   "devDependencies": {

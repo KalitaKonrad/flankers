@@ -4,6 +4,7 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
+import { MultilineTextInput } from '../../components/shared/MultilineTextInput';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { theme, TextStyle, ObjectStyle } from '../../theme';
@@ -23,47 +24,47 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   };
 
   return (
-    <>
-      <InputScrollView>
-        <HeaderWithAvatar color={theme.colors.primary} center>
-          <View style={TextStyle.headerWithAvatarTitle}>
-            <Text style={TextStyle.headerWithAvatarTitle}>Utwórz zespół</Text>
-          </View>
-          <View style={ObjectStyle.headerWithAvatarImage}>
-            <MyAvatar src="../assets/avatar.png" height={150} width={150} />
-          </View>
-        </HeaderWithAvatar>
-        <View style={styles.note}>
-          <Text style={[TextStyle.noteH2]}>Dane zespołu</Text>
+    <View>
+      <HeaderWithAvatar color={theme.colors.primary} center>
+        <View style={TextStyle.headerWithAvatarTitle}>
+          <Text style={TextStyle.headerWithAvatarTitle}>Utwórz zespół</Text>
         </View>
-        <View style={styles.container}>
-          <View style={styles.placeholder} />
-          <TextInput
-            style={styles.textInputStyle}
-            placeholder="Nazwa użytkownika"
-            blurOnSubmit
-            selectionColor={theme.colors.primary}
-            defaultValue=""
-            onChangeText={(text) => setTeamName(text)}
-          />
-          <TextInput
-            style={styles.textMultiLineInputStyle}
-            placeholder="Opis"
-            blurOnSubmit
-            multiline
-            selectionColor={theme.colors.primary}
-            defaultValue=""
-            onChangeText={(text) => setDescription(text)}
-          />
+        <View style={ObjectStyle.headerWithAvatarImage}>
+          <MyAvatar src="../assets/avatar.png" height={150} width={150} />
         </View>
-        <SubmitButton
-          backgroundColor={theme.colors.primary}
-          labelColor={theme.colors.background.white}
-          onPress={onPress}>
-          Utwórz
-        </SubmitButton>
-      </InputScrollView>
-    </>
+      </HeaderWithAvatar>
+
+      <View style={styles.note}>
+        <Text style={[TextStyle.noteH2]}>Dane zespołu</Text>
+      </View>
+      <View style={styles.container}>
+        <View style={styles.placeholder} />
+        <TextInput
+          style={styles.textInputStyle}
+          placeholder="Nazwa użytkownika"
+          blurOnSubmit
+          selectionColor={theme.colors.primary}
+          defaultValue=""
+          onChangeText={(text) => setTeamName(text)}
+        />
+        {/*<TextInput*/}
+        {/*  style={styles.textMultiLineInputStyle}*/}
+        {/*  placeholder="Opis"*/}
+        {/*  blurOnSubmit*/}
+        {/*  multiline*/}
+        {/*  selectionColor={theme.colors.primary}*/}
+        {/*  defaultValue=""*/}
+        {/*  onChangeText={(text) => setDescription(text)}*/}
+        {/*/>*/}
+        <MultilineTextInput placeholder="Opis" />
+      </View>
+      <SubmitButton
+        backgroundColor={theme.colors.primary}
+        labelColor={theme.colors.background.white}
+        onPress={onPress}>
+        Utwórz
+      </SubmitButton>
+    </View>
   );
 };
 

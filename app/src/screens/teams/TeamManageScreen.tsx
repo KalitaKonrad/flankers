@@ -5,14 +5,13 @@ import { Button } from 'react-native-paper';
 
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
-import { Toggle } from '../../components/shared/Toggle';
+import { Switch } from '../../components/shared/Switch';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { TeamScreenStackParamList } from './TeamScreenStack';
-
-type TeamManageScreen = object &
+type TeamManageScreenProps = object &
   StackScreenProps<TeamScreenStackParamList, 'TeamManage'>;
 
-export const TeamManageScreen: React.FC<TeamManageScreen> = ({
+export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
   navigation,
 }) => {
   const onExit = () => {
@@ -46,7 +45,7 @@ export const TeamManageScreen: React.FC<TeamManageScreen> = ({
         <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 1000</Text>
       </View>
       <View style={styles.toggle}>
-        <Toggle leftLabel="Członkowie" rightLabel="Mecze" onSwitch={onSwitch} />
+        <Switch leftLabel="Członkowie" rightLabel="Mecze" />
       </View>
     </>
   );

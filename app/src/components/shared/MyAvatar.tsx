@@ -15,7 +15,7 @@ const MyAvatar: React.FC<MyAvatarProps> = (props) => (
   <Image
     style={[styles.image, { height: props.height, width: props.width }]}
     // source={{ uri: props.src }}
-    source={require(tempImage)}
+    source={require('../../../assets/avatar.png')}
   />
 );
 
