@@ -10,14 +10,14 @@ interface SwitchProps {
 }
 
 export const Switch: React.FC<SwitchProps> = (props) => {
-  const [leftBtnIsActive, setLeftBtnIsActive] = useState<boolean>(true);
+  const [isLeftBtnActive, setIsLeftBtnActive] = useState<boolean>(true);
 
   return (
     <SwitchSelector
       initial={0}
-      onPress={(value) => {
-        value === 'left' ? setLeftBtnIsActive(true) : setLeftBtnIsActive(false);
-        props.leftSideToggled(leftBtnIsActive);
+      onPress={() => {
+        setIsLeftBtnActive(!isLeftBtnActive);
+        props.leftSideToggled(isLeftBtnActive);
       }}
       textColor="#7f8581"
       selectedColor={theme.colors.primary}
