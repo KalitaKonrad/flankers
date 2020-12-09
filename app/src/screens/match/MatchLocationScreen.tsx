@@ -2,6 +2,7 @@ import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { Button, Text } from 'react-native';
 
+import { MapSelectLocation } from '../../components/map/MapSelectLocation';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 type MatchLocationScreenProps = object &
@@ -12,11 +13,11 @@ export const MatchLocationScreen: React.FC<MatchLocationScreenProps> = ({
 }) => {
   return (
     <>
-      <Text>Match Location Screen</Text>
       <Button
         title="Location"
         onPress={() => navigation.push('MatchInLobby')}
       />
+      <MapSelectLocation />
     </>
   );
 };

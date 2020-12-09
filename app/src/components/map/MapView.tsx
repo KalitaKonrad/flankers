@@ -13,7 +13,7 @@ interface MapViewProps {
   heatPoints: WeightedLatLng[];
   markers: any[];
 }
-
+/* TODO: display markers od matches */
 export const MapViewComponent: React.FC<MapViewProps> = (props) => {
   const [mapPoints, setMapPoints] = useState();
   const [markers, setMarkers] = useState([]);
