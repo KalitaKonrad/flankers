@@ -2,8 +2,11 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Auth\Notifications\ResetPassword;
+use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Gate;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -25,6 +28,18 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        ResetPassword::createUrlUsing(function ($notifiable, string $token) {
+            return str_replace('{token}', $token, config('auth.links.reset'));
+        });
+
+        VerifyEmail::toMailUsing(function ($notifiable, string $verificationUrl) {
+            $verificationUrl = str_replace('{verification_url}', $verificationUrl, config('auth.links.reset'));
+
+            return (new MailMessage)
+                ->subject(Lang::get('Verify Email Address'))
+                ->line(Lang::get('Please click the button below to verify your email address.'))
+                ->action(Lang::get('Verify Email Address'), $verificationUrl)
+                ->line(Lang::get('If you did not create an account, no further action is required.'));
+        });
     }
 }

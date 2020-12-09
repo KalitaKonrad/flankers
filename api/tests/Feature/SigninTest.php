@@ -1,18 +1,15 @@
 <?php
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Arr;
+
+use function Tests\unverifiedUser;
+use function Tests\validAuthCreds;
+use function Tests\withDefaultPassword;
 
 uses(RefreshDatabase::class);
 
-beforeEach(function () {
-    $user = User::factory()->create();
-    $this->authData = Arr::add($user->only(['email']), 'password', 'password');
-});
-
 it('returns user token on valid signin', function () {
-    $this->postJson('/auth/signin', $this->authData)
+    $this->postJson('/auth/signin', validAuthCreds())
         ->assertOk()
         ->assertJson([
             'access_token' => true
@@ -22,5 +19,12 @@ it('returns user token on valid signin', function () {
 it('returns unauthorized response on invalid auth data', function () {
     $this->postJson('/auth/signin', ['email' => 'foo@gmail.com', 'password' => 'baz'])
         ->assertStatus(401)
-        ->assertJson(['error' => true]);
+        ->assertJson(['errors' => true]);
+});
+
+it('should not allow fresh, unverified user', function () {
+    $user = unverifiedUser();
+
+    $this->postJson('/auth/signin', withDefaultPassword($user->only('email')))
+        ->assertStatus(401);
 });
