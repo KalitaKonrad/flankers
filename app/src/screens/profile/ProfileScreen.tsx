@@ -40,7 +40,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           Wyloguj
         </Button>
         <View style={styles.avatar}>
-          <MyAvatar height={150} width={150} />
+          <MyAvatar src="../assets/avatar.png" height={150} width={150} />
         </View>
       </HeaderWithAvatar>
       <View style={styles.note}>
