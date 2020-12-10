@@ -18,14 +18,19 @@ import MapView, {
   WeightedLatLng,
 } from 'react-native-maps';
 
-interface MapSelectLocationProps {}
+interface MapSelectLocationProps {
+  onMarkerPlaced: (arg: LatLng) => void;
+}
 
 export const MapSelectLocation: React.FC<MapSelectLocationProps> = (props) => {
-  // const [markerPosition, setMarkerPosition] = useState<AnimatedRegion>({});
-  const [markers, setMarkers] = useState<LatLng[]>([]);
+  const [markerC, setMarkerC] = useState<LatLng>();
 
   const handlePress = (event: MapEvent) => {
-    setMarkers([...markers, event.nativeEvent.coordinate]);
+    setMarkerC(event.nativeEvent.coordinate);
+    props.onMarkerPlaced({
+      latitude: event.nativeEvent.coordinate.latitude,
+      longitude: event.nativeEvent.coordinate.longitude,
+    });
   };
 
   return (
@@ -40,9 +45,7 @@ export const MapSelectLocation: React.FC<MapSelectLocationProps> = (props) => {
           }}
           style={styles.mapStyle}
           onPress={handlePress}>
-          {markers.map((marker) => {
-            return <Marker key={JSON.stringify(marker)} coordinate={marker} />;
-          })}
+          {markerC && <Marker coordinate={markerC} />}
         </MapView>
       </View>
     </>

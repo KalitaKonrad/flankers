@@ -31,11 +31,14 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
 
   return (
     <>
-      <TouchableOpacity onPress={findCoordinates}>
-        <Text>Find my cords</Text>
-        <Text>Location: {location}</Text>
-      </TouchableOpacity>
-      <MapViewComponent arr={[{ latitude, longitude, weight: 1 }]} />
+      <MapViewComponent
+        heatPoints={[{ latitude, longitude, weight: 1 }]}
+        markers={[
+          { latitude: 19.90641586482525, longitude: 50.06779702450417 },
+          { latitude: 19.9059746414423, longitude: 19.9059746414423 },
+        ]}
+        // w przyszlosci przesylac tablice coordinatow meczow dostarczona z backendu
+      />
     </>
   );
 };

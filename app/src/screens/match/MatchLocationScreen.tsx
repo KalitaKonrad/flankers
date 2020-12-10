@@ -1,23 +1,54 @@
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
-import { Button, Text } from 'react-native';
+import React, { useState } from 'react';
+import { Button, StyleSheet, Text, View } from 'react-native';
+import { LatLng } from 'react-native-maps';
 
 import { MapSelectLocation } from '../../components/map/MapSelectLocation';
+import { SubmitButton } from '../../components/shared/SubmitButton';
+import { theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
+interface Coordinates {
+  latitude: number;
+  longitude: number;
+}
+
 type MatchLocationScreenProps = object &
-  StackScreenProps<MatchScreenStackParamList, 'MatchLocation'>;
+  StackScreenProps<MatchScreenStackParamList, 'MatchLocation'> &
+  Coordinates;
 
 export const MatchLocationScreen: React.FC<MatchLocationScreenProps> = ({
   navigation,
 }) => {
+  const [markerCoordinates, setMarkerCoordinates] = useState<LatLng>({
+    latitude: 0,
+    longitude: 0,
+  });
+
   return (
     <>
-      <Button
-        title="Location"
-        onPress={() => navigation.push('MatchInLobby')}
+      <MapSelectLocation
+        onMarkerPlaced={(response) => setMarkerCoordinates(response)}
       />
-      <MapSelectLocation />
+      <View style={styles.button}>
+        <SubmitButton
+          backgroundColor={theme.colors.primary}
+          labelColor={theme.colors.background.white}
+          onPress={() =>
+            console.log(
+              `przeslij coordinaty meczu ${markerCoordinates.longitude} | ${markerCoordinates.latitude}`
+            )
+          }>
+          Potwierdź lokalizacje
+        </SubmitButton>
+      </View>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  button: {
+    display: 'flex',
+    bottom: 15,
+  },
+});
