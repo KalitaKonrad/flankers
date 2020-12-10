@@ -37,11 +37,18 @@ export const MapViewComponent: React.FC<MapViewProps> = (props) => {
             latitudeDelta: 0.003,
             longitudeDelta: 0.003,
           }}
-          style={styles.mapStyle}>
+          style={styles.mapStyle}
+          showsUserLocation>
           <Heatmap points={props.heatPoints} />
 
           {markers.map((marker) => {
-            return <Marker key={JSON.stringify(marker)} coordinate={marker} />;
+            return (
+              <Marker
+                key={JSON.stringify(marker)}
+                coordinate={marker}
+                onPress={() => console.log('wybrano')} //w przyszlosci po wybraniu pojawia sie ModalComponent
+              />
+            );
           })}
         </MapView>
       </View>
