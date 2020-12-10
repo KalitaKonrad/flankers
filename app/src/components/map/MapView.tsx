@@ -1,16 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import {
-  Dimensions,
-  View,
-  StyleSheet,
-  Alert,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
+import { Dimensions, StyleSheet, View } from 'react-native';
 import MapView, {
   Heatmap,
   LatLng,
-  MapEvent,
   Marker,
   WeightedLatLng,
 } from 'react-native-maps';
@@ -19,7 +11,7 @@ interface MapViewProps {
   heatPoints: WeightedLatLng[];
   markers: LatLng[];
 }
-/* TODO: display markers od matches */
+
 export const MapViewComponent: React.FC<MapViewProps> = (props) => {
   const [markers, setMarkers] = useState<LatLng[]>([]);
 

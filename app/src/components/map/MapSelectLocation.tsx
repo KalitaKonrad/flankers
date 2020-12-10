@@ -1,22 +1,6 @@
-/* TODO: view current location at send back coordinates of given marker*/
-
 import React, { useState } from 'react';
-import {
-  Dimensions,
-  View,
-  StyleSheet,
-  Alert,
-  TouchableOpacity,
-  Text,
-} from 'react-native';
-import MapView, {
-  AnimatedRegion,
-  Heatmap,
-  LatLng,
-  MapEvent,
-  Marker,
-  WeightedLatLng,
-} from 'react-native-maps';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import MapView, { LatLng, MapEvent, Marker } from 'react-native-maps';
 
 interface MapSelectLocationProps {
   onMarkerPlaced: (arg: LatLng) => void;
