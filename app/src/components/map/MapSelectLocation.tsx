@@ -6,27 +6,26 @@ interface MapSelectLocationProps {
   onMarkerPlaced: (arg: LatLng) => void;
 }
 
+const initialRegion = {
+  latitude: 50.068607,
+  longitude: 19.90621,
+  latitudeDelta: 0.003,
+  longitudeDelta: 0.003,
+};
+
 export const MapSelectLocation: React.FC<MapSelectLocationProps> = (props) => {
   const [markerC, setMarkerC] = useState<LatLng>();
 
   const handlePress = (event: MapEvent) => {
     setMarkerC(event.nativeEvent.coordinate);
-    props.onMarkerPlaced({
-      latitude: event.nativeEvent.coordinate.latitude,
-      longitude: event.nativeEvent.coordinate.longitude,
-    });
+    props.onMarkerPlaced(event.nativeEvent.coordinate);
   };
 
   return (
     <>
       <View style={styles.container}>
         <MapView
-          initialRegion={{
-            latitude: 50.068607,
-            longitude: 19.90621,
-            latitudeDelta: 0.003,
-            longitudeDelta: 0.003,
-          }}
+          initialRegion={initialRegion}
           style={styles.mapStyle}
           onPress={handlePress}>
           {markerC && <Marker coordinate={markerC} />}

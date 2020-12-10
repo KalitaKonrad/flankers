@@ -12,6 +12,13 @@ interface MapViewProps {
   markers: LatLng[];
 }
 
+const initialRegion = {
+  latitude: 50.068607,
+  longitude: 19.90621,
+  latitudeDelta: 0.003,
+  longitudeDelta: 0.003,
+};
+
 export const MapViewComponent: React.FC<MapViewProps> = (props) => {
   const [markers, setMarkers] = useState<LatLng[]>([]);
 
@@ -23,12 +30,7 @@ export const MapViewComponent: React.FC<MapViewProps> = (props) => {
     <>
       <View style={styles.container}>
         <MapView
-          initialRegion={{
-            latitude: 50.068607,
-            longitude: 19.90621,
-            latitudeDelta: 0.003,
-            longitudeDelta: 0.003,
-          }}
+          initialRegion={initialRegion}
           style={styles.mapStyle}
           showsUserLocation>
           <Heatmap points={props.heatPoints} />
