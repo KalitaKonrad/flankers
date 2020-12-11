@@ -17,6 +17,9 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
       <Button onPress={() => navigation.push('MatchLocation')}>
         Wybierz miejsce na mapie
       </Button>
+      <Button onPress={() => navigation.push('MatchJoinFromMap')}>
+        dołacz do meczu
+      </Button>
     </View>
   );
 };
