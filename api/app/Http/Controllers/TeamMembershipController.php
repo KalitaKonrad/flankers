@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Teamwork;
+namespace App\Http\Controllers;
 
 use App\Http\Message;
 use App\Models\TeamUser;
@@ -13,7 +13,7 @@ class TeamMembershipController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware('auth')->only(['destroy']);
     }
 
     /**
@@ -30,7 +30,7 @@ class TeamMembershipController extends Controller
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($id);
 
-        return Message::ok('Fetched members', $team->user());
+        return Message::ok('Fetched members', $team->members()->get());
     }
 
     /**
@@ -43,38 +43,53 @@ class TeamMembershipController extends Controller
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function destroy(Request $request)
+    public function destroy(Request $request, int $team_id)
     {
         $request->validate([
-            'team_id' => 'integer|required',
             'user_id' => 'integer|required'
         ]);
 
         $data = $request->all();
-        $team_id = $data['team_id'];
-        $user_id = $data['user_id'];
+        $user_id = $request->post('user_id');
+        $user = User::findOrFail($user_id);
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($team_id);
+        $requestUser = Auth::user();
 
-        if (TeamUser::where('team_id', $team->id)->count() == 1) {
+
+        $canLeave =
+            ($requestUser->id == $user_id && $requestUser->belongsToTeam($team)) ||
+            $requestUser->isOwnerOfTeam($team);
+
+        if (!$canLeave) {
+            return Message::error(403, 'Only member of this team or team owner can initialize this leave');
+        }
+
+        if ($team->members()->count() === 1) {
             return Message::error(
                 406,
                 'User cannot leave a team if he is the only one in it, please delete the team to do so'
             );
         }
 
-        $requestUser = Auth::user();
-        if ($requestUser->id == $user_id && $requestUser->belongsToTeam($team)) {
-            $requestUser->detachTeam($team);
-            return Message::ok('User left the team');
+        $this->leave($user, $team);
+        return Message::ok('Team left');
+    }
+
+    protected function leave($user, $team)
+    {
+        if ($user->isOwnerOfTeam($team)) {
+            $nextOwner = TeamUser::where('team_id', $team->id)
+                ->where('user_id', '!=', $user->id)
+                ->first()
+                ->user_id;
+
+            $team->owner_id = $nextOwner;
+            $team->save();
         }
 
-        if ($requestUser->isOwnerOfTeam($team_id)) {
-            $user = User::findOrFail($user_id);
-            $user->detachTeam($team);
-            return Message::ok('User left the team');
-        }
+        $user->detachTeam($team);
 
-        return Message::error(406, 'Only member of this team or team owner can initialize this leave');
+        return Message::ok('User left the team');
     }
 }

@@ -54,8 +54,8 @@ Route::prefix('user')->group(function () {
 
 Route::resource('/teams', TeamController::class);
 Route::post('/teams/owner', ChangeTeamOwner::class);
+Route::resource('/teams/memberships', TeamMembershipController::class);
 
-Route::resource('/memberships', TeamMembershipController::class);
 Route::prefix('games')->group(function () {
     Route::resource('', GameController::class);
     Route::resource('invites', GameInviteController::class);
