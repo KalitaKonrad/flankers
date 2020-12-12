@@ -54,25 +54,30 @@ class TeamController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update specific team
+     *
+     * @group Team management
+     * @urlParam teamId int required
+     * @bodyParam name string Team name Example: Flankersi
+     * @bodyParam description string Team description Example: Best team ever
      *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CreateTeamRequest $request, $id)
     {
-        $request->validate([
-            'name' => 'required|string',
-        ]);
-
         $teamModel = config('teamwork.team_model');
-
         $team = $teamModel::findOrFail($id);
-        $team->name = $request->name;
+
+        if (!Auth::user()->isOwnerOfTeam($team->id)) {
+            return Message::error(403, 'Only owner can update this team');
+        }
+
+        $team->fill($request->all());
         $team->save();
 
-        return redirect(route('teams.index'));
+        return Message::ok('Team updated successfully');
     }
 
     /**
