@@ -1,31 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import {
-  Animated,
-  Button,
-  Dimensions,
-  View,
+  TouchableNativeFeedback,
   TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
 } from 'react-native';
+import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 
-import { theme } from '../../theme';
+const { Value, onChange, call, cond, eq, abs, sub, min } = Animated;
 
 interface ModalProps {
-  height?: number;
-  // ref: React.Ref<BottomSheet | null>;
+  snapPoints?: number[];
   isOpen: boolean;
   onClose: () => void;
+  initialSnap?: number;
 }
 
 export const Modal: React.FC<ModalProps> = ({
   children,
-  onClose,
+  initialSnap = null,
+  snapPoints = [275, 0],
   isOpen,
-  height,
+  onClose,
 }) => {
-  const [opacity, setOpacity] = useState(new Animated.Value(0));
-  const window = Dimensions.get('window');
-  const sheetRef = React.useRef<BottomSheet>(null);
+  const position = new Value(1);
+  const opacity = min(abs(sub(position, 1)), 0.8);
+  const zeroIndex = snapPoints.length - 1;
+  const height = snapPoints[0];
+  const sheet = useRef<BottomSheet | null>(null);
+
+  useEffect(() => {
+    if (sheet.current) {
+      sheet.current.snapTo(initialSnap || 0);
+    }
+  }, []);
 
   const renderContent = () => (
     <View
@@ -39,64 +48,43 @@ export const Modal: React.FC<ModalProps> = ({
       {children}
     </View>
   );
-  // const onClose = () => {
-  //   Animated.timing(opacity, {
-  //     toValue: 0,
-  //     duration: 350,
-  //     useNativeDriver: true,
-  //   }).start();
-  //   sheetRef?.current?.snapTo(0);
-  //   setTimeout(() => {
-  //     setIsOpen(false);
-  //   }, 50);
-  // };
-  //
-  // const onOpen = () => {
-  //   this.setState({ isOpen: true });
-  //   this.bs.current.snapTo(2);
-  //   Animated.timing(this.state.opacity, {
-  //     toValue: 0.7,
-  //     duration: 300,
-  //     useNativeDriver: true,
-  //   }).start();
-  // };
 
-  const renderBackDrop = () => (
-    <Animated.View
-      style={{
-        opacity,
-        backgroundColor: theme.colors.background.white,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-      }}>
-      <TouchableOpacity activeOpacity={1} onPress={onClose} />
-    </Animated.View>
-  );
-
-  // const onClose = () => {
-  //   isOpen = false;
-  // };
+  const handleOutsidePress = () => {
+    sheet?.current?.snapTo(zeroIndex);
+  };
 
   return (
-    <View>
-      <Button
-        title="Open Bottom Sheet"
-        onPress={() => sheetRef?.current?.snapTo(0)}
+    <View
+      style={{
+        flex: 1,
+      }}>
+      <TouchableNativeFeedback onPress={handleOutsidePress}>
+        <Animated.View
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            flex: 1,
+            backgroundColor: '#000',
+            opacity,
+          }}
+        />
+      </TouchableNativeFeedback>
+      <Animated.Code
+        exec={onChange(position, [cond(eq(position, 1), call([], onClose))])}
       />
-      {isOpen
-        ? renderBackDrop() && (
-            <BottomSheet
-              ref={sheetRef}
-              snapPoints={[height ? height : 275, 0, 0]}
-              borderRadius={20}
-              renderContent={renderContent}
-              enabledContentTapInteraction={false}
-            />
-          )
-        : null}
+      {isOpen && (
+        <BottomSheet
+          ref={sheet}
+          snapPoints={[height ? height : 275, 0]}
+          borderRadius={20}
+          renderContent={renderContent}
+          callbackNode={position}
+          enabledContentTapInteraction={false}
+        />
+      )}
     </View>
   );
 };
