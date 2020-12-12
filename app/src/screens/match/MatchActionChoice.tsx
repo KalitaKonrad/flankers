@@ -15,6 +15,9 @@ export const MatchActionChoice: React.FC<MatchActionChoiceProps> = ({
 }) => {
   return (
     <>
+      ////////////////////////////////////////////////////////////////////////
+      //TODO: INLINE HEADER
+      /////////////////////////////////////////////////////
       <SubmitButton
         backgroundColor={theme.colors.primary}
         labelColor={theme.colors.background.white}

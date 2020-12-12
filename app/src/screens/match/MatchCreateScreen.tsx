@@ -20,6 +20,9 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
   );
 
   return (
+    ////////////////////////////////////////////////////////////////////////
+    //TODO: INLINE HEADER
+    /////////////////////////////////////////////////////
     <View style={styles.container}>
       <View style={styles.matchSettings}>
         <MatchSettings

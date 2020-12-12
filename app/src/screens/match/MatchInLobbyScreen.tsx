@@ -15,6 +15,9 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
 }) => {
   return (
     <>
+      ////////////////////////////////////////////////////////////////////////
+      //TODO: INLINE HEADER
+      /////////////////////////////////////////////////////
       <PlayersGroup
         firstTeamAvatarList={['src', 'oki']}
         firstTeamName="A"

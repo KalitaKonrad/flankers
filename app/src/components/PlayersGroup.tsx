@@ -10,7 +10,7 @@ interface PlayersGroupProps {
   firstTeamName: string;
   secondTeamAvatarList: string[];
   secondTeamName: string;
-  notReadyPlayersAvatarList: string[];
+  notReadyPlayersAvatarList?: string[];
 }
 
 export const PlayersGroup: React.FC<PlayersGroupProps> = (props) => {
@@ -33,15 +33,18 @@ export const PlayersGroup: React.FC<PlayersGroupProps> = (props) => {
           <MyAvatar height={50} width={50} src={imgSrc} />
         ))}
       </View>
-
-      <View style={styles.label}>
-        <Text style={TextStyle.noteH1}>Oczekiwanie na graczy</Text>
-      </View>
-      <View style={styles.avatarsList}>
-        {props.notReadyPlayersAvatarList.map((imgSrc, index) => (
-          <MyAvatar height={50} width={50} src={imgSrc} />
-        ))}
-      </View>
+      {props.notReadyPlayersAvatarList && (
+        <View>
+          <View style={styles.label}>
+            <Text style={TextStyle.noteH1}>Oczekiwanie na graczy</Text>
+          </View>
+          <View style={styles.avatarsList}>
+            {props.notReadyPlayersAvatarList.map((imgSrc, index) => (
+              <MyAvatar height={50} width={50} src={imgSrc} />
+            ))}
+          </View>
+        </View>
+      )}
     </View>
   );
 };
