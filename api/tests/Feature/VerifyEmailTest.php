@@ -21,7 +21,7 @@ it('should activate user if correct id and hash is provided', function () {
         ]
     );
 
-    $this->post($url)
+    $this->get($url)
         ->assertOk();
 
     $this->assertTrue(!is_null(User::find($user->id)->email_verified_at));
