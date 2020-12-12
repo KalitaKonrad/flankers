@@ -28,7 +28,7 @@ use App\Http\Controllers\Signup;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamMembershipController;
 use App\Http\Controllers\UserAvatarController;
-use App\Http\Controllers\UserSettingsController;
+use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\VerifyEmail;
 use App\Http\Controllers\WalletController;
 
@@ -45,10 +45,11 @@ Route::prefix('auth')->group(function () {
     Route::post('reset-password', ResetPassword::class);
 });
 
+Route::prefix('user')->group(function () {
+    Route::resource('settings', UserProfileController::class);
+    Route::resource('avatar', UserAvatarController::class);
+});
 
-
-Route::resource('/user/settings', UserSettingsController::class);
-Route::resource('/user/avatar', UserAvatarController::class);
 Route::resource('/teams', TeamController::class);
 Route::resource('/memberships', TeamMembershipController::class);
 Route::prefix('games')->group(function () {

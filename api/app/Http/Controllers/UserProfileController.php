@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateProfileRequest;
 
-class UserSettingsController extends Controller
+class UserProfileController extends Controller
 {
     /**
      * Create controller instance
