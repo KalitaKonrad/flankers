@@ -22,8 +22,14 @@ function withDefaultPassword(array $arr)
 /**
  * Get email and password for a valid, newly created user
  */
-function validAuthCreds(): array
+function validAuthCreds(int $userId = 0): array
 {
+    if ($userId)
+        return withDefaultPassword([
+            'email' => User::find($userId)->email
+        ]);
+
+
     return withDefaultPassword([
         'email' => User::factory()->create()->email
     ]);
@@ -32,9 +38,9 @@ function validAuthCreds(): array
 /**
  * Retrieve valid auth jwt token from current session
  */
-function grabAuthToken(): string
+function grabAuthToken(int $user = 0): string
 {
-    return Auth::attempt(validAuthCreds());
+    return Auth::attempt(validAuthCreds($user));
 }
 
 /**
