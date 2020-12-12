@@ -3,7 +3,10 @@
 namespace Tests;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\URL;
 
 /**
  * Return array with default user password
@@ -58,4 +61,19 @@ function unverifiedUser(): User
     $user->save();
 
     return $user;
+}
+
+/**
+ * Grav verification link for an user
+ */
+function emailActivationLink($user)
+{
+    return URL::temporarySignedRoute(
+        'verification.verify',
+        Carbon::now()->addMinutes(Config::get('auth.verification.expire', 60)),
+        [
+            'id' => $user->getKey(),
+            'hash' => sha1($user->getEmailForVerification()),
+        ]
+    );
 }
