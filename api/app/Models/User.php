@@ -7,6 +7,7 @@ use Mpociot\Teamwork\Traits\UserHasTeams;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
@@ -62,5 +63,15 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Hash user password when updating it
+     * 
+     * @return void
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
     }
 }
