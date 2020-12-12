@@ -4,6 +4,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import { InlineHeader } from '../../components/shared/InlineHeader';
+import { MatchHistory } from '../../components/shared/MatchHistory';
 import { Modal } from '../../components/shared/Modal';
 import RoundInformation from '../../components/shared/RoundInformation';
 import { SubmitButton } from '../../components/shared/SubmitButton';

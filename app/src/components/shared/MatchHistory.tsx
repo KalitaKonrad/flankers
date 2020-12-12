@@ -1,7 +1,7 @@
 import React from 'react';
 import { List } from 'react-native-paper';
 
-import { Match } from '../types/match';
+import { Match } from '../../types/match';
 
 interface MatchHistoryProps {
   name: string;

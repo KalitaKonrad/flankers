@@ -3,8 +3,8 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
-import { MatchHistory } from '../../components/MatchHistory';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
+import { MatchHistory } from '../../components/shared/MatchHistory';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { theme, TextStyle } from '../../theme';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
