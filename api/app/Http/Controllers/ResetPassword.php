@@ -39,9 +39,8 @@ class ResetPassword extends Controller
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
-                $user->forceFill([
-                    'password' => Hash::make($password)
-                ])->save();
+                $user->password = $password;
+                $user->save();
 
                 event(new PasswordReset($user));
             }
