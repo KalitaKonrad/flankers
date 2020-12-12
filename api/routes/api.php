@@ -46,7 +46,8 @@ Route::prefix('auth')->group(function () {
 });
 
 Route::prefix('user')->group(function () {
-    Route::resource('settings', UserProfileController::class);
+    Route::get('settings', [UserProfileController::class, 'show']);
+    Route::match(['put', 'patch'], 'settings', [UserProfileController::class, 'update']);
     Route::resource('avatar', UserAvatarController::class);
 });
 

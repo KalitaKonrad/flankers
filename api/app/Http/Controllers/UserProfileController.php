@@ -24,9 +24,9 @@ class UserProfileController extends Controller
      * @param  int  $userId
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show()
     {
-        return User::find($id)->only([
+        return User::find(Auth::id())->only([
             'email',
             'name'
         ]);
@@ -39,13 +39,13 @@ class UserProfileController extends Controller
      * @bodyParam email string Example: foo@bar.com
      * @bodyParam name string User name Example: wosiuto
      * @bodyParam password string User password Example: kwakwa5!
-     * 
+     *
      * @param  \App\Http\Requests\UpdateProfileRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateProfileRequest $request)
     {
-        User::find(Auth::id())->update($request->all());
+        Auth::user()->update($request->all());
 
         return [
             'message' => __('Profile updated successfully')
