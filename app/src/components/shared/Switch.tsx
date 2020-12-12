@@ -25,6 +25,7 @@ export const Switch: React.FC<SwitchProps> = (props) => {
       borderColor={theme.colors.background.darkGray}
       backgroundColor={theme.colors.background.darkGray}
       hasPadding
+      valuePadding={2}
       height={50}
       fontSize={20}
       bold
@@ -32,6 +33,7 @@ export const Switch: React.FC<SwitchProps> = (props) => {
         { label: props.leftLabel, value: 'left' },
         { label: props.rightLabel, value: 'right' },
       ]}
+      style={{ marginLeft: 10, marginRight: 10 }}
     />
   );
 };
