@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Traits;
+namespace App\Traits;
 
+use App\Models\Team;
 use Mpociot\Teamwork\Traits\UserHasTeams;
 
 trait TeamMember
@@ -15,8 +16,8 @@ trait TeamMember
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function belongsToTeam(int $team_id)
+    public function belongsToTeam(Team $team)
     {
-        return $this->teams()->find($team_id) !== null;
+        return $this->teams()->find($team->id) !== null;
     }
 }
