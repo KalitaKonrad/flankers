@@ -11,6 +11,7 @@
 |
 */
 
+use App\Http\Controllers\ChangeTeamOwner;
 use App\Http\Controllers\FindGame;
 use App\Http\Controllers\ForgotPassword;
 use App\Http\Controllers\GameBetsController;
@@ -52,6 +53,7 @@ Route::prefix('user')->group(function () {
 });
 
 Route::resource('/teams', TeamController::class);
+Route::post('/teams/owner', ChangeTeamOwner::class);
 
 Route::resource('/memberships', TeamMembershipController::class);
 Route::prefix('games')->group(function () {

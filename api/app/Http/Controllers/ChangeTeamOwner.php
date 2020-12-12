@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Auth;
 class ChangeTeamOwner extends Controller
 {
     /**
+     * Instantiate the controller
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
+    /**
      * Change team owner
      *
      * @group Team management
@@ -32,7 +42,7 @@ class ChangeTeamOwner extends Controller
 
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($team_id);
-        $user = User::findOrFail($user_id);
+        User::findOrFail($user_id);
 
         if (!Auth::user()->isOwnerOfTeam($team)) {
             return Message::error(403, 'Only team owner can pass its ownership');
