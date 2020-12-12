@@ -21,7 +21,7 @@ const Stack = createStackNavigator<MatchScreenStackParamList>();
 export const MatchScreenStack: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={theme.headerOptions}>
-      <Stack.Screen name="MatchCreate" cowamponent={MatchCreateScreen} />
+      <Stack.Screen name="MatchCreate" component={MatchCreateScreen} />
       <Stack.Screen
         name="MatchJoinFromMap"
         component={MatchJoinFromMapScreen}
