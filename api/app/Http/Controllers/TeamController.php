@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Teamwork;
+namespace App\Http\Controllers;
 
 use App\Http\Message;
 use Illuminate\Routing\Controller;
@@ -41,8 +41,11 @@ class TeamController extends Controller
     public function store(CreateTeamRequest $request)
     {
         $teamModel = config('teamwork.team_model');
-        $payload = $request->only(['name', 'description']);
-        $data = array_merge($payload, [
+        if ($teamModel::where('name', $request->post('name'))->first()) {
+            return Message::error(406, 'Team with this name already exists');
+        }
+
+        $data = array_merge($request->all(), [
             'owner_id' => $request->user()->getKey(),
         ]);
 

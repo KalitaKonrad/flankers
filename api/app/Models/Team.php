@@ -6,6 +6,9 @@ use Mpociot\Teamwork\TeamworkTeam;
 
 class Team extends TeamworkTeam
 {
+    /**
+     * @var array
+     */
     protected $fillable = ['owner_id', 'name', 'description', 'avatar'];
 
     public function members()

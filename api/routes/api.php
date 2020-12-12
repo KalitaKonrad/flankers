@@ -52,6 +52,7 @@ Route::prefix('user')->group(function () {
 });
 
 Route::resource('/teams', TeamController::class);
+
 Route::resource('/memberships', TeamMembershipController::class);
 Route::prefix('games')->group(function () {
     Route::resource('', GameController::class);

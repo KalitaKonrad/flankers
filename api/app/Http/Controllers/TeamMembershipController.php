@@ -6,11 +6,8 @@ use App\Http\Message;
 use App\Models\TeamUser;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Mpociot\Teamwork\TeamInvite;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Mpociot\Teamwork\Facades\Teamwork;
 
 class TeamMembershipController extends Controller
 {

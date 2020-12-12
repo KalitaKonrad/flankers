@@ -29,6 +29,6 @@ class Message
         return response([
             'message' => __($message),
             'errors' => $errors
-        ]);
+        ], $code);
     }
 }
