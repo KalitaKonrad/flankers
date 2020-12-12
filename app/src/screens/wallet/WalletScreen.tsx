@@ -5,6 +5,7 @@ import { Button, Text } from 'react-native-paper';
 
 import { InlineHeader } from '../../components/shared/InlineHeader';
 import { Modal } from '../../components/shared/Modal';
+import RoundInformation from '../../components/shared/RoundInformation';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { TextStyle, theme } from '../../theme';
 import { WalletScreenStackParamList } from './WalletScreenStack';
@@ -13,7 +14,7 @@ type WalletScreenProps = object &
   StackScreenProps<WalletScreenStackParamList, 'Wallet'>;
 
 export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
-  const [modalVisible, setModalVisible] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
   const openModal = useCallback(() => setModalVisible(true), [setModalVisible]);
 
   const closeModal = useCallback(() => setModalVisible(false), [
@@ -24,7 +25,7 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
 
   return (
     <>
-      <InlineHeader color={theme.colors.black}>
+      <InlineHeader color={theme.colors.white}>
         <View style={styles.placeholder} />
         <View style={styles.titleContainer}>
           <Text style={TextStyle.noteH1}>Portfel</Text>
@@ -33,6 +34,13 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
           Wypłać
         </Button>
       </InlineHeader>
+
+      <RoundInformation
+        mainText="20.00 PLN"
+        subText="Aktualny stan konta"
+        buttonText="Doładuj"
+        onButtonClick={() => setModalVisible(true)}
+      />
 
       <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)}>
         <InlineHeader center>

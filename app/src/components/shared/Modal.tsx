@@ -1,12 +1,9 @@
 import React, { useEffect, useRef } from 'react';
-import {
-  TouchableNativeFeedback,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
+import { TouchableNativeFeedback, View } from 'react-native';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
+
+import { theme } from '../../theme';
 
 const { Value, onChange, call, cond, eq, abs, sub, min } = Animated;
 
@@ -41,7 +38,7 @@ export const Modal: React.FC<ModalProps> = ({
       style={{
         display: 'flex',
         justifyContent: 'space-between',
-        backgroundColor: 'white',
+        backgroundColor: theme.colors.secondary,
         padding: 16,
         height: height ? height : 275,
       }}>
@@ -57,6 +54,7 @@ export const Modal: React.FC<ModalProps> = ({
     <View
       style={{
         flex: 1,
+        backgroundColor: theme.colors.white,
       }}>
       <TouchableNativeFeedback onPress={handleOutsidePress}>
         <Animated.View
