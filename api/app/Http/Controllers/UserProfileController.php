@@ -35,8 +35,12 @@ class UserProfileController extends Controller
     /**
      * Update specified user settings
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $userId
+     * @group User management
+     * @bodyParam email string Example: foo@bar.com
+     * @bodyParam name string User name Example: wosiuto
+     * @bodyParam password string User password Example: kwakwa5!
+     * 
+     * @param  \App\Http\Requests\UpdateProfileRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateProfileRequest $request)
