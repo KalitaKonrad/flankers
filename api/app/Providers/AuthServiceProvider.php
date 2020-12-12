@@ -33,7 +33,7 @@ class AuthServiceProvider extends ServiceProvider
         });
 
         VerifyEmail::toMailUsing(function ($notifiable, string $verificationUrl) {
-            $verificationUrl = str_replace('{verification_url}', $verificationUrl, config('auth.links.reset'));
+            $verificationUrl = str_replace('{verification_url}', $verificationUrl, config('auth.links.confirm'));
 
             return (new MailMessage)
                 ->subject(Lang::get('Verify Email Address'))
