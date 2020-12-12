@@ -39,13 +39,23 @@ class TeamMembershipController extends Controller
     /**
      * Remove user from a team
      *
-     * @param int $team_id
-     * @param int $user_id
+     * @group Team management
+     * @bodyParam $team_id int required
+     * @bodyParam $user_id int reqired
+     *
      * @return \Illuminate\Http\Response
      * @internal param int $id
      */
-    public function destroy($team_id, $user_id)
+    public function destroy(Request $request)
     {
+        $request->validate([
+            'team_id' => 'integer|required',
+            'user_id' => 'integer|required'
+        ]);
+
+        $data = $request->all();
+        $team_id = $data['team_id'];
+        $user_id = $data['user_id'];
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($team_id);
 
