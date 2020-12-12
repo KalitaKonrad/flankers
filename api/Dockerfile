@@ -13,7 +13,8 @@ COPY ./ /app
 
 WORKDIR /app
 
-RUN touch database/database.sqlite && \
+RUN touch /app/database/database.sqlite && \
+    chmod -R 777 database && \
     mkdir -p /app/storage/logs && \
     touch /app/storage/logs/laravel.log && \
     chmod -R 777 /app/storage
