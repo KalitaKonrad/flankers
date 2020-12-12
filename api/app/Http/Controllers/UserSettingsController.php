@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\UpdateProfileRequest;
 
 class UserSettingsController extends Controller
 {
     /**
-     * Create or overwrite user settings
+     * Create controller instance
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return void
      */
-    public function store(Request $request)
+    public function __construct()
     {
-        //
+        $this->middleware('auth:api');
     }
 
     /**
@@ -23,9 +24,12 @@ class UserSettingsController extends Controller
      * @param  int  $userId
      * @return \Illuminate\Http\Response
      */
-    public function show($userId)
+    public function show(int $id)
     {
-        //
+        return User::find($id)->only([
+            'email',
+            'name'
+        ]);
     }
 
     /**
@@ -35,19 +39,12 @@ class UserSettingsController extends Controller
      * @param  int  $userId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $userId)
+    public function update(UpdateProfileRequest $request)
     {
-        //
-    }
+        User::find(Auth::id())->update($request->all());
 
-    /**
-     * Delete specified user settings
-     *
-     * @param  int  $userId
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($userId)
-    {
-        //
+        return [
+            'message' => __('Profile updated successfully')
+        ];
     }
 }
