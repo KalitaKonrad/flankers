@@ -4,16 +4,20 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { Switch } from './shared/Switch';
 
-interface MatchSettingsProps {}
+interface MatchSettingsProps {
+  rankingMatchToggled: (arg: boolean) => void;
+}
 
 export const MatchSettings: React.FC<MatchSettingsProps> = (props) => {
-  const [switchedMatchType, setSwitchedMatchType] = useState<boolean>(false);
-  const [switchedRankingMatch, setSwitchedRankingMatch] = useState<boolean>(
+  const [isSwitchedMatchType, setIsSwitchedMatchType] = useState<boolean>(
+    false
+  );
+  const [isSwitchedRankingMatch, setIsSwitchedRankingMatch] = useState<boolean>(
     false
   );
   const [
-    switchedMatchVisibility,
-    setSwitchedMatchVisibility,
+    isSwitchedMatchVisibility,
+    setIsSwitchedMatchVisibility,
   ] = useState<boolean>(false);
 
   return (
@@ -22,19 +26,22 @@ export const MatchSettings: React.FC<MatchSettingsProps> = (props) => {
       <Switch
         leftLabel="Drużynowy"
         rightLabel="Swobodny"
-        leftSideToggled={(res) => setSwitchedMatchType(res)}
+        leftSideToggled={(res) => setIsSwitchedMatchType(res)}
       />
       <Text>Mecz Rankingowy</Text>
       <Switch
         leftLabel="Tak"
         rightLabel="Nie"
-        leftSideToggled={(res) => setSwitchedRankingMatch(res)}
+        leftSideToggled={(res) => {
+          setIsSwitchedRankingMatch(res);
+          props.rankingMatchToggled(isSwitchedRankingMatch);
+        }}
       />
       <Text>Mecz Rankingowy</Text>
       <Switch
         leftLabel="Publiczny"
         rightLabel="Prywatny"
-        leftSideToggled={(res) => setSwitchedMatchVisibility(res)}
+        leftSideToggled={(res) => setIsSwitchedMatchVisibility(res)}
       />
     </View>
   );
@@ -42,7 +49,7 @@ export const MatchSettings: React.FC<MatchSettingsProps> = (props) => {
 
 const styles = StyleSheet.create({
   matchSettings: {
-    flex: 0.5,
+    flex: 0.7,
     justifyContent: 'space-between',
     alignItems: 'center',
   },

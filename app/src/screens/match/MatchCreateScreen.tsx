@@ -1,7 +1,6 @@
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { Button } from 'react-native-paper';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { MatchSettings } from '../../components/MatchSettings';
 import { SubmitButton } from '../../components/shared/SubmitButton';
@@ -14,32 +13,75 @@ type MatchCreateScreenProps = object &
 export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
   navigation,
 }) => {
-  const [topUpAmount, setTopUpAmount] = useState<number>(5.0);
+  const [feeAmount, setFeeAmount] = useState<number>(5.0);
+  const [playersAmount, setPlayersAmount] = useState<number>(2.0);
+  const [isRankingMatchSwitched, setIsRankingMatchSwitched] = useState<boolean>(
+    true
+  );
+
   return (
     <View style={styles.container}>
       <View style={styles.matchSettings}>
-        <MatchSettings />
+        <MatchSettings
+          rankingMatchToggled={(res) => {
+            setIsRankingMatchSwitched(res);
+          }}
+        />
       </View>
-      <View style={styles.label}>
-        <Text>Wpisowe</Text>
+      <View>
+        <View style={styles.label}>
+          <Text style={{ textAlign: 'center' }}>Liczba Graczy</Text>
+        </View>
+
+        <View style={styles.playersAmountPicker}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              if (playersAmount > 2) {
+                setPlayersAmount(playersAmount - 1);
+              }
+            }}>
+            <Text style={{ color: theme.colors.black }}>-</Text>
+          </TouchableOpacity>
+          <Text style={TextStyle.noteH2}>{playersAmount}</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              if (playersAmount < 10) {
+                setPlayersAmount(playersAmount + 1);
+              }
+            }}>
+            <Text style={{ color: theme.colors.black }}>+</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.accountTopUpSection}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => {
-            if (topUpAmount > 0) {
-              setTopUpAmount(topUpAmount - 1);
-            }
-          }}>
-          <Text style={{ color: theme.colors.black }}>-</Text>
-        </TouchableOpacity>
-        <Text style={TextStyle.noteH2}>{topUpAmount + '.00'}</Text>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => setTopUpAmount(topUpAmount + 1)}>
-          <Text style={{ color: theme.colors.black }}>+</Text>
-        </TouchableOpacity>
-      </View>
+
+      {isRankingMatchSwitched ? (
+        <View>
+          <View style={styles.label}>
+            <Text style={{ textAlign: 'center' }}>Wpisowe</Text>
+          </View>
+          <View style={styles.feePicker}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                if (feeAmount > 0) {
+                  setFeeAmount(feeAmount - 1);
+                }
+              }}>
+              <Text style={{ color: theme.colors.black }}>-</Text>
+            </TouchableOpacity>
+            <Text style={TextStyle.noteH2}>{feeAmount + '.00'}</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setFeeAmount(feeAmount + 1)}>
+              <Text style={{ color: theme.colors.black }}>+</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      ) : (
+        <></>
+      )}
 
       <View style={styles.submitBtn}>
         <SubmitButton
@@ -66,8 +108,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     top: 20,
   },
+  playersAmountPicker: {
+    position: 'relative',
+    display: 'flex',
+    flexDirection: 'row',
+    paddingHorizontal: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    minHeight: 50,
+    marginBottom: 30,
+  },
 
-  accountTopUpSection: {
+  feePicker: {
     position: 'relative',
     display: 'flex',
     flexDirection: 'row',
@@ -78,7 +132,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     minHeight: 50,
-    bottom: 50,
+    marginBottom: 70,
   },
   button: {
     width: 60,
