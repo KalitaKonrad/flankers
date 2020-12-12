@@ -11,7 +11,7 @@ class TeamInviteController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth:api'])->only(['index']);
+        $this->middleware(['auth:api']);
     }
 
     /**
@@ -22,7 +22,7 @@ class TeamInviteController extends Controller
      */
     public function index()
     {
-        return Message::ok('User invites', Auth::user()->invites());
+        return Message::ok('User invites', Auth::user()->invites()->get());
     }
 
     /**
@@ -30,14 +30,19 @@ class TeamInviteController extends Controller
      * @param int $team_id
      * @return $this
      */
-    public function store(Request $request, $team_id)
+    public function store(Request $request)
     {
         $request->validate([
+            'team_id' => 'required|integer',
             'email' => 'required|email',
         ]);
 
         $teamModel = config('teamwork.team_model');
-        $team = $teamModel::findOrFail($team_id);
+        $team = $teamModel::findOrFail($request->team_id);
+
+        if (!Auth::user()->isOwnerOfTeam($team)) {
+            return Message::error(403, 'Only team owner can create invites for this team');
+        }
 
         if (Teamwork::hasPendingInvite($request->email, $team)) {
             return Message::error(406, 'This user was already invited to this team');
