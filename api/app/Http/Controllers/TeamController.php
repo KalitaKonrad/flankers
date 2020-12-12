@@ -15,7 +15,7 @@ class TeamController extends Controller
     }
 
     /**
-     * Display list o fuser teams
+     * Display list of user teams
      *
      * @group Team management
      *
