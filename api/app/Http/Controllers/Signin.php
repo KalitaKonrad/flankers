@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use App\Http\Requests\SigninRequest;
-use App\Http\Traits\RespondsWithJwt;
+use App\Traits\RespondsWithJwt;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\SigninRequest;
 
 class Signin extends Controller
 {
@@ -13,15 +13,15 @@ class Signin extends Controller
 
     /**
      * Sign in an user
-     * 
+     *
      * With valid data provided, this endpoint will return JWT token
-     * which can be later used as authorization header to 
+     * which can be later used as authorization header to
      * authenticate other endpoints inside the app.
      *
      * @group Authentication
      * @bodyParam email string required User email Example: foo@bar.com
      * @bodyParam password string required User password Example: password
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */

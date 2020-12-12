@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Traits\RespondsWithJwt;
 use Illuminate\Http\Request;
+use App\Traits\RespondsWithJwt;
 use Illuminate\Support\Facades\Auth;
 
 class RefreshToken extends Controller
@@ -22,13 +22,13 @@ class RefreshToken extends Controller
 
     /**
      * Refresh user JWT token.
-     * 
+     *
      * If authenticated user will access this route new token
      * metadata will be returned as a response.
-     * 
+     *
      * @group Authentication
      * @header Authorization Bearer YOUR_TOKEN_HERE
-     * 
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
