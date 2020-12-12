@@ -21,6 +21,8 @@ class UserProfileController extends Controller
     /**
      * Display user settings
      *
+     * @group User management
+     *
      * @param  int  $userId
      * @return \Illuminate\Http\Response
      */
