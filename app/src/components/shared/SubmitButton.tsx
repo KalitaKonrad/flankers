@@ -16,14 +16,19 @@ export const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
       mode="contained"
       color={props.backgroundColor}
       labelStyle={{ color: props.labelColor }}
-      style={{ margin: 10 }}
-      theme={{ roundness: 20 }}
+      style={styles.button}
+      contentStyle={styles.buttonInner}
+      uppercase={false}
     />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 16,
+  button: {
+    height: 56,
+    borderRadius: 100,
+  },
+  buttonInner: {
+    paddingVertical: 8,
   },
 });

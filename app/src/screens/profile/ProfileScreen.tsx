@@ -27,7 +27,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         <Button
           icon="account-edit"
           mode="text"
-          color={theme.colors.background.white}
+          color={theme.colors.white}
           onPress={onEdit}>
           Edytuj
         </Button>
@@ -35,7 +35,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         <Button
           icon="logout"
           mode="text"
-          color={theme.colors.background.white}
+          color={theme.colors.white}
           onPress={onLogout}>
           Wyloguj
         </Button>

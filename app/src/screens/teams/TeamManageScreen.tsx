@@ -33,7 +33,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
           <Button
             icon="account-multiple-minus"
             mode="text"
-            color={theme.colors.background.white}
+            color={theme.colors.white}
             onPress={onExit}>
             Opuść
           </Button>

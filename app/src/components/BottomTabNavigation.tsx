@@ -3,6 +3,11 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { NavigatorScreenParams } from '@react-navigation/native';
 import React from 'react';
 
+import { useAuth } from '../hooks/useAuth';
+import {
+  AuthScreenStack,
+  AuthScreenStackParamList,
+} from '../screens/auth/AuthScreenStack';
 import {
   MatchScreenStack,
   MatchScreenStackParamList,
@@ -20,6 +25,7 @@ import { WalletScreen } from '../screens/wallet/WalletScreen';
 import { theme } from '../theme';
 
 export type BottomTabNavigationParamList = {
+  Auth: NavigatorScreenParams<AuthScreenStackParamList>;
   Match: NavigatorScreenParams<MatchScreenStackParamList>;
   Team: NavigatorScreenParams<TeamScreenStackParamList>;
   Profile: NavigatorScreenParams<ProfileScreenStackParamList>;
@@ -29,6 +35,7 @@ export type BottomTabNavigationParamList = {
 const Tab = createMaterialBottomTabNavigator<BottomTabNavigationParamList>();
 
 const ROUTE_TO_ICON_MAP: Record<keyof BottomTabNavigationParamList, string> = {
+  Auth: 'account',
   Match: 'bottle-wine',
   Team: 'account-group',
   Profile: 'account',
@@ -37,21 +44,18 @@ const ROUTE_TO_ICON_MAP: Record<keyof BottomTabNavigationParamList, string> = {
 };
 
 export const BottomTabNavigation: React.FC = () => {
-  return (
-    <Tab.Navigator
-      activeColor="#FFF"
-      initialRouteName="Match"
-      inactiveColor={theme.colors.secondary}
-      labeled
-      barStyle={{ backgroundColor: theme.colors.primary }}
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color }) => {
-          const iconName = ROUTE_TO_ICON_MAP[route.name];
-          return (
-            <MaterialCommunityIcons name={iconName} color={color} size={26} />
-          );
-        },
-      })}>
+  const { isAuthenticated } = useAuth();
+
+  const unauthenticatedScreens = (
+    <Tab.Screen
+      name="Auth"
+      component={AuthScreenStack}
+      options={{ tabBarLabel: 'Auth' }}
+    />
+  );
+
+  const authenticatedScreens = (
+    <>
       <Tab.Screen
         name="Match"
         component={MatchScreenStack}
@@ -78,6 +82,26 @@ export const BottomTabNavigation: React.FC = () => {
         component={RankingScreen}
         options={{ tabBarLabel: 'Ranking' }}
       />
+    </>
+  );
+
+  return (
+    <Tab.Navigator
+      activeColor="#FFF"
+      initialRouteName="Match"
+      inactiveColor={theme.colors.secondary}
+      labeled
+      barStyle={{ backgroundColor: theme.colors.primary }}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color }) => {
+          const iconName = ROUTE_TO_ICON_MAP[route.name];
+          return (
+            <MaterialCommunityIcons name={iconName} color={color} size={26} />
+          );
+        },
+      })}>
+      {!isAuthenticated && unauthenticatedScreens}
+      {isAuthenticated && authenticatedScreens}
     </Tab.Navigator>
   );
 };

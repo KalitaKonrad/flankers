@@ -19,8 +19,8 @@ const Stack = createStackNavigator<AuthScreenStackParamList>();
 export const AuthScreenStack: React.FC = () => {
   return (
     <Stack.Navigator screenOptions={theme.headerOptions}>
-      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Register" component={RegisterScreen} />
+      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="PasswordReset" component={PasswordResetScreen} />
       <Stack.Screen
         name="PasswordResetConfirm"

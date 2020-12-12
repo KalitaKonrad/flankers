@@ -33,7 +33,7 @@ export const MatchLocationScreen: React.FC<MatchLocationScreenProps> = ({
       <View style={styles.button}>
         <SubmitButton
           backgroundColor={theme.colors.primary}
-          labelColor={theme.colors.background.white}
+          labelColor={theme.colors.white}
           onPress={() =>
             console.log(
               `przeslij coordinaty meczu ${markerCoordinates.longitude} | ${markerCoordinates.latitude}`
