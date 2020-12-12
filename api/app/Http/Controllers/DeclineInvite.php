@@ -9,6 +9,7 @@ class DeclineInvite extends Controller
     /**
      * Decline an invite
      *
+     * @group Team management
      * @urlParam token string Invite decline token
      *
      * @return \Illuminate\Http\Response

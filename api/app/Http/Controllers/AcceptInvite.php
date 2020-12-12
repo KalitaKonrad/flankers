@@ -9,7 +9,7 @@ class AcceptInvite extends Controller
 {
     /**
      * Accept an invite
-     *
+     * @group Team management
      * @urlParam token string Invite accept token
      *
      * @return \Illuminate\Http\Response
