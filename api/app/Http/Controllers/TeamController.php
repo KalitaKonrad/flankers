@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Teamwork;
 
 use App\Http\Message;
-use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateTeamRequest;
@@ -65,7 +64,7 @@ class TeamController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CreateTeamRequest $request, $id)
+    public function update(CreateTeamRequest $request, int $id)
     {
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($id);
@@ -81,18 +80,21 @@ class TeamController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Delete a team
+     *
+     * @group Team management
+     * @urlParam teamId int required
      *
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(int $id)
     {
         $teamModel = config('teamwork.team_model');
-
         $team = $teamModel::findOrFail($id);
+
         if (!Auth::user()->isOwnerOfTeam($team)) {
-            abort(403);
+            return Message::error(403, 'Only owner can update this team.');
         }
 
         $team->delete();
@@ -101,6 +103,6 @@ class TeamController extends Controller
         $userModel::where('current_team_id', $id)
             ->update(['current_team_id' => null]);
 
-        return redirect(route('teams.index'));
+        return Message::ok('Team deleted successfully');
     }
 }
