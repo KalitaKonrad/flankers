@@ -6,7 +6,7 @@ use App\Http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Mpociot\Teamwork\Exceptions\UserNotInTeamException;
+use App\Http\Requests\CreateTeamRequest;
 
 class TeamController extends Controller
 {
@@ -28,45 +28,29 @@ class TeamController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create new team
+     *
+     * User which is creating the team will be set as its owner
+     *
+     * @group Team management
+     * @bodyParam name string required Team name Example: Flankersi
+     * @bodyParam description string Team description Example: Best team ever
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateTeamRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string',
-        ]);
-
         $teamModel = config('teamwork.team_model');
-
-        $team = $teamModel::create([
-            'name' => $request->name,
+        $payload = $request->only(['name', 'description']);
+        $data = array_merge($payload, [
             'owner_id' => $request->user()->getKey(),
         ]);
+
+        $team = $teamModel::create($data);
         $request->user()->attachTeam($team);
 
-        return redirect(route('teams.index'));
-    }
-
-    /**
-     * Switch to the given team.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function switchTeam($id)
-    {
-        $teamModel = config('teamwork.team_model');
-        $team = $teamModel::findOrFail($id);
-        try {
-            Auth::user()->switchTeam($team);
-        } catch (UserNotInTeamException $e) {
-            abort(403);
-        }
-
-        return  Message::ok('Team switched successfully');
+        return Message::ok('Team created successfully', $team);
     }
 
     /**
