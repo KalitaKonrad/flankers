@@ -9,17 +9,19 @@ ARG APP_ENV=${APP_ENV}
 ARG APP_DEBUG=${APP_DEBUG}
 ARG DB_CONNECTION=${DB_CONNECTION}
 
+# Copy application code to easily reachable directory
 COPY ./ /app
+
+# Start queue workers as seperate processes
+# monitored with supervisor.d
+COPY ./laravel-worker.conf /etc/supervisor/conf.d
 
 WORKDIR /app
 
-RUN touch /app/database/database.sqlite && \
-    chmod -R 777 database && \
-    mkdir -p /app/storage/logs && \
-    touch /app/storage/logs/laravel.log && \
-    chmod -R 777 /app/storage
+RUN chown -R 1000 /app/storage
 
 RUN composer install && \
-    php artisan migrate && \
-    php artisan db:seed --class StagingSeeder && \
+    php artisan cache:clear && \
+    php artisan migrate --force && \
+    php artisan db:seed && \
     php artisan scribe:generate
