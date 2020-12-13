@@ -66,7 +66,7 @@ const useProvideAuth = () => {
     return () => {
       unsubscribe();
     };
-  });
+  }, []);
 
   return { isLoading, isAuthenticated, register, login, logout };
 };
