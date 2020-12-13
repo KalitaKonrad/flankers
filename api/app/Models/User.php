@@ -74,4 +74,15 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     {
         $this->attributes['password'] = Hash::make($password);
     }
+
+    /**
+     * Check if user is the game owner
+     *
+     * @param Game $game
+     * @return boolean
+     */
+    public function isGameOwner(Game $game)
+    {
+        return $game->owner_id == $this->id;
+    }
 }

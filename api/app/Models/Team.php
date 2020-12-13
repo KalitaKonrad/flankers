@@ -13,6 +13,9 @@ class Team extends TeamworkTeam
      */
     protected $fillable = ['owner_id', 'name', 'description', 'avatar'];
 
+    /**
+     * Return all users belonging to this team
+     */
     public function members()
     {
         return $this->belongsToMany(User::class);
