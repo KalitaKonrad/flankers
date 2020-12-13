@@ -9,9 +9,18 @@ use App\Models\Squad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SquadMembershipController extends Controller
 {
+    /**
+     * Instantiate the controller
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     /**
      * Return game squads with memberships
      *
@@ -74,6 +83,12 @@ class SquadMembershipController extends Controller
         $currentSquad = Squad::firstOrFail($id);
         $newSquad = Squad::firstOrFail($request->squad_id);
         $user = User::firstOrFail($request->user_id);
+        $game = $currentSquad->game()->get();
+        $requestUser = Auth::user();
+
+        if (!($requestUser == $user || $requestUser->isGameOwner($game))) {
+            return Message::error(403, 'Only game owner or the user itself can initialize squad change');
+        }
 
         if ($currentSquad->id !== $newSquad->id) {
             return Message::error(406, 'Users can switch memberships only within the same game');
@@ -111,6 +126,12 @@ class SquadMembershipController extends Controller
 
         $squad = Squad::firstOrFail($request->squad_id);
         $user = User::firstOrFail($request->user_id);
+        $game = $squad->game()->get();
+        $requestUser = Auth::user();
+
+        if (!($requestUser == $user || $requestUser->isGameOwner($game))) {
+            return Message::error(403, 'Only game owner or the user itself can initialize squad leave');
+        }
 
         $squad->members()->detach($user->id);
         return Message::ok('Squad and game left');
