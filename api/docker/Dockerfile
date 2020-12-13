@@ -14,7 +14,7 @@ COPY ./ /app
 
 # Start queue workers as seperate processes
 # monitored with supervisor.d
-COPY ./docker/laravel-worker.conf /etc/supervisor/conf.d
+COPY ./docker/laravel-worker.conf /opt/docker/etc/supervisor.d
 
 WORKDIR /app
 
