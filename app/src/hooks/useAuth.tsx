@@ -1,15 +1,17 @@
-import * as SecureStore from 'expo-secure-store';
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
-import { login } from '../services/AuthService';
+import { TOKEN_CHANGED_EVENT } from '../const/events.const';
 import axios from '../utils/axios';
-import { setResponseErrors } from '../utils/setResponseErrors';
+import { EventBus } from '../utils/eventBus';
+import {
+  deleteToken as deleteStoredToken,
+  getToken as getStoredToken,
+  setToken as setStoredToken,
+} from '../utils/tokenUtils';
 
 type AuthContextData = ReturnType<typeof useProvideAuth>;
-const TOKEN_KEY = 'TOKEN';
 
-// @ts-ignore
-const AuthContext = createContext<AuthContextData>();
+const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const useAuth = () => {
   return useContext(AuthContext);
@@ -22,6 +24,7 @@ export const AuthProvider: React.FC = ({ children }) => {
 
 const useProvideAuth = () => {
   const [token, setToken] = useState<string | null>(null);
+  const [isLoading, setLoading] = useState(true);
   const isAuthenticated = token !== null;
 
   const register = async (nick: string, email: string, password: string) => {
@@ -38,15 +41,32 @@ const useProvideAuth = () => {
       password,
     });
     const token = response.data.access_token;
-    await SecureStore.setItemAsync(TOKEN_KEY, token);
-    setToken(token);
+    await setStoredToken(token);
   };
 
   const logout = async () => {
     await axios.post('auth/signout');
-    await SecureStore.deleteItemAsync(TOKEN_KEY);
-    setToken(null);
+    await deleteStoredToken();
   };
 
-  return { isAuthenticated, register, login, logout };
+  useEffect(() => {
+    const initAuth = async () => {
+      const storedToken = await getStoredToken();
+      setToken(storedToken);
+      setLoading(false);
+    };
+    initAuth();
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = EventBus.on(TOKEN_CHANGED_EVENT, async () => {
+      const newToken = await getStoredToken();
+      setToken(newToken);
+    });
+    return () => {
+      unsubscribe();
+    };
+  });
+
+  return { isLoading, isAuthenticated, register, login, logout };
 };

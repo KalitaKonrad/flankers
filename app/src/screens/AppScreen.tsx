@@ -13,7 +13,7 @@ import { SplashScreen } from './SplashScreen';
 import { AuthScreenStack } from './auth/AuthScreenStack';
 
 export const AppScreen: React.FC = () => {
-  const { isAuthenticated } = useAuth();
+  const { isLoading, isAuthenticated } = useAuth();
   const [fontsLoaded] = useFonts({
     Inter_100Thin,
     Inter_300Light,
@@ -21,7 +21,7 @@ export const AppScreen: React.FC = () => {
     Inter_500Medium,
   });
 
-  if (!fontsLoaded) {
+  if (isLoading || !fontsLoaded) {
     return <SplashScreen />;
   }
 

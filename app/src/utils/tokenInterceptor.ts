@@ -1,6 +1,6 @@
 import { AxiosRequestConfig } from 'axios';
 
-import { getToken } from '../services/AuthService';
+import { getToken } from './tokenUtils';
 
 const tokenInterceptor = async (config: AxiosRequestConfig) => {
   const token = await getToken();
