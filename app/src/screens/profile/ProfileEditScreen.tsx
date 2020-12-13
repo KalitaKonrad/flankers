@@ -2,7 +2,6 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
-import { Button } from 'react-native-paper';
 
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
@@ -33,7 +32,12 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
             <Text style={styles.title}>Edycja profilu</Text>
           </View>
           <View style={styles.avatar}>
-            <MyAvatar height={150} width={150} />
+            <MyAvatar
+              src="../assets/avatar.png"
+              height={150}
+              width={150}
+              isBorder
+            />
           </View>
         </HeaderWithAvatar>
         <View style={styles.note}>

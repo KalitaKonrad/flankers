@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'api',
         'passwords' => 'users',
     ],
 
@@ -42,9 +42,8 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'jwt',
             'provider' => 'users',
-            'hash' => false,
         ],
     ],
 
@@ -113,5 +112,21 @@ return [
     */
 
     'password_timeout' => 10800,
+
+    /*
+    |--------------------------------------------------------------------------
+    | Password reset and email confirmation links
+    |--------------------------------------------------------------------------
+    |
+    | Here you may define how reset and confirmation links should look like,
+    | both {token} and {verification_url} strings will be replaced with
+    | generated values thus creating confirmation urls to be consumed.
+    |
+    */
+
+    'links' => [
+        'confirm' => env('AUTH_CONFIRM_EMAIL_LINK', '{verification_url}'),
+        'reset' => env('AUTH_RESET_PASSWORD_LINK', '{token}')
+    ],
 
 ];

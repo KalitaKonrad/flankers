@@ -1,0 +1,55 @@
+name: API CI
+on:
+  push:
+    paths: 
+      - 'api/*'
+  pull_request:
+    paths:
+      - 'api/*'
+env:
+  APP_ENV: local
+  APP_DEBUG: true
+  LOG_CHANNEL: stack
+  LOG_LEVEL: debug
+  DB_CONNECTION: sqlite
+  JWT_SECRET: veCMWIG3Mv6c1w5pzBs4FRp4fBAiYcV5e6rDeiHVW9iZeO4cuYOJeT8CXJ2caQ3f
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}/api
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.composer/cache/files
+          key: dependencies-composer-${{ hashFiles('composer.json') }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, pdo, sqlite, pdo_sqlite
+          coverage: xdebug
+
+      - name: Install Composer dependencies
+        run: composer install --prefer-dist --no-interaction --no-suggest
+
+      - name: Provision database for tests
+        run: |
+          touch ./database/database.sqlite
+
+      - name: Migrate the database
+        run: php artisan migrate
+        
+      - name: Generate docs routes
+        run: |
+          php artisan scribe:generate
+          
+      - name: Execute tests
+        run: composer coverage
