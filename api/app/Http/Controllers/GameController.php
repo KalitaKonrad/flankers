@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Http\Message;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateGameRequest;
+use App\Http\Requests\UpdateGameRequest;
 
 class GameController extends Controller
 {
@@ -31,7 +31,7 @@ class GameController extends Controller
     }
 
     /**
-     *  Create new game.
+     * Create new game.
      *
      * TODO: Right now only public game type is implemented,
      * ranking points will not be calculated, bets won't be
@@ -41,11 +41,11 @@ class GameController extends Controller
      * @bodyParam type string Public or private, default - public
      * @bodyParam rated boolean If ranking points should be assigned rated, default - false
      * @bodyParam bet integer Game bet which each user will be charged for, default - 0
-     * @bodyParam duration integer Game time in seconds, default - 60 * 10,
+     * @bodyParam duration integer Game time in seconds, default - 60 * 10
      * @bodyParam long Game longitude - default null
      * @bodyParam lat Game latitude - default null
      *
-     * @param  \App\Requests\CreateGameRequest $request
+     * @param  CreateGameRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreateGameRequest $request)
@@ -68,24 +68,50 @@ class GameController extends Controller
     /**
      * Display details of a game
      *
+     * @group Game data
+     * @urlParam id int required Game id
+     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
     {
-        //
+        return Game::findOrFail($id);
     }
 
     /**
      * Update the specified game.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @group Game management
+     * @bodyParam type string Public or private
+     * @bodyParam rated boolean If ranking points should be assigned rated
+     * @bodyParam bet integer Game bet which each user will be charged for
+     * @bodyParam duration integer Game time in seconds, default
+     * @bodyParam start_date timestamp Game starting time
+     * @bodyParam completed boolean True if game should be finalized instantly
+     * @bodyParam long Game longitude - default null
+     * @bodyParam lat Game latitude - default null
+     *
+     * @param  UpdateGameRequest  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateGameRequest $request, $id)
     {
-        //
+        $game = Game::findOrFail($id);
+
+        if ($game->completed) {
+            return Message::error(406, 'This game was already completed, you cannot change it');
+        }
+
+        if ($game->start_date && ($request->rated || $request->bet)) {
+            return Message::error(406, 'You cannot change game bets or rating type if it has already started');
+        }
+
+        $game->fill($request->all());
+        $game->save();
+
+        return Message::ok('Game updated');
     }
 
     /**
