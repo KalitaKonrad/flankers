@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Http\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mpociot\Teamwork\Facades\Teamwork;
 
 class TeamInviteController extends Controller
 {
+    /**
+     * Inititalize the controller
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware(['auth:api']);
@@ -16,6 +22,8 @@ class TeamInviteController extends Controller
 
     /**
      * Get user invites
+     *
+     * @group Team management
      *
      * @param Request $request
      * @return Illuminate\Http\Response
@@ -26,6 +34,12 @@ class TeamInviteController extends Controller
     }
 
     /**
+     * Invite user to team
+     *
+     * @group Team management
+     * @bodyParam team_id int required
+     * @bodyParam email string required
+     *
      * @param Request $request
      * @param int $team_id
      * @return $this
@@ -39,6 +53,7 @@ class TeamInviteController extends Controller
 
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($request->team_id);
+        $invitedUser = User::where('email', $request->email)->firstOrFail();
 
         if (!Auth::user()->isOwnerOfTeam($team)) {
             return Message::error(403, 'Only team owner can create invites for this team');
@@ -48,7 +63,7 @@ class TeamInviteController extends Controller
             return Message::error(406, 'This user was already invited to this team');
         }
 
-        $invite = Teamwork::inviteToTeam($request->email, $team);
-        return Message::ok('User invited', $invite);
+        $invite = Teamwork::inviteToTeam($invitedUser->email, $team);
+        return Message::ok('Invite sent', $invite);
     }
 }

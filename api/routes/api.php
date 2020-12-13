@@ -32,6 +32,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\TeamInviteController;
 use App\Http\Controllers\TeamMembershipController;
 use App\Http\Controllers\UserAvatarController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\VerifyEmail;
 use App\Http\Controllers\WalletController;
@@ -49,6 +50,7 @@ Route::prefix('auth')->group(function () {
     Route::post('reset-password', ResetPassword::class);
 });
 
+Route::get('user', [UserController::class, 'index']);
 Route::prefix('user')->group(function () {
     Route::get('settings', [UserProfileController::class, 'show']);
     Route::match(['put', 'patch'], 'settings', [UserProfileController::class, 'update']);
