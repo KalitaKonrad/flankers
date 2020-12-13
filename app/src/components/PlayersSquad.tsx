@@ -5,7 +5,7 @@ import { Image, StyleSheet, Text, View } from 'react-native';
 import { TextStyle, theme } from '../theme';
 import MyAvatar from './shared/MyAvatar';
 
-interface PlayersGroupProps {
+interface PlayersSquadProps {
   firstTeamAvatarList: string[];
   firstTeamName: string;
   secondTeamAvatarList: string[];
@@ -13,7 +13,7 @@ interface PlayersGroupProps {
   notReadyPlayersAvatarList?: string[];
 }
 
-export const PlayersGroup: React.FC<PlayersGroupProps> = (props) => {
+export const PlayersSquad: React.FC<PlayersSquadProps> = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.label}>
@@ -21,7 +21,7 @@ export const PlayersGroup: React.FC<PlayersGroupProps> = (props) => {
       </View>
       <View style={styles.avatarsList}>
         {props.firstTeamAvatarList.map((imgSrc, index) => (
-          <MyAvatar height={50} width={50} src={imgSrc} />
+          <MyAvatar height={50} width={50} src={imgSrc} key={index} />
         ))}
       </View>
 
@@ -30,7 +30,7 @@ export const PlayersGroup: React.FC<PlayersGroupProps> = (props) => {
       </View>
       <View style={styles.avatarsList}>
         {props.secondTeamAvatarList.map((imgSrc, index) => (
-          <MyAvatar height={50} width={50} src={imgSrc} />
+          <MyAvatar height={50} width={50} src={imgSrc} key={index} />
         ))}
       </View>
       {props.notReadyPlayersAvatarList && (
@@ -40,7 +40,7 @@ export const PlayersGroup: React.FC<PlayersGroupProps> = (props) => {
           </View>
           <View style={styles.avatarsList}>
             {props.notReadyPlayersAvatarList.map((imgSrc, index) => (
-              <MyAvatar height={50} width={50} src={imgSrc} />
+              <MyAvatar height={50} width={50} src={imgSrc} key={index} />
             ))}
           </View>
         </View>

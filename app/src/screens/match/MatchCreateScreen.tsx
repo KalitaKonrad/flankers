@@ -26,7 +26,7 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
     <View style={styles.container}>
       <View style={styles.matchSettings}>
         <MatchSettings
-          rankingMatchToggled={(res) => {
+          onRankingMatchToggled={(res) => {
             setIsRankingMatchSwitched(res);
           }}
         />

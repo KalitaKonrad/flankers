@@ -5,7 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Switch } from './shared/Switch';
 
 interface MatchSettingsProps {
-  rankingMatchToggled: (arg: boolean) => void;
+  onRankingMatchToggled: (arg: boolean) => void;
 }
 
 export const MatchSettings: React.FC<MatchSettingsProps> = (props) => {
@@ -26,22 +26,22 @@ export const MatchSettings: React.FC<MatchSettingsProps> = (props) => {
       <Switch
         leftLabel="Drużynowy"
         rightLabel="Swobodny"
-        leftSideToggled={(res) => setIsSwitchedMatchType(res)}
+        onLeftSideToggled={(res) => setIsSwitchedMatchType(res)}
       />
       <Text>Mecz Rankingowy</Text>
       <Switch
         leftLabel="Tak"
         rightLabel="Nie"
-        leftSideToggled={(res) => {
+        onLeftSideToggled={(res) => {
           setIsSwitchedRankingMatch(res);
-          props.rankingMatchToggled(isSwitchedRankingMatch);
+          props.onRankingMatchToggled(isSwitchedRankingMatch);
         }}
       />
       <Text>Mecz Rankingowy</Text>
       <Switch
         leftLabel="Publiczny"
         rightLabel="Prywatny"
-        leftSideToggled={(res) => setIsSwitchedMatchVisibility(res)}
+        onLeftSideToggled={(res) => setIsSwitchedMatchVisibility(res)}
       />
     </View>
   );

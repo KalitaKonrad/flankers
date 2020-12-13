@@ -6,7 +6,7 @@ import { theme } from '../../theme';
 interface SwitchProps {
   leftLabel: string;
   rightLabel: string;
-  leftSideToggled: (arg: boolean) => void;
+  onLeftSideToggled: (arg: boolean) => void;
 }
 
 export const Switch: React.FC<SwitchProps> = (props) => {
@@ -17,7 +17,7 @@ export const Switch: React.FC<SwitchProps> = (props) => {
       initial={0}
       onPress={() => {
         setIsLeftBtnActive(!isLeftBtnActive);
-        props.leftSideToggled(isLeftBtnActive);
+        props.onLeftSideToggled(isLeftBtnActive);
       }}
       textColor="#7f8581"
       selectedColor={theme.colors.primary}

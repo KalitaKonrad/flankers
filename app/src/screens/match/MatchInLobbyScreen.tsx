@@ -2,7 +2,7 @@ import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 
-import { PlayersGroup } from '../../components/PlayersGroup';
+import { PlayersSquad } from '../../components/PlayersSquad';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
@@ -18,7 +18,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
       {/*////////////////////////////////////////////////////////////////////////*/}
       {/*//TODO: INLINE HEADER*/}
       {/*/////////////////////////////////////////////////////*/}
-      <PlayersGroup
+      <PlayersSquad
         firstTeamAvatarList={['src', 'oki']}
         firstTeamName="A"
         secondTeamAvatarList={['src']}
