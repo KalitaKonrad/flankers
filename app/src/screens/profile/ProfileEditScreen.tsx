@@ -77,7 +77,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
         </View>
         <SubmitButton
           backgroundColor={theme.colors.primary}
-          labelColor={theme.colors.background.white}
+          labelColor={theme.colors.white}
           onPress={onEdit}>
           Zapisz zmiany
         </SubmitButton>
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderColor: 'gray',
     borderWidth: 1,
-    backgroundColor: theme.colors.background.darkGray,
+    backgroundColor: theme.colors.darkGray,
   },
   container: {
     top: 90,

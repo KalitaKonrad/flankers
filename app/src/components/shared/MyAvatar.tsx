@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 100,
     borderWidth: 4,
-    borderColor: theme.colors.background.white,
+    borderColor: theme.colors.white,
   },
 });
 export default MyAvatar;
