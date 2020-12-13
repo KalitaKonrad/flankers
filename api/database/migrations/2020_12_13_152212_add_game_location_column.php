@@ -14,8 +14,8 @@ class AddGameLocationColumn extends Migration
     public function up()
     {
         Schema::table('games', function (Blueprint $table) {
-            $table->decimal('long', 9, 6);
-            $table->decimal('lat', 8, 6);
+            $table->decimal('long', 9, 6)->nullable();
+            $table->decimal('lat', 8, 6)->nullable();
         });
     }
 
@@ -26,6 +26,6 @@ class AddGameLocationColumn extends Migration
      */
     public function down()
     {
-        Schema::table('games')->dropColumns(['long', 'lat']);
+        Schema::dropColumns('games', ['long', 'lat']);
     }
 }
