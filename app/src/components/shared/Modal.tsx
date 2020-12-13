@@ -1,17 +1,14 @@
-import React, { useEffect, useRef } from 'react';
-import { TouchableNativeFeedback, View } from 'react-native';
-import Animated from 'react-native-reanimated';
+import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import { Dimensions, TouchableNativeFeedback, View } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 import { theme } from '../../theme';
 
-const { Value, onChange, call, cond, eq, abs, sub, min } = Animated;
-
 interface ModalProps {
   snapPoints?: number[];
-  isOpen: boolean;
-  onClose: () => void;
   initialSnap?: number;
+  isOpen: boolean;
+  setIsOpen: Dispatch<SetStateAction<boolean>>;
 }
 
 export const Modal: React.FC<ModalProps> = ({
@@ -19,71 +16,56 @@ export const Modal: React.FC<ModalProps> = ({
   initialSnap = null,
   snapPoints = [275, 0],
   isOpen,
-  onClose,
+  setIsOpen,
 }) => {
-  const position = new Value(1);
-  const opacity = min(abs(sub(position, 1)), 0.8);
   const zeroIndex = snapPoints.length - 1;
-  const height = snapPoints[0];
   const sheet = useRef<BottomSheet | null>(null);
 
   useEffect(() => {
     if (sheet.current) {
       sheet.current.snapTo(initialSnap || 0);
     }
-  }, []);
+  }, [isOpen]);
 
   const renderContent = () => (
     <View
       style={{
         display: 'flex',
         justifyContent: 'space-between',
-        position: 'absolute',
         backgroundColor: theme.colors.secondary,
         padding: 16,
-        height: height ? height : 275,
+        height: 275,
+        width: Dimensions.get('window').width,
       }}>
       {children}
     </View>
   );
 
+  // TODO: add this functionality
   const handleOutsidePress = () => {
     sheet?.current?.snapTo(zeroIndex);
   };
 
   return (
-    <View
+    <TouchableNativeFeedback
+      onPress={handleOutsidePress}
       style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
         flex: 1,
-        backgroundColor: theme.colors.white,
+        backgroundColor: theme.colors.background.white,
       }}>
-      <TouchableNativeFeedback onPress={handleOutsidePress}>
-        <Animated.View
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            flex: 1,
-            backgroundColor: '#000',
-            opacity,
-          }}
-        />
-      </TouchableNativeFeedback>
-      <Animated.Code
-        exec={onChange(position, [cond(eq(position, 1), call([], onClose))])}
+      <BottomSheet
+        ref={sheet}
+        snapPoints={snapPoints}
+        borderRadius={10}
+        renderContent={renderContent}
+        onCloseEnd={() => setIsOpen(false)}
+        enabledContentTapInteraction={false}
       />
-      {isOpen && (
-        <BottomSheet
-          ref={sheet}
-          snapPoints={[height ? height : 275, 0]}
-          borderRadius={20}
-          renderContent={renderContent}
-          callbackNode={position}
-          enabledContentTapInteraction={false}
-        />
-      )}
-    </View>
+    </TouchableNativeFeedback>
   );
 };

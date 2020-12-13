@@ -42,77 +42,35 @@ const getMatchListTitle = (outcome: MatchOutcome) => {
   return outcomeWithAmount + '.00 PLN';
 };
 
+// TODO: display dynamically
+const renderData = () => {
+  const matchOutcome = getMatchOutcome();
+
+  const data = [];
+  for (let i = 0; i < 15; i++) {
+    data.push(i);
+  }
+
+  return data.map((i) => (
+    <List.Item
+      title={
+        <Text style={styles.title}>{getMatchListTitle(matchOutcome)}</Text>
+      }
+      key={i}
+      left={(props) => <List.Icon {...props} icon="star" />}
+      right={(props) => <Text>10 min ago</Text>}
+      style={styles.item}
+    />
+  ));
+};
+
 export const WalletMatchHistory: React.FC<MatchHistoryProps> = ({
   name,
   matchHistory,
 }) => {
-  const matchOutcome = getMatchOutcome();
-
   return (
     <ScrollView style={[styles.container]}>
-      <List.Item
-        // TODO: display dynamically
-        title={
-          <Text style={styles.title}>{getMatchListTitle(matchOutcome)}</Text>
-        }
-        left={(props) => <List.Icon {...props} icon="star" />}
-        right={(props) => <Text>10 min ago</Text>}
-        style={styles.item}
-      />
-      <List.Item
-        // TODO: display dynamically
-        title={
-          <Text style={styles.title}>{getMatchListTitle(matchOutcome)}</Text>
-        }
-        left={(props) => <List.Icon {...props} icon="star" />}
-        right={() => <Text>10 min ago</Text>}
-        style={styles.item}
-      />
-      <List.Item
-        // TODO: display dynamically
-        title={
-          <Text style={styles.title}>{getMatchListTitle(matchOutcome)}</Text>
-        }
-        left={(props) => <List.Icon {...props} icon="star" />}
-        right={(props) => <Text>10 min ago</Text>}
-        style={styles.item}
-      />
-      <List.Item
-        // TODO: display dynamically
-        title={
-          <Text style={styles.title}>{getMatchListTitle(matchOutcome)}</Text>
-        }
-        left={(props) => <List.Icon {...props} icon="star" />}
-        right={() => <Text>10 min ago</Text>}
-        style={styles.item}
-      />
-      <List.Item
-        // TODO: display dynamically
-        title={
-          <Text style={styles.title}>{getMatchListTitle(matchOutcome)}</Text>
-        }
-        left={(props) => <List.Icon {...props} icon="star" />}
-        right={(props) => <Text>10 min ago</Text>}
-        style={styles.item}
-      />
-      <List.Item
-        // TODO: display dynamically
-        title={
-          <Text style={styles.title}>{getMatchListTitle(matchOutcome)}</Text>
-        }
-        left={(props) => <List.Icon {...props} icon="star" />}
-        right={() => <Text>10 min ago</Text>}
-        style={styles.item}
-      />
-      <List.Item
-        // TODO: display dynamically
-        title={
-          <Text style={styles.title}>{getMatchListTitle(matchOutcome)}</Text>
-        }
-        left={(props) => <List.Icon {...props} icon="star" />}
-        right={(props) => <Text>10 min ago</Text>}
-        style={styles.item}
-      />
+      {renderData().map((item) => item)}
     </ScrollView>
   );
 };

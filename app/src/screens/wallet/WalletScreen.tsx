@@ -64,35 +64,37 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
 
       <WalletMatchHistory name="hehe" matchHistory={[]} />
 
-      <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)}>
-        <InlineHeader center>
-          <Text style={[TextStyle.noteH2]}>{modalTitleText}</Text>
-        </InlineHeader>
-        <View style={styles.accountTopUpSection}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              if (topUpAmount > 1) {
-                setTopUpAmount(topUpAmount - 1);
-              }
-            }}>
-            <Text style={{ color: theme.colors.black }}>-</Text>
-          </TouchableOpacity>
-          <Text style={TextStyle.noteH2}>{topUpAmount + '.00'}</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => setTopUpAmount(topUpAmount + 1)}>
-            <Text style={{ color: theme.colors.black }}>+</Text>
-          </TouchableOpacity>
-        </View>
-        <SubmitButton
-          mode="text"
-          labelColor={theme.colors.white}
-          backgroundColor={error ? theme.colors.error : theme.colors.primary}
-          onPress={closeModal}>
-          {modalButtonText}
-        </SubmitButton>
-      </Modal>
+      {modalVisible && (
+        <Modal isOpen={modalVisible} setIsOpen={setModalVisible}>
+          <InlineHeader center>
+            <Text style={[TextStyle.noteH2]}>{modalTitleText}</Text>
+          </InlineHeader>
+          <View style={styles.accountTopUpSection}>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => {
+                if (topUpAmount > 1) {
+                  setTopUpAmount(topUpAmount - 1);
+                }
+              }}>
+              <Text style={{ color: theme.colors.black }}>-</Text>
+            </TouchableOpacity>
+            <Text style={TextStyle.noteH2}>{topUpAmount + '.00'}</Text>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={() => setTopUpAmount(topUpAmount + 1)}>
+              <Text style={{ color: theme.colors.black }}>+</Text>
+            </TouchableOpacity>
+          </View>
+          <SubmitButton
+            mode="text"
+            labelColor={theme.colors.white}
+            backgroundColor={error ? theme.colors.error : theme.colors.primary}
+            onPress={closeModal}>
+            {modalButtonText}
+          </SubmitButton>
+        </Modal>
+      )}
     </>
   );
 };
