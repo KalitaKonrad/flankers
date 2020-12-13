@@ -66,13 +66,13 @@ Route::prefix('teams')->group(function () {
     Route::get('invites/decline/{invite}', DeclineInvite::class);
 });
 
-Route::prefix('games')->group(function () {
-    Route::resource('', GameController::class);
-    Route::resource('invites', GameInviteController::class);
-    Route::resource('bets', GameBetsController::class);
-    Route::resource('scores', GameScoreController::class);
-    Route::get('/find', FindGame::class);
-    Route::post('/join/{game}', JoinGame::class);
-    Route::post('/settle/{game}', SettleGame::class);
-});
-Route::resource('/wallet', WalletController::class);
+// Route::prefix('games')->group(function () {
+//     Route::resource('', GameController::class);
+//     Route::resource('invites', GameInviteController::class);
+//     Route::resource('bets', GameBetsController::class);
+//     Route::resource('scores', GameScoreController::class);
+//     Route::get('/find', FindGame::class);
+//     Route::post('/join/{game}', JoinGame::class);
+//     Route::post('/settle/{game}', SettleGame::class);
+// });
+// Route::resource('/wallet', WalletController::class);
