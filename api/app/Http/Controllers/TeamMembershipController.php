@@ -24,7 +24,7 @@ class TeamMembershipController extends Controller
     /**
      * Show the members of the given team.
      *
-     * @group Team membership management
+     * @group Team management
      * @urlParam teamId int required
      *
      * @param int $id
