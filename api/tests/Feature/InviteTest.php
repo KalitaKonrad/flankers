@@ -1,8 +1,8 @@
 <?php
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mpociot\Teamwork\TeamInvite;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Tests\grabAuthToken;
 use function Tests\withAuthHeader;
@@ -44,6 +44,18 @@ it('should disallow to create more then one invite to the same team for single u
             'email' => $user->email
         ])
         ->assertStatus(406);
+});
+
+it('should fail if invited user does not exist', function () {
+    $team = config('teamwork.team_model')::factory()->create();
+    $token = grabAuthToken($team->owner_id);
+
+    withAuthHeader($token)
+        ->postJson("/teams/invites", [
+            'team_id' => $team->id,
+            'email' => 'nonexistenmail@example.com'
+        ])
+        ->assertStatus(404);
 });
 
 it('should add user to team after invite accept', function () {
