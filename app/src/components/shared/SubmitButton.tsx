@@ -15,7 +15,12 @@ export const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
       {...props}
       mode="contained"
       color={props.backgroundColor}
-      labelStyle={{ color: props.labelColor }}
+      labelStyle={{
+        color: props.labelColor,
+        letterSpacing: 0,
+        fontWeight: 'bold',
+        fontSize: 16,
+      }}
       style={styles.button}
       contentStyle={styles.buttonInner}
       uppercase={false}

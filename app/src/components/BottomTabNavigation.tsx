@@ -44,18 +44,21 @@ const ROUTE_TO_ICON_MAP: Record<keyof BottomTabNavigationParamList, string> = {
 };
 
 export const BottomTabNavigation: React.FC = () => {
-  const { isAuthenticated } = useAuth();
-
-  const unauthenticatedScreens = (
-    <Tab.Screen
-      name="Auth"
-      component={AuthScreenStack}
-      options={{ tabBarLabel: 'Auth' }}
-    />
-  );
-
-  const authenticatedScreens = (
-    <>
+  return (
+    <Tab.Navigator
+      activeColor="#FFF"
+      initialRouteName="Match"
+      inactiveColor={theme.colors.secondary}
+      labeled
+      barStyle={{ backgroundColor: theme.colors.primary }}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ color }) => {
+          const iconName = ROUTE_TO_ICON_MAP[route.name];
+          return (
+            <MaterialCommunityIcons name={iconName} color={color} size={26} />
+          );
+        },
+      })}>
       <Tab.Screen
         name="Match"
         component={MatchScreenStack}
@@ -82,26 +85,6 @@ export const BottomTabNavigation: React.FC = () => {
         component={RankingScreen}
         options={{ tabBarLabel: 'Ranking' }}
       />
-    </>
-  );
-
-  return (
-    <Tab.Navigator
-      activeColor="#FFF"
-      initialRouteName="Match"
-      inactiveColor={theme.colors.secondary}
-      labeled
-      barStyle={{ backgroundColor: theme.colors.primary }}
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ color }) => {
-          const iconName = ROUTE_TO_ICON_MAP[route.name];
-          return (
-            <MaterialCommunityIcons name={iconName} color={color} size={26} />
-          );
-        },
-      })}>
-      {!isAuthenticated && unauthenticatedScreens}
-      {isAuthenticated && authenticatedScreens}
     </Tab.Navigator>
   );
 };

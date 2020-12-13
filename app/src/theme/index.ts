@@ -1,16 +1,69 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { Button, DefaultTheme as PaperDefaultTheme } from 'react-native-paper';
+import {
+  Button,
+  configureFonts,
+  DefaultTheme as PaperDefaultTheme,
+} from 'react-native-paper';
+
+declare global {
+  namespace ReactNativePaper {
+    interface ThemeColors {
+      lightGray: string;
+      darkGray: string;
+      white: string;
+      black: string;
+    }
+
+    interface Theme {
+      headerOptions: {
+        title: string;
+        headerStyle: {
+          backgroundColor: string;
+          height: number;
+          elevation: number;
+        };
+        headerTintColor: string;
+      };
+    }
+  }
+}
+
+const fontConfig = {
+  default: {
+    thin: {
+      fontFamily: 'Inter_100Thin',
+      fontWeight: '100' as '100',
+    },
+    light: {
+      fontFamily: 'Inter_300Light',
+      fontWeight: '300' as '300',
+    },
+    regular: {
+      fontFamily: 'Inter_400Regular',
+      fontWeight: '400' as '400',
+    },
+    medium: {
+      fontFamily: 'Inter_500Medium',
+      fontWeight: '500' as '500',
+    },
+  },
+};
 
 export const theme = {
   ...PaperDefaultTheme,
+  fonts: configureFonts(fontConfig),
   colors: {
-    primary: '#F4B740',
+    ...PaperDefaultTheme.colors,
+    primary: '#ffaf19',
     secondary: '#FFD789',
     lightGray: '#F6F6F6',
     darkGray: '#E8E8E8',
     white: '#FFFFFF',
     black: '#000000',
+    background: '#F6F6F6',
+    placeholder: '#BDBDBD',
+    error: '#EB5757',
   },
   headerOptions: {
     title: '',

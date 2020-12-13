@@ -1,6 +1,9 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
+import { Text } from 'react-native';
+import { Button } from 'react-native-paper';
 
+import { AppButton } from '../../components/shared/AppButton';
 import { theme } from '../../theme';
 import { LoginScreen } from './LoginScreen';
 import { PasswordResetConfirmScreen } from './PasswordResetConfirmScreen';
@@ -18,8 +21,27 @@ const Stack = createStackNavigator<AuthScreenStackParamList>();
 
 export const AuthScreenStack: React.FC = () => {
   return (
-    <Stack.Navigator screenOptions={theme.headerOptions}>
-      <Stack.Screen name="Register" component={RegisterScreen} />
+    <Stack.Navigator
+      screenOptions={{
+        headerTitleAlign: 'center',
+        headerStyle: { elevation: 0 },
+        headerRightContainerStyle: { paddingRight: 16 },
+      }}>
+      <Stack.Screen
+        name="Register"
+        component={RegisterScreen}
+        options={{
+          title: 'Rejestracja',
+          headerRight: () => (
+            <AppButton
+              compact
+              labelStyle={{ fontSize: 14 }}
+              onPress={() => console.log('hello')}>
+              Zaloguj
+            </AppButton>
+          ),
+        }}
+      />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="PasswordReset" component={PasswordResetScreen} />
       <Stack.Screen
