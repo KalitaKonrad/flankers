@@ -30,7 +30,12 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
           <Text style={TextStyle.headerWithAvatarTitle}>Utwórz zespół</Text>
         </View>
         <View style={ObjectStyle.headerWithAvatarImage}>
-          <MyAvatar src="../assets/avatar.png" height={150} width={150} />
+          <MyAvatar
+            src="../assets/avatar.png"
+            height={150}
+            width={150}
+            isBorder
+          />
         </View>
       </HeaderWithAvatar>
 

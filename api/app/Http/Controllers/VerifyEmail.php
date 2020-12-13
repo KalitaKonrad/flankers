@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Auth\Events\Verified;
 use Illuminate\Http\Request;
+use Illuminate\Auth\Events\Verified;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class VerifyEmail extends Controller
 {
@@ -16,15 +16,15 @@ class VerifyEmail extends Controller
      */
     public function __construct()
     {
-        $this->middleware('signed');
+        // $this->middleware('signed');
     }
 
     /**
      * Activate user by email
-     * 
-     * This is a signed route, you will need correct query params to 
+     *
+     * This is a signed route, you will need correct query params to
      * execute request against this route correctly.
-     * 
+     *
      * @group Authentication
      * @urlParam id int required User id to verify Example: 1
      * @urlParam hash string required User email hash to verify Example: YOUR_EMAIL_HASH

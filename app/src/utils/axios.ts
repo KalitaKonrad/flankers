@@ -3,7 +3,7 @@ import createAuthRefreshInterceptor from 'axios-auth-refresh';
 import Constants from 'expo-constants';
 
 import { refreshTokenInterceptor } from './refreshTokenInterceptor';
-import tokenInterceptor from './tokenInterceptor';
+import { tokenInterceptor } from './tokenInterceptor';
 
 const instance = axios.create({
   baseURL: Constants.manifest.extra.apiBaseUrl,
