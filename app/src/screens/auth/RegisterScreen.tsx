@@ -61,6 +61,13 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
     resolver: yupResolver(RegisterSchema),
   });
 
+  useEffect(() => {
+    register('name');
+    register('email');
+    register('password');
+    register('passwordConfirm');
+  }, [register]);
+
   const onRegister = async ({ name, email, password }: RegisterFormData) => {
     Keyboard.dismiss();
     setPending(true);
@@ -74,13 +81,6 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
 
     setPending(false);
   };
-
-  useEffect(() => {
-    register('name');
-    register('email');
-    register('password');
-    register('passwordConfirm');
-  }, [register]);
 
   return (
     <Container>

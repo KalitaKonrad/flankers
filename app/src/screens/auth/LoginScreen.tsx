@@ -32,7 +32,6 @@ const LoginSchema = yup.object().shape({
 export const LoginScreen: React.FC<LoginPageProps> = ({ navigation }) => {
   const { login } = useAuth();
   const [isPending, setPending] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const {
     register,
