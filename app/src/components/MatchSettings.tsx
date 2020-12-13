@@ -6,6 +6,8 @@ import { Switch } from './shared/Switch';
 
 interface MatchSettingsProps {
   onRankingMatchToggled: (arg: boolean) => void;
+  onVisibilityToggled: (arg: boolean) => void;
+  onMatchTypeToggled: (arg: boolean) => void;
 }
 
 export const MatchSettings: React.FC<MatchSettingsProps> = (props) => {
@@ -26,7 +28,10 @@ export const MatchSettings: React.FC<MatchSettingsProps> = (props) => {
       <Switch
         leftLabel="Drużynowy"
         rightLabel="Swobodny"
-        onLeftSideToggled={(res) => setIsSwitchedMatchType(res)}
+        onLeftSideToggled={(res) => {
+          setIsSwitchedMatchType(res);
+          props.onMatchTypeToggled(isSwitchedMatchType);
+        }}
       />
       <Text>Mecz Rankingowy</Text>
       <Switch
@@ -41,7 +46,10 @@ export const MatchSettings: React.FC<MatchSettingsProps> = (props) => {
       <Switch
         leftLabel="Publiczny"
         rightLabel="Prywatny"
-        onLeftSideToggled={(res) => setIsSwitchedMatchVisibility(res)}
+        onLeftSideToggled={(res) => {
+          setIsSwitchedMatchVisibility(res);
+          props.onVisibilityToggled(isSwitchedMatchVisibility);
+        }}
       />
     </View>
   );

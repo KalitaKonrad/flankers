@@ -1,6 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { MatchSettings } from '../../components/MatchSettings';
 import { SubmitButton } from '../../components/shared/SubmitButton';
@@ -18,6 +24,12 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
   const [isRankingMatchSwitched, setIsRankingMatchSwitched] = useState<boolean>(
     true
   );
+  const [isVisibilitySwitched, setIsVisibilitySwitched] = useState<boolean>(
+    true
+  );
+  const [isTypeSwitched, setIsTypeSwitched] = useState<boolean>(true);
+  const [usernameToInvite, setUsernameToInvite] = useState<string>('');
+  const [teamToInvite, setTeamToInvite] = useState<string>('');
 
   return (
     // //////////////////////////////////////////////////////////////////////
@@ -29,6 +41,8 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
           onRankingMatchToggled={(res) => {
             setIsRankingMatchSwitched(res);
           }}
+          onMatchTypeToggled={(res) => setIsTypeSwitched(res)}
+          onVisibilityToggled={(res) => setIsVisibilitySwitched(res)}
         />
       </View>
       <View>
@@ -80,6 +94,48 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
               onPress={() => setFeeAmount(feeAmount + 1)}>
               <Text style={{ color: theme.colors.black }}>+</Text>
             </TouchableOpacity>
+          </View>
+        </View>
+      ) : (
+        <></>
+      )}
+
+      {!isVisibilitySwitched && !isTypeSwitched ? (
+        <View style={styles.invitation}>
+          <TextInput
+            style={styles.textInputStyle}
+            placeholder="Nazwa użytkownika którego chcesz zaprosić"
+            blurOnSubmit
+            selectionColor={theme.colors.primary}
+            onChangeText={(text) => setUsernameToInvite(text)}
+          />
+          <SubmitButton
+            backgroundColor={theme.colors.background.white}
+            labelColor={theme.colors.primary}
+            onPress={() => console.log('wyslij zaproszenie')}>
+            zaproś
+          </SubmitButton>
+        </View>
+      ) : (
+        <></>
+      )}
+
+      {!isVisibilitySwitched && isTypeSwitched ? (
+        <View style={styles.invitation}>
+          <TextInput
+            style={styles.textInputStyle}
+            placeholder="Nazwa drużyny którą chcesz zaprosić"
+            blurOnSubmit
+            selectionColor={theme.colors.primary}
+            onChangeText={(text) => setTeamToInvite(text)}
+          />
+          <View style={styles.submitBtn}>
+            <SubmitButton
+              backgroundColor={theme.colors.background.white}
+              labelColor={theme.colors.primary}
+              onPress={() => console.log('wyslij zaproszenie')}>
+              zaproś
+            </SubmitButton>
           </View>
         </View>
       ) : (
@@ -148,5 +204,20 @@ const styles = StyleSheet.create({
   },
   label: {
     top: 10,
+  },
+  textInputStyle: {
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    margin: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
+    backgroundColor: theme.colors.background.darkGray,
+  },
+  invitation: {
+    bottom: 15,
   },
 });
