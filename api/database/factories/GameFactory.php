@@ -22,7 +22,12 @@ class GameFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'type' => 'public',
+            'rated' => false,
+            'public' => true,
+            'completed' => false,
+            'bet' => $this->faker->range(1, 10),
+            'duration' => $this->faker->range(60 * 10, 60 * 15)
         ];
     }
 }
