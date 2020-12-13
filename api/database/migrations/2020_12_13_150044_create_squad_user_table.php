@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserSquadTable extends Migration
+class CreateSquadUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateUserSquadTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_squad', function (Blueprint $table) {
+        Schema::create('squad_user', function (Blueprint $table) {
             $table->bigInteger('user_id');
             $table->bigInteger('squad_id');
 
@@ -36,6 +36,6 @@ class CreateUserSquadTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_squad');
+        Schema::dropIfExists('squad_user');
     }
 }
