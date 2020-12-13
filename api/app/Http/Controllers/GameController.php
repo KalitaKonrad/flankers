@@ -117,11 +117,21 @@ class GameController extends Controller
     /**
      * Delete the game
      *
+     * @group Game management
+     * @urlParam id int required Game id
+     *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
     {
-        //
+        $game = Game::findOrFail($id);
+
+        if ($game->completed) {
+            return Message::error(406, 'This game was already completed, you cannot delete it');
+        }
+
+        $game->delete();
+        return Message::ok('Game deleted');
     }
 }
