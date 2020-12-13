@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Keyboard, StyleSheet, View } from 'react-native';
+import { Dimensions, Image, Keyboard, StyleSheet, View } from 'react-native';
 import {
   Button,
   Dialog,
@@ -15,6 +15,7 @@ import * as yup from 'yup';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { Container } from '../../components/shared/Container';
+import { Logo } from '../../components/shared/Logo';
 import { useAuth } from '../../hooks/useAuth';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { AuthScreenStackParamList } from './AuthScreenStack';
@@ -85,6 +86,9 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
   return (
     <Container>
       <View>
+        <View style={styles.logoContainer}>
+          <Logo style={styles.logo} />
+        </View>
         <View style={styles.row}>
           <AppInput
             label="Nick"
@@ -180,6 +184,16 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  logo: {
+    left: -10,
+    height: 100,
+    width: Dimensions.get('window').width - 20,
+    resizeMode: 'contain',
+  },
   row: {
     marginBottom: 8,
   },
