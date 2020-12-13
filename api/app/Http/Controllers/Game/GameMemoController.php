@@ -4,13 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Game;
 use App\Models\Memo;
-use App\Models\User;
 use App\Http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Middleware\PreventInvalidScoring;
 
 class GameMemoController extends Controller
 {
+    /**
+     * Instantiate the controller
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+        $this->middleware(PreventInvalidScoring::class)->only(['store', 'update', 'delete']);
+    }
 
     /**
      * Register game score
@@ -24,18 +32,6 @@ class GameMemoController extends Controller
             'game_id' => 'integer|required',
             'winning_squad' => 'integer|required'
         ]);
-
-        $user = Auth::user();
-        $game = Game::firstOrFail($request->game_id);
-        $squad = $game->squads()->firstOrFail($request->winning_squad);
-
-        if ($game->completed) {
-            return Message::error(406, 'Game score cannot be updated after its end');
-        }
-
-        if (!$squad->memebers()->find($user->id)) {
-            return Message::error(403, 'User did not took part in this game');
-        }
 
         Memo::create($request->all());
         return Message::ok('Score report saved');
@@ -80,20 +76,9 @@ class GameMemoController extends Controller
             'game_id' => 'integer|required',
             'winning_squad' => 'integer|required'
         ]);
-        $user = Auth::user();
-        $game = Game::firstOrFail($request->game_id);
-        $squad = $game->squads()->firstOrFail($request->winning_squad);
 
-        if ($game->completed) {
-            return Message::error(406, 'Game score cannot be updated after its end');
-        }
-
-        if (!$squad->memebers()->find($user->id)) {
-            return Message::error(403, 'User does not took part in this game');
-        }
-
-        Memo::where('user_id', $user->id)
-            ->where('game_id', $game->id)
+        Memo::where('user_id', Auth::id())
+            ->where('game_id', $request->game_id)
             ->firstOrFail()
             ->fill($request->only(['winning_squad']))
             ->save();
@@ -113,20 +98,8 @@ class GameMemoController extends Controller
             'game_id' => 'integer|required',
         ]);
 
-        $user = Auth::user();
-        $game = Game::firstOrFail($request->game_id);
-        $squad = $game->squads()->firstOrFail($request->winning_squad);
-
-        if ($game->completed) {
-            return Message::error(406, 'Game score cannot be updated after its end');
-        }
-
-        if (!$squad->memebers()->find($user->id)) {
-            return Message::error(403, 'User did not took part in this game');
-        }
-
-        Memo::where('user_id', $user->id)
-            ->where('game_id', $game->id)
+        Memo::where('user_id', Auth::id())
+            ->where('game_id', $request->game_id)
             ->firstOrFail()
             ->delete();
 
