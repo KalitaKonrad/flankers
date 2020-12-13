@@ -28,6 +28,7 @@ class CreateGameRequest extends FormRequest
             'rated' => 'boolean',
             'public' => 'boolean',
             'bet' => 'numeric',
+            'start_date' => 'timestamp',
             'duration' => 'integer',
             'long' => 'between:-180:180|nullable',
             'lat' => 'between:-90,90|nullable'

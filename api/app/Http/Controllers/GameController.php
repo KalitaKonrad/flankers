@@ -41,6 +41,7 @@ class GameController extends Controller
      * @bodyParam type string Public or private, default - public
      * @bodyParam rated boolean If ranking points should be assigned rated, default - false
      * @bodyParam bet integer Game bet which each user will be charged for, default - 0
+     * @bodyParam start_date timestamp Game starting time
      * @bodyParam duration integer Game time in seconds, default - 60 * 10
      * @bodyParam long Game longitude - default null
      * @bodyParam lat Game latitude - default null
