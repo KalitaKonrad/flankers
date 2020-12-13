@@ -11,6 +11,7 @@ export const theme = {
       darkGray: '#E8E8E8',
       white: '#FFFFFF',
     },
+    error: '#ff0000',
     black: '#000',
     white: '#fff',
   },

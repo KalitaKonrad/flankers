@@ -38,6 +38,7 @@ export const Modal: React.FC<ModalProps> = ({
       style={{
         display: 'flex',
         justifyContent: 'space-between',
+        position: 'absolute',
         backgroundColor: theme.colors.secondary,
         padding: 16,
         height: height ? height : 275,

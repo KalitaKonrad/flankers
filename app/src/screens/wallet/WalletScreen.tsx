@@ -4,15 +4,20 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import { InlineHeader } from '../../components/shared/InlineHeader';
-import { MatchHistory } from '../../components/shared/MatchHistory';
 import { Modal } from '../../components/shared/Modal';
 import RoundInformation from '../../components/shared/RoundInformation';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { TextStyle, theme } from '../../theme';
+import { WalletMatchHistory } from './WalletMatchHistory';
 import { WalletScreenStackParamList } from './WalletScreenStack';
 
 type WalletScreenProps = object &
   StackScreenProps<WalletScreenStackParamList, 'Wallet'>;
+
+const TOP_UP_TITLE_TEXT = 'Wybierz kwotę doładowania';
+const WITHDRAW_TITLE_TEXT = 'Wybierz kwotę środków, które chcesz wypłacić';
+const TOP_UP_BUTTON_TEXT = 'Doładuj';
+const WITHDRAW_BUTTON_TEXT = 'Wypłać';
 
 export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -23,6 +28,9 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
   ]);
 
   const [topUpAmount, setTopUpAmount] = useState(5.0);
+  const [modalButtonText, setModalButtonText] = useState('');
+  const [modalTitleText, setModalTitleText] = useState('');
+  const [error, setError] = useState('');
 
   return (
     <>
@@ -31,7 +39,14 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
         <View style={styles.titleContainer}>
           <Text style={TextStyle.noteH1}>Portfel</Text>
         </View>
-        <Button mode="text" color={theme.colors.primary} onPress={openModal}>
+        <Button
+          mode="text"
+          color={theme.colors.primary}
+          onPress={() => {
+            setModalButtonText(WITHDRAW_BUTTON_TEXT);
+            setModalTitleText(WITHDRAW_TITLE_TEXT);
+            openModal();
+          }}>
           Wypłać
         </Button>
       </InlineHeader>
@@ -40,12 +55,18 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
         mainText="20.00 PLN"
         subText="Aktualny stan konta"
         buttonText="Doładuj"
-        onButtonClick={() => setModalVisible(true)}
+        onButtonClick={() => {
+          setModalButtonText(TOP_UP_BUTTON_TEXT);
+          setModalTitleText(TOP_UP_TITLE_TEXT);
+          openModal();
+        }}
       />
+
+      <WalletMatchHistory name="hehe" matchHistory={[]} />
 
       <Modal isOpen={modalVisible} onClose={() => setModalVisible(false)}>
         <InlineHeader center>
-          <Text style={[TextStyle.noteH2]}>Wybierz kwotę doładowania</Text>
+          <Text style={[TextStyle.noteH2]}>{modalTitleText}</Text>
         </InlineHeader>
         <View style={styles.accountTopUpSection}>
           <TouchableOpacity
@@ -67,9 +88,9 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
         <SubmitButton
           mode="text"
           labelColor={theme.colors.white}
-          backgroundColor={theme.colors.primary}
+          backgroundColor={error ? theme.colors.error : theme.colors.primary}
           onPress={closeModal}>
-          Doładuj
+          {modalButtonText}
         </SubmitButton>
       </Modal>
     </>
