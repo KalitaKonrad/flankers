@@ -42,7 +42,7 @@ class TeamInviteController extends Controller
      *
      * @param Request $request
      * @param int $team_id
-     * @return $this
+     * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {

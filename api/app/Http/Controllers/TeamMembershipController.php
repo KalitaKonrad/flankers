@@ -11,6 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class TeamMembershipController extends Controller
 {
+    /**
+     * Initialize the controller
+     *
+     * @return void
+     */
     public function __construct()
     {
         $this->middleware('auth')->only(['destroy']);
@@ -37,7 +42,7 @@ class TeamMembershipController extends Controller
      * Remove user from a team
      *
      * @group Team management
-     * @bodyParam $team_id int required
+     * @urlParam $team_id int required
      * @bodyParam $user_id int reqired
      *
      * @return \Illuminate\Http\Response
@@ -76,6 +81,13 @@ class TeamMembershipController extends Controller
         return Message::ok('Team left');
     }
 
+    /**
+     * Remove user from a team
+     *
+     * @param \App\Models\User $user
+     * @param \App\Models\Team $team
+     * @return void
+     */
     protected function leave($user, $team)
     {
         if ($user->isOwnerOfTeam($team)) {
