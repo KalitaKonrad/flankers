@@ -12,19 +12,16 @@ ARG DB_CONNECTION=${DB_CONNECTION}
 # Copy application code to easily reachable directory
 COPY ./ /app
 
-# Ensure supervisord is installed
-RUN apt-get install supervisor
-
 # Start queue workers as seperate processes
 # monitored with supervisor.d
 COPY ./docker/laravel-worker.conf /etc/supervisor/conf.d
 
 WORKDIR /app
 
-RUN chown -R 1000 /app/storage
+RUN chown -R 1000 /app/storage && \
+    chmod +x /app/docker/start.sh
 
-RUN composer install && \
-    php artisan cache:clear && \
-    php artisan migrate --force && \
-    php artisan db:seed && \
-    php artisan scribe:generate
+RUN composer install
+
+ENTRYPOINT [ "/app/docker/start.sh"]
+
