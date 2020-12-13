@@ -17,7 +17,7 @@ RUN apt-get install supervisor
 
 # Start queue workers as seperate processes
 # monitored with supervisor.d
-COPY ./laravel-worker.conf /etc/supervisor/conf.d
+COPY ./docker/laravel-worker.conf /etc/supervisor/conf.d
 
 WORKDIR /app
 
