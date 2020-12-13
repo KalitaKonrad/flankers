@@ -30,17 +30,17 @@ export const AuthScreenStack: React.FC = () => {
       <Stack.Screen
         name="Register"
         component={RegisterScreen}
-        options={{
+        options={({ navigation }) => ({
           title: 'Rejestracja',
           headerRight: () => (
             <AppButton
               compact
               labelStyle={{ fontSize: 14 }}
-              onPress={() => console.log('hello')}>
+              onPress={() => navigation.navigate('Login')}>
               Zaloguj
             </AppButton>
           ),
-        }}
+        })}
       />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="PasswordReset" component={PasswordResetScreen} />

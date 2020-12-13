@@ -15,7 +15,7 @@ import * as yup from 'yup';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { Container } from '../../components/shared/Container';
-import { register as registerUser } from '../../services/AuthService';
+import { useAuth } from '../../hooks/useAuth';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { AuthScreenStackParamList } from './AuthScreenStack';
 
@@ -48,6 +48,7 @@ const RegisterSchema = yup.object().shape({
 export const RegisterScreen: React.FC<RegisterScreenProps> = ({
   navigation,
 }) => {
+  const { register: registerUser } = useAuth();
   const [isPending, setPending] = useState(false);
   const [isSuccessModalOpen, setSuccessModalOpen] = useState(false);
   const {
@@ -65,7 +66,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
     setPending(true);
 
     try {
-      const response = await registerUser(name, email, password);
+      await registerUser(name, email, password);
       setSuccessModalOpen(true);
     } catch (error) {
       setResponseErrors(error, setError);
@@ -150,7 +151,6 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
           onPress={handleSubmit(onRegister)}>
           Zarejestruj
         </AppButton>
-        <AppButton>Zapomniałeś hasła?</AppButton>
       </View>
       <Portal>
         <Dialog
