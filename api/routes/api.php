@@ -11,6 +11,9 @@
 |
 */
 
+use App\Http\Controllers\AcceptInvite;
+use App\Http\Controllers\ChangeTeamOwner;
+use App\Http\Controllers\DeclineInvite;
 use App\Http\Controllers\FindGame;
 use App\Http\Controllers\ForgotPassword;
 use App\Http\Controllers\GameBetsController;
@@ -26,8 +29,10 @@ use App\Http\Controllers\Signin;
 use App\Http\Controllers\Signout;
 use App\Http\Controllers\Signup;
 use App\Http\Controllers\TeamController;
+use App\Http\Controllers\TeamInviteController;
 use App\Http\Controllers\TeamMembershipController;
 use App\Http\Controllers\UserAvatarController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\VerifyEmail;
 use App\Http\Controllers\WalletController;
@@ -45,21 +50,29 @@ Route::prefix('auth')->group(function () {
     Route::post('reset-password', ResetPassword::class);
 });
 
+Route::get('user', [UserController::class, 'index']);
 Route::prefix('user')->group(function () {
     Route::get('settings', [UserProfileController::class, 'show']);
     Route::match(['put', 'patch'], 'settings', [UserProfileController::class, 'update']);
     Route::resource('avatar', UserAvatarController::class);
 });
 
-Route::resource('/teams', TeamController::class);
-Route::resource('/memberships', TeamMembershipController::class);
-Route::prefix('games')->group(function () {
-    Route::resource('', GameController::class);
-    Route::resource('invites', GameInviteController::class);
-    Route::resource('bets', GameBetsController::class);
-    Route::resource('scores', GameScoreController::class);
-    Route::get('/find', FindGame::class);
-    Route::post('/join/{game}', JoinGame::class);
-    Route::post('/settle/{game}', SettleGame::class);
+Route::resource('teams', TeamController::class);
+Route::prefix('teams')->group(function () {
+    Route::post('owner', ChangeTeamOwner::class);
+    Route::resource('memberships', TeamMembershipController::class);
+    Route::resource('invites', TeamInviteController::class);
+    Route::get('invites/{invite}', AcceptInvite::class);
+    Route::get('invites/decline/{invite}', DeclineInvite::class);
 });
-Route::resource('/wallet', WalletController::class);
+
+// Route::prefix('games')->group(function () {
+//     Route::resource('', GameController::class);
+//     Route::resource('invites', GameInviteController::class);
+//     Route::resource('bets', GameBetsController::class);
+//     Route::resource('scores', GameScoreController::class);
+//     Route::get('/find', FindGame::class);
+//     Route::post('/join/{game}', JoinGame::class);
+//     Route::post('/settle/{game}', SettleGame::class);
+// });
+// Route::resource('/wallet', WalletController::class);
