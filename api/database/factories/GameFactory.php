@@ -27,7 +27,9 @@ class GameFactory extends Factory
             'public' => true,
             'completed' => false,
             'bet' => $this->faker->numberBetween(1, 10),
-            'duration' => $this->faker->numberBetween(60 * 10, 60 * 15)
+            'duration' => $this->faker->numberBetween(60 * 10, 60 * 15),
+            'long' => $this->faker->longitude(),
+            'lat' => $this->faker->latitude()
         ];
     }
 }
