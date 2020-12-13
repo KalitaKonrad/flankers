@@ -26,8 +26,8 @@ class GameFactory extends Factory
             'rated' => false,
             'public' => true,
             'completed' => false,
-            'bet' => $this->faker->range(1, 10),
-            'duration' => $this->faker->range(60 * 10, 60 * 15)
+            'bet' => $this->faker->numberBetween(1, 10),
+            'duration' => $this->faker->numberBetween(60 * 10, 60 * 15)
         ];
     }
 }

@@ -22,7 +22,7 @@ class SquadFactory extends Factory
     public function definition()
     {
         return [
-            'slots' => $this->faker->range(4, 10)
+            'slots' => $this->faker->numberBetween(4, 10)
         ];
     }
 }
