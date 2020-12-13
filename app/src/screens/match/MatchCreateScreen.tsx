@@ -102,19 +102,10 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
 
       {!isVisibilitySwitched && !isTypeSwitched ? (
         <View style={styles.invitation}>
-          <TextInput
-            style={styles.textInputStyle}
-            placeholder="Nazwa użytkownika którego chcesz zaprosić"
-            blurOnSubmit
-            selectionColor={theme.colors.primary}
-            onChangeText={(text) => setUsernameToInvite(text)}
-          />
-          <SubmitButton
-            backgroundColor={theme.colors.background.white}
-            labelColor={theme.colors.primary}
-            onPress={() => console.log('wyslij zaproszenie')}>
-            zaproś
-          </SubmitButton>
+          <Text style={{ textAlign: 'center' }}>
+            Kod gry dzięki któremu przeciwna drużyna będzie mogła dołączyć
+            zostanie wygenerowany. Wybierz miejsce na mapie
+          </Text>
         </View>
       ) : (
         <></>
@@ -122,21 +113,10 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
 
       {!isVisibilitySwitched && isTypeSwitched ? (
         <View style={styles.invitation}>
-          <TextInput
-            style={styles.textInputStyle}
-            placeholder="Nazwa drużyny którą chcesz zaprosić"
-            blurOnSubmit
-            selectionColor={theme.colors.primary}
-            onChangeText={(text) => setTeamToInvite(text)}
-          />
-          <View style={styles.submitBtn}>
-            <SubmitButton
-              backgroundColor={theme.colors.background.white}
-              labelColor={theme.colors.primary}
-              onPress={() => console.log('wyslij zaproszenie')}>
-              zaproś
-            </SubmitButton>
-          </View>
+          <Text style={{ textAlign: 'center' }}>
+            Kod gry dzięki któremu inne osoby będą mogły dołączyć zostanie
+            wygenerowany. Wybierz miejsce na mapie
+          </Text>
         </View>
       ) : (
         <></>
@@ -177,7 +157,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     minHeight: 50,
-    marginBottom: 30,
+    marginBottom: 20,
   },
 
   feePicker: {
@@ -191,7 +171,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     minHeight: 50,
-    marginBottom: 70,
+    marginBottom: 25,
   },
   button: {
     width: 60,
@@ -219,5 +199,6 @@ const styles = StyleSheet.create({
   },
   invitation: {
     bottom: 15,
+    margin: 10,
   },
 });
