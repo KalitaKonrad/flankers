@@ -32,7 +32,12 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
             <Text style={styles.title}>Edycja profilu</Text>
           </View>
           <View style={styles.avatar}>
-            <MyAvatar src="../assets/avatar.png" height={150} width={150} />
+            <MyAvatar
+              src="../assets/avatar.png"
+              height={150}
+              width={150}
+              isBorder
+            />
           </View>
         </HeaderWithAvatar>
         <View style={styles.note}>

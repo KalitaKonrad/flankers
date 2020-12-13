@@ -34,11 +34,12 @@ export const MatchLocationScreen: React.FC<MatchLocationScreenProps> = ({
         <SubmitButton
           backgroundColor={theme.colors.primary}
           labelColor={theme.colors.background.white}
-          onPress={() =>
+          onPress={() => {
             console.log(
               `przeslij coordinaty meczu ${markerCoordinates.longitude} | ${markerCoordinates.latitude}`
-            )
-          }>
+            );
+            navigation.push('MatchInLobby');
+          }}>
           Potwierdź lokalizacje
         </SubmitButton>
       </View>

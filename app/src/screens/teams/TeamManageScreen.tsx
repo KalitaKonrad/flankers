@@ -39,7 +39,12 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
           </Button>
         </View>
         <View style={ObjectStyle.headerWithAvatarImage}>
-          <MyAvatar src="../assets/avatar.png" height={150} width={150} />
+          <MyAvatar
+            src="../assets/avatar.png"
+            height={150}
+            width={150}
+            isBorder
+          />
         </View>
       </HeaderWithAvatar>
       <View style={styles.note}>
