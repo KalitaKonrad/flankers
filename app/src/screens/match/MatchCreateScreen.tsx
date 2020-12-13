@@ -50,7 +50,7 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              if (playersAmount < 10) {
+              if (playersAmount < 5) {
                 setPlayersAmount(playersAmount + 1);
               }
             }}>

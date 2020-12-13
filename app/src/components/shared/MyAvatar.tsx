@@ -23,7 +23,7 @@ const MyAvatar: React.FC<MyAvatarProps> = (props) => (
       },
     ]}
     // source={{ uri: props.src }}
-    source={require('../../../assets/avatar.png')}
+    source={require('../../../assets/avatar_women.png')}
   />
 );
 

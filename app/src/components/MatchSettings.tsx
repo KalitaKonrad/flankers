@@ -37,7 +37,7 @@ export const MatchSettings: React.FC<MatchSettingsProps> = (props) => {
           props.onRankingMatchToggled(isSwitchedRankingMatch);
         }}
       />
-      <Text>Mecz Rankingowy</Text>
+      <Text>Widoczność</Text>
       <Switch
         leftLabel="Publiczny"
         rightLabel="Prywatny"
