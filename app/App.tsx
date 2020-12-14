@@ -3,15 +3,19 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 
-import { BottomTabNavigation } from './src/components/BottomTabNavigation';
+import { AuthProvider } from './src/hooks/useAuth';
+import { AppScreen } from './src/screens/AppScreen';
+import { theme } from './src/theme';
 
 const App: React.FC = () => {
   return (
-    <PaperProvider>
-      <NavigationContainer>
-        <BottomTabNavigation />
-      </NavigationContainer>
-    </PaperProvider>
+    <AuthProvider>
+      <PaperProvider theme={theme}>
+        <NavigationContainer>
+          <AppScreen />
+        </NavigationContainer>
+      </PaperProvider>
+    </AuthProvider>
   );
 };
 

@@ -3,6 +3,11 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { NavigatorScreenParams } from '@react-navigation/native';
 import React from 'react';
 
+import { useAuth } from '../hooks/useAuth';
+import {
+  AuthScreenStack,
+  AuthScreenStackParamList,
+} from '../screens/auth/AuthScreenStack';
 import {
   MatchScreenStack,
   MatchScreenStackParamList,
@@ -20,6 +25,7 @@ import { WalletScreen } from '../screens/wallet/WalletScreen';
 import { theme } from '../theme';
 
 export type BottomTabNavigationParamList = {
+  Auth: NavigatorScreenParams<AuthScreenStackParamList>;
   Match: NavigatorScreenParams<MatchScreenStackParamList>;
   Team: NavigatorScreenParams<TeamScreenStackParamList>;
   Profile: NavigatorScreenParams<ProfileScreenStackParamList>;
@@ -29,6 +35,7 @@ export type BottomTabNavigationParamList = {
 const Tab = createMaterialBottomTabNavigator<BottomTabNavigationParamList>();
 
 const ROUTE_TO_ICON_MAP: Record<keyof BottomTabNavigationParamList, string> = {
+  Auth: 'account',
   Match: 'bottle-wine',
   Team: 'account-group',
   Profile: 'account',

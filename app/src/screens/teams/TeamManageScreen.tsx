@@ -48,7 +48,6 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
           onPress={onExit}>
           Opuść
         </Button>
-
         <View style={ObjectStyle.headerWithAvatarImage}>
           <MyAvatar
             src="../assets/avatar.png"

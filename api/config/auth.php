@@ -125,7 +125,7 @@ return [
     */
 
     'links' => [
-        'confirm' => env('AUTH_CONFIRM_EMAIL_LINK', '{verifaction_url}'),
+        'confirm' => env('AUTH_CONFIRM_EMAIL_LINK', '{verification_url}'),
         'reset' => env('AUTH_RESET_PASSWORD_LINK', '{token}')
     ],
 

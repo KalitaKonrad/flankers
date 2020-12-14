@@ -29,8 +29,7 @@ class Signup extends Controller
         try {
             DB::beginTransaction();
 
-            $data = $request->only(['email', 'name', 'password']);
-            $user = User::create($data);
+            $user = User::create($request->all());
             event(new Registered($user));
 
             DB::commit();

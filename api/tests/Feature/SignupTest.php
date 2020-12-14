@@ -1,9 +1,12 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Support\Arr;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Notification;
+
+use function Tests\emailActivationLink;
 
 uses(RefreshDatabase::class);
 
@@ -32,4 +35,18 @@ it('should send user verification email after proper signup', function () use ($
         ->assertOk();
 
     Notification::assertTimesSent(1, VerifyEmail::class);
+});
+
+it('should allow user signin after signup and activation', function () use ($creds) {
+    $this->postJson('/auth/signup', $creds)
+        ->assertOk();
+
+    $user = User::where('email', $creds['email'])->first();
+    $url = emailActivationLink($user);
+
+    $this->get($url)
+        ->assertOk();
+
+    $this->postJson('/auth/signin', Arr::except($creds, ['name']))
+        ->assertOk();
 });

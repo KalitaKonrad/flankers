@@ -21,9 +21,9 @@ export const Switch: React.FC<SwitchProps> = (props) => {
       }}
       textColor="#7f8581"
       selectedColor={theme.colors.primary}
-      buttonColor={theme.colors.background.white}
-      borderColor={theme.colors.background.darkGray}
-      backgroundColor={theme.colors.background.darkGray}
+      buttonColor={theme.colors.white}
+      borderColor={theme.colors.darkGray}
+      backgroundColor={theme.colors.darkGray}
       hasPadding
       valuePadding={2}
       height={50}

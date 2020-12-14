@@ -2,17 +2,18 @@
 
 namespace App\Models;
 
+use App\Traits\TeamMember;
+use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Mpociot\Teamwork\Traits\UserHasTeams;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
-use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, UserHasTeams;
+    use HasApiTokens, HasFactory, Notifiable, TeamMember;
 
     /**
      * The attributes that are mass assignable.
@@ -62,5 +63,26 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    /**
+     * Hash user password when updating it
+     *
+     * @return void
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = Hash::make($password);
+    }
+
+    /**
+     * Check if user is the game owner
+     *
+     * @param Game $game
+     * @return boolean
+     */
+    public function isGameOwner(Game $game)
+    {
+        return $game->owner_id == $this->id;
     }
 }

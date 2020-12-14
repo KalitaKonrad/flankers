@@ -6,6 +6,7 @@ import { Button, Text } from 'react-native-paper';
 import { MatchHistory } from '../../components/MatchHistory';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
+import { useAuth } from '../../hooks/useAuth';
 import { theme, TextStyle } from '../../theme';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
@@ -13,12 +14,14 @@ type ProfileScreenProps = object &
   StackScreenProps<ProfileScreenStackParamList, 'Profile'>;
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
+  const { logout } = useAuth();
+
   const onEdit = () => {
     navigation.push('ProfileEdit');
   };
 
-  const onLogout = () => {
-    console.log('logout');
+  const onLogout = async () => {
+    await logout();
   };
 
   return (
@@ -27,7 +30,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         <Button
           icon="account-edit"
           mode="text"
-          color={theme.colors.background.white}
+          color={theme.colors.white}
           onPress={onEdit}>
           Edytuj
         </Button>
@@ -35,7 +38,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         <Button
           icon="logout"
           mode="text"
-          color={theme.colors.background.white}
+          color={theme.colors.white}
           onPress={onLogout}>
           Wyloguj
         </Button>

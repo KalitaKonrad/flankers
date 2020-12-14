@@ -55,7 +55,7 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
       </View>
       <SubmitButton
         backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.background.white}
+        labelColor={theme.colors.white}
         onPress={onPress}>
         Utwórz
       </SubmitButton>
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderColor: 'gray',
     borderWidth: 1,
-    backgroundColor: theme.colors.background.darkGray,
+    backgroundColor: theme.colors.darkGray,
   },
   textMultiLineInputStyle: {
     borderRadius: 12,
@@ -96,6 +96,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderColor: 'gray',
     borderWidth: 1,
-    backgroundColor: theme.colors.background.darkGray,
+    backgroundColor: theme.colors.darkGray,
   },
 });
