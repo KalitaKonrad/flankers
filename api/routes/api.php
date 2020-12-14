@@ -24,12 +24,11 @@ use App\Http\Controllers\ForgotPassword;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChangeTeamOwner;
-use App\Http\Controllers\SquadController;
-use App\Http\Controllers\GameMemoController;
 use App\Http\Controllers\Game\GameController;
 use App\Http\Controllers\TeamInviteController;
 use App\Http\Controllers\UserAvatarController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\Game\GameMemoController;
 use App\Http\Controllers\TeamMembershipController;
 use App\Http\Controllers\Game\SquadMembershipController;
 
@@ -97,7 +96,7 @@ Route::prefix('games')->group(function () {
     // Route::resource('bets', GameBetsController::class);
 
     Route::resource('memos', GameMemoController::class)
-        ->parameters(['memos' => 'memo_id'])
+        ->parameters(['memos' => 'game_id'])
         ->only(['store', 'show', 'update', 'destroy']);
 
     Route::resource('memberships', SquadMembershipController::class)
