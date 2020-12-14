@@ -1,17 +1,18 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { get } from 'react-hook-form';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
-import { useQuery } from 'react-query';
 
 import { MatchHistory } from '../../components/MatchHistory';
 import { MemberList } from '../../components/MembersList';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { Switch } from '../../components/shared/Switch';
-import { QUERY_PROFILE_KEY } from '../../const/query.const';
-import { useTeamManage } from '../../hooks/useTeamManage';
+import {
+  useShowMembersOfTeamQuery,
+  useTeamExit,
+} from '../../hooks/useTeamManage';
+import { useUserProfileQuery } from '../../hooks/useUserProfile';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
@@ -21,19 +22,30 @@ type TeamManageScreenProps = object &
 export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
   navigation,
 }) => {
-  const userInfo = useQuery(QUERY_PROFILE_KEY, get);
+  const userInfo = useUserProfileQuery();
+  const membersList = useShowMembersOfTeamQuery(userInfo.data?.current_team_id);
 
   const [switched, setSwitched] = useState<boolean>(false);
+  console.log('from component TAMMANNAGESCREEN', membersList.data);
+  const [mutate, mutation] = useTeamExit();
 
   const onExit = () => {
-    navigation.push('TeamCreate');
+    if (
+      userInfo.data?.id !== undefined &&
+      userInfo.data?.current_team_id !== null
+    ) {
+      mutate({
+        team_id: userInfo.data.current_team_id,
+        user_id: userInfo.data.id,
+      });
+      navigation.push('TeamCreate');
+    }
   };
 
   const onInvite = () => {
     navigation.push('TeamInvitation');
   };
 
-  console.log('=====>' + userInfo.data);
   return (
     <>
       <HeaderWithAvatar color={theme.colors.primary}>
@@ -65,7 +77,10 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
         </View>
       </HeaderWithAvatar>
       <View style={styles.note}>
-        <Text style={[TextStyle.noteH1]}>{userInfo.data.teams[0].name}</Text>
+        <Text style={[TextStyle.noteH1]}>
+          {userInfo.data?.teams?.[0]?.name}
+        </Text>
+        {/*//zaznacza błąd mimo że działa*/}
         <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 1000</Text>
       </View>
       <View style={styles.toggle}>
@@ -77,7 +92,9 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
         {switched ? (
           <MatchHistory name="teamMatchHistory" matchHistory={[]} />
         ) : (
-          <MemberList name="teamMembers" teamMembers={[]} />
+          membersList.isFetched && (
+            <MemberList name="teamMembers" teamMembers={membersList.data!} />
+          )
         )}
       </View>
     </>

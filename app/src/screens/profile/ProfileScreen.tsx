@@ -7,8 +7,8 @@ import { MatchHistory } from '../../components/MatchHistory';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { useAuth } from '../../hooks/useAuth';
-import { useUserProfile } from '../../hooks/useUserProfile';
-import { theme, TextStyle } from '../../theme';
+import { useUserProfileQuery } from '../../hooks/useUserProfile';
+import { TextStyle, theme } from '../../theme';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
 type ProfileScreenProps = object &
@@ -16,7 +16,7 @@ type ProfileScreenProps = object &
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const { logout } = useAuth();
-  const { data } = useUserProfile();
+  const { data } = useUserProfileQuery();
 
   const onEdit = () => {
     navigation.push('ProfileEdit');
@@ -25,7 +25,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const onLogout = async () => {
     await logout();
   };
-  console.log(data);
   return (
     <>
       <HeaderWithAvatar color={theme.colors.primary}>

@@ -1,10 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import { get } from 'react-hook-form';
-import { useQuery } from 'react-query';
 
-import { QUERY_PROFILE_KEY } from '../../const/query.const';
-import { useUserProfile } from '../../hooks/useUserProfile';
+import { useUserProfileQuery } from '../../hooks/useUserProfile';
 import { theme } from '../../theme';
 import { TeamCreateScreen } from './TeamCreateScreen';
 import { TeamInvitationScreen } from './TeamIinvitationScreen';
@@ -19,8 +16,7 @@ export type TeamScreenStackParamList = {
 const Stack = createStackNavigator<TeamScreenStackParamList>();
 
 export const TeamScreenStack: React.FC = () => {
-  const userInfo = useUserProfile();
-  console.log('=====================> ' + userInfo.data);
+  const userInfo = useUserProfileQuery();
   return (
     <Stack.Navigator screenOptions={theme.headerOptions}>
       {userInfo.data?.teams !== undefined &&
