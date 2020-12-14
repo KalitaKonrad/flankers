@@ -58,8 +58,12 @@ class TeamController extends Controller
     /**
      * Update specific team
      *
+     * Only owner of the team is authorized for
+     * this request, other users wil receive
+     * 403 authorization error code.
+     *
      * @group Team management
-     * @urlParam teamId int required
+     * @urlParam team_id int required
      * @bodyParam name string Team name Example: Flankersi
      * @bodyParam description string Team description Example: Best team ever
      *
@@ -85,8 +89,12 @@ class TeamController extends Controller
     /**
      * Delete a team
      *
+     * Only team owners can authorize this request.
+     * Users that belong to the deleted team
+     * will be removed from it.
+     *
      * @group Team management
-     * @urlParam teamId int required
+     * @urlParam team_id int required
      *
      * @param  int $id
      * @return \Illuminate\Http\Response

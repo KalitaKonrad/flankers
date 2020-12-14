@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Http\Message;
 use App\Models\TeamUser;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +25,7 @@ class TeamMembershipController extends Controller
      * Show the members of the given team.
      *
      * @group Team management
-     * @urlParam teamId int required
+     * @urlParam team_id int required
      *
      * @param int $id
      * @return \Illuminate\Http\Response
@@ -42,8 +42,8 @@ class TeamMembershipController extends Controller
      * Remove user from a team
      *
      * @group Team management
-     * @urlParam $team_id int required
-     * @bodyParam $user_id int reqired
+     * @urlParam team_id int required
+     * @bodyParam user_id int reqired
      *
      * @return \Illuminate\Http\Response
      * @internal param int $id
