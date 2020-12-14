@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
 
-import { MatchHistory } from '../../components/MatchHistory';
 import { MemberList } from '../../components/MembersList';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
+import { MatchHistory } from '../../components/shared/MatchHistory';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { Switch } from '../../components/shared/Switch';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
@@ -33,7 +33,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
         <Button
           icon="account-multiple-plus"
           mode="text"
-          color={theme.colors.background.white}
+          color={theme.colors.white}
           onPress={onInvite}>
           Zaproś
         </Button>
@@ -44,7 +44,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
         <Button
           icon="account-multiple-minus"
           mode="text"
-          color={theme.colors.background.white}
+          color={theme.colors.white}
           onPress={onExit}>
           Opuść
         </Button>
