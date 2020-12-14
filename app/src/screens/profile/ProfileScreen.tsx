@@ -7,6 +7,7 @@ import { MatchHistory } from '../../components/MatchHistory';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { useAuth } from '../../hooks/useAuth';
+import { useUserProfile } from '../../hooks/useUserProfile';
 import { theme, TextStyle } from '../../theme';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
@@ -15,6 +16,7 @@ type ProfileScreenProps = object &
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const { logout } = useAuth();
+  const { data } = useUserProfile();
 
   const onEdit = () => {
     navigation.push('ProfileEdit');
@@ -52,7 +54,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         </View>
       </HeaderWithAvatar>
       <View style={styles.note}>
-        <Text style={[TextStyle.noteH1]}>USERNAME</Text>
+        <Text style={[TextStyle.noteH1]}>{data?.name}</Text>
         <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 2137</Text>
       </View>
       <View style={styles.matchHistory}>
