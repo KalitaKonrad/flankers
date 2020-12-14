@@ -6,14 +6,12 @@ import { useUserProfileQuery } from '../../hooks/useUserProfile';
 import { theme } from '../../theme';
 import { TeamCreateScreen } from './TeamCreateScreen';
 import { TeamInvitationScreen } from './TeamIinvitationScreen';
-import { TeamLoadingScreen } from './TeamLoadingScreen';
 import { TeamManageScreen } from './TeamManageScreen';
 
 export type TeamScreenStackParamList = {
   TeamCreate: undefined;
   TeamManage: undefined;
   TeamInvitation: undefined;
-  TeamLoading: undefined;
 };
 
 const Stack = createStackNavigator<TeamScreenStackParamList>();
