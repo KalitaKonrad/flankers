@@ -123,7 +123,7 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
       <View style={styles.submitBtn}>
         <SubmitButton
           backgroundColor={theme.colors.primary}
-          labelColor={theme.colors.background.white}
+          labelColor={theme.colors.white}
           onPress={() => navigation.push('MatchLocation')}>
           utwórz
         </SubmitButton>

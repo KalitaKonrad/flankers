@@ -52,7 +52,7 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
       </View>
       <SubmitButton
         backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.background.white}
+        labelColor={theme.colors.white}
         onPress={onPress}>
         Prześlij zaproszenie
       </SubmitButton>
@@ -78,6 +78,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderColor: 'gray',
     borderWidth: 1,
-    backgroundColor: theme.colors.background.darkGray,
+    backgroundColor: theme.colors.darkGray,
   },
 });

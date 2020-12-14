@@ -27,7 +27,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
       />
       <View style={styles.submitBtn}>
         <SubmitButton
-          labelColor={theme.colors.background.white}
+          labelColor={theme.colors.white}
           backgroundColor={theme.colors.primary}
           onPress={() => navigation.push('MatchInProgress')}>
           Rozpocznij

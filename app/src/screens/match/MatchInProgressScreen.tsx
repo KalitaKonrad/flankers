@@ -29,7 +29,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
       />
       <View style={styles.submitBtn}>
         <SubmitButton
-          labelColor={theme.colors.background.white}
+          labelColor={theme.colors.white}
           backgroundColor={theme.colors.primary}
           onPress={() => console.log('zakoncz mecz')}>
           Zakończ mecz

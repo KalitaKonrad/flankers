@@ -20,13 +20,13 @@ export const MatchActionChoice: React.FC<MatchActionChoiceProps> = ({
       {/*/////////////////////////////////////////////////////*/}
       <SubmitButton
         backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.background.white}
+        labelColor={theme.colors.white}
         onPress={() => navigation.push('MatchJoinFromMap')}>
         Mecze w okolicy
       </SubmitButton>
       <SubmitButton
         backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.background.white}
+        labelColor={theme.colors.white}
         onPress={() => navigation.push('MatchCreate')}>
         Utwórz mecz
       </SubmitButton>
