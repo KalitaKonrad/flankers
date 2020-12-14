@@ -22,12 +22,12 @@ export const TeamScreenStack: React.FC = () => {
   const userInfo = useUserProfileQuery();
   return (
     <Stack.Navigator screenOptions={theme.headerOptions}>
-      {userInfo.data?.teams?.length === 0 ? (
-        <Stack.Screen name="TeamCreate" component={TeamCreateScreen} />
+      {userInfo.data?.teams?.length !== 0 ? (
+        <Stack.Screen name="TeamManage" component={TeamManageScreen} />
       ) : (
-        <Stack.Screen name="TeamLoading" component={TeamLoadingScreen} />
+        <Stack.Screen name="TeamCreate" component={TeamCreateScreen} />
       )}
-      <Stack.Screen name="TeamManage" component={TeamManageScreen} />
+
       <Stack.Screen name="TeamInvitation" component={TeamInvitationScreen} />
     </Stack.Navigator>
   );
