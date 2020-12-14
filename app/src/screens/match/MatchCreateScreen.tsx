@@ -28,8 +28,6 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
     true
   );
   const [isTypeSwitched, setIsTypeSwitched] = useState<boolean>(true);
-  const [usernameToInvite, setUsernameToInvite] = useState<string>('');
-  const [teamToInvite, setTeamToInvite] = useState<string>('');
 
   return (
     // //////////////////////////////////////////////////////////////////////
