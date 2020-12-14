@@ -26,7 +26,6 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
   const membersList = useShowMembersOfTeamQuery(userInfo.data?.current_team_id);
 
   const [switched, setSwitched] = useState<boolean>(false);
-  console.log('from component TAMMANNAGESCREEN', membersList.data);
   const [mutate, mutation] = useTeamExit();
 
   const onExit = () => {
@@ -38,8 +37,8 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
         team_id: userInfo.data.current_team_id,
         user_id: userInfo.data.id,
       });
-      navigation.push('TeamCreate');
     }
+    navigation.push('TeamCreate');
   };
 
   const onInvite = () => {
@@ -80,7 +79,6 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
         <Text style={[TextStyle.noteH1]}>
           {userInfo.data?.teams?.[0]?.name}
         </Text>
-        {/*//zaznacza błąd mimo że działa*/}
         <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 1000</Text>
       </View>
       <View style={styles.toggle}>

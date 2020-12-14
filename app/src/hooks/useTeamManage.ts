@@ -38,14 +38,11 @@ export const useShowMembersOfTeamQuery = (
     QUERY_TEAM_MEMBERS,
     async () => {
       if (team_id === undefined) {
-        console.log('ZWRACAM PUSTĄ TABLICĘ DLA PANA BARUNIA');
         return [];
       }
       const response = await axios.get<{ data: TeamMembersResponse }>(
         QUERY_TEAM_MEMBERS + '/' + team_id
       );
-
-      console.log('================================>', response.data);
       return response.data.data;
     },
     { enabled: !!team_id }

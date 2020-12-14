@@ -1,9 +1,10 @@
 import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Dimensions, StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import { AppButton } from '../../components/shared/AppButton';
+import { Logo } from '../../components/shared/Logo';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
@@ -34,6 +35,22 @@ export const MatchActionChoice: React.FC<MatchActionChoiceProps> = ({
         onPress={() => navigation.push('MatchCreate')}>
         Utwórz mecz
       </SubmitButton>
+      <View style={styles.logoContainer}>
+        <Logo style={styles.logo} />
+      </View>
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  logoContainer: {
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  logo: {
+    left: -10,
+    height: 100,
+    width: Dimensions.get('window').width - 20,
+    resizeMode: 'contain',
+  },
+});

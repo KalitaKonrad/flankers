@@ -23,7 +23,7 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   const [mutate, mutation] = useTeamCreate();
 
   const onPress = () => {
-    mutate({ name: teamName, description }).then();
+    mutate({ name: teamName, description });
     navigation.push('TeamManage');
   };
 
