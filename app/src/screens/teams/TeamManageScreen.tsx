@@ -23,21 +23,31 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
     navigation.push('TeamCreate');
   };
 
+  const onInvite = () => {
+    navigation.push('TeamInvitation');
+  };
+
   return (
     <>
-      <HeaderWithAvatar color={theme.colors.primary} center>
-        <View style={styles.title}>
+      <HeaderWithAvatar color={theme.colors.primary}>
+        <Button
+          icon="account-multiple-plus"
+          mode="text"
+          color={theme.colors.background.white}
+          onPress={onInvite}>
+          Zaproś
+        </Button>
+
+        <View style={{ left: -5 }}>
           <Text style={TextStyle.headerWithAvatarTitle}>Zespół</Text>
         </View>
-        <View style={{ position: 'absolute', right: 0 }}>
-          <Button
-            icon="account-multiple-minus"
-            mode="text"
-            color={theme.colors.white}
-            onPress={onExit}>
-            Opuść
-          </Button>
-        </View>
+        <Button
+          icon="account-multiple-minus"
+          mode="text"
+          color={theme.colors.background.white}
+          onPress={onExit}>
+          Opuść
+        </Button>
         <View style={ObjectStyle.headerWithAvatarImage}>
           <MyAvatar
             src="../assets/avatar.png"
@@ -55,7 +65,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
         <Switch
           leftLabel="Członkowie"
           rightLabel="Mecze"
-          leftSideToggled={(res) => setSwitched(res)}
+          onLeftSideToggled={(res) => setSwitched(res)}
         />
         {switched ? (
           <MatchHistory name="teamMatchHistory" matchHistory={[]} />

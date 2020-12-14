@@ -27,6 +27,7 @@ export const MapSelectLocation: React.FC<MapSelectLocationProps> = (props) => {
         <MapView
           initialRegion={initialRegion}
           style={styles.mapStyle}
+          showsUserLocation
           onPress={handlePress}>
           {markerC && <Marker coordinate={markerC} />}
         </MapView>
