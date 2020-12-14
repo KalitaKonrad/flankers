@@ -1,16 +1,31 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
+import { QueryCache, ReactQueryCacheProvider, setConsole } from 'react-query';
 
-import { BottomTabNavigation } from './src/components/BottomTabNavigation';
+import { AuthProvider } from './src/hooks/useAuth';
+import { AppScreen } from './src/screens/AppScreen';
+import { theme } from './src/theme';
+
+setConsole({
+  log: console.log,
+  warn: console.warn,
+  error: console.warn,
+});
+
+const queryCache = new QueryCache();
 
 const App: React.FC = () => {
   return (
-    <PaperProvider>
-      <NavigationContainer>
-        <BottomTabNavigation />
-      </NavigationContainer>
-    </PaperProvider>
+    <AuthProvider>
+      <ReactQueryCacheProvider queryCache={queryCache}>
+        <PaperProvider theme={theme}>
+          <NavigationContainer>
+            <AppScreen />
+          </NavigationContainer>
+        </PaperProvider>
+      </ReactQueryCacheProvider>
+    </AuthProvider>
   );
 };
 

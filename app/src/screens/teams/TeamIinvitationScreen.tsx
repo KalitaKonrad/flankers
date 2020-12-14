@@ -4,30 +4,28 @@ import { StyleSheet, Text, TextInput, View } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
-import { MultilineTextInput } from '../../components/shared/MultilineTextInput';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
-type TeamCreateScreenProps = object &
+type TeamInvitationScreenProps = object &
   StackScreenProps<TeamScreenStackParamList, 'TeamCreate'>;
 
-export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
+export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
   navigation,
 }) => {
-  const [teamName, setTeamName] = useState('');
-  const [description, setDescription] = useState('');
+  const [userName, setUsername] = useState('');
 
   const onPress = () => {
-    navigation.push('TeamManage');
+    console.log('wyślij zaproszenie');
   };
 
   return (
     <InputScrollView>
       <HeaderWithAvatar color={theme.colors.primary} center>
         <View style={TextStyle.headerWithAvatarTitle}>
-          <Text style={TextStyle.headerWithAvatarTitle}>Utwórz zespół</Text>
+          <Text style={TextStyle.headerWithAvatarTitle}>Zaproś</Text>
         </View>
         <View style={ObjectStyle.headerWithAvatarImage}>
           <MyAvatar
@@ -40,24 +38,23 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
       </HeaderWithAvatar>
 
       <View style={styles.note}>
-        <Text style={[TextStyle.noteH2]}>Dane zespołu</Text>
+        <Text style={[TextStyle.noteH2]}>Zaproś użytkownika</Text>
       </View>
       <View style={styles.container}>
         <TextInput
           style={styles.textInputStyle}
-          placeholder="Nazwa zespołu"
+          placeholder="Nazwa użytkownika"
           blurOnSubmit
           selectionColor={theme.colors.primary}
           defaultValue=""
-          onChangeText={(text) => setTeamName(text)}
+          onChangeText={(text) => setUsername(text)}
         />
-        <MultilineTextInput placeholder="Opis" />
       </View>
       <SubmitButton
         backgroundColor={theme.colors.primary}
         labelColor={theme.colors.white}
         onPress={onPress}>
-        Utwórz
+        Prześlij zaproszenie
       </SubmitButton>
     </InputScrollView>
   );
@@ -74,23 +71,8 @@ const styles = StyleSheet.create({
     top: 90,
     height: 350,
   },
-  placeholder: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   textInputStyle: {
     borderRadius: 12,
-    margin: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor: theme.colors.darkGray,
-  },
-  textMultiLineInputStyle: {
-    borderRadius: 12,
-    height: 150,
-    textAlignVertical: 'top',
     margin: 10,
     paddingVertical: 6,
     paddingHorizontal: 10,

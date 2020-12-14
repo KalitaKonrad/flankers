@@ -23,7 +23,7 @@ const MyAvatar: React.FC<MyAvatarProps> = (props) => (
       },
     ]}
     // source={{ uri: props.src }}
-    source={require('../../../assets/avatar.png')}
+    source={require('../../../assets/avatar_women.png')}
   />
 );
 
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   image: {
     borderRadius: 100,
     borderWidth: 4,
-    borderColor: theme.colors.background.white,
+    borderColor: theme.colors.white,
   },
 });
 export default MyAvatar;

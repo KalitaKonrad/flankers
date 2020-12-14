@@ -3,6 +3,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
 
+import { AppButton } from '../../components/shared/AppButton';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
@@ -13,6 +14,9 @@ type MatchActionChoiceProps = object &
 export const MatchActionChoice: React.FC<MatchActionChoiceProps> = ({
   navigation,
 }) => {
+  const handleSubmit = () => {
+    navigation.push('MatchCreate');
+  };
   return (
     <>
       {/*////////////////////////////////////////////////////////////////////////*/}
@@ -20,13 +24,13 @@ export const MatchActionChoice: React.FC<MatchActionChoiceProps> = ({
       {/*/////////////////////////////////////////////////////*/}
       <SubmitButton
         backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.background.white}
+        labelColor={theme.colors.white}
         onPress={() => navigation.push('MatchJoinFromMap')}>
         Mecze w okolicy
       </SubmitButton>
       <SubmitButton
         backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.background.white}
+        labelColor={theme.colors.white}
         onPress={() => navigation.push('MatchCreate')}>
         Utwórz mecz
       </SubmitButton>

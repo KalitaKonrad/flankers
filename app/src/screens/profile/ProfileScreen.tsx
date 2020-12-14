@@ -6,6 +6,8 @@ import { Button, Text } from 'react-native-paper';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MatchHistory } from '../../components/shared/MatchHistory';
 import MyAvatar from '../../components/shared/MyAvatar';
+import { useAuth } from '../../hooks/useAuth';
+import { useUserProfile } from '../../hooks/useUserProfile';
 import { theme, TextStyle } from '../../theme';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
@@ -13,12 +15,15 @@ type ProfileScreenProps = object &
   StackScreenProps<ProfileScreenStackParamList, 'Profile'>;
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
+  const { logout } = useAuth();
+  const { data } = useUserProfile();
+
   const onEdit = () => {
     navigation.push('ProfileEdit');
   };
 
-  const onLogout = () => {
-    console.log('logout');
+  const onLogout = async () => {
+    await logout();
   };
 
   return (
@@ -27,7 +32,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         <Button
           icon="account-edit"
           mode="text"
-          color={theme.colors.background.white}
+          color={theme.colors.white}
           onPress={onEdit}>
           Edytuj
         </Button>
@@ -35,7 +40,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         <Button
           icon="logout"
           mode="text"
-          color={theme.colors.background.white}
+          color={theme.colors.white}
           onPress={onLogout}>
           Wyloguj
         </Button>
@@ -49,8 +54,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         </View>
       </HeaderWithAvatar>
       <View style={styles.note}>
-        <Text style={[TextStyle.noteH1]}>USERNAME</Text>
-        <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 2137</Text>
+        <Text style={[TextStyle.noteH1]}>{data?.name}</Text>
+        <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 2000</Text>
       </View>
       <View style={styles.matchHistory}>
         <MatchHistory name="name" matchHistory={[]} />
