@@ -3,15 +3,16 @@ import { StyleSheet, TextInput } from 'react-native';
 
 import { theme } from '../../theme';
 
-interface MultilineTextInputProps {
+type MultilineTextInputProps = {
   placeholder: string;
-}
+} & React.ComponentProps<typeof TextInput>;
 
 export const MultilineTextInput: React.FC<MultilineTextInputProps> = (
   props
 ) => {
   return (
     <TextInput
+      {...props}
       style={styles.textMultiLineInputStyle}
       placeholder={props.placeholder}
       blurOnSubmit

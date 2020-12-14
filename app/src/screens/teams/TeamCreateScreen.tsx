@@ -7,6 +7,7 @@ import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MultilineTextInput } from '../../components/shared/MultilineTextInput';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
+import { useTeamCreate } from '../../hooks/useTeamCreate';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
@@ -19,7 +20,10 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   const [teamName, setTeamName] = useState('');
   const [description, setDescription] = useState('');
 
+  const [mutation] = useTeamCreate();
+
   const onPress = () => {
+    mutation.mutate({});
     navigation.push('TeamManage');
   };
 
@@ -51,7 +55,10 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
           defaultValue=""
           onChangeText={(text) => setTeamName(text)}
         />
-        <MultilineTextInput placeholder="Opis" />
+        <MultilineTextInput
+          placeholder="Opis"
+          onChangeText={(text) => setDescription(text)}
+        />
       </View>
       <SubmitButton
         backgroundColor={theme.colors.primary}

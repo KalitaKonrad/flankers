@@ -1,13 +1,17 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
+import { get } from 'react-hook-form';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button } from 'react-native-paper';
+import { useQuery } from 'react-query';
 
 import { MatchHistory } from '../../components/MatchHistory';
 import { MemberList } from '../../components/MembersList';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { Switch } from '../../components/shared/Switch';
+import { QUERY_PROFILE_KEY } from '../../const/query.const';
+import { useTeamManage } from '../../hooks/useTeamManage';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
@@ -17,6 +21,8 @@ type TeamManageScreenProps = object &
 export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
   navigation,
 }) => {
+  const userInfo = useQuery(QUERY_PROFILE_KEY, get);
+
   const [switched, setSwitched] = useState<boolean>(false);
 
   const onExit = () => {
@@ -27,13 +33,14 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
     navigation.push('TeamInvitation');
   };
 
+  console.log('=====>' + userInfo.data);
   return (
     <>
       <HeaderWithAvatar color={theme.colors.primary}>
         <Button
           icon="account-multiple-plus"
           mode="text"
-          color={theme.colors.background.white}
+          color={theme.colors.white}
           onPress={onInvite}>
           Zaproś
         </Button>
@@ -44,7 +51,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
         <Button
           icon="account-multiple-minus"
           mode="text"
-          color={theme.colors.background.white}
+          color={theme.colors.white}
           onPress={onExit}>
           Opuść
         </Button>
@@ -58,7 +65,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
         </View>
       </HeaderWithAvatar>
       <View style={styles.note}>
-        <Text style={[TextStyle.noteH1]}>Nazwa zespołu</Text>
+        <Text style={[TextStyle.noteH1]}>{userInfo.data.teams[0].name}</Text>
         <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 1000</Text>
       </View>
       <View style={styles.toggle}>
