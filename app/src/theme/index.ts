@@ -68,7 +68,7 @@ export const theme = {
   headerOptions: {
     title: '',
     headerStyle: {
-      backgroundColor: '#F4B740',
+      backgroundColor: '#ffaf19',
       height: 55,
       elevation: 0,
     },
