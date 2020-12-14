@@ -21,13 +21,13 @@ const Stack = createStackNavigator<TeamScreenStackParamList>();
 export const TeamScreenStack: React.FC = () => {
   const userInfo = useUserProfileQuery();
   return (
-    <Stack.Navigator screenOptions={theme.headerOptions}>
-      {userInfo.data?.teams?.length !== 0 ? (
-        <Stack.Screen name="TeamManage" component={TeamManageScreen} />
-      ) : (
-        <Stack.Screen name="TeamCreate" component={TeamCreateScreen} />
-      )}
-
+    <Stack.Navigator
+      initialRouteName={
+        userInfo.data?.teams?.length !== 0 ? 'TeamManage' : 'TeamCreate'
+      }
+      screenOptions={theme.headerOptions}>
+      <Stack.Screen name="TeamManage" component={TeamManageScreen} />
+      <Stack.Screen name="TeamCreate" component={TeamCreateScreen} />
       <Stack.Screen name="TeamInvitation" component={TeamInvitationScreen} />
     </Stack.Navigator>
   );

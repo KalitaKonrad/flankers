@@ -24,7 +24,8 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
 
   const onPress = () => {
     console.log('===========>', teamName);
-    mutate({ name: teamName, description });
+    console.log('===========>', description);
+    mutate({ name: teamName, description }).then((r) => console.log(r));
     navigation.push('TeamManage');
   };
 

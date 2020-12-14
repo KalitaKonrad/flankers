@@ -20,6 +20,10 @@ export const useTeamCreate = () => {
         queryCache.invalidateQueries(QUERY_TEAM_KEY);
         console.log('WYSLANOOOOOO');
       },
+      onError: (error) => {
+        console.log('KONDOIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII');
+        console.log((error as any).response.data);
+      },
     }
   );
 };

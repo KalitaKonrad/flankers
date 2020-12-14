@@ -18,10 +18,6 @@ export const MultilineTextInput: React.FC<MultilineTextInputProps> = (
       blurOnSubmit
       multiline
       selectionColor={theme.colors.primary}
-      defaultValue=""
-      onChangeText={(text) => {
-        console.log('text');
-      }}
     />
   );
 };
