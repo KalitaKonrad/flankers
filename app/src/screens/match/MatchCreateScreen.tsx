@@ -1,6 +1,12 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 
 import { MatchSettings } from '../../components/MatchSettings';
 import { SubmitButton } from '../../components/shared/SubmitButton';
@@ -18,6 +24,10 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
   const [isRankingMatchSwitched, setIsRankingMatchSwitched] = useState<boolean>(
     true
   );
+  const [isVisibilitySwitched, setIsVisibilitySwitched] = useState<boolean>(
+    true
+  );
+  const [isTypeSwitched, setIsTypeSwitched] = useState<boolean>(true);
 
   return (
     // //////////////////////////////////////////////////////////////////////
@@ -29,6 +39,8 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
           onRankingMatchToggled={(res) => {
             setIsRankingMatchSwitched(res);
           }}
+          onMatchTypeToggled={(res) => setIsTypeSwitched(res)}
+          onVisibilityToggled={(res) => setIsVisibilitySwitched(res)}
         />
       </View>
       <View>
@@ -50,7 +62,7 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
           <TouchableOpacity
             style={styles.button}
             onPress={() => {
-              if (playersAmount < 10) {
+              if (playersAmount < 5) {
                 setPlayersAmount(playersAmount + 1);
               }
             }}>
@@ -81,6 +93,28 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
               <Text style={{ color: theme.colors.black }}>+</Text>
             </TouchableOpacity>
           </View>
+        </View>
+      ) : (
+        <></>
+      )}
+
+      {!isVisibilitySwitched && !isTypeSwitched ? (
+        <View style={styles.invitation}>
+          <Text style={{ textAlign: 'center' }}>
+            Kod gry dzięki któremu przeciwna drużyna będzie mogła dołączyć
+            zostanie wygenerowany. Wybierz miejsce na mapie
+          </Text>
+        </View>
+      ) : (
+        <></>
+      )}
+
+      {!isVisibilitySwitched && isTypeSwitched ? (
+        <View style={styles.invitation}>
+          <Text style={{ textAlign: 'center' }}>
+            Kod gry dzięki któremu inne osoby będą mogły dołączyć zostanie
+            wygenerowany. Wybierz miejsce na mapie
+          </Text>
         </View>
       ) : (
         <></>
@@ -121,7 +155,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     minHeight: 50,
-    marginBottom: 30,
+    marginBottom: 20,
   },
 
   feePicker: {
@@ -135,7 +169,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     minHeight: 50,
-    marginBottom: 70,
+    marginBottom: 25,
   },
   button: {
     width: 60,
@@ -148,5 +182,21 @@ const styles = StyleSheet.create({
   },
   label: {
     top: 10,
+  },
+  textInputStyle: {
+    borderTopLeftRadius: 12,
+    borderTopRightRadius: 12,
+    borderBottomLeftRadius: 12,
+    borderBottomRightRadius: 12,
+    margin: 10,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderColor: 'gray',
+    borderWidth: 1,
+    backgroundColor: theme.colors.background.darkGray,
+  },
+  invitation: {
+    bottom: 15,
+    margin: 10,
   },
 });

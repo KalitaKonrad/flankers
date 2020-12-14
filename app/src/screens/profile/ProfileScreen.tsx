@@ -55,7 +55,8 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       </HeaderWithAvatar>
       <View style={styles.note}>
         <Text style={[TextStyle.noteH1]}>{data?.name}</Text>
-        <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 2137</Text>
+        <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 2000</Text>
+
       </View>
       <View style={styles.matchHistory}>
         <MatchHistory name="name" matchHistory={[]} />
