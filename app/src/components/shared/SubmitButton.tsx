@@ -1,8 +1,6 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { Avatar, Button } from 'react-native-paper';
-
-import { theme } from '../../theme';
+import { StyleSheet } from 'react-native';
+import { Button } from 'react-native-paper';
 
 type SubmitButtonProps = {
   backgroundColor?: string;
@@ -21,6 +19,7 @@ export const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
         fontWeight: 'bold',
         fontSize: 16,
       }}
+      theme={{ roundness: 20 }}
       style={styles.button}
       contentStyle={styles.buttonInner}
       uppercase={false}
@@ -30,10 +29,9 @@ export const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
 
 const styles = StyleSheet.create({
   button: {
-    height: 56,
-    borderRadius: 100,
+    margin: 10,
   },
   buttonInner: {
-    paddingVertical: 8,
+    paddingVertical: 3,
   },
 });

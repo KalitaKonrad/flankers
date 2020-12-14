@@ -123,7 +123,7 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
       <View style={styles.submitBtn}>
         <SubmitButton
           backgroundColor={theme.colors.primary}
-          labelColor={theme.colors.background.white}
+          labelColor={theme.colors.white}
           onPress={() => navigation.push('MatchLocation')}>
           utwórz
         </SubmitButton>
@@ -178,7 +178,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     borderRadius: 100,
-    backgroundColor: theme.colors.background.darkGray,
+    backgroundColor: theme.colors.darkGray,
   },
   label: {
     top: 10,
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     borderColor: 'gray',
     borderWidth: 1,
-    backgroundColor: theme.colors.background.darkGray,
+    backgroundColor: theme.colors.darkGray,
   },
   invitation: {
     bottom: 15,
