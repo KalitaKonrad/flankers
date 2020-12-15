@@ -107,7 +107,7 @@ class GameController extends Controller
      * - if you try to update game bets or rating type <br />
      *   after it has started (start_date < now)
      *
-     * These failures return 406 code
+     * These failures return 403 code
      *
      * @group Game management
      * @bodyParam type string Public or private
@@ -129,15 +129,15 @@ class GameController extends Controller
         $now = Carbon::now()->timestamp;
 
         if ($game->completed) {
-            return Message::error(406, 'This game was already completed, you cannot change it');
+            return Message::error(403, 'This game was already completed, you cannot change it');
         }
 
         if ($request->start_date && $game->start_date < $now) {
-            return Message::error(406, 'Cannot start game in the past');
+            return Message::error(403, 'Cannot start game in the past');
         }
 
         if ($game->start_date && $game->start_date < $now && ($request->rated || $request->bet)) {
-            return Message::error(406, 'You cannot change game bets or rating type if it has already started');
+            return Message::error(403, 'You cannot change game bets or rating type if it has already started');
         }
 
         $game->fill($request->all());
@@ -162,8 +162,12 @@ class GameController extends Controller
     {
         $game = Game::findOrFail($id);
 
+        if ($game->start_date && intval($game->start_date) < Carbon::now()->timestamp) {
+            return Message::error(403, 'This game has already started, you cannot delete it');
+        }
+
         if ($game->completed) {
-            return Message::error(406, 'This game was already completed, you cannot delete it');
+            return Message::error(403, 'This game was already completed, you cannot delete it');
         }
 
         $game->delete();
