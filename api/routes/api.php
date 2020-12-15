@@ -87,10 +87,6 @@ Route::prefix('teams')->group(function () {
  * Game routes
  * ----------------------------------------
  */
-Route::resource('games', GameController::class)
-    ->parameters(['games' => 'game_id'])
-    ->only(['index', 'store', 'show', 'update', 'destroy']);
-
 Route::prefix('games')->group(function () {
     // Route::resource('invites', GameInviteController::class);
     // Route::resource('bets', GameBetsController::class);
@@ -103,3 +99,7 @@ Route::prefix('games')->group(function () {
         ->parameters(['memberships' => 'squad_id'])
         ->only(['index', 'store', 'show', 'update', 'destroy']);
 });
+
+Route::resource('games', GameController::class)
+    ->parameters(['games' => 'game_id'])
+    ->only(['index', 'store', 'show', 'update', 'destroy']);

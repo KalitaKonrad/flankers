@@ -5,7 +5,6 @@ use App\Models\User;
 use function Tests\grabAuthToken;
 use function Tests\withAuthHeader;
 
-use Tymon\JWTAuth\Http\Parser\AuthHeaders;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 uses(RefreshDatabase::class);
