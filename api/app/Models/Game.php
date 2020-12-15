@@ -11,6 +11,17 @@ class Game extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'owner_id',
+        'type',
+        'rated',
+        'public',
+        'bet',
+        'duration',
+        'long',
+        'lat'
+    ];
+
     /**
      * Return squads registered to the game
      *

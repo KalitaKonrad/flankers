@@ -21,14 +21,13 @@ class PreventInvalidScoring
     public function handle(Request $request, Closure $next)
     {
         $user = Auth::user();
-        $game = Game::firstOrFail($request->game_id);
-        $squad = $game->squads()->firstOrFail($request->winning_squad);
+        $game = Game::findOrFail($request->game_id ?? $request->route('game_id'));
 
         if ($game->completed) {
-            return Message::error(406, 'Game score cannot be updated after its end');
+            return Message::error(403, 'Game score cannot be updated after its end');
         }
 
-        if (!$squad->memebers()->find($user->id)) {
+        if (!$game->players->where('id', $user->id)->first()) {
             return Message::error(403, 'User did not took part in this game');
         }
 

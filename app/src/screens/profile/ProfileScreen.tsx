@@ -6,6 +6,7 @@ import { Button, Text } from 'react-native-paper';
 import { MatchHistory } from '../../components/MatchHistory';
 import { AppButton } from '../../components/shared/AppButton';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
+import { MatchHistory } from '../../components/shared/MatchHistory';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { useAuth } from '../../hooks/useAuth';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';

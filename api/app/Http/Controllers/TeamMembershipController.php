@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Http\Message;
 use App\Models\TeamUser;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -25,15 +25,15 @@ class TeamMembershipController extends Controller
      * Show the members of the given team.
      *
      * @group Team management
-     * @urlParam teamId int required
+     * @urlParam team_id int required
      *
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(int $id)
+    public function show(int $team_id)
     {
         $teamModel = config('teamwork.team_model');
-        $team = $teamModel::findOrFail($id);
+        $team = $teamModel::findOrFail($team_id);
 
         return Message::ok('Fetched members', $team->members()->get());
     }
@@ -41,9 +41,19 @@ class TeamMembershipController extends Controller
     /**
      * Remove user from a team
      *
+     * Request will fulfill only if the user who is submitting
+     * the request is the passed team owner, or when he
+     * tries to remove himself from the team, so
+     * $user_id === Auth::user()->id.
+     *
+     * Unauthorized requests will result in 403 code.
+     *
+     * Also if you try to remove user from the team if he is
+     * the only member there, it will fail with 406 code.
+     *
      * @group Team management
-     * @urlParam $team_id int required
-     * @bodyParam $user_id int reqired
+     * @urlParam team_id int required Team from which user will be removed
+     * @bodyParam user_id int reqired User id to remove
      *
      * @return \Illuminate\Http\Response
      * @internal param int $id
@@ -73,7 +83,7 @@ class TeamMembershipController extends Controller
         if ($team->members()->count() === 1) {
             return Message::error(
                 406,
-                'User cannot leave a team if he is the only one in it, please delete the team to do so'
+                'Users cannot leave a team if they\'re the only one in it, please delete the team to do so'
             );
         }
 
@@ -82,7 +92,7 @@ class TeamMembershipController extends Controller
     }
 
     /**
-     * Remove user from a team
+     * Remove user from a team (programatically)
      *
      * @param \App\Models\User $user
      * @param \App\Models\Team $team

@@ -3,9 +3,9 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Button, useTheme } from 'react-native-paper';
 
-import { MatchHistory } from '../../components/MatchHistory';
 import { MemberList } from '../../components/MembersList';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
+import { MatchHistory } from '../../components/shared/MatchHistory';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { Switch } from '../../components/shared/Switch';
 import { useRemoveTeamMemberMutation } from '../../hooks/useRemoveTeamMemberMutation';
