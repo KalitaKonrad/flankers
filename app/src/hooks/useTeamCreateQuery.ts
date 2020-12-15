@@ -8,7 +8,7 @@ interface TeamCreatePayload {
   description: string;
 }
 
-export const useTeamCreate = () => {
+export const useTeamCreateQuery = () => {
   const axios = useAxios();
 
   const queryCache = useQueryCache();
@@ -18,9 +18,7 @@ export const useTeamCreate = () => {
       onSuccess: () => {
         queryCache.invalidateQueries(QUERY_TEAM_KEY);
       },
-      onError: (error) => {
-        console.log((error as any).response.data);
-      },
+      onError: (error) => {},
     }
   );
 };

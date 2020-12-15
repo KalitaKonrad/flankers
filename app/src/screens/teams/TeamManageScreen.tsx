@@ -8,11 +8,9 @@ import { MemberList } from '../../components/MembersList';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { Switch } from '../../components/shared/Switch';
-import {
-  useShowMembersOfTeamQuery,
-  useTeamExit,
-} from '../../hooks/useTeamManage';
-import { useUserProfileQuery } from '../../hooks/useUserProfile';
+import { useRemoveTeamMemberMutation } from '../../hooks/useRemoveTeamMemberMutation';
+import { useTeamMembersQuery } from '../../hooks/useTeamMembersQuery';
+import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
@@ -22,17 +20,17 @@ type TeamManageScreenProps = object &
 export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
   navigation,
 }) => {
-  const userInfo = useUserProfileQuery();
-  const membersList = useShowMembersOfTeamQuery(userInfo.data?.current_team_id);
+  const userProfile = useUserProfileQuery();
+  const membersList = useTeamMembersQuery(userProfile.data?.current_team_id);
 
-  const [switched, setSwitched] = useState<boolean>(false);
-  const [mutate, mutation] = useTeamExit();
+  const [switched, setSwitched] = useState(false);
+  const [mutate, mutation] = useRemoveTeamMemberMutation();
 
   const onExit = () => {
-    if (!!userInfo.data?.id && !!userInfo.data?.current_team_id) {
+    if (!!userProfile.data?.id && !!userProfile.data?.current_team_id) {
       mutate({
-        team_id: userInfo.data.current_team_id,
-        user_id: userInfo.data.id,
+        team_id: userProfile.data.current_team_id,
+        user_id: userProfile.data.id,
       });
     }
     navigation.push('TeamCreate');
@@ -76,7 +74,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
       </HeaderWithAvatar>
       <View style={styles.note}>
         <Text style={[TextStyle.noteH1]}>
-          {userInfo.data?.teams?.[0]?.name}
+          {userProfile.data?.teams?.[0]?.name}
         </Text>
         <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 1000</Text>
       </View>

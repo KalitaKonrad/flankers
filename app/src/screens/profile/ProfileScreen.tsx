@@ -8,7 +8,7 @@ import { AppButton } from '../../components/shared/AppButton';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { useAuth } from '../../hooks/useAuth';
-import { useUserProfileQuery } from '../../hooks/useUserProfile';
+import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { TextStyle, theme } from '../../theme';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 

@@ -2,13 +2,14 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
+import { useTheme } from 'react-native-paper';
 
 import { AppInput } from '../../components/shared/AppInput';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MultilineTextInput } from '../../components/shared/MultilineTextInput';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
-import { useTeamCreate } from '../../hooks/useTeamCreate';
+import { useTeamCreateQuery } from '../../hooks/useTeamCreateQuery';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
@@ -21,7 +22,7 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   const [teamName, setTeamName] = useState('');
   const [description, setDescription] = useState('');
 
-  const [mutate, mutation] = useTeamCreate();
+  const [mutate, mutation] = useTeamCreateQuery();
 
   const onPress = () => {
     mutate({ name: teamName, description });
@@ -60,8 +61,8 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
         />
       </View>
       <SubmitButton
-        backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.white}
+        backgroundColor={useTheme().colors.primary}
+        labelColor={useTheme().colors.white}
         onPress={onPress}>
         Utwórz
       </SubmitButton>
