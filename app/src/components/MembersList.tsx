@@ -1,19 +1,29 @@
 import React from 'react';
+import { Text, View } from 'react-native';
 import { List } from 'react-native-paper';
 
-import { Player } from '../types/player';
+import {} from '../hooks/useUserProfileQuery';
+import { UserProfilePayload } from '../types/userProfilePayload';
 
 interface MemberListProps {
   name: string;
-  teamMembers: Player[];
+  teamMembers: UserProfilePayload[];
 }
 
 export const MemberList: React.FC<MemberListProps> = (props) => {
+  if (!props.teamMembers) {
+    return <Text>Wczytywanie</Text>;
+  }
   return (
-    <List.Item
-      title="Member"
-      description="description"
-      left={(leftProps) => <List.Icon {...leftProps} icon="star" />}
-    />
+    <View>
+      {props.teamMembers.map((element, index) => (
+        <List.Item
+          key={element.id}
+          title={element.name}
+          description="ranking points"
+          left={(leftProps) => <List.Icon {...leftProps} icon="star" />}
+        />
+      ))}
+    </View>
   );
 };

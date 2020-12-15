@@ -3,12 +3,14 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
+import { MatchHistory } from '../../components/MatchHistory';
+import { AppButton } from '../../components/shared/AppButton';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MatchHistory } from '../../components/shared/MatchHistory';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { useAuth } from '../../hooks/useAuth';
-import { useUserProfile } from '../../hooks/useUserProfile';
-import { theme, TextStyle } from '../../theme';
+import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { TextStyle, theme } from '../../theme';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
 type ProfileScreenProps = object &
@@ -16,7 +18,7 @@ type ProfileScreenProps = object &
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const { logout } = useAuth();
-  const { data } = useUserProfile();
+  const { data } = useUserProfileQuery();
 
   const onEdit = () => {
     navigation.push('ProfileEdit');
@@ -25,25 +27,26 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const onLogout = async () => {
     await logout();
   };
-
   return (
     <>
       <HeaderWithAvatar color={theme.colors.primary}>
-        <Button
+        <AppButton
+          compact
           icon="account-edit"
           mode="text"
           color={theme.colors.white}
           onPress={onEdit}>
           Edytuj
-        </Button>
+        </AppButton>
         <Text style={styles.title}>Profil</Text>
-        <Button
+        <AppButton
+          compact
           icon="logout"
           mode="text"
           color={theme.colors.white}
           onPress={onLogout}>
           Wyloguj
-        </Button>
+        </AppButton>
         <View style={styles.avatar}>
           <MyAvatar
             src="../assets/avatar.png"

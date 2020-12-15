@@ -1,13 +1,16 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, useTheme } from 'react-native-paper';
 
 import { MemberList } from '../../components/MembersList';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MatchHistory } from '../../components/shared/MatchHistory';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { Switch } from '../../components/shared/Switch';
+import { useRemoveTeamMemberMutation } from '../../hooks/useRemoveTeamMemberMutation';
+import { useTeamMembersQuery } from '../../hooks/useTeamMembersQuery';
+import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
@@ -17,9 +20,19 @@ type TeamManageScreenProps = object &
 export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
   navigation,
 }) => {
-  const [switched, setSwitched] = useState<boolean>(false);
+  const userProfile = useUserProfileQuery();
+  const membersList = useTeamMembersQuery(userProfile.data?.current_team_id);
+
+  const [switched, setSwitched] = useState(false);
+  const [mutate, mutation] = useRemoveTeamMemberMutation();
 
   const onExit = () => {
+    if (!!userProfile.data?.id && !!userProfile.data?.current_team_id) {
+      mutate({
+        team_id: userProfile.data.current_team_id,
+        user_id: userProfile.data.id,
+      });
+    }
     navigation.push('TeamCreate');
   };
 
@@ -31,6 +44,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
     <>
       <HeaderWithAvatar color={theme.colors.primary}>
         <Button
+          compact
           icon="account-multiple-plus"
           mode="text"
           color={theme.colors.white}
@@ -42,9 +56,10 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
           <Text style={TextStyle.headerWithAvatarTitle}>Zespół</Text>
         </View>
         <Button
+          compact
           icon="account-multiple-minus"
           mode="text"
-          color={theme.colors.white}
+          color={useTheme().colors.primary}
           onPress={onExit}>
           Opuść
         </Button>
@@ -58,7 +73,9 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
         </View>
       </HeaderWithAvatar>
       <View style={styles.note}>
-        <Text style={[TextStyle.noteH1]}>Nazwa zespołu</Text>
+        <Text style={[TextStyle.noteH1]}>
+          {userProfile.data?.teams?.[0]?.name}
+        </Text>
         <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 1000</Text>
       </View>
       <View style={styles.toggle}>
@@ -70,7 +87,9 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
         {switched ? (
           <MatchHistory name="teamMatchHistory" matchHistory={[]} />
         ) : (
-          <MemberList name="teamMembers" teamMembers={[]} />
+          membersList.isFetched && (
+            <MemberList name="teamMembers" teamMembers={membersList.data!} />
+          )
         )}
       </View>
     </>
