@@ -280,7 +280,7 @@ INTRO,
     /*
      * Name for the group of endpoints which do not have a @group set.
      */
-    'default_group' => 'Endpoints',
+    'default_group' => 'Other',
 
     /*
      * Custom logo path. This will be used as the value of the src attribute for the <img> tag,

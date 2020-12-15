@@ -31,4 +31,4 @@ composer coverage
 
 # Documenation
 - Developer guide is available [here](https://github.com/sekcja-memow/flankers/wiki) on github
-- API documentation is available [here](https://flankers-api.lados.dev/docs)
+- API documentation is available [here](https://flapi.lados.dev/docs)

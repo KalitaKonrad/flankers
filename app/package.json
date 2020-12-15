@@ -46,7 +46,8 @@
     "react-native-switch-selector": "^2.0.6",
     "react-native-web": "^0.14.8",
     "react-query": "^2.26.4",
-    "yup": "^0.32.8"
+    "yup": "^0.32.8",
+    "reanimated-bottom-sheet": "^1.0.0-alpha.22"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
