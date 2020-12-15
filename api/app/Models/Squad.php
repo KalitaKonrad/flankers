@@ -11,6 +11,8 @@ class Squad extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['game_id', 'slots'];
+
     /**
      * Model users relation alias, defining later
      * relation firsts makes it compatible with

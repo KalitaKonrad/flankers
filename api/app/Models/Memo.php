@@ -3,12 +3,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Memo extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['user_id', 'game_id', 'winning_squad'];
 
     /**
      * Get user which created the memo
@@ -21,7 +23,7 @@ class Memo extends Model
     }
 
     /**
-     * Get gamer related to memo
+     * Get game related to memo
      *
      * @return BelongsTo
      */

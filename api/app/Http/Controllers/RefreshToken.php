@@ -11,6 +11,14 @@ class RefreshToken extends Controller
     use RespondsWithJwt;
 
     /**
+     * Initialize the controller
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
+    /**
      * Refresh user JWT token.
      *
      * If authenticated user will access this route new token
