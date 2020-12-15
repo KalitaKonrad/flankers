@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { Button } from 'react-native-paper';
+import { Button, useTheme } from 'react-native-paper';
 
 import { MatchHistory } from '../../components/MatchHistory';
 import { MemberList } from '../../components/MembersList';
@@ -29,10 +29,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
   const [mutate, mutation] = useTeamExit();
 
   const onExit = () => {
-    if (
-      userInfo.data?.id !== undefined &&
-      userInfo.data?.current_team_id !== null
-    ) {
+    if (!!userInfo.data?.id && !!userInfo.data?.current_team_id) {
       mutate({
         team_id: userInfo.data.current_team_id,
         user_id: userInfo.data.id,
@@ -49,6 +46,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
     <>
       <HeaderWithAvatar color={theme.colors.primary}>
         <Button
+          compact
           icon="account-multiple-plus"
           mode="text"
           color={theme.colors.white}
@@ -60,9 +58,10 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
           <Text style={TextStyle.headerWithAvatarTitle}>Zespół</Text>
         </View>
         <Button
+          compact
           icon="account-multiple-minus"
           mode="text"
-          color={theme.colors.white}
+          color={useTheme().colors.primary}
           onPress={onExit}>
           Opuść
         </Button>

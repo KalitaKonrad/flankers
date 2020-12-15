@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import { MatchHistory } from '../../components/MatchHistory';
+import { AppButton } from '../../components/shared/AppButton';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { useAuth } from '../../hooks/useAuth';
@@ -28,21 +29,23 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   return (
     <>
       <HeaderWithAvatar color={theme.colors.primary}>
-        <Button
+        <AppButton
+          compact
           icon="account-edit"
           mode="text"
           color={theme.colors.white}
           onPress={onEdit}>
           Edytuj
-        </Button>
+        </AppButton>
         <Text style={styles.title}>Profil</Text>
-        <Button
+        <AppButton
+          compact
           icon="logout"
           mode="text"
           color={theme.colors.white}
           onPress={onLogout}>
           Wyloguj
-        </Button>
+        </AppButton>
         <View style={styles.avatar}>
           <MyAvatar
             src="../assets/avatar.png"

@@ -1,8 +1,10 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 
+import { AppInput } from '../../components/shared/AppInput';
+import { Container } from '../../components/shared/Container';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
@@ -26,52 +28,43 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
 
   return (
     <>
-      <InputScrollView>
-        <HeaderWithAvatar color={theme.colors.primary} center>
-          <View style={styles.title}>
-            <Text style={styles.title}>Edycja profilu</Text>
-          </View>
-          <View style={styles.avatar}>
-            <MyAvatar
-              src="../assets/avatar.png"
-              height={150}
-              width={150}
-              isBorder
-            />
-          </View>
-        </HeaderWithAvatar>
+      <HeaderWithAvatar color={theme.colors.primary} center>
+        <View style={styles.title}>
+          <Text style={styles.title}>Edycja profilu</Text>
+        </View>
+        <View style={styles.avatar}>
+          <MyAvatar
+            src="../assets/avatar.png"
+            height={150}
+            width={150}
+            isBorder
+          />
+        </View>
+      </HeaderWithAvatar>
+      <ScrollView>
         <View style={styles.note}>
           <Text style={[TextStyle.noteH2]}>Zmiana danych</Text>
         </View>
         <View style={styles.container}>
           <View style={styles.placeholder} />
-          <TextInput
-            style={styles.textInputStyle}
-            placeholder="Nazwa użytkownika"
-            blurOnSubmit
-            selectionColor={theme.colors.primary}
-            defaultValue=""
+          <AppInput
+            style={{ marginBottom: 7 }}
+            label="Nazwa użytkownika"
             onChangeText={(text) => setUsername(text)}
           />
-          <TextInput
-            style={styles.textInputStyle}
-            placeholder="Aktualne hasło"
-            blurOnSubmit
-            selectionColor={theme.colors.primary}
+          <AppInput
+            style={{ marginBottom: 7 }}
+            label="Aktualne hasło"
             onChangeText={(text) => setActualPassword(text)}
           />
-          <TextInput
-            style={styles.textInputStyle}
-            placeholder="Nowe hasło"
-            blurOnSubmit
-            selectionColor={theme.colors.primary}
+          <AppInput
+            style={{ marginBottom: 7 }}
+            label="Nowe hasło"
             onChangeText={(text) => setNewPassword(text)}
           />
-          <TextInput
-            style={styles.textInputStyle}
-            placeholder="Powtórz nowe hasło"
-            blurOnSubmit
-            selectionColor={theme.colors.primary}
+          <AppInput
+            style={{ marginBottom: 7 }}
+            label="Powtórz nowe hasło"
             onChangeText={(text) => setNewPasswordRep(text)}
           />
         </View>
@@ -81,7 +74,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
           onPress={onEdit}>
           Zapisz zmiany
         </SubmitButton>
-      </InputScrollView>
+      </ScrollView>
     </>
   );
 };
@@ -124,7 +117,7 @@ const styles = StyleSheet.create({
   },
   container: {
     top: 90,
-    height: 350,
+    height: 390,
   },
   placeholder: {
     justifyContent: 'center',

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 
+import { AppInput } from '../../components/shared/AppInput';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MultilineTextInput } from '../../components/shared/MultilineTextInput';
 import MyAvatar from '../../components/shared/MyAvatar';
@@ -47,16 +48,14 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
         <Text style={[TextStyle.noteH2]}>Dane zespołu</Text>
       </View>
       <View style={styles.container}>
-        <TextInput
-          style={styles.textInputStyle}
-          placeholder="Nazwa zespołu"
-          blurOnSubmit
-          selectionColor={theme.colors.primary}
-          defaultValue=""
+        <AppInput
+          style={{ marginBottom: 7 }}
+          label="Nazwa zespołu"
           onChangeText={(text) => setTeamName(text)}
         />
         <MultilineTextInput
-          placeholder="Opis"
+          label="Opis"
+          style={{ marginVertical: 10 }}
           onChangeText={(text) => setDescription(text)}
         />
       </View>

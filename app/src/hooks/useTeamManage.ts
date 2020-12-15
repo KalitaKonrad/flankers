@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryCache } from 'react-query';
 
 import { QUERY_TEAM_KEY, QUERY_TEAM_MEMBERS } from '../const/query.const';
 import { useAxios } from './useAxios';
-import { UserProfile } from './useUserProfile';
+import { UserProfilePayload } from './useUserProfile';
 
 export interface TeamProfile {
   id: number;
@@ -18,7 +18,7 @@ interface TeamExit {
   user_id: number;
 }
 
-export type TeamMembersResponse = UserProfile[];
+export type TeamMembersResponse = UserProfilePayload[];
 
 export const useTeamProfileQuery = () => {
   const axios = useAxios();

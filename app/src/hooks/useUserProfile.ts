@@ -4,7 +4,7 @@ import { QUERY_PROFILE_KEY } from '../const/query.const';
 import { useAxios } from './useAxios';
 import { TeamProfile } from './useTeamManage';
 
-export interface UserProfile {
+export interface UserProfilePayload {
   id: number;
   name: string;
   email: string;
@@ -19,8 +19,8 @@ export interface UserProfile {
 export const useUserProfileQuery = () => {
   const axios = useAxios();
 
-  return useQuery<UserProfile>(QUERY_PROFILE_KEY, async () => {
-    const response = await axios.get<UserProfile>('user');
+  return useQuery<UserProfilePayload>(QUERY_PROFILE_KEY, async () => {
+    const response = await axios.get<UserProfilePayload>('user');
     return response.data;
   });
 };

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 
+import { AppInput } from '../../components/shared/AppInput';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
@@ -41,12 +42,9 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
         <Text style={[TextStyle.noteH2]}>Zaproś użytkownika</Text>
       </View>
       <View style={styles.container}>
-        <TextInput
-          style={styles.textInputStyle}
-          placeholder="Nazwa użytkownika"
-          blurOnSubmit
-          selectionColor={theme.colors.primary}
-          defaultValue=""
+        <AppInput
+          style={{ marginBottom: 7 }}
+          label="Nazwa użytkownika"
           onChangeText={(text) => setUsername(text)}
         />
       </View>

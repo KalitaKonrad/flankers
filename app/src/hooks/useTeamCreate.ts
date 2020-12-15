@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryCache } from 'react-query';
 import { QUERY_TEAM_KEY } from '../const/query.const';
 import { useAxios } from './useAxios';
 
-interface TeamCreate {
+interface TeamCreatePayload {
   name: string;
   description: string;
 }
@@ -13,7 +13,7 @@ export const useTeamCreate = () => {
 
   const queryCache = useQueryCache();
   return useMutation(
-    (newTeam: TeamCreate) => axios.post(QUERY_TEAM_KEY, newTeam),
+    (newTeam: TeamCreatePayload) => axios.post(QUERY_TEAM_KEY, newTeam),
     {
       onSuccess: () => {
         queryCache.invalidateQueries(QUERY_TEAM_KEY);

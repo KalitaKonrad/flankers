@@ -1,37 +1,20 @@
 import React, { useState } from 'react';
-import { StyleSheet, TextInput } from 'react-native';
+import { StyleSheet } from 'react-native';
+import { TextInput } from 'react-native-paper';
 
 import { theme } from '../../theme';
+import { AppInput, AppInputProps } from './AppInput';
 
-type MultilineTextInputProps = {
-  placeholder: string;
-} & React.ComponentProps<typeof TextInput>;
+type MultilineTextInputProps = AppInputProps;
 
 export const MultilineTextInput: React.FC<MultilineTextInputProps> = (
   props
 ) => {
   return (
-    <TextInput
+    <AppInput
       {...props}
-      style={styles.textMultiLineInputStyle}
-      placeholder={props.placeholder}
-      blurOnSubmit
       multiline
-      selectionColor={theme.colors.primary}
+      style={{ height: 150, textAlignVertical: 'top' }}
     />
   );
 };
-
-const styles = StyleSheet.create({
-  textMultiLineInputStyle: {
-    borderRadius: 12,
-    height: 150,
-    textAlignVertical: 'top',
-    margin: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor: theme.colors.darkGray,
-  },
-});
