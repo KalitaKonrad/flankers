@@ -43,7 +43,7 @@ class GameMemoController extends Controller
         ]);
 
         if (Memo::where('user_id', Auth::id())->first()) {
-            return Message::error(406, 'User with this id already reported the game score');
+            return Message::error(403, 'User with this id already reported the game score');
         }
 
         Memo::create(array_merge(
@@ -124,7 +124,7 @@ class GameMemoController extends Controller
                 ->fill($request->only(['winning_squad']))
                 ->save();
         } catch (ModelNotFoundException $e) {
-            return Message::error(406, __('This user did not vote for this game'));
+            return Message::error(403, __('This user did not vote for this game'));
         }
 
         return Message::ok('Game score updated');
@@ -149,17 +149,13 @@ class GameMemoController extends Controller
      */
     public function destroy(int $game_id)
     {
-        if (Game::findOrFail($game_id)->completed) {
-            return Message::error(403, "Vote cannot be cast for a game that was already finished");
-        }
-
         try {
             Memo::where('user_id', Auth::id())
                 ->where('game_id', $game_id)
                 ->firstOrFail()
                 ->delete();
         } catch (ModelNotFoundException $e) {
-            return Message::error(406, __('This user did not vote for this game'));
+            return Message::error(403, __('This user did not vote for this game'));
         }
 
         return Message::ok('Game score updated');

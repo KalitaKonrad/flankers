@@ -31,7 +31,7 @@ class UpdateGameRequest extends FormRequest
             'duration' => 'integer',
             'completed' => 'boolean',
             'start_date' => 'integer',
-            'long' => 'between:-180:180',
+            'long' => 'between:-180,180',
             'lat' => 'between:-90,90'
         ];
     }

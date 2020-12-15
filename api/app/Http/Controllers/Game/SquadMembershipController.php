@@ -29,9 +29,9 @@ class SquadMembershipController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(int $squad_id)
+    public function index()
     {
-        return Game::firstOrFail($squad_id)->squads()->with('members');
+        return Message::ok('Squad list', Squad::with('members')->get());
     }
 
     /**
@@ -81,7 +81,7 @@ class SquadMembershipController extends Controller
      */
     public function show(int $squad_id)
     {
-        return Squad::firstOrFail($squad_id)->members()->get();
+        return Message::ok('Squad members', Squad::findOrFail($squad_id)->members()->get());
     }
 
     /**
@@ -111,7 +111,7 @@ class SquadMembershipController extends Controller
         $currentSquad = Squad::firstOrFail($squad_id);
         $newSquad = Squad::firstOrFail($request->new_squad_id);
         $user = User::firstOrFail($request->user_id);
-        $game = $currentSquad->game()->get();
+        $game = $currentSquad->game()->first();
         $requestUser = Auth::user();
 
         if (!($requestUser == $user || $requestUser->isGameOwner($game))) {
