@@ -100,6 +100,6 @@ Route::prefix('games')->group(function () {
         ->only(['store', 'show', 'update', 'destroy']);
 
     Route::resource('memberships', SquadMembershipController::class)
-        ->parameters(['membership' => 'squad_id'])
+        ->parameters(['memberships' => 'squad_id'])
         ->only(['index', 'store', 'show', 'update', 'destroy']);
 });
