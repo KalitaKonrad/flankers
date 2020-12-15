@@ -98,9 +98,9 @@ class GameMemoController extends Controller
     /**
      * Update existing memo
      *
-     * If the game was not completed, users can change their vote.
-     * This request will fail with 403 if the game has finished,
-     * or when request user will try to change vote for game
+     * If the game was not completed, users can change their vote. <br />
+     * This request will fail with 403 if the game has finished, <br />
+     * or when request user will try to change vote for game <br />
      * in which he has not participated.
      *
      * @group Game management
@@ -133,11 +133,11 @@ class GameMemoController extends Controller
     /**
      * Delete existing memo for a game
      *
-     * If the game has already finished, this request
-     * will fail with 403 error code, as scores cannot
+     * If the game has already finished, this request <br />
+     * will fail with 403 error code, as scores cannot <br />
      * be changed after the game is finished.
      *
-     * Also this will fail with 403 if the user
+     * Also this will fail with 403 if the user <br />
      * will try to delete non-existent vote.
      *
      * @group Game management

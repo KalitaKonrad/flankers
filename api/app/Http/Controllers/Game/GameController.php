@@ -101,11 +101,12 @@ class GameController extends Controller
     /**
      * Update the specified game.
      *
-     * You can update all game fields but the process will fail if:
-     * - game was already marked as complete
-     * - you will set start_date in the past
-     * - if you try to update game bets or rating type
+     * You can update all game fields but the process will fail if: <br />
+     * - game was already marked as complete <br />
+     * - you will set start_date in the past <br />
+     * - if you try to update game bets or rating type <br />
      *   after it has started (start_date < now)
+     *
      * These failures return 406 code
      *
      * @group Game management

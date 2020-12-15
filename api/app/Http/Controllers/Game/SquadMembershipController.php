@@ -37,8 +37,8 @@ class SquadMembershipController extends Controller
     /**
      * Add user to game squad
      *
-     * This request will fail if:
-     * - user will try to join to a full squad (406)
+     * This request will fail if: <br />
+     * - user will try to join to a full squad (406) <br />
      * - user has already joined the squad (406)
      *
      * @group Game management
@@ -73,7 +73,7 @@ class SquadMembershipController extends Controller
     /**
      * Get squad memberships
      *
-     * @group Game management
+     * @group Game data
      * @urlParam squad_id int required Squad id
      *
      * @param  int  $id
@@ -87,9 +87,9 @@ class SquadMembershipController extends Controller
     /**
      * Move member from a squad to antoher within the same game
      *
-     *  This request will fail if:
-     * - request user tries to move someone other than himself, while not being game owner (403)
-     * - user will try to move membership between squads from different games (406)
+     *  This request will fail if: <br />
+     * - request user tries to move someone other than himself, while not being game owner (403) <br />
+     * - user will try to move membership between squads from different games (406) <br />
      * - user will try to move to a full squad (406)
      *
      * @group Game management
@@ -142,9 +142,9 @@ class SquadMembershipController extends Controller
     /**
      * Remove user from squad and effectively from game
      *
-     * The request will fail if:
-     * - user which posts data is trying to remove someone else than
-     *   themselves, while not being the game owner (403)
+     * The request will fail if: <br />
+     * - user which posts data is trying to remove someone else than <br />
+     *   themselves, while not being the game owner (403) <br />
      * - user does not belong to the squad (406)
      *
      * @group Game management
