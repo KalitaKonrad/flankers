@@ -1,29 +1,92 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import {
+  Keyboard,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import { HelperText } from 'react-native-paper';
+import * as yup from 'yup';
 
+import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { Container } from '../../components/shared/Container';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
+import { useProfileEditMutation } from '../../hooks/useEditProfileMutation';
 import { TextStyle, theme } from '../../theme';
+import { setResponseErrors } from '../../utils/setResponseErrors';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
 type ProfileEditScreenProps = object &
   StackScreenProps<ProfileScreenStackParamList, 'ProfileEdit'>;
 
+type ProfileEditFormData = {
+  name: string;
+  actualPassword: string;
+  newPassword: string;
+  newPasswordConfirm: string;
+};
+
+const ProfileEditSchema = yup.object().shape({
+  name: yup.string().required('Nick jest wymagany'),
+  password: yup.string().required('Obecne hasło jest wymagane'),
+  newPassword: yup
+    .string()
+    .min(8, 'Hasło musi składać się z min. 8 znaków')
+    .required('Nowe hasło jest wymagane'),
+  newPasswordConfirm: yup
+    .string()
+    .oneOf([yup.ref('newPassword'), null], 'Hasła muszą się zgadzać')
+    .required('Powtórz hasło'),
+});
+
 export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   navigation,
 }) => {
-  const [username, setUsername] = React.useState('');
-  const [actualPassword, setActualPassword] = React.useState('');
-  const [newPassword, setNewPassword] = React.useState('');
-  const [newPasswordRep, setNewPasswordRep] = React.useState('');
+  // const [username, setUsername] = React.useState('');
+  // const [actualPassword, setActualPassword] = React.useState('');
+  // const [newPassword, setNewPassword] = React.useState('');
+  // const [newPasswordRep, setNewPasswordRep] = React.useState('');
 
-  const onEdit = () => {
-    navigation.push('Profile');
+  const [mutate, mutation] = useProfileEditMutation();
+  const [isPending, setPending] = useState(false);
+
+  const {
+    register,
+    setValue,
+    setError,
+    errors,
+    handleSubmit,
+  } = useForm<ProfileEditFormData>({
+    resolver: yupResolver(ProfileEditSchema),
+  });
+
+  useEffect(() => {
+    register('name');
+    register('actualPassword');
+    register('newPassword');
+    register('newPasswordConfirm');
+  }, [register]);
+
+  const onEdit = async ({ name, newPassword }: ProfileEditFormData) => {
+    console.log('CZEKAM');
+    Keyboard.dismiss();
+    setPending(true);
+
+    try {
+      await mutate({ name, newPassword });
+      console.log('ZMIANA DANYCH UDANA');
+    } catch (error) {
+      setResponseErrors(error, setError);
+    }
+    setPending(false);
   };
 
   return (
@@ -50,30 +113,57 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
           <AppInput
             style={{ marginBottom: 7 }}
             label="Nazwa użytkownika"
-            onChangeText={(text) => setUsername(text)}
+            error={!!errors.name}
+            onChangeText={(text) => setValue('name', text)}
           />
+          {!!errors.name && (
+            <HelperText type="error" visible={!!errors.name}>
+              {errors.name?.message}
+            </HelperText>
+          )}
           <AppInput
+            secureTextEntry
             style={{ marginBottom: 7 }}
             label="Aktualne hasło"
-            onChangeText={(text) => setActualPassword(text)}
+            error={!!errors.actualPassword}
+            onChangeText={(text) => setValue('actualPassword', text)}
           />
+          {!!errors.actualPassword && (
+            <HelperText type="error" visible={!!errors.actualPassword}>
+              {errors.actualPassword?.message}
+            </HelperText>
+          )}
           <AppInput
+            secureTextEntry
             style={{ marginBottom: 7 }}
             label="Nowe hasło"
-            onChangeText={(text) => setNewPassword(text)}
+            error={!!errors.newPassword}
+            onChangeText={(text) => setValue('newPassword', text)}
           />
+          {!!errors.newPassword && (
+            <HelperText type="error" visible={!!errors.newPassword}>
+              {errors.newPassword?.message}
+            </HelperText>
+          )}
           <AppInput
+            secureTextEntry
             style={{ marginBottom: 7 }}
             label="Powtórz nowe hasło"
-            onChangeText={(text) => setNewPasswordRep(text)}
+            error={!!errors.newPasswordConfirm}
+            onChangeText={(text) => setValue('newPasswordConfirm', text)}
           />
+          {!!errors.newPasswordConfirm && (
+            <HelperText type="error" visible={!!errors.newPasswordConfirm}>
+              {errors.newPasswordConfirm?.message}
+            </HelperText>
+          )}
         </View>
-        <SubmitButton
-          backgroundColor={theme.colors.primary}
-          labelColor={theme.colors.white}
-          onPress={onEdit}>
+        <AppButton
+          disabled={isPending}
+          mode="contained"
+          onPress={handleSubmit(onEdit)}>
           Zapisz zmiany
-        </SubmitButton>
+        </AppButton>
       </ScrollView>
     </>
   );

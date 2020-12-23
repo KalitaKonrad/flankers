@@ -9,7 +9,7 @@ import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MultilineTextInput } from '../../components/shared/MultilineTextInput';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
-import { useTeamCreateQuery } from '../../hooks/useTeamCreateQuery';
+import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
@@ -22,7 +22,7 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   const [teamName, setTeamName] = useState('');
   const [description, setDescription] = useState('');
 
-  const [mutate, mutation] = useTeamCreateQuery();
+  const [mutate, mutation] = useTeamCreateMutation();
 
   const onPress = () => {
     mutate({ name: teamName, description });

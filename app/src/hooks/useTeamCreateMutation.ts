@@ -8,12 +8,12 @@ interface TeamCreatePayload {
   description: string;
 }
 
-export const useTeamCreateQuery = () => {
+export const useTeamCreateMutation = () => {
   const axios = useAxios();
 
   const queryCache = useQueryCache();
   return useMutation(
-    (newTeam: TeamCreatePayload) => axios.post(QUERY_TEAM_KEY, newTeam),
+    (newTeam: TeamCreatePayload) => axios.post('teams', newTeam),
     {
       onSuccess: () => {
         queryCache.invalidateQueries(QUERY_TEAM_KEY);
