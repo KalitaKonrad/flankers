@@ -1,10 +1,12 @@
-import { useMutation, useQueryCache } from 'react-query';
+import { QueryResult, useMutation, useQueryCache } from 'react-query';
 
 import { QUERY_TEAM_INVITATION } from '../const/query.const';
+import { UserProfilePayload } from '../types/userProfilePayload';
 import { useAxios } from './useAxios';
 
 interface TeamsInvitationPayload {
   email: string;
+  team_id: number | null | undefined;
 }
 
 export const useTeamInvitationMutation = () => {
@@ -13,9 +15,10 @@ export const useTeamInvitationMutation = () => {
   const queryCache = useQueryCache();
 
   return useMutation(
-    (email: TeamsInvitationPayload) =>
+    ({ email, team_id }: TeamsInvitationPayload) =>
       axios.post('teams/invites', {
         email,
+        team_id,
       }),
     {
       onSuccess: () => {

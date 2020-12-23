@@ -12,6 +12,7 @@ import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useTeamInvitationMutation } from '../../hooks/useTeamInvitationMutation';
+import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
@@ -33,6 +34,7 @@ const InvitationSchema = yup.object().shape({
 export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
   navigation,
 }) => {
+  const userProfile = useUserProfileQuery();
   const [mutate, mutation] = useTeamInvitationMutation();
   const [isPending, setPending] = useState(false);
 
@@ -50,14 +52,15 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
     register('email');
   }, [register]);
 
-  const onPress = async (email: InvitationFormData) => {
+  const onPress = async ({ email }: InvitationFormData) => {
     Keyboard.dismiss();
     setPending(true);
 
     try {
-      await mutate(email);
+      await mutate({ email, team_id: userProfile.data?.current_team_id });
     } catch (error) {
       setResponseErrors(error, setError);
+      console.log('======>', error.response);
     }
     setPending(false);
   };
