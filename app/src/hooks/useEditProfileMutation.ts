@@ -22,7 +22,6 @@ export const useProfileEditMutation = () => {
     {
       onSuccess: () => {
         queryCache.invalidateQueries(QUERY_USER_SETTINGS_KEY);
-        console.log('1111WITAMMMMM');
       },
     }
   );

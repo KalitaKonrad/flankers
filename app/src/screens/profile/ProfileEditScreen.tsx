@@ -10,7 +10,7 @@ import {
   TextInput,
   View,
 } from 'react-native';
-import { HelperText } from 'react-native-paper';
+import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
 import { AppButton } from '../../components/shared/AppButton';
@@ -36,7 +36,7 @@ type ProfileEditFormData = {
 
 const ProfileEditSchema = yup.object().shape({
   name: yup.string().required('Nick jest wymagany'),
-  password: yup.string().required('Obecne hasło jest wymagane'),
+  actualPassword: yup.string().required('Obecne hasło jest wymagane'),
   newPassword: yup
     .string()
     .min(8, 'Hasło musi składać się z min. 8 znaków')
@@ -50,11 +50,6 @@ const ProfileEditSchema = yup.object().shape({
 export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   navigation,
 }) => {
-  // const [username, setUsername] = React.useState('');
-  // const [actualPassword, setActualPassword] = React.useState('');
-  // const [newPassword, setNewPassword] = React.useState('');
-  // const [newPasswordRep, setNewPasswordRep] = React.useState('');
-
   const [mutate, mutation] = useProfileEditMutation();
   const [isPending, setPending] = useState(false);
 
@@ -76,13 +71,12 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   }, [register]);
 
   const onEdit = async ({ name, newPassword }: ProfileEditFormData) => {
-    console.log('CZEKAM');
     Keyboard.dismiss();
     setPending(true);
 
     try {
       await mutate({ name, newPassword });
-      console.log('ZMIANA DANYCH UDANA');
+      navigation.push('Profile');
     } catch (error) {
       setResponseErrors(error, setError);
     }
@@ -158,12 +152,14 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
             </HelperText>
           )}
         </View>
-        <AppButton
+        <SubmitButton
           disabled={isPending}
+          labelColor={useTheme().colors.white}
+          backgroundColor={useTheme().colors.primary}
           mode="contained"
           onPress={handleSubmit(onEdit)}>
           Zapisz zmiany
-        </AppButton>
+        </SubmitButton>
       </ScrollView>
     </>
   );
