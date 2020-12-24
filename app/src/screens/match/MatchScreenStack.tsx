@@ -3,7 +3,10 @@ import React from 'react';
 
 import { theme } from '../../theme';
 import { MatchActionChoice } from './MatchActionChoice';
-import { MatchCreateScreen } from './MatchCreateScreen';
+import {
+  MatchCreateRoutesParameters,
+  MatchCreateScreen,
+} from './MatchCreateScreen';
 import { MatchInLobbyScreen } from './MatchInLobbyScreen';
 import { MatchInProgressScreen } from './MatchInProgressScreen';
 import { MatchJoinFromMapScreen } from './MatchJoinFromMapScreen';
@@ -15,7 +18,7 @@ export type MatchScreenStackParamList = {
   MatchJoinFromMap: undefined;
   MatchInLobby: undefined;
   MatchInProgress: undefined;
-  MatchLocation: undefined;
+  MatchLocation: MatchCreateRoutesParameters;
 };
 
 const Stack = createStackNavigator<MatchScreenStackParamList>();

@@ -1,22 +1,22 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { MatchSettings } from '../../components/MatchSettings';
 import { SubmitButton } from '../../components/shared/SubmitButton';
-import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
 import { TextStyle, theme } from '../../theme';
-import { setResponseErrors } from '../../utils/setResponseErrors';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 type MatchCreateScreenProps = object &
   StackScreenProps<MatchScreenStackParamList, 'MatchCreate'>;
+
+export type MatchCreateRoutesParameters = {
+  isTypeTeam: boolean;
+  isRated: boolean;
+  isPublic: boolean;
+  bet: number;
+  playersAmount: number;
+};
 
 export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
   navigation,
@@ -31,14 +31,13 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
   );
   const [isTypeSwitched, setIsTypeSwitched] = useState<boolean>(true);
 
-  const [mutate] = useTeamCreateMutation();
-
   const onPress = () => {
-    mutate({
-      typeTeam: isTypeSwitched,
-      rated: isRankingMatchSwitched,
-      public: isVisibilitySwitched,
+    navigation.push('MatchLocation', {
+      isTypeTeam: isTypeSwitched,
+      isRated: isRankingMatchSwitched,
+      isPublic: isVisibilitySwitched,
       bet: feeAmount,
+      playersAmount,
     });
   };
 
@@ -137,7 +136,7 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
         <SubmitButton
           backgroundColor={theme.colors.primary}
           labelColor={theme.colors.white}
-          onPress={() => navigation.push('MatchLocation')}>
+          onPress={onPress}>
           utwórz
         </SubmitButton>
       </View>

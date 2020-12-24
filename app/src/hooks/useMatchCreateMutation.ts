@@ -5,12 +5,13 @@ import { QUERY_GAMES } from '../const/query.const';
 import { useAxios } from './useAxios';
 
 interface MatchCreatePayload {
-  typeTeam: boolean;
-  rated: boolean;
-  public: boolean;
+  isTypeTeam: boolean;
+  isRated: boolean;
+  isPublic: boolean;
   bet: number;
-  lat: LatLng;
-  long: LatLng;
+  playersAmount: number;
+  lat: number;
+  long: number;
 }
 
 export const useMatchCreateMutation = () => {
@@ -21,10 +22,11 @@ export const useMatchCreateMutation = () => {
   return useMutation(
     (newMatch: MatchCreatePayload) =>
       axios.post('games', {
-        type: newMatch.typeTeam,
-        rated: newMatch.rated,
-        public: newMatch.public,
+        type: newMatch.isTypeTeam,
+        rated: newMatch.isRated,
+        public: newMatch.isPublic,
         bet: newMatch.bet,
+        playersAmount: newMatch.playersAmount,
         long: newMatch.long,
         lat: newMatch.lat,
       }),

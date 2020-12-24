@@ -5,6 +5,7 @@ import { LatLng } from 'react-native-maps';
 
 import { MapSelectLocation } from '../../components/map/MapSelectLocation';
 import { SubmitButton } from '../../components/shared/SubmitButton';
+import { useMatchCreateMutation } from '../../hooks/useMatchCreateMutation';
 import { theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
@@ -19,11 +20,28 @@ type MatchLocationScreenProps = object &
 
 export const MatchLocationScreen: React.FC<MatchLocationScreenProps> = ({
   navigation,
+  route,
 }) => {
   const [markerCoordinates, setMarkerCoordinates] = useState<LatLng>({
     latitude: 0,
     longitude: 0,
   });
+
+  const { isTypeTeam, isRated, isPublic, bet, playersAmount } = route.params;
+  const [mutate, mutation] = useMatchCreateMutation();
+
+  const onPress = () => {
+    mutate({
+      isTypeTeam,
+      isRated,
+      isPublic,
+      bet,
+      playersAmount,
+      lat: markerCoordinates.latitude,
+      long: markerCoordinates.longitude,
+    });
+    navigation.push('MatchInLobby');
+  };
 
   return (
     <>
