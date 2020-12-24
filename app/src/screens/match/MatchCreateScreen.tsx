@@ -10,7 +10,9 @@ import {
 
 import { MatchSettings } from '../../components/MatchSettings';
 import { SubmitButton } from '../../components/shared/SubmitButton';
+import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
 import { TextStyle, theme } from '../../theme';
+import { setResponseErrors } from '../../utils/setResponseErrors';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 type MatchCreateScreenProps = object &
@@ -28,6 +30,17 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
     true
   );
   const [isTypeSwitched, setIsTypeSwitched] = useState<boolean>(true);
+
+  const [mutate] = useTeamCreateMutation();
+
+  const onPress = () => {
+    mutate({
+      typeTeam: isTypeSwitched,
+      rated: isRankingMatchSwitched,
+      public: isVisibilitySwitched,
+      bet: feeAmount,
+    });
+  };
 
   return (
     // //////////////////////////////////////////////////////////////////////
