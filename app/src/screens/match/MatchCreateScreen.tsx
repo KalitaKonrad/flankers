@@ -10,7 +10,7 @@ import { MatchScreenStackParamList } from './MatchScreenStack';
 type MatchCreateScreenProps = object &
   StackScreenProps<MatchScreenStackParamList, 'MatchCreate'>;
 
-export type MatchCreateRoutesParameters = {
+export type MatchLocationRoutesParameters = {
   isTypeTeam: boolean;
   isRated: boolean;
   isPublic: boolean;

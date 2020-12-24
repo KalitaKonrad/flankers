@@ -56,7 +56,7 @@ export const Modal: React.FC<ModalProps> = ({
         right: 0,
         bottom: 0,
         flex: 1,
-        backgroundColor: theme.colors.background.white,
+        backgroundColor: theme.colors.white,
       }}>
       <BottomSheet
         ref={sheet}

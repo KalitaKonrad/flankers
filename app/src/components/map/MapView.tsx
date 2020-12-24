@@ -9,7 +9,7 @@ import MapView, {
 
 interface MapViewProps {
   heatPoints: WeightedLatLng[];
-  markers: LatLng[];
+  markers: LatLng[] | undefined;
 }
 
 const initialRegion = {
@@ -23,7 +23,9 @@ export const MapViewComponent: React.FC<MapViewProps> = (props) => {
   const [markers, setMarkers] = useState<LatLng[]>([]);
 
   useEffect(() => {
-    setMarkers(props.markers);
+    if (props.markers !== undefined) {
+      setMarkers(props.markers);
+    }
   }, [props.markers]);
 
   return (
