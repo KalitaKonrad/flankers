@@ -36,7 +36,6 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
 }) => {
   const userProfile = useUserProfileQuery();
   const [mutate, mutation] = useTeamInvitationMutation();
-  const [isPending, setPending] = useState(false);
 
   const {
     register,
@@ -54,15 +53,12 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
 
   const onPress = async ({ email }: InvitationFormData) => {
     Keyboard.dismiss();
-    setPending(true);
 
     try {
       await mutate({ email, team_id: userProfile.data?.current_team_id });
     } catch (error) {
       setResponseErrors(error, setError);
-      console.log('======>', error.response);
     }
-    setPending(false);
   };
 
   return (
