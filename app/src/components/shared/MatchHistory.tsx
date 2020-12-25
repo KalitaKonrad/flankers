@@ -1,11 +1,11 @@
 import React from 'react';
 import { List } from 'react-native-paper';
 
-import { Match } from '../../types/match';
+import { MatchResponse } from '../../types/matchResponse';
 
 interface MatchHistoryProps {
   name: string;
-  matchHistory: Match[];
+  matchHistory: MatchResponse[];
 }
 
 export const MatchHistory: React.FC<MatchHistoryProps> = ({

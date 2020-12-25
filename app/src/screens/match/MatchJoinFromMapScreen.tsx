@@ -1,9 +1,16 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
 import { LatLng } from 'react-native-maps';
+import { Text } from 'react-native-paper';
 
 import { MapViewComponent } from '../../components/map/MapView';
+import { InlineHeader } from '../../components/shared/InlineHeader';
+import { Modal } from '../../components/shared/Modal';
+import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useMatchListQuery } from '../../hooks/useMatchListQuery';
+import { TextStyle, theme } from '../../theme';
+import { MatchResponse } from '../../types/matchResponse';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 type MatchJoinFromMapScreenProps = object &
@@ -18,26 +25,68 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
 }) => {
   const matchList = useMatchListQuery();
 
-  const [coordinatesArray, setCoordinatesArray] = useState<LatLng[]>();
+  const [modalVisible, setModalVisible] = useState(false);
+  const openModal = useCallback(() => setModalVisible(true), [setModalVisible]);
+  const closeModal = useCallback(() => setModalVisible(false), [
+    setModalVisible,
+  ]);
+  const [error, setError] = useState('');
 
-  useEffect(() => {
-    if (matchList.data !== undefined) {
-      setCoordinatesArray(
-        matchList.data.map((match) => ({
-          latitude: parseFloat(match.lat),
-          longitude: parseFloat(match.long),
-        }))
-      );
-    }
-  }, [matchList.data]);
+  const [matchTemp, setMatchTemp] = useState<MatchResponse>();
+
+  const onMarkerPressed = (match: MatchResponse) => {
+    setModalVisible(true);
+    setMatchTemp(match);
+  };
 
   return (
     <>
-      <MapViewComponent
-        heatPoints={heatPoints} // w przyszlosci przesylac tablice coordinatow meczow dostarczona z backendu
-        markers={coordinatesArray}
-        // w przyszlosci przesylac tablice coordinatow meczow dostarczona z backendu
-      />
+      {matchList.data !== undefined && (
+        <MapViewComponent
+          matchList={matchList.data}
+          onMarkerPress={(res) => onMarkerPressed(res)}
+        />
+      )}
+
+      {modalVisible && (
+        <Modal isOpen={modalVisible} setIsOpen={setModalVisible}>
+          <InlineHeader center>
+            <Text style={[TextStyle.noteH2]}>Dołącz do meczu</Text>
+          </InlineHeader>
+          <Text style={styles.textInModal}>
+            Mecz
+            {matchTemp?.rated.toString() === '1'
+              ? ' rankingowy'
+              : ' towarzyski'}
+            {matchTemp?.rated.toString() === '0'
+              ? `, stawka ${matchTemp.bet}`
+              : ''}
+          </Text>
+          {/*uważać bo na backendzie są  0 1 zamiast true false*/}
+          <SubmitButton
+            mode="text"
+            labelColor={theme.colors.white}
+            backgroundColor={error ? theme.colors.error : theme.colors.primary}
+            onPress={() => console.log('TODO')}>
+            Dołącz
+          </SubmitButton>
+          {error === '' && (
+            <SubmitButton
+              mode="text"
+              labelColor={theme.colors.primary}
+              backgroundColor={theme.colors.white}
+              onPress={closeModal}>
+              Powrót do mapy
+            </SubmitButton>
+          )}
+        </Modal>
+      )}
     </>
   );
 };
+
+const styles = StyleSheet.create({
+  textInModal: {
+    textAlign: 'center',
+  },
+});

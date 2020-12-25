@@ -3,15 +3,15 @@ import { ScrollView, StyleSheet, Text, TouchableOpacity } from 'react-native';
 import { List } from 'react-native-paper';
 
 import { theme } from '../../theme';
-import { Match } from '../../types/match';
+import { MatchResponse } from '../../types/matchResponse';
 
 interface MatchHistoryProps {
   name: string;
-  matchHistory: Match[];
+  matchHistory: MatchResponse[];
 }
 
 interface WalletMatchItemProps {
-  item: Match;
+  item: MatchResponse;
   onPress: () => void;
 }
 
@@ -78,7 +78,7 @@ export const WalletMatchHistory: React.FC<MatchHistoryProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background.white,
+    backgroundColor: theme.colors.white,
   },
   item: {
     marginHorizontal: 5,
