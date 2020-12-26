@@ -6,6 +6,7 @@ import MapView, {
   Marker,
   WeightedLatLng,
 } from 'react-native-maps';
+import { number } from 'yup';
 
 import { MatchResponse } from '../../types/matchResponse';
 
@@ -28,15 +29,15 @@ export const MapViewComponent: React.FC<MapViewProps> = (props) => {
   };
 
   useEffect(() => {
-    props.matchList.map((match) => {
-      setHeatPointsArray([
-        ...{
+    setHeatPointsArray(
+      props.matchList.map((match) => {
+        return {
           latitude: parseFloat(match.lat),
           longitude: parseFloat(match.long),
-        },
-      ]);
-    });
-  });
+        };
+      })
+    );
+  }, [props.matchList]);
 
   return (
     <>
@@ -45,7 +46,9 @@ export const MapViewComponent: React.FC<MapViewProps> = (props) => {
           initialRegion={initialRegion}
           style={styles.mapStyle}
           showsUserLocation>
-          <Heatmap points={props.matchList.map((match) => {})} />
+          {heatPointsArray !== undefined && (
+            <Heatmap points={heatPointsArray} />
+          )}
 
           {props.matchList.map((match) => {
             return (
