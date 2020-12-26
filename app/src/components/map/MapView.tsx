@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
-import MapView, { LatLng, Marker } from 'react-native-maps';
+import MapView, {
+  Heatmap,
+  LatLng,
+  Marker,
+  WeightedLatLng,
+} from 'react-native-maps';
 
 import { MatchResponse } from '../../types/matchResponse';
 
 interface MapViewProps {
-  // heatPoints: WeightedLatLng[];
-  // markers: LatLng[] | undefined;
   matchList: MatchResponse[];
   onMarkerPress: (arg: MatchResponse) => void;
 }
@@ -19,17 +22,21 @@ const initialRegion = {
 };
 
 export const MapViewComponent: React.FC<MapViewProps> = (props) => {
-  const [markers, setMarkers] = useState<LatLng[]>([]);
-
-  // useEffect(() => {
-  //   if (props.markers !== undefined) {
-  //     setMarkers(props.markers);
-  //   }
-  // }, [props.markers]);
-
+  const [heatPointsArray, setHeatPointsArray] = useState<WeightedLatLng[]>();
   const onMarkerPress = (match: MatchResponse) => {
     props.onMarkerPress(match);
   };
+
+  useEffect(() => {
+    props.matchList.map((match) => {
+      setHeatPointsArray([
+        ...{
+          latitude: parseFloat(match.lat),
+          longitude: parseFloat(match.long),
+        },
+      ]);
+    });
+  });
 
   return (
     <>
@@ -38,7 +45,7 @@ export const MapViewComponent: React.FC<MapViewProps> = (props) => {
           initialRegion={initialRegion}
           style={styles.mapStyle}
           showsUserLocation>
-          {/*<Heatmap points={props.heatPoints} />*/}
+          <Heatmap points={props.matchList.map((match) => {})} />
 
           {props.matchList.map((match) => {
             return (
