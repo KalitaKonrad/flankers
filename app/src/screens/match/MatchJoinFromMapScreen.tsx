@@ -38,6 +38,7 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
     setModalVisible(true);
     setMatchTemp(match);
   };
+  const onJoinMatch = () => {};
 
   return (
     <>
@@ -67,7 +68,7 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
             mode="text"
             labelColor={theme.colors.white}
             backgroundColor={error ? theme.colors.error : theme.colors.primary}
-            onPress={() => console.log('TODO')}>
+            onPress={onJoinMatch}>
             Dołącz
           </SubmitButton>
           {error === '' && (
