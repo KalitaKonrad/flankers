@@ -24,7 +24,7 @@ class CreateGameRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'in:public,private',
+            'type' => 'in:ffa,team',
             'rated' => 'boolean',
             'public' => 'boolean',
             'bet' => 'numeric',

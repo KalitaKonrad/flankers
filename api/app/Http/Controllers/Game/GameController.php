@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Game;
 
 use App\Models\Game;
 use App\Http\Message;
-use App\Models\Squad;
+use App\Events\GameCreated;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +34,7 @@ class GameController extends Controller
      */
     public function index()
     {
-        return Game::all();
+        return Game::with('squads')->get();
     }
 
     /**
@@ -60,7 +60,7 @@ class GameController extends Controller
     {
         $defaults = [
             'owner_id' => Auth::id(),
-            'type' => 'public',
+            'type' => 'ffa',
             'rated' => false,
             'public' => true,
             'bet' => 0,
@@ -71,12 +71,7 @@ class GameController extends Controller
         $data = array_merge($defaults, $request->all());
         $game = Game::create($data);
 
-        Squad::factory(2)
-            ->state([
-                'game_id' => $game->id,
-                'slots' => 5
-            ])
-            ->create();
+        GameCreated::dispatch($game);
 
         return Message::ok('Game created', $game->with('squads')->find($game->id));
     }
@@ -143,7 +138,7 @@ class GameController extends Controller
         $game->fill($request->all());
         $game->save();
 
-        return Message::ok('Game updated');
+        return Message::ok('Game updated', $game);
     }
 
     /**

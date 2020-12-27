@@ -22,7 +22,7 @@ class GameFactory extends Factory
     public function definition()
     {
         return [
-            'type' => 'public',
+            'type' => 'ffa',
             'rated' => false,
             'public' => true,
             'completed' => false,
