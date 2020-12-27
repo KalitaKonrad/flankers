@@ -54,7 +54,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     minHeight: 230,
-    backgroundColor: theme.colors.background.white,
+    backgroundColor: theme.colors.white,
   },
   informationWrapper: {
     position: 'relative',
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     left: 0,
   },
   subText: {
-    color: theme.colors.background.darkGray,
+    color: theme.colors.darkGray,
     fontSize: 14,
     textAlign: 'center',
   },

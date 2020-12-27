@@ -10,6 +10,7 @@ type SubmitButtonProps = {
 export const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
   return (
     <Button
+      style={styles.button}
       {...props}
       mode="contained"
       color={props.backgroundColor}
@@ -20,7 +21,6 @@ export const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
         fontSize: 16,
       }}
       theme={{ roundness: 20 }}
-      style={styles.button}
       contentStyle={styles.buttonInner}
       uppercase={false}
     />

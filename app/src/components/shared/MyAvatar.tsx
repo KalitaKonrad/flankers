@@ -22,8 +22,7 @@ const MyAvatar: React.FC<MyAvatarProps> = (props) => (
         borderWidth: props.isBorder ? 4 : 0,
       },
     ]}
-    // source={{ uri: props.src }}
-    source={require('../../../assets/avatar_women.png')}
+    source={{ uri: props.src }}
   />
 );
 

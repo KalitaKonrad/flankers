@@ -1,6 +1,14 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import React, { useEffect, useState } from 'react';
+import {
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 
 import { AppInput } from '../../components/shared/AppInput';
@@ -8,6 +16,7 @@ import { Container } from '../../components/shared/Container';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
+import { useUpdateAvatarMutation } from '../../hooks/useUpdateAvatarMutation';
 import { TextStyle, theme } from '../../theme';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
@@ -22,8 +31,40 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   const [newPassword, setNewPassword] = React.useState('');
   const [newPasswordRep, setNewPasswordRep] = React.useState('');
 
+  const [avatar, setAvatar] = useState<string>();
+  const [mutateAvatar, mutationAvatar] = useUpdateAvatarMutation();
+
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const {
+          status,
+        } = await ImagePicker.requestCameraRollPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  });
+
   const onEdit = () => {
+    if (avatar !== undefined) {
+      mutateAvatar({ avatar });
+    }
     navigation.push('Profile');
+  };
+
+  const onAvatarButtonClick = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      setAvatar(result.uri);
+    }
   };
 
   return (
@@ -33,14 +74,12 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
           <Text style={styles.title}>Edycja profilu</Text>
         </View>
         <View style={styles.avatar}>
-          <MyAvatar
-            src="../assets/avatar.png"
-            height={150}
-            width={150}
-            isBorder
-          />
+          {!!avatar && (
+            <MyAvatar src={avatar} height={150} width={150} isBorder />
+          )}
         </View>
       </HeaderWithAvatar>
+
       <ScrollView>
         <View style={styles.note}>
           <Text style={[TextStyle.noteH2]}>Zmiana danych</Text>
@@ -75,6 +114,14 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
           Zapisz zmiany
         </SubmitButton>
       </ScrollView>
+      <View style={styles.buttonWrapper}>
+        <SubmitButton
+          labelColor={theme.colors.white}
+          backgroundColor={theme.colors.secondary}
+          onPress={onAvatarButtonClick}>
+          Zmień
+        </SubmitButton>
+      </View>
     </>
   );
 };
@@ -122,5 +169,10 @@ const styles = StyleSheet.create({
   placeholder: {
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  buttonWrapper: {
+    position: 'absolute',
+    right: 80,
+    top: 160,
   },
 });
