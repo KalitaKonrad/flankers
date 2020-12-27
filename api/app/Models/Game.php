@@ -22,6 +22,26 @@ class Game extends Model
         'lat'
     ];
 
+    protected $appends = [
+        'location'
+    ];
+
+    protected $casts = [
+        'owner_id' => 'integer',
+        'rated' => 'boolean',
+        'public' => 'boolean',
+        'duration' => 'integer',
+        'bet' => 'float',
+        'long' => 'float',
+        'lat' => 'float',
+        'completed' => 'boolean',
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     /**
      * Return squads registered to the game
      *

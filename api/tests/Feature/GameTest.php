@@ -2,8 +2,8 @@
 
 use App\Models\Game;
 use App\Models\User;
-use Illuminate\Support\Carbon;
 
+use Illuminate\Support\Carbon;
 use function Tests\grabAuthToken;
 use function Tests\withAuthHeader;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -11,7 +11,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 uses(RefreshDatabase::class);
 
 $data =  [
-    'type' => 'public',
+    'type' => 'ffa',
     'rated' => true,
     'public' => true,
     'bet' => 1,
@@ -53,7 +53,7 @@ it('fail to set game start time in the past', function () use ($data) {
     $game = Game::factory()->state(['owner_id' => $user->id, 'completed' => true])->create();
     $token = grabAuthToken($user->id);
 
-    withAuthHeader($token)
+    $res = withAuthHeader($token)
         ->patchJson("/games/{$game->id}", [
             'start_date' => Carbon::now()->subDay()->timestamp
         ])
