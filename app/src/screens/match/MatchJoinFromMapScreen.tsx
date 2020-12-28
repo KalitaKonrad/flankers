@@ -56,14 +56,9 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
           </InlineHeader>
           <Text style={styles.textInModal}>
             Mecz
-            {matchTemp?.rated.toString() === '1'
-              ? ' rankingowy'
-              : ' towarzyski'}
-            {matchTemp?.rated.toString() === '0'
-              ? `, stawka ${matchTemp.bet}`
-              : ''}
+            {matchTemp?.rated === true ? ' rankingowy' : ' towarzyski'}
+            {matchTemp?.rated === false ? `, stawka ${matchTemp.bet}` : ''}
           </Text>
-          {/*uważać bo na backendzie są  0 1 zamiast true false*/}
           <SubmitButton
             mode="text"
             labelColor={theme.colors.white}

@@ -32,8 +32,8 @@ export const MapViewComponent: React.FC<MapViewProps> = (props) => {
     setHeatPointsArray(
       props.matchList.map((match) => {
         return {
-          latitude: parseFloat(match.lat),
-          longitude: parseFloat(match.long),
+          latitude: match.lat,
+          longitude: match.long,
         };
       })
     );
@@ -51,11 +51,14 @@ export const MapViewComponent: React.FC<MapViewProps> = (props) => {
           )}
 
           {props.matchList.map((match) => {
+            if (match.lat === null || match.long === null) {
+              return <></>;
+            }
             return (
               <Marker
                 coordinate={{
-                  latitude: parseFloat(match.lat),
-                  longitude: parseFloat(match.long),
+                  latitude: match.lat,
+                  longitude: match.long,
                 }}
                 key={JSON.stringify(match.id)}
                 onPress={() => onMarkerPress(match)}
