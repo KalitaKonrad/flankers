@@ -7,6 +7,7 @@ import { MemberList } from '../../components/MembersList';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MatchHistory } from '../../components/shared/MatchHistory';
 import MyAvatar from '../../components/shared/MyAvatar';
+import { ScreenContent } from '../../components/shared/ScreenContent';
 import { Switch } from '../../components/shared/Switch';
 import { useRemoveTeamMemberMutation } from '../../hooks/useRemoveTeamMemberMutation';
 import { useTeamMembersQuery } from '../../hooks/useTeamMembersQuery';
@@ -72,26 +73,28 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
           />
         </View>
       </HeaderWithAvatar>
-      <View style={styles.note}>
-        <Text style={[TextStyle.noteH1]}>
-          {userProfile.data?.teams?.[0]?.name}
-        </Text>
-        <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 1000</Text>
-      </View>
-      <View style={styles.toggle}>
-        <Switch
-          leftLabel="Członkowie"
-          rightLabel="Mecze"
-          onLeftSideToggled={(res) => setSwitched(res)}
-        />
-        {switched ? (
-          <MatchHistory name="teamMatchHistory" matchHistory={[]} />
-        ) : (
-          membersList.isFetched && (
-            <MemberList name="teamMembers" teamMembers={membersList.data!} />
-          )
-        )}
-      </View>
+      <ScreenContent>
+        <View style={styles.note}>
+          <Text style={[TextStyle.noteH1]}>
+            {userProfile.data?.teams?.[0]?.name}
+          </Text>
+          <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 1000</Text>
+        </View>
+        <View style={styles.toggle}>
+          <Switch
+            leftLabel="Członkowie"
+            rightLabel="Mecze"
+            onLeftSideToggled={(res) => setSwitched(res)}
+          />
+          {switched ? (
+            <MatchHistory name="teamMatchHistory" matchHistory={[]} />
+          ) : (
+            membersList.isFetched && (
+              <MemberList name="teamMembers" teamMembers={membersList.data!} />
+            )
+          )}
+        </View>
+      </ScreenContent>
     </>
   );
 };

@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 import { MatchSettings } from '../../components/MatchSettings';
+import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { TextStyle, theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
@@ -33,102 +34,104 @@ export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
     // //////////////////////////////////////////////////////////////////////
     // TODO: INLINE HEADER
     // ///////////////////////////////////////////////////
-    <View style={styles.container}>
-      <View style={styles.matchSettings}>
-        <MatchSettings
-          onRankingMatchToggled={(res) => {
-            setIsRankingMatchSwitched(res);
-          }}
-          onMatchTypeToggled={(res) => setIsTypeSwitched(res)}
-          onVisibilityToggled={(res) => setIsVisibilitySwitched(res)}
-        />
-      </View>
-      <View>
-        <View style={styles.label}>
-          <Text style={{ textAlign: 'center' }}>Liczba Graczy</Text>
+    <ScreenContent>
+      <View style={styles.container}>
+        <View style={styles.matchSettings}>
+          <MatchSettings
+            onRankingMatchToggled={(res) => {
+              setIsRankingMatchSwitched(res);
+            }}
+            onMatchTypeToggled={(res) => setIsTypeSwitched(res)}
+            onVisibilityToggled={(res) => setIsVisibilitySwitched(res)}
+          />
         </View>
-
-        <View style={styles.playersAmountPicker}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              if (playersAmount > 2) {
-                setPlayersAmount(playersAmount - 1);
-              }
-            }}>
-            <Text style={{ color: theme.colors.black }}>-</Text>
-          </TouchableOpacity>
-          <Text style={TextStyle.noteH2}>{playersAmount}</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              if (playersAmount < 5) {
-                setPlayersAmount(playersAmount + 1);
-              }
-            }}>
-            <Text style={{ color: theme.colors.black }}>+</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-
-      {isRankingMatchSwitched ? (
         <View>
           <View style={styles.label}>
-            <Text style={{ textAlign: 'center' }}>Wpisowe</Text>
+            <Text style={{ textAlign: 'center' }}>Liczba Graczy</Text>
           </View>
-          <View style={styles.feePicker}>
+
+          <View style={styles.playersAmountPicker}>
             <TouchableOpacity
               style={styles.button}
               onPress={() => {
-                if (feeAmount > 0) {
-                  setFeeAmount(feeAmount - 1);
+                if (playersAmount > 2) {
+                  setPlayersAmount(playersAmount - 1);
                 }
               }}>
               <Text style={{ color: theme.colors.black }}>-</Text>
             </TouchableOpacity>
-            <Text style={TextStyle.noteH2}>{feeAmount + '.00'}</Text>
+            <Text style={TextStyle.noteH2}>{playersAmount}</Text>
             <TouchableOpacity
               style={styles.button}
-              onPress={() => setFeeAmount(feeAmount + 1)}>
+              onPress={() => {
+                if (playersAmount < 5) {
+                  setPlayersAmount(playersAmount + 1);
+                }
+              }}>
               <Text style={{ color: theme.colors.black }}>+</Text>
             </TouchableOpacity>
           </View>
         </View>
-      ) : (
-        <></>
-      )}
 
-      {!isVisibilitySwitched && !isTypeSwitched ? (
-        <View style={styles.invitation}>
-          <Text style={{ textAlign: 'center' }}>
-            Kod gry dzięki któremu przeciwna drużyna będzie mogła dołączyć
-            zostanie wygenerowany. Wybierz miejsce na mapie
-          </Text>
+        {isRankingMatchSwitched ? (
+          <View>
+            <View style={styles.label}>
+              <Text style={{ textAlign: 'center' }}>Wpisowe</Text>
+            </View>
+            <View style={styles.feePicker}>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => {
+                  if (feeAmount > 0) {
+                    setFeeAmount(feeAmount - 1);
+                  }
+                }}>
+                <Text style={{ color: theme.colors.black }}>-</Text>
+              </TouchableOpacity>
+              <Text style={TextStyle.noteH2}>{feeAmount + '.00'}</Text>
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => setFeeAmount(feeAmount + 1)}>
+                <Text style={{ color: theme.colors.black }}>+</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <></>
+        )}
+
+        {!isVisibilitySwitched && !isTypeSwitched ? (
+          <View style={styles.invitation}>
+            <Text style={{ textAlign: 'center' }}>
+              Kod gry dzięki któremu przeciwna drużyna będzie mogła dołączyć
+              zostanie wygenerowany. Wybierz miejsce na mapie
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
+
+        {!isVisibilitySwitched && isTypeSwitched ? (
+          <View style={styles.invitation}>
+            <Text style={{ textAlign: 'center' }}>
+              Kod gry dzięki któremu inne osoby będą mogły dołączyć zostanie
+              wygenerowany. Wybierz miejsce na mapie
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
+
+        <View style={styles.submitBtn}>
+          <SubmitButton
+            backgroundColor={theme.colors.primary}
+            labelColor={theme.colors.white}
+            onPress={() => navigation.push('MatchLocation')}>
+            utwórz
+          </SubmitButton>
         </View>
-      ) : (
-        <></>
-      )}
-
-      {!isVisibilitySwitched && isTypeSwitched ? (
-        <View style={styles.invitation}>
-          <Text style={{ textAlign: 'center' }}>
-            Kod gry dzięki któremu inne osoby będą mogły dołączyć zostanie
-            wygenerowany. Wybierz miejsce na mapie
-          </Text>
-        </View>
-      ) : (
-        <></>
-      )}
-
-      <View style={styles.submitBtn}>
-        <SubmitButton
-          backgroundColor={theme.colors.primary}
-          labelColor={theme.colors.white}
-          onPress={() => navigation.push('MatchLocation')}>
-          utwórz
-        </SubmitButton>
       </View>
-    </View>
+    </ScreenContent>
   );
 };
 

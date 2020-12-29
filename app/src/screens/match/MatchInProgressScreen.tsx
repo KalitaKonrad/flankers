@@ -3,6 +3,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { PlayersSquad } from '../../components/PlayersSquad';
+import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
@@ -14,7 +15,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
   navigation,
 }) => {
   return (
-    <>
+    <ScreenContent>
       {/*////////////////////////////////////////////////////////////////////////*/}
       {/*//TODO: INLINE HEADER*/}
       {/*/////////////////////////////////////////////////////*/}
@@ -35,7 +36,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
           Zakończ mecz
         </SubmitButton>
       </View>
-    </>
+    </ScreenContent>
   );
 };
 

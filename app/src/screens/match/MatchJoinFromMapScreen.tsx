@@ -2,6 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 
 import { MapViewComponent } from '../../components/map/MapView';
+import { ScreenContent } from '../../components/shared/ScreenContent';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 type MatchJoinFromMapScreenProps = object &
@@ -35,12 +36,12 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
   navigation,
 }) => {
   return (
-    <>
+    <ScreenContent>
       <MapViewComponent
         heatPoints={heatPoints} // w przyszlosci przesylac tablice coordinatow meczow dostarczona z backendu
         markers={markerPoints}
         // w przyszlosci przesylac tablice coordinatow meczow dostarczona z backendu
       />
-    </>
+    </ScreenContent>
   );
 };

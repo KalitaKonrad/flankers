@@ -5,6 +5,7 @@ import { Button } from 'react-native-paper';
 
 import { AppButton } from '../../components/shared/AppButton';
 import { Logo } from '../../components/shared/Logo';
+import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
@@ -23,21 +24,23 @@ export const MatchActionChoice: React.FC<MatchActionChoiceProps> = ({
       {/*////////////////////////////////////////////////////////////////////////*/}
       {/*//TODO: INLINE HEADER*/}
       {/*/////////////////////////////////////////////////////*/}
-      <SubmitButton
-        backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.white}
-        onPress={() => navigation.push('MatchJoinFromMap')}>
-        Mecze w okolicy
-      </SubmitButton>
-      <SubmitButton
-        backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.white}
-        onPress={() => navigation.push('MatchCreate')}>
-        Utwórz mecz
-      </SubmitButton>
-      <View style={styles.logoContainer}>
-        <Logo style={styles.logo} />
-      </View>
+      <ScreenContent>
+        <SubmitButton
+          backgroundColor={theme.colors.primary}
+          labelColor={theme.colors.white}
+          onPress={() => navigation.push('MatchJoinFromMap')}>
+          Mecze w okolicy
+        </SubmitButton>
+        <SubmitButton
+          backgroundColor={theme.colors.primary}
+          labelColor={theme.colors.white}
+          onPress={() => navigation.push('MatchCreate')}>
+          Utwórz mecz
+        </SubmitButton>
+        <View style={styles.logoContainer}>
+          <Logo style={styles.logo} />
+        </View>
+      </ScreenContent>
     </>
   );
 };

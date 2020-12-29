@@ -7,6 +7,7 @@ import { AppButton } from '../../components/shared/AppButton';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MatchHistory } from '../../components/shared/MatchHistory';
 import MyAvatar from '../../components/shared/MyAvatar';
+import { ScreenContent } from '../../components/shared/ScreenContent';
 import { useAuth } from '../../hooks/useAuth';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { TextStyle, theme } from '../../theme';
@@ -55,13 +56,15 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           />
         </View>
       </HeaderWithAvatar>
-      <View style={styles.note}>
-        <Text style={[TextStyle.noteH1]}>{data?.name}</Text>
-        <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 2000</Text>
-      </View>
-      <View style={styles.matchHistory}>
-        <MatchHistory name="name" matchHistory={[]} />
-      </View>
+      <ScreenContent>
+        <View style={styles.note}>
+          <Text style={[TextStyle.noteH1]}>{data?.name}</Text>
+          <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 2000</Text>
+        </View>
+        <View style={styles.matchHistory}>
+          <MatchHistory name="name" matchHistory={[]} />
+        </View>
+      </ScreenContent>
     </>
   );
 };

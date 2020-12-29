@@ -78,7 +78,7 @@ export const WalletMatchHistory: React.FC<MatchHistoryProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.background.white,
+    backgroundColor: theme.colors.white,
   },
   item: {
     marginHorizontal: 5,

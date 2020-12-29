@@ -3,6 +3,7 @@ import React from 'react';
 import { Button, StyleSheet, Text, View } from 'react-native';
 
 import { PlayersSquad } from '../../components/PlayersSquad';
+import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
@@ -14,7 +15,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   navigation,
 }) => {
   return (
-    <>
+    <ScreenContent>
       {/*////////////////////////////////////////////////////////////////////////*/}
       {/*//TODO: INLINE HEADER*/}
       {/*/////////////////////////////////////////////////////*/}
@@ -33,7 +34,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
           Rozpocznij
         </SubmitButton>
       </View>
-    </>
+    </ScreenContent>
   );
 };
 

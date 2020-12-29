@@ -4,6 +4,7 @@ import { Button, StyleSheet, Text, View } from 'react-native';
 import { LatLng } from 'react-native-maps';
 
 import { MapSelectLocation } from '../../components/map/MapSelectLocation';
+import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
@@ -26,7 +27,7 @@ export const MatchLocationScreen: React.FC<MatchLocationScreenProps> = ({
   });
 
   return (
-    <>
+    <ScreenContent>
       <MapSelectLocation
         onMarkerPlaced={(response) => setMarkerCoordinates(response)}
       />
@@ -43,7 +44,7 @@ export const MatchLocationScreen: React.FC<MatchLocationScreenProps> = ({
           Potwierdź lokalizacje
         </SubmitButton>
       </View>
-    </>
+    </ScreenContent>
   );
 };
 

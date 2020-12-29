@@ -6,6 +6,7 @@ import { Button, Text } from 'react-native-paper';
 import { InlineHeader } from '../../components/shared/InlineHeader';
 import { Modal } from '../../components/shared/Modal';
 import RoundInformation from '../../components/shared/RoundInformation';
+import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { TextStyle, theme } from '../../theme';
 import { WalletMatchHistory } from './WalletMatchHistory';
@@ -61,8 +62,9 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
           openModal();
         }}
       />
-
-      <WalletMatchHistory name="hehe" matchHistory={[]} />
+      <ScreenContent>
+        <WalletMatchHistory name="hehe" matchHistory={[]} />
+      </ScreenContent>
 
       {modalVisible && (
         <Modal isOpen={modalVisible} setIsOpen={setModalVisible}>

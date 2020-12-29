@@ -59,7 +59,7 @@ export const theme = {
     darkGray: '#E8E8E8',
     white: '#FFFFFF',
     black: '#000000',
-    background: '#F6F6F6',
+    background: '#FFFFFF',
     placeholder: '#BDBDBD',
     error: '#EB5757',
   },

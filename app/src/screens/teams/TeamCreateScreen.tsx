@@ -11,6 +11,7 @@ import { AppInput } from '../../components/shared/AppInput';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MultilineTextInput } from '../../components/shared/MultilineTextInput';
 import MyAvatar from '../../components/shared/MyAvatar';
+import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
@@ -78,33 +79,34 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
           />
         </View>
       </HeaderWithAvatar>
-
-      <View style={styles.note}>
-        <Text style={[TextStyle.noteH2]}>Dane zespołu</Text>
-      </View>
-      <View style={styles.container}>
-        <AppInput
-          style={{ marginBottom: 7 }}
-          label="Nazwa zespołu"
-          onChangeText={(text) => setValue('teamName', text)}
-        />
-        {!!errors.teamName && (
-          <HelperText type="error" visible={!!errors.teamName}>
-            {errors.teamName?.message}
-          </HelperText>
-        )}
-        <MultilineTextInput
-          label="Opis"
-          style={{ marginVertical: 10 }}
-          onChangeText={(text) => setValue('description', text)}
-        />
-      </View>
-      <SubmitButton
-        backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.white}
-        onPress={handleSubmit(onPress)}>
-        Utwórz
-      </SubmitButton>
+      <ScreenContent>
+        <View style={styles.note}>
+          <Text style={[TextStyle.noteH2]}>Dane zespołu</Text>
+        </View>
+        <View style={styles.container}>
+          <AppInput
+            style={{ marginBottom: 7 }}
+            label="Nazwa zespołu"
+            onChangeText={(text) => setValue('teamName', text)}
+          />
+          {!!errors.teamName && (
+            <HelperText type="error" visible={!!errors.teamName}>
+              {errors.teamName?.message}
+            </HelperText>
+          )}
+          <MultilineTextInput
+            label="Opis"
+            style={{ marginVertical: 10 }}
+            onChangeText={(text) => setValue('description', text)}
+          />
+        </View>
+        <SubmitButton
+          backgroundColor={theme.colors.primary}
+          labelColor={theme.colors.white}
+          onPress={handleSubmit(onPress)}>
+          Utwórz
+        </SubmitButton>
+      </ScreenContent>
     </InputScrollView>
   );
 };

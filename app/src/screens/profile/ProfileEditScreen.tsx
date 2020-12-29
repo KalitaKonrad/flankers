@@ -9,6 +9,7 @@ import * as yup from 'yup';
 import { AppInput } from '../../components/shared/AppInput';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
+import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useProfileEditMutation } from '../../hooks/useEditProfileMutation';
 import { TextStyle } from '../../theme';
@@ -87,68 +88,71 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
           />
         </View>
       </HeaderWithAvatar>
+
       <ScrollView>
-        <View style={styles.note}>
-          <Text style={[TextStyle.noteH2]}>Zmiana danych</Text>
-        </View>
-        <View style={styles.container}>
-          <View style={styles.placeholder} />
-          <AppInput
-            style={styles.textInputStyle}
-            label="Nazwa użytkownika"
-            error={!!errors.name}
-            onChangeText={(text) => setValue('name', text)}
-          />
-          {!!errors.name && (
-            <HelperText type="error" visible={!!errors.name}>
-              {errors.name?.message}
-            </HelperText>
-          )}
-          <AppInput
-            secureTextEntry
-            style={styles.textInputStyle}
-            label="Aktualne hasło"
-            error={!!errors.actualPassword}
-            onChangeText={(text) => setValue('actualPassword', text)}
-          />
-          {!!errors.actualPassword && (
-            <HelperText type="error" visible={!!errors.actualPassword}>
-              {errors.actualPassword?.message}
-            </HelperText>
-          )}
-          <AppInput
-            secureTextEntry
-            style={styles.textInputStyle}
-            label="Nowe hasło"
-            error={!!errors.newPassword}
-            onChangeText={(text) => setValue('newPassword', text)}
-          />
-          {!!errors.newPassword && (
-            <HelperText type="error" visible={!!errors.newPassword}>
-              {errors.newPassword?.message}
-            </HelperText>
-          )}
-          <AppInput
-            secureTextEntry
-            style={styles.textInputStyle}
-            label="Powtórz nowe hasło"
-            error={!!errors.newPasswordConfirm}
-            onChangeText={(text) => setValue('newPasswordConfirm', text)}
-          />
-          {!!errors.newPasswordConfirm && (
-            <HelperText type="error" visible={!!errors.newPasswordConfirm}>
-              {errors.newPasswordConfirm?.message}
-            </HelperText>
-          )}
-        </View>
-        <SubmitButton
-          disabled={mutation.isLoading}
-          labelColor={theme.colors.white}
-          backgroundColor={theme.colors.primary}
-          mode="contained"
-          onPress={handleSubmit(onEdit)}>
-          Zapisz zmiany
-        </SubmitButton>
+        <ScreenContent>
+          <View style={styles.note}>
+            <Text style={[TextStyle.noteH2]}>Zmiana danych</Text>
+          </View>
+          <View style={styles.container}>
+            <View style={styles.placeholder} />
+            <AppInput
+              style={styles.textInputStyle}
+              label="Nazwa użytkownika"
+              error={!!errors.name}
+              onChangeText={(text) => setValue('name', text)}
+            />
+            {!!errors.name && (
+              <HelperText type="error" visible={!!errors.name}>
+                {errors.name?.message}
+              </HelperText>
+            )}
+            <AppInput
+              secureTextEntry
+              style={styles.textInputStyle}
+              label="Aktualne hasło"
+              error={!!errors.actualPassword}
+              onChangeText={(text) => setValue('actualPassword', text)}
+            />
+            {!!errors.actualPassword && (
+              <HelperText type="error" visible={!!errors.actualPassword}>
+                {errors.actualPassword?.message}
+              </HelperText>
+            )}
+            <AppInput
+              secureTextEntry
+              style={styles.textInputStyle}
+              label="Nowe hasło"
+              error={!!errors.newPassword}
+              onChangeText={(text) => setValue('newPassword', text)}
+            />
+            {!!errors.newPassword && (
+              <HelperText type="error" visible={!!errors.newPassword}>
+                {errors.newPassword?.message}
+              </HelperText>
+            )}
+            <AppInput
+              secureTextEntry
+              style={styles.textInputStyle}
+              label="Powtórz nowe hasło"
+              error={!!errors.newPasswordConfirm}
+              onChangeText={(text) => setValue('newPasswordConfirm', text)}
+            />
+            {!!errors.newPasswordConfirm && (
+              <HelperText type="error" visible={!!errors.newPasswordConfirm}>
+                {errors.newPasswordConfirm?.message}
+              </HelperText>
+            )}
+          </View>
+          <SubmitButton
+            disabled={mutation.isLoading}
+            labelColor={theme.colors.white}
+            backgroundColor={theme.colors.primary}
+            mode="contained"
+            onPress={handleSubmit(onEdit)}>
+            Zapisz zmiany
+          </SubmitButton>
+        </ScreenContent>
       </ScrollView>
     </>
   );

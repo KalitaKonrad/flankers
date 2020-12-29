@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import { AppInput } from '../../components/shared/AppInput';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
+import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useTeamInvitationMutation } from '../../hooks/useTeamInvitationMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
@@ -79,29 +80,30 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
           />
         </View>
       </HeaderWithAvatar>
-
-      <View style={styles.note}>
-        <Text style={[TextStyle.noteH2]}>Zaproś użytkownika</Text>
-      </View>
-      <View style={styles.container}>
-        <AppInput
-          style={{ marginBottom: 7 }}
-          label="Email użytkownika"
-          onChangeText={(text) => setValue('email', text)}
-        />
-        {!!errors.email && (
-          <HelperText type="error" visible={!!errors.email}>
-            {errors.email?.message}
-          </HelperText>
-        )}
-      </View>
-      <SubmitButton
-        disabled={mutation.isLoading}
-        backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.white}
-        onPress={handleSubmit(onPress)}>
-        Prześlij zaproszenie
-      </SubmitButton>
+      <ScreenContent>
+        <View style={styles.note}>
+          <Text style={[TextStyle.noteH2]}>Zaproś użytkownika</Text>
+        </View>
+        <View style={styles.container}>
+          <AppInput
+            style={{ marginBottom: 7 }}
+            label="Email użytkownika"
+            onChangeText={(text) => setValue('email', text)}
+          />
+          {!!errors.email && (
+            <HelperText type="error" visible={!!errors.email}>
+              {errors.email?.message}
+            </HelperText>
+          )}
+        </View>
+        <SubmitButton
+          disabled={mutation.isLoading}
+          backgroundColor={theme.colors.primary}
+          labelColor={theme.colors.white}
+          onPress={handleSubmit(onPress)}>
+          Prześlij zaproszenie
+        </SubmitButton>
+      </ScreenContent>
     </InputScrollView>
   );
 };
