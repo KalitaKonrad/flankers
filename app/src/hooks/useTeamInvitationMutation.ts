@@ -25,7 +25,7 @@ export const useTeamInvitationMutation = () => {
         queryCache.invalidateQueries(QUERY_TEAM_INVITATION);
       },
       onError: (error) => {
-        console.log(error);
+        alert(error);
       },
     }
   );
