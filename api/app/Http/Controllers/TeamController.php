@@ -83,7 +83,7 @@ class TeamController extends Controller
         $team->fill($request->all());
         $team->save();
 
-        return Message::ok('Team updated successfully');
+        return Message::ok('Team updated successfully', $team);
     }
 
     /**

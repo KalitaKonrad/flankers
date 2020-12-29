@@ -1,8 +1,11 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { Keyboard, StyleSheet, Text, TextInput, View } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
-import { useTheme } from 'react-native-paper';
+import { HelperText, useTheme } from 'react-native-paper';
+import * as yup from 'yup';
 
 import { AppInput } from '../../components/shared/AppInput';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
@@ -11,22 +14,53 @@ import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
 import { ObjectStyle, TextStyle, theme } from '../../theme';
+import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
 type TeamCreateScreenProps = object &
   StackScreenProps<TeamScreenStackParamList, 'TeamCreate'>;
 
+type TeamCreateFormData = {
+  teamName: string;
+  description: string;
+};
+
+const TeamCreateSchema = yup.object().shape({
+  teamName: yup.string().required('Nazwa zespołu jest wymagana'),
+  description: yup.string(),
+});
+
 export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   navigation,
 }) => {
-  const [teamName, setTeamName] = useState('');
-  const [description, setDescription] = useState('');
+  const theme = useTheme();
 
   const [mutate, mutation] = useTeamCreateMutation();
 
-  const onPress = () => {
-    mutate({ name: teamName, description });
-    navigation.push('TeamManage');
+  const {
+    register,
+    setValue,
+    setError,
+    errors,
+    handleSubmit,
+  } = useForm<TeamCreateFormData>({
+    resolver: yupResolver(TeamCreateSchema),
+  });
+
+  useEffect(() => {
+    register('teamName');
+    register('description');
+  }, [register]);
+
+  const onPress = async ({ teamName, description }: TeamCreateFormData) => {
+    Keyboard.dismiss();
+
+    try {
+      await mutate({ name: teamName, description });
+      navigation.push('TeamManage');
+    } catch (error) {
+      setResponseErrors(error, setError);
+    }
   };
 
   return (
@@ -52,18 +86,23 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
         <AppInput
           style={{ marginBottom: 7 }}
           label="Nazwa zespołu"
-          onChangeText={(text) => setTeamName(text)}
+          onChangeText={(text) => setValue('teamName', text)}
         />
+        {!!errors.teamName && (
+          <HelperText type="error" visible={!!errors.teamName}>
+            {errors.teamName?.message}
+          </HelperText>
+        )}
         <MultilineTextInput
           label="Opis"
           style={{ marginVertical: 10 }}
-          onChangeText={(text) => setDescription(text)}
+          onChangeText={(text) => setValue('description', text)}
         />
       </View>
       <SubmitButton
-        backgroundColor={useTheme().colors.primary}
-        labelColor={useTheme().colors.white}
-        onPress={onPress}>
+        backgroundColor={theme.colors.primary}
+        labelColor={theme.colors.white}
+        onPress={handleSubmit(onPress)}>
         Utwórz
       </SubmitButton>
     </InputScrollView>

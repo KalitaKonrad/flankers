@@ -6,7 +6,7 @@ import { useAxios } from './useAxios';
 
 interface TeamsInvitationPayload {
   email: string;
-  team_id: number | null | undefined;
+  team_id: number;
 }
 
 export const useTeamInvitationMutation = () => {
@@ -23,10 +23,9 @@ export const useTeamInvitationMutation = () => {
     {
       onSuccess: () => {
         queryCache.invalidateQueries(QUERY_TEAM_INVITATION);
-        console.log('JEST  W PYTE');
       },
       onError: (error) => {
-        console.log(error);
+        alert(error);
       },
     }
   );
