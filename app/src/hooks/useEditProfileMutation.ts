@@ -5,7 +5,7 @@ import { useAxios } from './useAxios';
 
 interface ProfileEditPayload {
   name: string;
-  newPassword: string;
+  password: string;
 }
 
 export const useProfileEditMutation = () => {
@@ -17,7 +17,7 @@ export const useProfileEditMutation = () => {
     (newProfileSettings: ProfileEditPayload) =>
       axios.patch('user/settings', {
         name: newProfileSettings.name,
-        password: newProfileSettings.newPassword,
+        password: newProfileSettings.password,
       }),
     {
       onSuccess: () => {

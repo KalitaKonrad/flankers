@@ -1,4 +1,4 @@
-import { TeamProfilePayload } from '../types/teamProfile';
+import { TeamProfilePayload } from './teamProfile';
 
 export interface UserProfilePayload {
   id: number;
@@ -7,7 +7,7 @@ export interface UserProfilePayload {
   email_verified_at: string;
   created_at: string;
   updated_at: string;
-  current_team_id: number | null;
+  current_team_id: number;
   teams: TeamProfilePayload[];
   invites: [];
 }

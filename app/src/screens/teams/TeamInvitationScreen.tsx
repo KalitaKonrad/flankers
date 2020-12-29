@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard, StyleSheet, Text, View } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
-import { HelperText } from 'react-native-paper';
+import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
 import { AppInput } from '../../components/shared/AppInput';
@@ -36,7 +36,7 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
 }) => {
   const userProfile = useUserProfileQuery();
   const [mutate, mutation] = useTeamInvitationMutation();
-  const [isPending, setPending] = useState(false);
+  const theme = useTheme();
 
   const {
     register,
@@ -54,15 +54,14 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
 
   const onPress = async ({ email }: InvitationFormData) => {
     Keyboard.dismiss();
-    setPending(true);
 
     try {
-      await mutate({ email, team_id: userProfile.data?.current_team_id });
+      if (userProfile.data?.current_team_id !== undefined) {
+        await mutate({ email, team_id: userProfile.data?.current_team_id });
+      }
     } catch (error) {
       setResponseErrors(error, setError);
-      console.log('======>', error.response);
     }
-    setPending(false);
   };
 
   return (
@@ -97,6 +96,7 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
         )}
       </View>
       <SubmitButton
+        disabled={mutation.isLoading}
         backgroundColor={theme.colors.primary}
         labelColor={theme.colors.white}
         onPress={handleSubmit(onPress)}>

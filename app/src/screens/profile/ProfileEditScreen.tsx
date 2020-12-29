@@ -1,26 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import {
-  Keyboard,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
+import { Keyboard, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
-import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
-import { Container } from '../../components/shared/Container';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useProfileEditMutation } from '../../hooks/useEditProfileMutation';
-import { TextStyle, theme } from '../../theme';
+import { TextStyle } from '../../theme';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
@@ -43,7 +34,7 @@ const ProfileEditSchema = yup.object().shape({
     .required('Nowe hasło jest wymagane'),
   newPasswordConfirm: yup
     .string()
-    .oneOf([yup.ref('newPassword'), null], 'Hasła muszą się zgadzać')
+    .oneOf([yup.ref('newPassword'), null], 'Hasła muszą być identyczne')
     .required('Powtórz hasło'),
 });
 
@@ -51,7 +42,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   navigation,
 }) => {
   const [mutate, mutation] = useProfileEditMutation();
-  const [isPending, setPending] = useState(false);
+  const theme = useTheme();
 
   const {
     register,
@@ -72,15 +63,13 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
 
   const onEdit = async ({ name, newPassword }: ProfileEditFormData) => {
     Keyboard.dismiss();
-    setPending(true);
 
     try {
-      await mutate({ name, newPassword });
+      await mutate({ name, password: newPassword });
       navigation.push('Profile');
     } catch (error) {
       setResponseErrors(error, setError);
     }
-    setPending(false);
   };
 
   return (
@@ -105,7 +94,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
         <View style={styles.container}>
           <View style={styles.placeholder} />
           <AppInput
-            style={{ marginBottom: 7 }}
+            style={styles.textInputStyle}
             label="Nazwa użytkownika"
             error={!!errors.name}
             onChangeText={(text) => setValue('name', text)}
@@ -117,7 +106,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
           )}
           <AppInput
             secureTextEntry
-            style={{ marginBottom: 7 }}
+            style={styles.textInputStyle}
             label="Aktualne hasło"
             error={!!errors.actualPassword}
             onChangeText={(text) => setValue('actualPassword', text)}
@@ -129,7 +118,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
           )}
           <AppInput
             secureTextEntry
-            style={{ marginBottom: 7 }}
+            style={styles.textInputStyle}
             label="Nowe hasło"
             error={!!errors.newPassword}
             onChangeText={(text) => setValue('newPassword', text)}
@@ -141,7 +130,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
           )}
           <AppInput
             secureTextEntry
-            style={{ marginBottom: 7 }}
+            style={styles.textInputStyle}
             label="Powtórz nowe hasło"
             error={!!errors.newPasswordConfirm}
             onChangeText={(text) => setValue('newPasswordConfirm', text)}
@@ -153,9 +142,9 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
           )}
         </View>
         <SubmitButton
-          disabled={isPending}
-          labelColor={useTheme().colors.white}
-          backgroundColor={useTheme().colors.primary}
+          disabled={mutation.isLoading}
+          labelColor={theme.colors.white}
+          backgroundColor={theme.colors.primary}
           mode="contained"
           onPress={handleSubmit(onEdit)}>
           Zapisz zmiany
@@ -190,16 +179,7 @@ const styles = StyleSheet.create({
     bottom: -60,
   },
   textInputStyle: {
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
-    margin: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor: theme.colors.darkGray,
+    marginBottom: 7,
   },
   container: {
     top: 90,
