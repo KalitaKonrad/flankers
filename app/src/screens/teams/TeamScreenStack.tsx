@@ -5,7 +5,7 @@ import { View, Text } from 'react-native';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
 import { TeamCreateScreen } from './TeamCreateScreen';
-import { TeamInvitationScreen } from './TeamIinvitationScreen';
+import { TeamInvitationScreen } from './TeamInvitationScreen';
 import { TeamManageScreen } from './TeamManageScreen';
 
 export type TeamScreenStackParamList = {

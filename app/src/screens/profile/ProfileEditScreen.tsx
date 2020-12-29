@@ -1,29 +1,75 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
-import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Keyboard, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { HelperText, useTheme } from 'react-native-paper';
+import * as yup from 'yup';
 
 import { AppInput } from '../../components/shared/AppInput';
-import { Container } from '../../components/shared/Container';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import MyAvatar from '../../components/shared/MyAvatar';
 import { SubmitButton } from '../../components/shared/SubmitButton';
-import { TextStyle, theme } from '../../theme';
+import { useProfileEditMutation } from '../../hooks/useEditProfileMutation';
+import { TextStyle } from '../../theme';
+import { setResponseErrors } from '../../utils/setResponseErrors';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
 type ProfileEditScreenProps = object &
   StackScreenProps<ProfileScreenStackParamList, 'ProfileEdit'>;
 
+type ProfileEditFormData = {
+  name: string;
+  actualPassword: string;
+  newPassword: string;
+  newPasswordConfirm: string;
+};
+
+const ProfileEditSchema = yup.object().shape({
+  name: yup.string().required('Nick jest wymagany'),
+  actualPassword: yup.string().required('Obecne hasło jest wymagane'),
+  newPassword: yup
+    .string()
+    .min(8, 'Hasło musi składać się z min. 8 znaków')
+    .required('Nowe hasło jest wymagane'),
+  newPasswordConfirm: yup
+    .string()
+    .oneOf([yup.ref('newPassword'), null], 'Hasła muszą być identyczne')
+    .required('Powtórz hasło'),
+});
+
 export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   navigation,
 }) => {
-  const [username, setUsername] = React.useState('');
-  const [actualPassword, setActualPassword] = React.useState('');
-  const [newPassword, setNewPassword] = React.useState('');
-  const [newPasswordRep, setNewPasswordRep] = React.useState('');
+  const [mutate, mutation] = useProfileEditMutation();
+  const theme = useTheme();
 
-  const onEdit = () => {
-    navigation.push('Profile');
+  const {
+    register,
+    setValue,
+    setError,
+    errors,
+    handleSubmit,
+  } = useForm<ProfileEditFormData>({
+    resolver: yupResolver(ProfileEditSchema),
+  });
+
+  useEffect(() => {
+    register('name');
+    register('actualPassword');
+    register('newPassword');
+    register('newPasswordConfirm');
+  }, [register]);
+
+  const onEdit = async ({ name, newPassword }: ProfileEditFormData) => {
+    Keyboard.dismiss();
+
+    try {
+      await mutate({ name, password: newPassword });
+      navigation.push('Profile');
+    } catch (error) {
+      setResponseErrors(error, setError);
+    }
   };
 
   return (
@@ -48,30 +94,59 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
         <View style={styles.container}>
           <View style={styles.placeholder} />
           <AppInput
-            style={{ marginBottom: 7 }}
+            style={styles.textInputStyle}
             label="Nazwa użytkownika"
-            onChangeText={(text) => setUsername(text)}
+            error={!!errors.name}
+            onChangeText={(text) => setValue('name', text)}
           />
+          {!!errors.name && (
+            <HelperText type="error" visible={!!errors.name}>
+              {errors.name?.message}
+            </HelperText>
+          )}
           <AppInput
-            style={{ marginBottom: 7 }}
+            secureTextEntry
+            style={styles.textInputStyle}
             label="Aktualne hasło"
-            onChangeText={(text) => setActualPassword(text)}
+            error={!!errors.actualPassword}
+            onChangeText={(text) => setValue('actualPassword', text)}
           />
+          {!!errors.actualPassword && (
+            <HelperText type="error" visible={!!errors.actualPassword}>
+              {errors.actualPassword?.message}
+            </HelperText>
+          )}
           <AppInput
-            style={{ marginBottom: 7 }}
+            secureTextEntry
+            style={styles.textInputStyle}
             label="Nowe hasło"
-            onChangeText={(text) => setNewPassword(text)}
+            error={!!errors.newPassword}
+            onChangeText={(text) => setValue('newPassword', text)}
           />
+          {!!errors.newPassword && (
+            <HelperText type="error" visible={!!errors.newPassword}>
+              {errors.newPassword?.message}
+            </HelperText>
+          )}
           <AppInput
-            style={{ marginBottom: 7 }}
+            secureTextEntry
+            style={styles.textInputStyle}
             label="Powtórz nowe hasło"
-            onChangeText={(text) => setNewPasswordRep(text)}
+            error={!!errors.newPasswordConfirm}
+            onChangeText={(text) => setValue('newPasswordConfirm', text)}
           />
+          {!!errors.newPasswordConfirm && (
+            <HelperText type="error" visible={!!errors.newPasswordConfirm}>
+              {errors.newPasswordConfirm?.message}
+            </HelperText>
+          )}
         </View>
         <SubmitButton
-          backgroundColor={theme.colors.primary}
+          disabled={mutation.isLoading}
           labelColor={theme.colors.white}
-          onPress={onEdit}>
+          backgroundColor={theme.colors.primary}
+          mode="contained"
+          onPress={handleSubmit(onEdit)}>
           Zapisz zmiany
         </SubmitButton>
       </ScrollView>
@@ -104,16 +179,7 @@ const styles = StyleSheet.create({
     bottom: -60,
   },
   textInputStyle: {
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
-    margin: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor: theme.colors.darkGray,
+    marginBottom: 7,
   },
   container: {
     top: 90,
