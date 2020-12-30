@@ -29,33 +29,33 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   };
   return (
     <>
-      <HeaderWithAvatar color={theme.colors.primary}>
-        <AppButton
-          compact
-          icon="account-edit"
-          mode="text"
-          color={theme.colors.white}
-          onPress={onEdit}>
-          Edytuj
-        </AppButton>
-        <Text style={styles.title}>Profil</Text>
-        <AppButton
-          compact
-          icon="logout"
-          mode="text"
-          color={theme.colors.white}
-          onPress={onLogout}>
-          Wyloguj
-        </AppButton>
-        <View style={styles.avatar}>
-          <MyAvatar
-            src="../assets/avatar.png"
-            height={150}
-            width={150}
-            isBorder
-          />
-        </View>
-      </HeaderWithAvatar>
+      {/*<HeaderWithAvatar color={theme.colors.primary}>*/}
+      {/*  <AppButton*/}
+      {/*    compact*/}
+      {/*    icon="account-edit"*/}
+      {/*    mode="text"*/}
+      {/*    color={theme.colors.white}*/}
+      {/*    onPress={onEdit}>*/}
+      {/*    Edytuj*/}
+      {/*  </AppButton>*/}
+      {/*  <Text style={styles.title}>Profil</Text>*/}
+      {/*  <AppButton*/}
+      {/*    compact*/}
+      {/*    icon="logout"*/}
+      {/*    mode="text"*/}
+      {/*    color={theme.colors.white}*/}
+      {/*    onPress={onLogout}>*/}
+      {/*    Wyloguj*/}
+      {/*  </AppButton>*/}
+      {/*  <View style={styles.avatar}>*/}
+      {/*    <MyAvatar*/}
+      {/*      src="../assets/avatar.png"*/}
+      {/*      height={150}*/}
+      {/*      width={150}*/}
+      {/*      isBorder*/}
+      {/*    />*/}
+      {/*  </View>*/}
+      {/*</HeaderWithAvatar>*/}
       <ScreenContent>
         <View style={styles.note}>
           <Text style={[TextStyle.noteH1]}>{data?.name}</Text>

@@ -56,7 +56,10 @@ export const LoginScreen: React.FC<LoginPageProps> = ({ navigation }) => {
       await login(email, password);
     } catch (error) {
       setResponseErrors(error, setError);
-      const generalMessage = error.response.data.errors?.all;
+      const generalMessage = error.response?.data?.errors?.all;
+      if (!generalMessage) {
+        return;
+      }
       if (generalMessage) {
         setError('email', {
           type: 'server',

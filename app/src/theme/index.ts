@@ -63,6 +63,32 @@ export const theme = {
     placeholder: '#BDBDBD',
     error: '#EB5757',
   },
+  headerWithAvatarOptions: {
+    headerRightContainerStyle: {
+      justifyContent: 'flex-start',
+      paddingTop: 20,
+      paddingHorizontal: 10,
+    },
+    headerLeftContainerStyle: {
+      justifyContent: 'flex-start',
+      paddingTop: 20,
+      paddingHorizontal: 10,
+    },
+    headerTitleContainerStyle: {
+      display: 'flex',
+      justifyContent: 'flex-start',
+      alignItems: 'flex-start',
+    },
+    headerTitleStyle: {
+      justifyContent: 'flex-start',
+    },
+    headerStyle: {
+      backgroundColor: '#ffaf19',
+      height: 205,
+      elevation: 0,
+    },
+    headerTintColor: '#FFFFFF',
+  },
   headerOptions: {
     title: '',
     headerStyle: {
