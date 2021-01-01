@@ -1,16 +1,16 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Keyboard, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Keyboard, StyleSheet, Text, View } from 'react-native';
 import InputScrollView from 'react-native-input-scroll-view';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
 import { AppInput } from '../../components/shared/AppInput';
+import { Avatar } from '../../components/shared/Avatar';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MultilineTextInput } from '../../components/shared/MultilineTextInput';
-import MyAvatar from '../../components/shared/MyAvatar';
 import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
@@ -71,12 +71,7 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
           <Text style={TextStyle.headerWithAvatarTitle}>Utwórz zespół</Text>
         </View>
         <View style={ObjectStyle.headerWithAvatarImage}>
-          <MyAvatar
-            src="../assets/avatar.png"
-            height={150}
-            width={150}
-            isBorder
-          />
+          <Avatar src={{ uri: '../assets/avatar.png' }} size={150} border />
         </View>
       </HeaderWithAvatar>
       <ScreenContent>

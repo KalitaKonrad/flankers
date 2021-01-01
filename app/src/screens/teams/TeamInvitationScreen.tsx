@@ -1,20 +1,17 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard, StyleSheet, Text, View } from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
 import { AppInput } from '../../components/shared/AppInput';
-import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
-import MyAvatar from '../../components/shared/MyAvatar';
 import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useTeamInvitationMutation } from '../../hooks/useTeamInvitationMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
-import { ObjectStyle, TextStyle, theme } from '../../theme';
+import { TextStyle, theme } from '../../theme';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
@@ -66,45 +63,30 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
   };
 
   return (
-    <InputScrollView>
-      <HeaderWithAvatar color={theme.colors.primary} center>
-        <View style={TextStyle.headerWithAvatarTitle}>
-          <Text style={TextStyle.headerWithAvatarTitle}>Zaproś</Text>
-        </View>
-        <View style={ObjectStyle.headerWithAvatarImage}>
-          <MyAvatar
-            src="../assets/avatar.png"
-            height={150}
-            width={150}
-            isBorder
-          />
-        </View>
-      </HeaderWithAvatar>
-      <ScreenContent>
-        <View style={styles.note}>
-          <Text style={[TextStyle.noteH2]}>Zaproś użytkownika</Text>
-        </View>
-        <View style={styles.container}>
-          <AppInput
-            style={{ marginBottom: 7 }}
-            label="Email użytkownika"
-            onChangeText={(text) => setValue('email', text)}
-          />
-          {!!errors.email && (
-            <HelperText type="error" visible={!!errors.email}>
-              {errors.email?.message}
-            </HelperText>
-          )}
-        </View>
-        <SubmitButton
-          disabled={mutation.isLoading}
-          backgroundColor={theme.colors.primary}
-          labelColor={theme.colors.white}
-          onPress={handleSubmit(onPress)}>
-          Prześlij zaproszenie
-        </SubmitButton>
-      </ScreenContent>
-    </InputScrollView>
+    <ScreenContent>
+      <View style={styles.note}>
+        <Text style={[TextStyle.noteH2]}>Zaproś użytkownika</Text>
+      </View>
+      <View style={styles.container}>
+        <AppInput
+          style={{ marginBottom: 7 }}
+          label="Email użytkownika"
+          onChangeText={(text) => setValue('email', text)}
+        />
+        {!!errors.email && (
+          <HelperText type="error" visible={!!errors.email}>
+            {errors.email?.message}
+          </HelperText>
+        )}
+      </View>
+      <SubmitButton
+        disabled={mutation.isLoading}
+        backgroundColor={theme.colors.primary}
+        labelColor={theme.colors.white}
+        onPress={handleSubmit(onPress)}>
+        Prześlij zaproszenie
+      </SubmitButton>
+    </ScreenContent>
   );
 };
 

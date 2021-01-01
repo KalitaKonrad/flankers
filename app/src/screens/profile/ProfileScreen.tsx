@@ -4,9 +4,9 @@ import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 
 import { AppButton } from '../../components/shared/AppButton';
+import Avatar from '../../components/shared/Avatar';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
-import { MatchHistory } from '../../components/shared/MatchHistory';
-import MyAvatar from '../../components/shared/MyAvatar';
+import { MatchHistoryList } from '../../components/shared/MatchHistoryList';
 import { ScreenContent } from '../../components/shared/ScreenContent';
 import { useAuth } from '../../hooks/useAuth';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
@@ -62,7 +62,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
           <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 2000</Text>
         </View>
         <View style={styles.matchHistory}>
-          <MatchHistory name="name" matchHistory={[]} />
+          <MatchHistoryList name="name" matchHistory={[]} />
         </View>
       </ScreenContent>
     </>

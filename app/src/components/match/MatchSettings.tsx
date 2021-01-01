@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { Switch } from './shared/Switch';
+import { Switch } from '../shared/Switch';
 
 interface MatchSettingsProps {
   onRankingMatchToggled: (arg: boolean) => void;
@@ -28,7 +28,7 @@ export const MatchSettings: React.FC<MatchSettingsProps> = (props) => {
       <Switch
         leftLabel="Drużynowy"
         rightLabel="Swobodny"
-        onLeftSideToggled={(res) => {
+        onToggle={(res) => {
           setIsSwitchedMatchType(res);
           props.onMatchTypeToggled(isSwitchedMatchType);
         }}
@@ -37,7 +37,7 @@ export const MatchSettings: React.FC<MatchSettingsProps> = (props) => {
       <Switch
         leftLabel="Tak"
         rightLabel="Nie"
-        onLeftSideToggled={(res) => {
+        onToggle={(res) => {
           setIsSwitchedRankingMatch(res);
           props.onRankingMatchToggled(isSwitchedRankingMatch);
         }}
@@ -46,7 +46,7 @@ export const MatchSettings: React.FC<MatchSettingsProps> = (props) => {
       <Switch
         leftLabel="Publiczny"
         rightLabel="Prywatny"
-        onLeftSideToggled={(res) => {
+        onToggle={(res) => {
           setIsSwitchedMatchVisibility(res);
           props.onVisibilityToggled(isSwitchedMatchVisibility);
         }}

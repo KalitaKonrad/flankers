@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 
-import { MatchSettings } from '../../components/MatchSettings';
+import { MatchSettings } from '../../components/match/MatchSettings';
 import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { TextStyle, theme } from '../../theme';

@@ -6,9 +6,10 @@ import { Keyboard, StyleSheet, Text, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
 import * as yup from 'yup';
 
+import { Container } from '../../components/layout/Container';
+import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
-import { Container } from '../../components/shared/Container';
 import { useAuth } from '../../hooks/useAuth';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { AuthScreenStackParamList } from './AuthScreenStack';
@@ -72,47 +73,49 @@ export const LoginScreen: React.FC<LoginPageProps> = ({ navigation }) => {
 
   return (
     <Container>
-      <View style={styles.row}>
-        <AppInput
-          label="Email"
-          mode="outlined"
-          autoCompleteType="email"
-          keyboardType="email-address"
-          error={!!errors.email}
-          onChangeText={(value) => setValue('email', value)}
-        />
-        {!!errors.email && (
-          <HelperText type="error" visible={!!errors.email}>
-            {errors.email?.message}
-          </HelperText>
-        )}
-      </View>
-      <View style={styles.row}>
-        <AppInput
-          secureTextEntry
-          label="Hasło"
-          mode="outlined"
-          autoCompleteType="password"
-          error={!!errors.password}
-          onChangeText={(value) => setValue('password', value)}
-        />
-        {!!errors.password && (
-          <HelperText type="error" visible={!!errors.password}>
-            {errors.password?.message}
-          </HelperText>
-        )}
-      </View>
-      <View style={styles.actions}>
-        <AppButton
-          disabled={isPending}
-          mode="contained"
-          onPress={handleSubmit(onLogin)}>
-          Zaloguj
-        </AppButton>
-        <AppButton onPress={() => navigation.navigate('PasswordReset')}>
-          Zapomniałeś hasła?
-        </AppButton>
-      </View>
+      <PaddedInputScrollView>
+        <View style={styles.row}>
+          <AppInput
+            label="Email"
+            mode="outlined"
+            autoCompleteType="email"
+            keyboardType="email-address"
+            error={!!errors.email}
+            onChangeText={(value) => setValue('email', value)}
+          />
+          {!!errors.email && (
+            <HelperText type="error" visible={!!errors.email}>
+              {errors.email?.message}
+            </HelperText>
+          )}
+        </View>
+        <View style={styles.row}>
+          <AppInput
+            secureTextEntry
+            label="Hasło"
+            mode="outlined"
+            autoCompleteType="password"
+            error={!!errors.password}
+            onChangeText={(value) => setValue('password', value)}
+          />
+          {!!errors.password && (
+            <HelperText type="error" visible={!!errors.password}>
+              {errors.password?.message}
+            </HelperText>
+          )}
+        </View>
+        <View style={styles.actions}>
+          <AppButton
+            disabled={isPending}
+            mode="contained"
+            onPress={handleSubmit(onLogin)}>
+            Zaloguj
+          </AppButton>
+          <AppButton onPress={() => navigation.navigate('PasswordReset')}>
+            Zapomniałeś hasła?
+          </AppButton>
+        </View>
+      </PaddedInputScrollView>
     </Container>
   );
 };

@@ -1,3 +1,4 @@
+import { StackNavigationOptions } from '@react-navigation/stack';
 import { StyleSheet } from 'react-native';
 import {
   configureFonts,
@@ -7,6 +8,7 @@ import {
 declare global {
   namespace ReactNativePaper {
     interface ThemeColors {
+      secondary: string;
       lightGray: string;
       darkGray: string;
       white: string;
@@ -14,14 +16,11 @@ declare global {
     }
 
     interface Theme {
-      headerOptions: {
-        title: string;
-        headerStyle: {
-          backgroundColor: string;
-          height: number;
-          elevation: number;
-        };
-        headerTintColor: string;
+      tallHeader: Partial<StackNavigationOptions>;
+      headerOptions: Partial<StackNavigationOptions>;
+      headerButtonLabel: {
+        fontSize: number;
+        inverseColor: string;
       };
     }
   }
@@ -48,55 +47,61 @@ const fontConfig = {
   },
 };
 
+const colors = {
+  primary: '#ffaf19',
+  secondary: '#FFD789',
+  lightGray: '#F6F6F6',
+  darkGray: '#E8E8E8',
+  white: '#FFFFFF',
+  black: '#000000',
+  background: '#FFFFFF',
+  placeholder: '#BDBDBD',
+  error: '#EB5757',
+};
+
 export const theme = {
   ...PaperDefaultTheme,
   fonts: configureFonts(fontConfig),
   colors: {
     ...PaperDefaultTheme.colors,
-    primary: '#ffaf19',
-    secondary: '#FFD789',
-    lightGray: '#F6F6F6',
-    darkGray: '#E8E8E8',
-    white: '#FFFFFF',
-    black: '#000000',
-    background: '#FFFFFF',
-    placeholder: '#BDBDBD',
-    error: '#EB5757',
+    ...colors,
   },
-  headerWithAvatarOptions: {
-    headerRightContainerStyle: {
-      justifyContent: 'flex-start',
-      paddingTop: 20,
-      paddingHorizontal: 10,
+  headerButtonLabel: {
+    fontSize: 14,
+    inverseColor: colors.primary,
+  },
+  tallHeader: {
+    headerTitleAlign: 'center',
+    headerStyle: {
+      elevation: 0,
+      height: 180,
+      backgroundColor: colors.primary,
+    },
+    headerTitleStyle: {
+      color: colors.white,
+      fontSize: 30,
+      textAlign: 'center',
+    },
+    headerTitleContainerStyle: {
+      height: '100%',
     },
     headerLeftContainerStyle: {
       justifyContent: 'flex-start',
-      paddingTop: 20,
-      paddingHorizontal: 10,
+      marginLeft: 4,
     },
-    headerTitleContainerStyle: {
-      display: 'flex',
+    headerRightContainerStyle: {
       justifyContent: 'flex-start',
-      alignItems: 'flex-start',
+      marginRight: 4,
     },
-    headerTitleStyle: {
-      justifyContent: 'flex-start',
-    },
-    headerStyle: {
-      backgroundColor: '#ffaf19',
-      height: 205,
-      elevation: 0,
-    },
-    headerTintColor: '#FFFFFF',
   },
   headerOptions: {
     title: '',
     headerStyle: {
-      backgroundColor: '#ffaf19',
+      backgroundColor: colors.primary,
       height: 55,
       elevation: 0,
     },
-    headerTintColor: '#FFFFFF',
+    headerTintColor: colors.white,
   },
 };
 
@@ -115,15 +120,6 @@ export const TextStyle = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
     textAlign: 'center',
-  },
-  headerWithAvatarTitle: {
-    position: 'relative',
-    top: 0,
-    textAlign: 'center',
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold',
-    letterSpacing: 0.95,
   },
 });
 

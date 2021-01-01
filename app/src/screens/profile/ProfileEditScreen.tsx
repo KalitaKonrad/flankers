@@ -7,8 +7,8 @@ import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
 import { AppInput } from '../../components/shared/AppInput';
+import { Avatar } from '../../components/shared/Avatar';
 import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
-import MyAvatar from '../../components/shared/MyAvatar';
 import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useProfileEditMutation } from '../../hooks/useEditProfileMutation';
@@ -80,12 +80,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
           <Text style={styles.title}>Edycja profilu</Text>
         </View>
         <View style={styles.avatar}>
-          <MyAvatar
-            src="../assets/avatar.png"
-            height={150}
-            width={150}
-            isBorder
-          />
+          <Avatar src={{ uri: '../assets/avatar.png' }} size={150} border />
         </View>
       </HeaderWithAvatar>
 
