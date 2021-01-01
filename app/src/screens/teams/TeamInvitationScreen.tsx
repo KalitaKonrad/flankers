@@ -6,7 +6,11 @@ import { Keyboard, StyleSheet, Text, View } from 'react-native';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
+import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
+import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
+import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
+import { AppText } from '../../components/shared/AppText';
 import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useTeamInvitationMutation } from '../../hooks/useTeamInvitationMutation';
@@ -15,8 +19,10 @@ import { TextStyle, theme } from '../../theme';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
-type TeamInvitationScreenProps = object &
-  StackScreenProps<TeamScreenStackParamList, 'TeamCreate'>;
+type TeamInvitationScreenProps = StackScreenProps<
+  TeamScreenStackParamList,
+  'TeamCreate'
+>;
 
 type InvitationFormData = {
   email: string;
@@ -63,51 +69,40 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
   };
 
   return (
-    <ScreenContent>
-      <View style={styles.note}>
-        <Text style={[TextStyle.noteH2]}>Zaproś użytkownika</Text>
+    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+      <View style={styles.meta}>
+        <AppText variant="h2">Zaproś użytkownika</AppText>
       </View>
-      <View style={styles.container}>
-        <AppInput
-          style={{ marginBottom: 7 }}
-          label="Email użytkownika"
-          onChangeText={(text) => setValue('email', text)}
-        />
-        {!!errors.email && (
-          <HelperText type="error" visible={!!errors.email}>
-            {errors.email?.message}
-          </HelperText>
-        )}
-      </View>
-      <SubmitButton
-        disabled={mutation.isLoading}
-        backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.white}
-        onPress={handleSubmit(onPress)}>
-        Prześlij zaproszenie
-      </SubmitButton>
-    </ScreenContent>
+      <PaddedInputScrollView>
+        <View style={styles.row}>
+          <AppInput
+            mode="outlined"
+            label="Email użytkownika"
+            onChangeText={(text) => setValue('email', text)}
+          />
+          {!!errors.email && (
+            <HelperText type="error" visible={!!errors.email}>
+              {errors.email?.message}
+            </HelperText>
+          )}
+        </View>
+        <AppButton
+          mode="contained"
+          disabled={mutation.isLoading}
+          onPress={handleSubmit(onPress)}>
+          Prześlij zaproszenie
+        </AppButton>
+      </PaddedInputScrollView>
+    </ContainerWithAvatar>
   );
 };
 
 const styles = StyleSheet.create({
-  note: {
-    display: 'flex',
-    justifyContent: 'center',
+  meta: {
     alignItems: 'center',
-    top: 70,
+    marginBottom: 24,
   },
-  container: {
-    top: 90,
-    height: 350,
-  },
-  textInputStyle: {
-    borderRadius: 12,
-    margin: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor: theme.colors.darkGray,
+  row: {
+    marginBottom: 8,
   },
 });
