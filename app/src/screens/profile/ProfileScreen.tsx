@@ -1,100 +1,33 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
 
-import { AppButton } from '../../components/shared/AppButton';
-import Avatar from '../../components/shared/Avatar';
-import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
+import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
+import { AppText } from '../../components/shared/AppText';
 import { MatchHistoryList } from '../../components/shared/MatchHistoryList';
-import { ScreenContent } from '../../components/shared/ScreenContent';
-import { useAuth } from '../../hooks/useAuth';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
-import { TextStyle, theme } from '../../theme';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
 type ProfileScreenProps = object &
   StackScreenProps<ProfileScreenStackParamList, 'Profile'>;
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
-  const { logout } = useAuth();
   const { data } = useUserProfileQuery();
 
-  const onEdit = () => {
-    navigation.push('ProfileEdit');
-  };
-
-  const onLogout = async () => {
-    await logout();
-  };
   return (
-    <>
-      {/*<HeaderWithAvatar color={theme.colors.primary}>*/}
-      {/*  <AppButton*/}
-      {/*    compact*/}
-      {/*    icon="account-edit"*/}
-      {/*    mode="text"*/}
-      {/*    color={theme.colors.white}*/}
-      {/*    onPress={onEdit}>*/}
-      {/*    Edytuj*/}
-      {/*  </AppButton>*/}
-      {/*  <Text style={styles.title}>Profil</Text>*/}
-      {/*  <AppButton*/}
-      {/*    compact*/}
-      {/*    icon="logout"*/}
-      {/*    mode="text"*/}
-      {/*    color={theme.colors.white}*/}
-      {/*    onPress={onLogout}>*/}
-      {/*    Wyloguj*/}
-      {/*  </AppButton>*/}
-      {/*  <View style={styles.avatar}>*/}
-      {/*    <MyAvatar*/}
-      {/*      src="../assets/avatar.png"*/}
-      {/*      height={150}*/}
-      {/*      width={150}*/}
-      {/*      isBorder*/}
-      {/*    />*/}
-      {/*  </View>*/}
-      {/*</HeaderWithAvatar>*/}
-      <ScreenContent>
-        <View style={styles.note}>
-          <Text style={[TextStyle.noteH1]}>{data?.name}</Text>
-          <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 2000</Text>
-        </View>
-        <View style={styles.matchHistory}>
-          <MatchHistoryList name="name" matchHistory={[]} />
-        </View>
-      </ScreenContent>
-    </>
+    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+      <View style={styles.meta}>
+        <AppText variant="h1">{data?.name}</AppText>
+        <AppText variant="h3">Punkty rankingowe: 2000</AppText>
+      </View>
+      <MatchHistoryList matchHistory={[]} />
+    </ContainerWithAvatar>
   );
 };
 
 const styles = StyleSheet.create({
-  note: {
-    display: 'flex',
-    justifyContent: 'center',
+  meta: {
     alignItems: 'center',
-    top: 70,
-  },
-  title: {
-    position: 'relative',
-    top: 0,
-    textAlign: 'center',
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold',
-    letterSpacing: 0.95,
-  },
-  avatar: {
-    display: 'flex',
-    position: 'absolute',
-    alignItems: 'center',
-    left: 0,
-    right: 0,
-    bottom: -60,
-  },
-  matchHistory: {
-    display: 'flex',
-    top: 90,
+    marginBottom: 24,
   },
 });

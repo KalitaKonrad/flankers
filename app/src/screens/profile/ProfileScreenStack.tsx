@@ -22,6 +22,7 @@ export const ProfileScreenStack: React.FC = () => {
   const onLogout = async () => {
     await logout();
   };
+
   return (
     <Stack.Navigator screenOptions={theme.tallHeader}>
       <Stack.Screen

@@ -10,6 +10,7 @@ export const PaddedInputScrollView: React.FC<PaddedInputScrollViewProps> = (
 
 const styles = StyleSheet.create({
   container: {
+    marginBottom: 110,
     paddingHorizontal: 16,
   },
 });
