@@ -1,5 +1,5 @@
 import { LatLng } from 'react-native-maps';
 
-export interface MapSelectLocationProps {
-  onMarkerPlaced: (arg: LatLng) => void;
+export interface MapLocationSelectMapProps {
+  onLocationSelected: (location: LatLng) => void;
 }

@@ -3,8 +3,7 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { FAB, useTheme } from 'react-native-paper';
 
-import { MapViewComponent } from '../../components/map/MapView';
-import { theme } from '../../theme';
+import { ActiveMatchesMap } from '../../components/map/ActiveMatchesMap';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 type MatchJoinFromMapScreenProps = StackScreenProps<
@@ -42,7 +41,7 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
   const theme = useTheme();
   return (
     <View style={styles.container}>
-      <MapViewComponent
+      <ActiveMatchesMap
         heatPoints={heatPoints} // w przyszlosci przesylac tablice coordinatow meczow dostarczona z backendu
         markers={markerPoints}
         // w przyszlosci przesylac tablice coordinatow meczow dostarczona z backendu

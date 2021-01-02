@@ -17,7 +17,7 @@ type MatchCreateScreenProps = object &
 
 const INITIAL_MATCH_ENTRY_FEE = 5;
 
-export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
+export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
   navigation,
 }) => {
   const [matchJoinType, setMatchJoinType] = useState(MatchJoinType.TEAM);

@@ -27,7 +27,7 @@ const RoundInformation: React.FC<RoundInformationProps> = ({
       {buttonText && (
         <AppButton
           mode="contained"
-          style={styles.button}
+          style={styles.buttonContainer}
           onPress={onButtonPress}>
           {buttonText}
         </AppButton>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: theme.colors.darkGray,
   },
-  button: {
+  buttonContainer: {
     position: 'absolute',
     bottom: -10,
     right: 0,

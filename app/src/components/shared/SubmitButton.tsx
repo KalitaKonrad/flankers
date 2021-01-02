@@ -20,7 +20,7 @@ export const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
         fontSize: 16,
       }}
       theme={{ roundness: 20 }}
-      style={styles.button}
+      style={styles.buttonContainer}
       contentStyle={styles.buttonInner}
       uppercase={false}
     />
@@ -28,7 +28,7 @@ export const SubmitButton: React.FC<SubmitButtonProps> = (props) => {
 };
 
 const styles = StyleSheet.create({
-  button: {
+  buttonContainer: {
     margin: 10,
   },
   buttonInner: {

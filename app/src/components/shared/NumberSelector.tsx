@@ -54,14 +54,14 @@ export const NumberSelector: React.FC<NumberSelectorProps> = ({
       <IconButton
         icon="minus"
         size={16}
-        style={styles.button}
+        style={styles.buttonContainer}
         onPress={onDecrementPress}
       />
       <AppText variant="h1">{formatter(value)}</AppText>
       <IconButton
         icon="plus"
         size={16}
-        style={styles.button}
+        style={styles.buttonContainer}
         onPress={onIncrementPress}
       />
     </View>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  button: {
+  buttonContainer: {
     width: 50,
     height: 50,
     borderRadius: 100,

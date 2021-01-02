@@ -1,6 +1,6 @@
 import { LatLng, WeightedLatLng } from 'react-native-maps';
 
-export interface MapViewProps {
+export interface ActiveMatchesMapProps {
   heatPoints: WeightedLatLng[];
   markers: LatLng[];
 }
