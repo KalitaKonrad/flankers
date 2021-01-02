@@ -40,7 +40,11 @@ export const ProfileScreenStack: React.FC = () => {
           ),
         })}
       />
-      <Stack.Screen name="ProfileEdit" component={ProfileEditScreen} />
+      <Stack.Screen
+        name="ProfileEdit"
+        component={ProfileEditScreen}
+        options={{ title: 'Edytuj profil' }}
+      />
     </Stack.Navigator>
   );
 };
