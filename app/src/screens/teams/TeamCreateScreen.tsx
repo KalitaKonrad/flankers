@@ -2,17 +2,16 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Keyboard, StyleSheet, Text, View } from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
+import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
+import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
+import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
-import { MultilineTextInput } from '../../components/shared/MultilineTextInput';
-import { ScreenContent } from '../../components/shared/ScreenContent';
-import { SubmitButton } from '../../components/shared/SubmitButton';
+import { AppText } from '../../components/shared/AppText';
 import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
-import { TextStyle, theme } from '../../theme';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
@@ -65,15 +64,15 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   };
 
   return (
-    <InputScrollView>
-      <ScreenContent>
-        <View style={styles.note}>
-          <Text style={[TextStyle.noteH2]}>Dane zespołu</Text>
-        </View>
-        <View style={styles.container}>
+    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+      <View style={styles.meta}>
+        <AppText variant="h2">Dane zespołu</AppText>
+      </View>
+      <PaddedInputScrollView>
+        <View style={styles.row}>
           <AppInput
-            style={{ marginBottom: 7 }}
             label="Nazwa zespołu"
+            mode="outlined"
             onChangeText={(text) => setValue('teamName', text)}
           />
           {!!errors.teamName && (
@@ -81,56 +80,34 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
               {errors.teamName?.message}
             </HelperText>
           )}
-          <MultilineTextInput
+        </View>
+        <View style={styles.row}>
+          <AppInput
+            multiline
             label="Opis"
-            style={{ marginVertical: 10 }}
+            mode="outlined"
             onChangeText={(text) => setValue('description', text)}
           />
         </View>
-        <SubmitButton
-          backgroundColor={theme.colors.primary}
-          labelColor={theme.colors.white}
-          onPress={handleSubmit(onPress)}>
-          Utwórz
-        </SubmitButton>
-      </ScreenContent>
-    </InputScrollView>
+        <View style={styles.action}>
+          <AppButton mode="contained" onPress={handleSubmit(onPress)}>
+            Utwórz
+          </AppButton>
+        </View>
+      </PaddedInputScrollView>
+    </ContainerWithAvatar>
   );
 };
 
 const styles = StyleSheet.create({
-  note: {
-    display: 'flex',
-    justifyContent: 'center',
+  meta: {
     alignItems: 'center',
-    top: 70,
+    marginBottom: 16,
   },
-  container: {
-    top: 90,
-    height: 350,
+  row: {
+    marginBottom: 8,
   },
-  placeholder: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textInputStyle: {
-    borderRadius: 12,
-    margin: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor: theme.colors.darkGray,
-  },
-  textMultiLineInputStyle: {
-    borderRadius: 12,
-    height: 150,
-    textAlignVertical: 'top',
-    margin: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor: theme.colors.darkGray,
+  action: {
+    marginTop: 16,
   },
 });
