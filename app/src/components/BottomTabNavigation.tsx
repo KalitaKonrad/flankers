@@ -45,7 +45,7 @@ export const BottomTabNavigation: React.FC = () => {
   return (
     <Tab.Navigator
       activeColor="#FFF"
-      initialRouteName="Profile"
+      initialRouteName="Wallet"
       inactiveColor={theme.colors.secondary}
       labeled
       barStyle={{ backgroundColor: theme.colors.primary }}

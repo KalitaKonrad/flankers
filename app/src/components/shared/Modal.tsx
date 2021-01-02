@@ -1,7 +1,10 @@
-import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import React from 'react';
+import BottomSheet from 'reanimated-bottom-sheet';
 
-import { ModalProps } from '../../types/modalCompoentProps';
+export interface ModalProps {
+  title: string;
+}
 
-export const Modal: React.FC<ModalProps> = ({}) => {
+export const Modal = React.forwardRef<BottomSheet, ModalProps>((_, ref) => {
   return <div>Modal not available on web</div>;
-};
+});

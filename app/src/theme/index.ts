@@ -16,8 +16,8 @@ declare global {
     }
 
     interface Theme {
-      tallHeader: Partial<StackNavigationOptions>;
-      headerOptions: Partial<StackNavigationOptions>;
+      tallHeader: any;
+      headerOptions: any;
       headerButtonLabel: {
         fontSize: number;
         inverseColor: string;

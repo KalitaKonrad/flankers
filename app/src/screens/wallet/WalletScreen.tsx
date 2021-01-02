@@ -1,7 +1,8 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 import { Button, Text } from 'react-native-paper';
+import BottomSheet from 'reanimated-bottom-sheet';
 
 import { InlineHeader } from '../../components/shared/InlineHeader';
 import { Modal } from '../../components/shared/Modal';
@@ -23,6 +24,7 @@ const WITHDRAW_BUTTON_TEXT = 'Wypłać';
 export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const openModal = useCallback(() => setModalVisible(true), [setModalVisible]);
+  const modalRef = useRef<BottomSheet | null>(null);
 
   const closeModal = useCallback(() => setModalVisible(false), [
     setModalVisible,
@@ -57,46 +59,45 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
         subText="Aktualny stan konta"
         buttonText="Doładuj"
         onButtonClick={() => {
-          setModalButtonText(TOP_UP_BUTTON_TEXT);
-          setModalTitleText(TOP_UP_TITLE_TEXT);
-          openModal();
+          if (modalRef.current) {
+            modalRef.current?.snapTo(0);
+          }
+
+          // setModalButtonText(TOP_UP_BUTTON_TEXT);
+          // setModalTitleText(TOP_UP_TITLE_TEXT);
+          // openModal();
         }}
       />
       <ScreenContent>
         <WalletMatchHistory name="hehe" matchHistory={[]} />
       </ScreenContent>
 
-      {modalVisible && (
-        <Modal isOpen={modalVisible} setIsOpen={setModalVisible}>
-          <InlineHeader center>
-            <Text style={[TextStyle.noteH2]}>{modalTitleText}</Text>
-          </InlineHeader>
-          <View style={styles.accountTopUpSection}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                if (topUpAmount > 1) {
-                  setTopUpAmount(topUpAmount - 1);
-                }
-              }}>
-              <Text style={{ color: theme.colors.black }}>-</Text>
-            </TouchableOpacity>
-            <Text style={TextStyle.noteH2}>{topUpAmount + '.00'}</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => setTopUpAmount(topUpAmount + 1)}>
-              <Text style={{ color: theme.colors.black }}>+</Text>
-            </TouchableOpacity>
-          </View>
-          <SubmitButton
-            mode="text"
-            labelColor={theme.colors.white}
-            backgroundColor={error ? theme.colors.error : theme.colors.primary}
-            onPress={closeModal}>
-            {modalButtonText}
-          </SubmitButton>
-        </Modal>
-      )}
+      <Modal ref={modalRef} title="Wybierz kwotę doładowania">
+        <View style={styles.accountTopUpSection}>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => {
+              if (topUpAmount > 1) {
+                setTopUpAmount(topUpAmount - 1);
+              }
+            }}>
+            <Text style={{ color: theme.colors.black }}>-</Text>
+          </TouchableOpacity>
+          <Text style={TextStyle.noteH2}>{topUpAmount + '.00'}</Text>
+          <TouchableOpacity
+            style={styles.button}
+            onPress={() => setTopUpAmount(topUpAmount + 1)}>
+            <Text style={{ color: theme.colors.black }}>+</Text>
+          </TouchableOpacity>
+        </View>
+        <SubmitButton
+          mode="text"
+          labelColor={theme.colors.white}
+          backgroundColor={error ? theme.colors.error : theme.colors.primary}
+          onPress={closeModal}>
+          {modalButtonText}
+        </SubmitButton>
+      </Modal>
     </>
   );
 };
