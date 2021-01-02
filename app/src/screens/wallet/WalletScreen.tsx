@@ -1,138 +1,63 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useRef, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View } from 'react-native';
-import { Button, Text } from 'react-native-paper';
+import React, { useRef, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 
-import { InlineHeader } from '../../components/shared/InlineHeader';
+import { Container } from '../../components/layout/Container';
+import { AppButton } from '../../components/shared/AppButton';
+import { AppText } from '../../components/shared/AppText';
 import { Modal } from '../../components/shared/Modal';
+import { NumberSelector } from '../../components/shared/NumberSelector';
 import RoundInformation from '../../components/shared/RoundInformation';
-import { ScreenContent } from '../../components/shared/ScreenContent';
-import { SubmitButton } from '../../components/shared/SubmitButton';
-import { TextStyle, theme } from '../../theme';
-import { WalletMatchHistory } from './WalletMatchHistory';
+import { WalletTransactionHistoryList } from '../../components/wallet/WalletTransactionHistoryList';
 import { WalletScreenStackParamList } from './WalletScreenStack';
 
-type WalletScreenProps = object &
-  StackScreenProps<WalletScreenStackParamList, 'Wallet'>;
-
-const TOP_UP_TITLE_TEXT = 'Wybierz kwotę doładowania';
-const WITHDRAW_TITLE_TEXT = 'Wybierz kwotę środków, które chcesz wypłacić';
-const TOP_UP_BUTTON_TEXT = 'Doładuj';
-const WITHDRAW_BUTTON_TEXT = 'Wypłać';
+type WalletScreenProps = StackScreenProps<WalletScreenStackParamList, 'Wallet'>;
 
 export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const openModal = useCallback(() => setModalVisible(true), [setModalVisible]);
+  const balance = 20;
   const modalRef = useRef<BottomSheet | null>(null);
-
-  const closeModal = useCallback(() => setModalVisible(false), [
-    setModalVisible,
-  ]);
-
-  const [topUpAmount, setTopUpAmount] = useState(5.0);
-  const [modalButtonText, setModalButtonText] = useState('');
-  const [modalTitleText, setModalTitleText] = useState('');
-  const [error, setError] = useState('');
+  const [topUpAmount, setTopUpAmount] = useState(0);
 
   return (
-    <>
-      <InlineHeader color={theme.colors.white}>
-        <View style={styles.placeholder} />
-        <View style={styles.titleContainer}>
-          <Text style={TextStyle.noteH1}>Portfel</Text>
-        </View>
-        <Button
-          mode="text"
-          color={theme.colors.primary}
-          onPress={() => {
-            setModalButtonText(WITHDRAW_BUTTON_TEXT);
-            setModalTitleText(WITHDRAW_TITLE_TEXT);
-            openModal();
-          }}>
-          Wypłać
-        </Button>
-      </InlineHeader>
-
-      <RoundInformation
-        mainText="20.00 PLN"
-        subText="Aktualny stan konta"
-        buttonText="Doładuj"
-        onButtonClick={() => {
-          if (modalRef.current) {
-            modalRef.current?.snapTo(0);
-          }
-
-          // setModalButtonText(TOP_UP_BUTTON_TEXT);
-          // setModalTitleText(TOP_UP_TITLE_TEXT);
-          // openModal();
-        }}
-      />
-      <ScreenContent>
-        <WalletMatchHistory name="hehe" matchHistory={[]} />
-      </ScreenContent>
-
+    <Container>
+      <View style={styles.balanceContainer}>
+        <RoundInformation
+          mainText={`${balance.toFixed(2)} PLN`}
+          subText="Aktualny stan konta"
+          buttonText="Doładuj"
+          onButtonPress={() => modalRef?.current?.snapTo(0)}
+        />
+      </View>
+      <AppText variant="h1" style={styles.header}>
+        Historia
+      </AppText>
+      <WalletTransactionHistoryList />
       <Modal ref={modalRef} title="Wybierz kwotę doładowania">
-        <View style={styles.accountTopUpSection}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => {
-              if (topUpAmount > 1) {
-                setTopUpAmount(topUpAmount - 1);
-              }
-            }}>
-            <Text style={{ color: theme.colors.black }}>-</Text>
-          </TouchableOpacity>
-          <Text style={TextStyle.noteH2}>{topUpAmount + '.00'}</Text>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => setTopUpAmount(topUpAmount + 1)}>
-            <Text style={{ color: theme.colors.black }}>+</Text>
-          </TouchableOpacity>
+        <View style={styles.numberSelectorContainer}>
+          <NumberSelector
+            min={0}
+            step={0.5}
+            numberFormatter={(value) => value.toFixed(2)}
+            onValueChange={(value) => setTopUpAmount(value)}
+          />
         </View>
-        <SubmitButton
-          mode="text"
-          labelColor={theme.colors.white}
-          backgroundColor={error ? theme.colors.error : theme.colors.primary}
-          onPress={closeModal}>
-          {modalButtonText}
-        </SubmitButton>
+        <AppButton mode="contained">Doładuj</AppButton>
       </Modal>
-    </>
+    </Container>
   );
 };
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    display: 'flex',
-    justifyContent: 'flex-end',
-    flex: 2,
-  },
-  placeholder: {
-    flex: 1,
-  },
-  container: {
-    flex: 1,
-    padding: 24,
-  },
-  accountTopUpSection: {
-    display: 'flex',
-    flexDirection: 'row',
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    justifyContent: 'space-around',
+  balanceContainer: {
     alignItems: 'center',
-    minHeight: 50,
+    marginVertical: 32,
   },
-  button: {
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
+  header: {
+    paddingHorizontal: 16,
+    paddingBottom: 8,
+  },
+  numberSelectorContainer: {
     alignItems: 'center',
-    padding: 10,
-    borderRadius: 100,
-    backgroundColor: theme.colors.lightGray,
   },
 });

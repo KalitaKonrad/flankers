@@ -1,103 +1,65 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { TextStyle, theme } from '../../theme';
-import { SubmitButton } from './SubmitButton';
+import { theme } from '../../theme';
+import { AppButton } from './AppButton';
+import { AppText } from './AppText';
 
 interface RoundInformationProps {
   mainText: string;
   subText?: string;
   buttonText?: string;
-  onButtonClick?: () => void;
+  onButtonPress?: () => void;
 }
 
 const RoundInformation: React.FC<RoundInformationProps> = ({
   mainText,
   subText,
   buttonText,
-  onButtonClick,
+  onButtonPress,
 }) => {
   return (
-    <View style={styles.informationContainer}>
-      <View style={styles.informationWrapper}>
-        <View style={styles.information}>
-          {mainText && (
-            <View style={styles.mainTextWrapper}>
-              <Text style={styles.mainText}>{mainText}</Text>
-              {subText && (
-                <View style={styles.subTextWrapper}>
-                  <Text style={styles.subText}>{subText}</Text>
-                </View>
-              )}
-            </View>
-          )}
-        </View>
-        {buttonText && (
-          <View style={styles.buttonWrapper}>
-            <SubmitButton
-              labelColor={theme.colors.white}
-              backgroundColor={theme.colors.secondary}
-              onPress={onButtonClick}>
-              {buttonText}
-            </SubmitButton>
-          </View>
-        )}
-      </View>
+    <View style={styles.container}>
+      <AppText variant="h1" style={styles.mainText}>
+        {mainText}
+      </AppText>
+      {subText && <AppText style={styles.subText}>{subText}</AppText>}
+      {buttonText && (
+        <AppButton
+          mode="contained"
+          style={styles.button}
+          onPress={onButtonPress}>
+          {buttonText}
+        </AppButton>
+      )}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  informationContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    minHeight: 230,
-    backgroundColor: theme.colors.background.white,
-  },
-  informationWrapper: {
-    position: 'relative',
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 200,
-    height: 200,
-  },
-  information: {
+  container: {
+    width: 196,
+    height: 196,
+    borderWidth: 3,
     borderRadius: 100,
-    borderWidth: 4,
-    borderColor: theme.colors.primary,
-    height: 200,
-    width: 200,
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  mainTextWrapper: {
     position: 'relative',
-    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: theme.colors.primary,
   },
   mainText: {
-    fontSize: 24,
-    fontWeight: 'bold',
     color: theme.colors.primary,
-  },
-  subTextWrapper: {
-    position: 'absolute',
-    top: 35,
-    right: 0,
-    left: 0,
+    fontWeight: 'bold',
   },
   subText: {
-    color: theme.colors.background.darkGray,
-    fontSize: 14,
-    textAlign: 'center',
+    fontSize: 12,
+    color: theme.colors.darkGray,
   },
-  buttonWrapper: {
+  button: {
     position: 'absolute',
-    bottom: -20,
-    right: -10,
+    bottom: -10,
+    right: 0,
+    backgroundColor: theme.colors.secondary,
   },
 });
 

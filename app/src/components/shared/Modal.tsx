@@ -5,6 +5,8 @@ export interface ModalProps {
   title: string;
 }
 
-export const Modal = React.forwardRef<BottomSheet, ModalProps>((_, ref) => {
-  return <div>Modal not available on web</div>;
-});
+export const Modal = React.forwardRef<BottomSheet, ModalProps>(
+  ({ children }, ref) => {
+    return <div>{children}</div>;
+  }
+);

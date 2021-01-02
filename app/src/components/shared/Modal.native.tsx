@@ -107,10 +107,11 @@ const styles = StyleSheet.create({
   },
   modalTitle: {
     textAlign: 'center',
-    marginBottom: 16,
+    marginBottom: 32,
   },
   modalContent: {
     flex: 1,
     width: '100%',
+    justifyContent: 'space-between',
   },
 });

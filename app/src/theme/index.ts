@@ -1,4 +1,3 @@
-import { StackNavigationOptions } from '@react-navigation/stack';
 import { StyleSheet } from 'react-native';
 import {
   configureFonts,
