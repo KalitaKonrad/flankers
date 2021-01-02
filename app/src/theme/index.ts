@@ -17,7 +17,7 @@ declare global {
     interface Theme {
       tallHeader: any;
       whiteHeader: any;
-      headerOptions: any;
+      primaryHeader: any;
       headerButtonLabel: {
         fontSize: number;
         inverseColor: string;
@@ -70,6 +70,19 @@ export const theme = {
     fontSize: 14,
     inverseColor: colors.primary,
   },
+  primaryHeader: {
+    headerTitleAlign: 'center',
+    headerStyle: {
+      elevation: 0,
+      height: 120,
+      backgroundColor: colors.primary,
+    },
+    headerTitleStyle: {
+      fontSize: 30,
+      textAlign: 'center',
+      color: colors.white,
+    },
+  },
   whiteHeader: {
     headerTitleAlign: 'center',
     headerStyle: {
@@ -104,15 +117,6 @@ export const theme = {
       justifyContent: 'flex-start',
       marginRight: 4,
     },
-  },
-  headerOptions: {
-    title: '',
-    headerStyle: {
-      backgroundColor: colors.primary,
-      height: 55,
-      elevation: 0,
-    },
-    headerTintColor: colors.white,
   },
 };
 

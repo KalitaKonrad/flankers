@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { LatLng, WeightedLatLng } from 'react-native-maps';
+import React from 'react';
 
 import { MapViewProps } from '../../types/mapViewComponentProps';
 
