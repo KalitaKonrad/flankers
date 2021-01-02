@@ -60,22 +60,22 @@ export const BottomTabNavigation: React.FC = () => {
       <Tab.Screen
         name="Match"
         component={MatchScreenStack}
-        options={{ tabBarLabel: 'Match' }}
+        options={{ tabBarLabel: 'Mecze' }}
       />
       <Tab.Screen
         name="Team"
         component={TeamScreenStack}
-        options={{ tabBarLabel: 'Teams' }}
+        options={{ tabBarLabel: 'Zespół' }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileScreenStack}
-        options={{ tabBarLabel: 'Profile' }}
+        options={{ tabBarLabel: 'Profil' }}
       />
       <Tab.Screen
         name="Wallet"
         component={WalletScreenStack}
-        options={{ tabBarLabel: 'Wallet' }}
+        options={{ tabBarLabel: 'Portfel' }}
       />
       <Tab.Screen
         name="Ranking"
