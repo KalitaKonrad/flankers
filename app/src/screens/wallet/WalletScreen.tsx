@@ -6,9 +6,9 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import { Container } from '../../components/layout/Container';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
-import { Modal } from '../../components/shared/Modal';
 import { NumberSelector } from '../../components/shared/NumberSelector';
 import RoundInformation from '../../components/shared/RoundInformation';
+import { Modal } from '../../components/shared/modal/Modal';
 import { WalletTransactionHistoryList } from '../../components/wallet/WalletTransactionHistoryList';
 import { WalletScreenStackParamList } from './WalletScreenStack';
 

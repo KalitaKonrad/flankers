@@ -3,8 +3,8 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
+import { MatchHistoryList } from '../../components/match/MatchHistoryList';
 import { AppText } from '../../components/shared/AppText';
-import { MatchHistoryList } from '../../components/shared/MatchHistoryList';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 

@@ -9,7 +9,7 @@ import { Portal } from 'react-native-paper';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
 
-import { AppText } from './AppText';
+import { AppText } from '../AppText';
 import { ModalProps } from './Modal';
 
 const MODAL_HEIGHT = 295;

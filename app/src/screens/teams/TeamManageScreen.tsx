@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
+import { MatchHistoryList } from '../../components/match/MatchHistoryList';
 import { AppText } from '../../components/shared/AppText';
-import { MatchHistoryList } from '../../components/shared/MatchHistoryList';
 import { Switch } from '../../components/shared/Switch';
 import { TeamMemberList } from '../../components/team/TeamMembersList';
 import { useTeamMembersQuery } from '../../hooks/useTeamMembersQuery';
