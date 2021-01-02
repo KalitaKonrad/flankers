@@ -1,22 +1,20 @@
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/stack';
 import React, { useMemo } from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import App from '../../../App';
-import { PlayersSquad } from '../../components/PlayersSquad';
 import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
 import { PlayerAvatarList } from '../../components/match/PlayerAvatarList';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
-import { ScreenContent } from '../../components/shared/ScreenContent';
-import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
-type MatchInLobbyScreenProps = object &
-  StackScreenProps<MatchScreenStackParamList, 'MatchInLobby'>;
+type MatchInLobbyScreenProps = StackScreenProps<
+  MatchScreenStackParamList,
+  'MatchInLobby'
+>;
 
 export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   navigation,

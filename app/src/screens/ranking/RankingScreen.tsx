@@ -4,8 +4,10 @@ import { Text } from 'react-native';
 
 import { BottomTabNavigationParamList } from '../../components/BottomTabNavigation';
 
-type RankingScreenProps = object &
-  MaterialBottomTabScreenProps<BottomTabNavigationParamList, 'Ranking'>;
+type RankingScreenProps = MaterialBottomTabScreenProps<
+  BottomTabNavigationParamList,
+  'Ranking'
+>;
 
 export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
   return (

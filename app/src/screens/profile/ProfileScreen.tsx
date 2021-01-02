@@ -8,8 +8,10 @@ import { MatchHistoryList } from '../../components/shared/MatchHistoryList';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
-type ProfileScreenProps = object &
-  StackScreenProps<ProfileScreenStackParamList, 'Profile'>;
+type ProfileScreenProps = StackScreenProps<
+  ProfileScreenStackParamList,
+  'Profile'
+>;
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const { data } = useUserProfileQuery();

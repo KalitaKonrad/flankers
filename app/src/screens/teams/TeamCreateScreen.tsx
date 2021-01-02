@@ -8,18 +8,18 @@ import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
 import { AppInput } from '../../components/shared/AppInput';
-import { Avatar } from '../../components/shared/Avatar';
-import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
 import { MultilineTextInput } from '../../components/shared/MultilineTextInput';
 import { ScreenContent } from '../../components/shared/ScreenContent';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
-import { ObjectStyle, TextStyle, theme } from '../../theme';
+import { TextStyle, theme } from '../../theme';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
-type TeamCreateScreenProps = object &
-  StackScreenProps<TeamScreenStackParamList, 'TeamCreate'>;
+type TeamCreateScreenProps = StackScreenProps<
+  TeamScreenStackParamList,
+  'TeamCreate'
+>;
 
 type TeamCreateFormData = {
   teamName: string;
@@ -66,14 +66,6 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
 
   return (
     <InputScrollView>
-      <HeaderWithAvatar color={theme.colors.primary} center>
-        <View style={TextStyle.headerWithAvatarTitle}>
-          <Text style={TextStyle.headerWithAvatarTitle}>Utwórz zespół</Text>
-        </View>
-        <View style={ObjectStyle.headerWithAvatarImage}>
-          <Avatar src={{ uri: '../assets/avatar.png' }} size={150} border />
-        </View>
-      </HeaderWithAvatar>
       <ScreenContent>
         <View style={styles.note}>
           <Text style={[TextStyle.noteH2]}>Dane zespołu</Text>

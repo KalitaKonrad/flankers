@@ -2,7 +2,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 
-import { AppButton } from '../../components/shared/AppButton';
 import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
 import { useAuth } from '../../hooks/useAuth';
 import { ProfileEditScreen } from './ProfileEditScreen';

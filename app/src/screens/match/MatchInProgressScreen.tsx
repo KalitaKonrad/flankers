@@ -1,21 +1,23 @@
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { PlayersSquad } from '../../components/PlayersSquad';
-import { ScreenContent } from '../../components/shared/ScreenContent';
+import { Container } from '../../components/layout/Container';
 import { SubmitButton } from '../../components/shared/SubmitButton';
 import { theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
-type MatchInProgressScreenProps = object &
-  StackScreenProps<MatchScreenStackParamList, 'MatchInProgress'>;
+type MatchInProgressScreenProps = StackScreenProps<
+  MatchScreenStackParamList,
+  'MatchInProgress'
+>;
 
 export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
   navigation,
 }) => {
   return (
-    <ScreenContent>
+    <Container>
       {/*////////////////////////////////////////////////////////////////////////*/}
       {/*//TODO: INLINE HEADER*/}
       {/*/////////////////////////////////////////////////////*/}
@@ -36,7 +38,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
           Zakończ mecz
         </SubmitButton>
       </View>
-    </ScreenContent>
+    </Container>
   );
 };
 

@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Keyboard, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
@@ -11,17 +11,14 @@ import { PaddedInputScrollView } from '../../components/layout/PaddedInputScroll
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
-import { Avatar } from '../../components/shared/Avatar';
-import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
-import { ScreenContent } from '../../components/shared/ScreenContent';
-import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useProfileEditMutation } from '../../hooks/useEditProfileMutation';
-import { TextStyle } from '../../theme';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
-type ProfileEditScreenProps = object &
-  StackScreenProps<ProfileScreenStackParamList, 'ProfileEdit'>;
+type ProfileEditScreenProps = StackScreenProps<
+  ProfileScreenStackParamList,
+  'ProfileEdit'
+>;
 
 type ProfileEditFormData = {
   name: string;

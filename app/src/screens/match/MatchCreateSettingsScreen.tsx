@@ -8,12 +8,13 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
 import { NumberSelector } from '../../components/shared/NumberSelector';
 import { Switch } from '../../components/shared/Switch';
-import { theme } from '../../theme';
 import { MatchJoinType, MatchVisibility } from '../../types/match';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
-type MatchCreateScreenProps = object &
-  StackScreenProps<MatchScreenStackParamList, 'MatchCreate'>;
+type MatchCreateScreenProps = StackScreenProps<
+  MatchScreenStackParamList,
+  'MatchCreate'
+>;
 
 const INITIAL_MATCH_ENTRY_FEE = 5;
 

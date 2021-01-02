@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Keyboard, StyleSheet, Text, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
 import * as yup from 'yup';
 
@@ -14,8 +14,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { AuthScreenStackParamList } from './AuthScreenStack';
 
-type LoginPageProps = object &
-  StackScreenProps<AuthScreenStackParamList, 'Login'>;
+type LoginPageProps = StackScreenProps<AuthScreenStackParamList, 'Login'>;
 
 type LoginFormData = {
   email: string;

@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
-import { FAB, useTheme } from 'react-native-paper';
+import { FAB } from 'react-native-paper';
 
 import { ActiveMatchesMap } from '../../components/map/ActiveMatchesMap';
 import { MatchScreenStackParamList } from './MatchScreenStack';
@@ -38,7 +38,6 @@ const markerPoints = [
 export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
   navigation,
 }) => {
-  const theme = useTheme();
   return (
     <View style={styles.container}>
       <ActiveMatchesMap

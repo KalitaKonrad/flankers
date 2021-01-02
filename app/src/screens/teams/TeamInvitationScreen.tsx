@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Keyboard, StyleSheet, Text, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
@@ -11,11 +11,8 @@ import { PaddedInputScrollView } from '../../components/layout/PaddedInputScroll
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
-import { ScreenContent } from '../../components/shared/ScreenContent';
-import { SubmitButton } from '../../components/shared/SubmitButton';
 import { useTeamInvitationMutation } from '../../hooks/useTeamInvitationMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
-import { TextStyle, theme } from '../../theme';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 

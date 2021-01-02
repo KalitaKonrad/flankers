@@ -12,8 +12,10 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AuthScreenStackParamList } from './AuthScreenStack';
 
-type PasswordResetScreenProps = object &
-  StackScreenProps<AuthScreenStackParamList, 'PasswordReset'>;
+type PasswordResetScreenProps = StackScreenProps<
+  AuthScreenStackParamList,
+  'PasswordReset'
+>;
 
 interface PasswordResetFormData {
   email: string;

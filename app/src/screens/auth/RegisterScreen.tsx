@@ -3,7 +3,6 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Dimensions, Keyboard, StyleSheet, View } from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
 import {
   Button,
   Dialog,
@@ -22,8 +21,10 @@ import { useAuth } from '../../hooks/useAuth';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { AuthScreenStackParamList } from './AuthScreenStack';
 
-type RegisterScreenProps = object &
-  StackScreenProps<AuthScreenStackParamList, 'Register'>;
+type RegisterScreenProps = StackScreenProps<
+  AuthScreenStackParamList,
+  'Register'
+>;
 
 type RegisterFormData = {
   name: string;
