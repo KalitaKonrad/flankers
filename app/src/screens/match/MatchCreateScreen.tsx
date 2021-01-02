@@ -1,205 +1,98 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
-import { MatchSettings } from '../../components/match/MatchSettings';
-import { ScreenContent } from '../../components/shared/ScreenContent';
-import { SubmitButton } from '../../components/shared/SubmitButton';
-import { TextStyle, theme } from '../../theme';
+import { Container } from '../../components/layout/Container';
+import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
+import { AppButton } from '../../components/shared/AppButton';
+import { AppText } from '../../components/shared/AppText';
+import { NumberSelector } from '../../components/shared/NumberSelector';
+import { Switch } from '../../components/shared/Switch';
+import { theme } from '../../theme';
+import { MatchJoinType, MatchVisibility } from '../../types/match';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 type MatchCreateScreenProps = object &
   StackScreenProps<MatchScreenStackParamList, 'MatchCreate'>;
 
+const INITIAL_MATCH_ENTRY_FEE = 5;
+
 export const MatchCreateScreen: React.FC<MatchCreateScreenProps> = ({
   navigation,
 }) => {
-  const [feeAmount, setFeeAmount] = useState<number>(5.0);
-  const [playersAmount, setPlayersAmount] = useState<number>(2.0);
-  const [isRankingMatchSwitched, setIsRankingMatchSwitched] = useState<boolean>(
-    true
-  );
-  const [isVisibilitySwitched, setIsVisibilitySwitched] = useState<boolean>(
-    true
-  );
-  const [isTypeSwitched, setIsTypeSwitched] = useState<boolean>(true);
+  const [matchJoinType, setMatchJoinType] = useState(MatchJoinType.TEAM);
+  const [isMatchRanked, setMatchRanked] = useState(true);
+  const [matchVisbility, setMatchVisibility] = useState(MatchVisibility.PUBLIC);
+  const [matchEntryFee, setMatchEntryFee] = useState(INITIAL_MATCH_ENTRY_FEE);
 
   return (
-    // //////////////////////////////////////////////////////////////////////
-    // TODO: INLINE HEADER
-    // ///////////////////////////////////////////////////
-    <ScreenContent>
-      <View style={styles.container}>
-        <View style={styles.matchSettings}>
-          <MatchSettings
-            onRankingMatchToggled={(res) => {
-              setIsRankingMatchSwitched(res);
-            }}
-            onMatchTypeToggled={(res) => setIsTypeSwitched(res)}
-            onVisibilityToggled={(res) => setIsVisibilitySwitched(res)}
+    <Container>
+      <PaddedInputScrollView style={styles.wrapper}>
+        <View style={styles.row}>
+          <AppText style={styles.title}>Typ meczu</AppText>
+          <Switch
+            leftLabel="Drużynowy"
+            rightLabel="Swobodny"
+            onSwitchToLeft={() => setMatchJoinType(MatchJoinType.TEAM)}
+            onSwitchToRight={() => setMatchJoinType(MatchJoinType.OPEN)}
           />
         </View>
-        <View>
-          <View style={styles.label}>
-            <Text style={{ textAlign: 'center' }}>Liczba Graczy</Text>
-          </View>
-
-          <View style={styles.playersAmountPicker}>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                if (playersAmount > 2) {
-                  setPlayersAmount(playersAmount - 1);
-                }
-              }}>
-              <Text style={{ color: theme.colors.black }}>-</Text>
-            </TouchableOpacity>
-            <Text style={TextStyle.noteH2}>{playersAmount}</Text>
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => {
-                if (playersAmount < 5) {
-                  setPlayersAmount(playersAmount + 1);
-                }
-              }}>
-              <Text style={{ color: theme.colors.black }}>+</Text>
-            </TouchableOpacity>
-          </View>
+        <View style={styles.row}>
+          <AppText style={styles.title}>Mecz rankingowy</AppText>
+          <Switch
+            leftLabel="Tak"
+            rightLabel="Nie"
+            onSwitchToLeft={() => setMatchRanked(true)}
+            onSwitchToRight={() => setMatchRanked(false)}
+          />
         </View>
-
-        {isRankingMatchSwitched ? (
-          <View>
-            <View style={styles.label}>
-              <Text style={{ textAlign: 'center' }}>Wpisowe</Text>
-            </View>
-            <View style={styles.feePicker}>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => {
-                  if (feeAmount > 0) {
-                    setFeeAmount(feeAmount - 1);
-                  }
-                }}>
-                <Text style={{ color: theme.colors.black }}>-</Text>
-              </TouchableOpacity>
-              <Text style={TextStyle.noteH2}>{feeAmount + '.00'}</Text>
-              <TouchableOpacity
-                style={styles.button}
-                onPress={() => setFeeAmount(feeAmount + 1)}>
-                <Text style={{ color: theme.colors.black }}>+</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        ) : (
-          <></>
-        )}
-
-        {!isVisibilitySwitched && !isTypeSwitched ? (
-          <View style={styles.invitation}>
-            <Text style={{ textAlign: 'center' }}>
-              Kod gry dzięki któremu przeciwna drużyna będzie mogła dołączyć
-              zostanie wygenerowany. Wybierz miejsce na mapie
-            </Text>
-          </View>
-        ) : (
-          <></>
-        )}
-
-        {!isVisibilitySwitched && isTypeSwitched ? (
-          <View style={styles.invitation}>
-            <Text style={{ textAlign: 'center' }}>
-              Kod gry dzięki któremu inne osoby będą mogły dołączyć zostanie
-              wygenerowany. Wybierz miejsce na mapie
-            </Text>
-          </View>
-        ) : (
-          <></>
-        )}
-
-        <View style={styles.submitBtn}>
-          <SubmitButton
-            backgroundColor={theme.colors.primary}
-            labelColor={theme.colors.white}
-            onPress={() => navigation.push('MatchLocation')}>
-            utwórz
-          </SubmitButton>
+        <View style={styles.row}>
+          <AppText style={styles.title}>Widoczność meczu</AppText>
+          <Switch
+            leftLabel="Publiczny"
+            rightLabel="Prywatny"
+            onSwitchToLeft={() => setMatchVisibility(MatchVisibility.PUBLIC)}
+            onSwitchToRight={() => setMatchVisibility(MatchVisibility.PRIVATE)}
+          />
         </View>
-      </View>
-    </ScreenContent>
+        {isMatchRanked && (
+          <View style={styles.row}>
+            <AppText style={styles.title}>Wpisowe</AppText>
+            <NumberSelector
+              min={0}
+              step={0.5}
+              initialValue={INITIAL_MATCH_ENTRY_FEE}
+              numberFormatter={(value) => value.toFixed(2)}
+            />
+          </View>
+        )}
+        <View style={styles.action}>
+          <AppButton
+            mode="contained"
+            onPress={() => navigation.navigate('MatchLocation')}>
+            Utwórz
+          </AppButton>
+        </View>
+      </PaddedInputScrollView>
+    </Container>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flex: 1,
+  wrapper: {
+    paddingTop: 32,
   },
-  submitBtn: {
-    bottom: 20,
-  },
-  matchSettings: {
-    flex: 1,
-    justifyContent: 'space-between',
-    top: 20,
-  },
-  playersAmountPicker: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'row',
-    paddingHorizontal: 10,
-    paddingTop: 10,
-    paddingBottom: 10,
-    justifyContent: 'space-around',
+  row: {
     alignItems: 'center',
-    minHeight: 50,
-    marginBottom: 20,
+    marginBottom: 24,
   },
-
-  feePicker: {
-    position: 'relative',
-    display: 'flex',
-    flexDirection: 'row',
-    paddingLeft: 20,
-    paddingRight: 20,
-    paddingTop: 10,
-    paddingBottom: 10,
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    minHeight: 50,
-    marginBottom: 25,
+  title: {
+    color: '#666666',
+    fontWeight: 'bold',
+    marginBottom: 16,
+    fontSize: 16,
   },
-  button: {
-    width: 60,
-    height: 60,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 10,
-    borderRadius: 100,
-    backgroundColor: theme.colors.darkGray,
-  },
-  label: {
-    top: 10,
-  },
-  textInputStyle: {
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
-    margin: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor: theme.colors.darkGray,
-  },
-  invitation: {
-    bottom: 15,
-    margin: 10,
+  action: {
+    marginTop: 24,
   },
 });

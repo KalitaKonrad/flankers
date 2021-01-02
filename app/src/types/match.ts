@@ -3,3 +3,13 @@ export interface Match {
   comment: string;
   date: Date;
 }
+
+export enum MatchJoinType {
+  TEAM,
+  OPEN,
+}
+
+export enum MatchVisibility {
+  PUBLIC,
+  PRIVATE,
+}

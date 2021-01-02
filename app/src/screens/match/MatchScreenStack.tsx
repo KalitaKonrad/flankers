@@ -2,8 +2,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 
-import { theme } from '../../theme';
-import { MatchActionChoice } from './MatchActionChoice';
 import { MatchCreateScreen } from './MatchCreateScreen';
 import { MatchInLobbyScreen } from './MatchInLobbyScreen';
 import { MatchInProgressScreen } from './MatchInProgressScreen';
