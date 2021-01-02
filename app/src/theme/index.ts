@@ -17,6 +17,7 @@ declare global {
 
     interface Theme {
       tallHeader: any;
+      whiteHeader: any;
       headerOptions: any;
       headerButtonLabel: {
         fontSize: number;
@@ -69,6 +70,17 @@ export const theme = {
   headerButtonLabel: {
     fontSize: 14,
     inverseColor: colors.primary,
+  },
+  whiteHeader: {
+    headerTitleAlign: 'center',
+    headerStyle: {
+      elevation: 0,
+      backgroundColor: '#fff',
+    },
+    headerTitleStyle: {
+      fontSize: 30,
+      textAlign: 'center',
+    },
   },
   tallHeader: {
     headerTitleAlign: 'center',

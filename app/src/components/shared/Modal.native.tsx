@@ -1,5 +1,10 @@
-import React, { useRef, useState } from 'react';
-import { StyleSheet, TouchableWithoutFeedback, View } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import {
+  BackHandler,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import { Portal } from 'react-native-paper';
 import Animated from 'react-native-reanimated';
 import BottomSheet from 'reanimated-bottom-sheet';
@@ -15,6 +20,31 @@ export const Modal = React.forwardRef<BottomSheet, ModalProps>(
     const [isOpen, setOpen] = useState(false);
     const fadeAnim = useRef(new Animated.Value(1)).current;
 
+    const close = () => {
+      (ref as any)?.current?.snapTo(SNAP_POINTS.length - 1);
+    };
+
+    const onBackdropPress = () => {
+      close();
+    };
+
+    const onHardwareBackPress = () => {
+      if (isOpen) {
+        close();
+        return true;
+      }
+      return false;
+    };
+
+    useEffect(() => {
+      BackHandler.addEventListener('hardwareBackPress', onHardwareBackPress);
+      return () =>
+        BackHandler.removeEventListener(
+          'hardwareBackPress',
+          onHardwareBackPress
+        );
+    });
+
     const renderContent = () => {
       return (
         <View style={styles.modalContainer}>
@@ -25,10 +55,6 @@ export const Modal = React.forwardRef<BottomSheet, ModalProps>(
           <View style={styles.modalContent}>{children}</View>
         </View>
       );
-    };
-
-    const onBackdropPress = () => {
-      (ref as any)?.current?.snapTo(SNAP_POINTS.length - 1);
     };
 
     return (
