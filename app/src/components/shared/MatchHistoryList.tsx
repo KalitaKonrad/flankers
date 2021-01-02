@@ -14,7 +14,7 @@ export const MatchHistoryList: React.FC<MatchHistoryListProps> = ({
     <List.Item
       title="Match"
       description="Result"
-      left={(props) => <List.Icon {...props} icon="star" />}
+      left={(props) => <List.Icon {...props} icon="trophy" />}
     />
   );
 };
