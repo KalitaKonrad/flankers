@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Game;
 use App\Models\Game;
 use App\Http\Message;
 use App\Events\GameCreated;
+use App\Events\GameUpdated;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -24,9 +25,9 @@ class GameController extends Controller
     /**
      * Show list of games
      *
-     * Return list of all games, but without details,
-     * fetch specified game from here to get more
-     * informations.
+     * Return list of all public games or the ones belonging
+     * to request user, together with its squads. Fetch 
+     * specified game to get more informations.
      *
      * @group Game data
      *
@@ -34,7 +35,10 @@ class GameController extends Controller
      */
     public function index()
     {
-        return Game::with('squads')->get();
+        return Game::with('squads')
+            ->where('public', true)
+            ->orWhere('owner_id', Auth::id())
+            ->get();
     }
 
     /**
@@ -138,6 +142,7 @@ class GameController extends Controller
         $game->fill($request->all());
         $game->save();
 
+        GameUpdated::dispatch($game);
         return Message::ok('Game updated', $game);
     }
 

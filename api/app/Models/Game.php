@@ -63,6 +63,19 @@ class Game extends Model
     }
 
     /**
+     * Ends the game
+     */
+    public function end()
+    {
+        if ($this->completed) {
+            return;
+        }
+
+        $this->completed = true;
+        $this->save();
+    }
+
+    /**
      * Return players registered to the game
      *
      * @return Collection
