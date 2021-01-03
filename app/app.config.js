@@ -11,7 +11,7 @@ module.exports = {
     orientation: 'portrait',
     icon: './assets/icon.png',
     splash: {
-      avatar: './assets/splash.png',
+      image: './assets/splash.png',
       resizeMode: 'contain',
       backgroundColor: '#ffaf19',
     },
