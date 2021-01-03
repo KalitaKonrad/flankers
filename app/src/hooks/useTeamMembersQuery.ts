@@ -4,7 +4,7 @@ import { QUERY_TEAM_MEMBERS } from '../const/query.const';
 import { useAxios } from './useAxios';
 import { TeamMembersResponse } from './useTeamManageQuery';
 
-export const useTeamMembersQuery = (team_id: number | null | undefined) => {
+export const useTeamMembersQuery = (team_id: number | undefined) => {
   const axios = useAxios();
 
   return useQuery<TeamMembersResponse>(

@@ -1,5 +1,10 @@
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  DefaultTheme as NavigationDefaultTheme,
+  NavigationContainer,
+} from '@react-navigation/native';
+import merge from 'deepmerge';
 import React from 'react';
+import { View } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { QueryCache, ReactQueryCacheProvider, setConsole } from 'react-query';
 
@@ -14,13 +19,14 @@ setConsole({
 });
 
 const queryCache = new QueryCache();
+const CombinedDefaultTheme = merge(NavigationDefaultTheme, theme);
 
 const App: React.FC = () => {
   return (
     <AuthProvider>
       <ReactQueryCacheProvider queryCache={queryCache}>
-        <PaperProvider theme={theme}>
-          <NavigationContainer>
+        <PaperProvider theme={CombinedDefaultTheme}>
+          <NavigationContainer theme={CombinedDefaultTheme}>
             <AppScreen />
           </NavigationContainer>
         </PaperProvider>
