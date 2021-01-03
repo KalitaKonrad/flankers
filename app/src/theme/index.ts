@@ -1,4 +1,3 @@
-import { StyleSheet } from 'react-native';
 import {
   configureFonts,
   DefaultTheme as PaperDefaultTheme,
@@ -119,32 +118,3 @@ export const theme = {
     },
   },
 };
-
-export const TextStyle = StyleSheet.create({
-  noteH1: {
-    fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  noteH2: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-  noteH3: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
-  },
-});
-
-export const ObjectStyle = StyleSheet.create({
-  headerWithAvatarImage: {
-    display: 'flex',
-    position: 'absolute',
-    alignItems: 'center',
-    left: 0,
-    right: 0,
-    bottom: -60,
-  },
-});
