@@ -1,6 +1,5 @@
 import { useMutation, useQueryCache } from 'react-query';
 
-import { QUERY_TEAM_MEMBERS } from '../const/query.const';
 import { useAxios } from './useAxios';
 
 interface RemoveTeamMemberPayload {
