@@ -13,7 +13,7 @@ module.exports = {
     splash: {
       avatar: './assets/splash.png',
       resizeMode: 'contain',
-      backgroundColor: '#ffffff',
+      backgroundColor: '#ffaf19',
     },
     updates: {
       fallbackToCacheTimeout: 0,
@@ -25,7 +25,7 @@ module.exports = {
     android: {
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
-        backgroundColor: '#FFFFFF',
+        backgroundColor: '#ffaf19',
       },
     },
     web: {
