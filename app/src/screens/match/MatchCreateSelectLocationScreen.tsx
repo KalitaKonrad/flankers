@@ -5,6 +5,7 @@ import { LatLng } from 'react-native-maps';
 
 import { MatchLocationSelectMap } from '../../components/map/MatchLocationSelectMap.native';
 import { AppButton } from '../../components/shared/AppButton';
+import { useMatchCreateMutation } from '../../hooks/useMatchCreateMutation';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 interface Coordinates {
@@ -20,8 +21,27 @@ type MatchCreateSelectLocationScreenProps = StackScreenProps<
 
 export const MatchCreateSelectLocationScreen: React.FC<MatchCreateSelectLocationScreenProps> = ({
   navigation,
+  route,
 }) => {
   const [matchLocation, setMatchLocation] = useState<LatLng | null>(null);
+
+  const { type, isRated, isPublic, bet, playersAmount } = route.params;
+  const [mutate, mutation] = useMatchCreateMutation();
+
+  const onPress = () => {
+    if (matchLocation !== null) {
+      mutate({
+        type,
+        isRated,
+        isPublic,
+        bet,
+        playersAmount,
+        lat: matchLocation.latitude,
+        long: matchLocation.longitude,
+      });
+      navigation.push('MatchInLobby');
+    }
+  };
 
   return (
     <View style={styles.container}>

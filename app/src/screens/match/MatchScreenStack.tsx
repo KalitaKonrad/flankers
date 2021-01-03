@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 
+import { MatchLocationSelectMapRoutesParameters } from '../../types/MatchLocationSelectMapRoutesParamaters';
 import { MatchCreateSelectLocationScreen } from './MatchCreateSelectLocationScreen';
 import { MatchCreateSettingsScreen } from './MatchCreateSettingsScreen';
 import { MatchInLobbyScreen } from './MatchInLobbyScreen';
@@ -14,7 +15,7 @@ export type MatchScreenStackParamList = {
   MatchJoinFromMap: undefined;
   MatchInLobby: undefined;
   MatchInProgress: undefined;
-  MatchLocation: undefined;
+  MatchLocation: MatchLocationSelectMapRoutesParameters;
 };
 
 const Stack = createStackNavigator<MatchScreenStackParamList>();

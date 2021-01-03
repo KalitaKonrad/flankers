@@ -5,7 +5,7 @@ import { QUERY_GAMES } from '../const/query.const';
 import { useAxios } from './useAxios';
 
 interface MatchCreatePayload {
-  isTypeTeam: boolean;
+  type: string;
   isRated: boolean;
   isPublic: boolean;
   bet: number;
@@ -22,7 +22,7 @@ export const useMatchCreateMutation = () => {
   return useMutation(
     (newMatch: MatchCreatePayload) =>
       axios.post('games', {
-        type: newMatch.isTypeTeam,
+        type: newMatch.type,
         rated: newMatch.isRated,
         public: newMatch.isPublic,
         bet: newMatch.bet,

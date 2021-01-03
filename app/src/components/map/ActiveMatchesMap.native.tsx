@@ -1,12 +1,18 @@
 import * as Location from 'expo-location';
 import { Accuracy } from 'expo-location';
 import * as Permissions from 'expo-permissions';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import MapView, { Heatmap, LatLng, Marker } from 'react-native-maps';
+import MapView, {
+  Heatmap,
+  LatLng,
+  Marker,
+  WeightedLatLng,
+} from 'react-native-maps';
 import { IconButton } from 'react-native-paper';
 
-import { ActiveMatchesMapProps } from '../../types/mapViewComponentProps';
+import { ActiveMatchesMapProps } from '../../types/activeMatchesMapComponentProps';
+import { MatchResponse } from '../../types/matchResponse';
 import { MapLocateButton } from './MapLocateButton';
 
 const initialRegion = {
@@ -16,17 +22,29 @@ const initialRegion = {
   longitudeDelta: 0.003,
 };
 
-export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = ({
-  markers: initialMarkers,
-  heatPoints,
-}) => {
+export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
   const mapRef = useRef<MapView | null>(null);
-  const [markers, setMarkers] = useState<LatLng[]>(initialMarkers);
+  // const [markers, setMarkers] = useState<LatLng[]>(initialMarkers);
+  const [heatPointsArray, setHeatPointsArray] = useState<WeightedLatLng[]>();
   const [marginFix, setMarginFix] = useState(1);
 
   const onMapReady = () => {
     setMarginFix(0);
   };
+  const onMarkerPress = (match: MatchResponse) => {
+    props.onMarkerPress(match);
+  };
+
+  useEffect(() => {
+    setHeatPointsArray(
+      props.matchList.map((match) => {
+        return {
+          latitude: match.lat,
+          longitude: match.long,
+        };
+      })
+    );
+  }, [props.matchList]);
 
   return (
     <View style={styles.container}>
@@ -38,14 +56,20 @@ export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = ({
         showsMyLocationButton={false}
         showsUserLocation
         onMapReady={onMapReady}>
-        <Heatmap points={heatPoints} />
+        {heatPointsArray !== undefined && <Heatmap points={heatPointsArray} />}
 
-        {markers.map((marker) => {
+        {props.matchList.map((match) => {
+          if (match.lat === null || match.long === null) {
+            return <></>;
+          }
           return (
             <Marker
-              key={JSON.stringify(marker)}
-              coordinate={marker}
-              onPress={() => console.log('wybrano')} //w przyszlosci po wybraniu pojawia sie ModalComponent
+              coordinate={{
+                latitude: match.lat,
+                longitude: match.long,
+              }}
+              key={JSON.stringify(match.id)}
+              onPress={() => onMarkerPress(match)}
             />
           );
         })}
