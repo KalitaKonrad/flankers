@@ -1,4 +1,4 @@
-import { useMutation, useQuery, useQueryCache } from 'react-query';
+import { useMutation, useQueryCache } from 'react-query';
 
 import { QUERY_TEAM_KEY } from '../const/query.const';
 import { useAxios } from './useAxios';

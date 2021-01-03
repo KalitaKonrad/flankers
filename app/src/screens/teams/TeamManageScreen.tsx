@@ -1,120 +1,55 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { Button, useTheme } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
 
-import { MemberList } from '../../components/MembersList';
-import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
-import { MatchHistory } from '../../components/shared/MatchHistory';
-import MyAvatar from '../../components/shared/MyAvatar';
+import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
+import { MatchHistoryList } from '../../components/match/MatchHistoryList';
+import { AppText } from '../../components/shared/AppText';
 import { Switch } from '../../components/shared/Switch';
-import { useRemoveTeamMemberMutation } from '../../hooks/useRemoveTeamMemberMutation';
+import { TeamMemberList } from '../../components/team/TeamMembersList';
 import { useTeamMembersQuery } from '../../hooks/useTeamMembersQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
-import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
-type TeamManageScreenProps = object &
-  StackScreenProps<TeamScreenStackParamList, 'TeamManage'>;
+type TeamManageScreenProps = StackScreenProps<
+  TeamScreenStackParamList,
+  'TeamManage'
+>;
 
-export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
-  navigation,
-}) => {
+export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
   const userProfile = useUserProfileQuery();
   const membersList = useTeamMembersQuery(userProfile.data?.current_team_id);
-
-  const [switched, setSwitched] = useState(false);
-  const [mutate, mutation] = useRemoveTeamMemberMutation();
-
-  const onExit = () => {
-    if (!!userProfile.data?.id && !!userProfile.data?.current_team_id) {
-      mutate({
-        team_id: userProfile.data.current_team_id,
-        user_id: userProfile.data.id,
-      });
-    }
-    navigation.push('TeamCreate');
-  };
-
-  const onInvite = () => {
-    navigation.push('TeamInvitation');
-  };
+  const [showMatches, setShowMatches] = useState(false);
 
   return (
-    <>
-      <HeaderWithAvatar color={theme.colors.primary}>
-        <Button
-          compact
-          icon="account-multiple-plus"
-          mode="text"
-          color={theme.colors.white}
-          onPress={onInvite}>
-          Zaproś
-        </Button>
-
-        <View style={{ left: -5 }}>
-          <Text style={TextStyle.headerWithAvatarTitle}>Zespół</Text>
-        </View>
-        <Button
-          compact
-          icon="account-multiple-minus"
-          mode="text"
-          color={useTheme().colors.primary}
-          onPress={onExit}>
-          Opuść
-        </Button>
-        <View style={ObjectStyle.headerWithAvatarImage}>
-          <MyAvatar
-            src="../assets/avatar.png"
-            height={150}
-            width={150}
-            isBorder
-          />
-        </View>
-      </HeaderWithAvatar>
-      <View style={styles.note}>
-        <Text style={[TextStyle.noteH1]}>
-          {userProfile.data?.teams?.[0]?.name}
-        </Text>
-        <Text style={[TextStyle.noteH3]}>Punkty rankingowe: 1000</Text>
+    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+      <View style={styles.meta}>
+        <AppText variant="h1">{userProfile.data?.teams?.[0]?.name}</AppText>
+        <AppText variant="h3">Punkty rankingowe: 1000</AppText>
       </View>
-      <View style={styles.toggle}>
+      <View style={styles.switch}>
         <Switch
           leftLabel="Członkowie"
           rightLabel="Mecze"
-          onLeftSideToggled={(res) => setSwitched(res)}
+          onSwitchToLeft={() => setShowMatches(false)}
+          onSwitchToRight={() => setShowMatches(true)}
         />
-        {switched ? (
-          <MatchHistory name="teamMatchHistory" matchHistory={[]} />
-        ) : (
-          membersList.isFetched && (
-            <MemberList name="teamMembers" teamMembers={membersList.data!} />
-          )
-        )}
       </View>
-    </>
+      {showMatches && <MatchHistoryList matchHistory={[]} />}
+      {!showMatches && membersList.isSuccess && (
+        <TeamMemberList members={membersList.data!} />
+      )}
+    </ContainerWithAvatar>
   );
 };
 
 const styles = StyleSheet.create({
-  note: {
-    display: 'flex',
-    justifyContent: 'center',
+  meta: {
     alignItems: 'center',
-    top: 70,
+    marginBottom: 24,
   },
-  matchHistory: {
-    display: 'flex',
-    top: 90,
-  },
-  title: {
-    position: 'relative',
-    alignItems: 'center',
-    top: 0,
-    color: '#fff',
-  },
-  toggle: {
-    flex: 1,
-    top: 90,
+  switch: {
+    paddingHorizontal: 16,
+    marginBottom: 16,
   },
 });

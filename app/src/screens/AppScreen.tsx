@@ -5,11 +5,11 @@ import {
   Inter_500Medium,
   useFonts,
 } from '@expo-google-fonts/inter';
+import AppLoading from 'expo-app-loading';
 import React from 'react';
 
 import { BottomTabNavigation } from '../components/BottomTabNavigation';
 import { useAuth } from '../hooks/useAuth';
-import { SplashScreen } from './SplashScreen';
 import { AuthScreenStack } from './auth/AuthScreenStack';
 
 export const AppScreen: React.FC = () => {
@@ -22,7 +22,7 @@ export const AppScreen: React.FC = () => {
   });
 
   if (isLoading || !fontsLoaded) {
-    return <SplashScreen />;
+    return <AppLoading />;
   }
 
   if (isAuthenticated) {

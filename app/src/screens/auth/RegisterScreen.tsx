@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Dimensions, Image, Keyboard, StyleSheet, View } from 'react-native';
+import { Dimensions, Keyboard, StyleSheet, View } from 'react-native';
 import {
   Button,
   Dialog,
@@ -12,16 +12,19 @@ import {
 } from 'react-native-paper';
 import * as yup from 'yup';
 
+import { Container } from '../../components/layout/Container';
+import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
-import { Container } from '../../components/shared/Container';
 import { Logo } from '../../components/shared/Logo';
 import { useAuth } from '../../hooks/useAuth';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { AuthScreenStackParamList } from './AuthScreenStack';
 
-type RegisterScreenProps = object &
-  StackScreenProps<AuthScreenStackParamList, 'Register'>;
+type RegisterScreenProps = StackScreenProps<
+  AuthScreenStackParamList,
+  'Register'
+>;
 
 type RegisterFormData = {
   name: string;
@@ -85,10 +88,10 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
 
   return (
     <Container>
-      <View>
-        <View style={styles.logoContainer}>
-          <Logo style={styles.logo} />
-        </View>
+      <View style={styles.logoContainer}>
+        <Logo style={styles.logo} />
+      </View>
+      <PaddedInputScrollView>
         <View style={styles.row}>
           <AppInput
             label="Nick"
@@ -147,15 +150,15 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
             </HelperText>
           )}
         </View>
-      </View>
-      <View style={styles.actions}>
-        <AppButton
-          disabled={isPending}
-          mode="contained"
-          onPress={handleSubmit(onRegister)}>
-          Zarejestruj
-        </AppButton>
-      </View>
+        <View style={styles.actions}>
+          <AppButton
+            disabled={isPending}
+            mode="contained"
+            onPress={handleSubmit(onRegister)}>
+            Zarejestruj
+          </AppButton>
+        </View>
+      </PaddedInputScrollView>
       <Portal>
         <Dialog
           visible={isSuccessModalOpen}

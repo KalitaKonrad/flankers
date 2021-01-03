@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { TextStyle, theme } from '../theme';
-import MyAvatar from './shared/MyAvatar';
+import { TextStyle } from '../theme';
+import { Avatar } from './shared/Avatar';
 
 interface PlayersSquadProps {
   firstTeamAvatarList: string[];
@@ -21,7 +20,7 @@ export const PlayersSquad: React.FC<PlayersSquadProps> = (props) => {
       </View>
       <View style={styles.avatarsList}>
         {props.firstTeamAvatarList.map((imgSrc, index) => (
-          <MyAvatar height={50} width={50} src={imgSrc} key={index} />
+          <Avatar size={50} src={{ uri: imgSrc }} key={index} />
         ))}
       </View>
 
@@ -30,7 +29,7 @@ export const PlayersSquad: React.FC<PlayersSquadProps> = (props) => {
       </View>
       <View style={styles.avatarsList}>
         {props.secondTeamAvatarList.map((imgSrc, index) => (
-          <MyAvatar height={50} width={50} src={imgSrc} key={index} />
+          <Avatar size={50} src={{ uri: imgSrc }} key={index} />
         ))}
       </View>
       {props.notReadyPlayersAvatarList && (
@@ -40,7 +39,7 @@ export const PlayersSquad: React.FC<PlayersSquadProps> = (props) => {
           </View>
           <View style={styles.avatarsList}>
             {props.notReadyPlayersAvatarList.map((imgSrc, index) => (
-              <MyAvatar height={50} width={50} src={imgSrc} key={index} />
+              <Avatar size={50} src={{ uri: imgSrc }} key={index} />
             ))}
           </View>
         </View>

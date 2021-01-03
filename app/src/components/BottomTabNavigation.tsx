@@ -2,12 +2,9 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { NavigatorScreenParams } from '@react-navigation/native';
 import React from 'react';
+import { useTheme } from 'react-native-paper';
 
-import { useAuth } from '../hooks/useAuth';
-import {
-  AuthScreenStack,
-  AuthScreenStackParamList,
-} from '../screens/auth/AuthScreenStack';
+import { AuthScreenStackParamList } from '../screens/auth/AuthScreenStack';
 import {
   MatchScreenStack,
   MatchScreenStackParamList,
@@ -22,7 +19,6 @@ import {
   TeamScreenStackParamList,
 } from '../screens/teams/TeamScreenStack';
 import { WalletScreenStack } from '../screens/wallet/WalletScreenStack';
-import { theme } from '../theme';
 
 export type BottomTabNavigationParamList = {
   Auth: NavigatorScreenParams<AuthScreenStackParamList>;
@@ -44,6 +40,8 @@ const ROUTE_TO_ICON_MAP: Record<keyof BottomTabNavigationParamList, string> = {
 };
 
 export const BottomTabNavigation: React.FC = () => {
+  const theme = useTheme();
+
   return (
     <Tab.Navigator
       activeColor="#FFF"
@@ -62,22 +60,22 @@ export const BottomTabNavigation: React.FC = () => {
       <Tab.Screen
         name="Match"
         component={MatchScreenStack}
-        options={{ tabBarLabel: 'Match' }}
+        options={{ tabBarLabel: 'Mecze' }}
       />
       <Tab.Screen
         name="Team"
         component={TeamScreenStack}
-        options={{ tabBarLabel: 'Teams' }}
+        options={{ tabBarLabel: 'Zespół' }}
       />
       <Tab.Screen
         name="Profile"
         component={ProfileScreenStack}
-        options={{ tabBarLabel: 'Profile' }}
+        options={{ tabBarLabel: 'Profil' }}
       />
       <Tab.Screen
         name="Wallet"
         component={WalletScreenStack}
-        options={{ tabBarLabel: 'Wallet' }}
+        options={{ tabBarLabel: 'Portfel' }}
       />
       <Tab.Screen
         name="Ranking"

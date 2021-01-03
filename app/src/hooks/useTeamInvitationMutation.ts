@@ -1,7 +1,6 @@
-import { QueryResult, useMutation, useQueryCache } from 'react-query';
+import { useMutation, useQueryCache } from 'react-query';
 
 import { QUERY_TEAM_INVITATION } from '../const/query.const';
-import { UserProfilePayload } from '../types/userProfilePayload';
 import { useAxios } from './useAxios';
 
 interface TeamsInvitationPayload {

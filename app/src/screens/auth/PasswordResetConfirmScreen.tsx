@@ -4,8 +4,10 @@ import { Text } from 'react-native';
 
 import { AuthScreenStackParamList } from './AuthScreenStack';
 
-type PasswordResetConfirmScreen = object &
-  StackScreenProps<AuthScreenStackParamList, 'PasswordResetConfirm'>;
+type PasswordResetConfirmScreen = StackScreenProps<
+  AuthScreenStackParamList,
+  'PasswordResetConfirm'
+>;
 
 export const PasswordResetConfirmScreen: React.FC<PasswordResetConfirmScreen> = ({
   navigation,

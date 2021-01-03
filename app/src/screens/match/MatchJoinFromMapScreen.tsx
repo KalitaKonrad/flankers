@@ -1,11 +1,15 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
+import { StyleSheet, View } from 'react-native';
+import { FAB } from 'react-native-paper';
 
-import { MapViewComponent } from '../../components/map/MapView';
+import { ActiveMatchesMap } from '../../components/map/ActiveMatchesMap';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
-type MatchJoinFromMapScreenProps = object &
-  StackScreenProps<MatchScreenStackParamList, 'MatchJoinFromMap'>;
+type MatchJoinFromMapScreenProps = StackScreenProps<
+  MatchScreenStackParamList,
+  'MatchJoinFromMap'
+>;
 
 const heatPoints = [
   { latitude: 50.06865225060835, longitude: 19.906365908682346, weight: 80 },
@@ -35,12 +39,30 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
   navigation,
 }) => {
   return (
-    <>
-      <MapViewComponent
+    <View style={styles.container}>
+      <ActiveMatchesMap
         heatPoints={heatPoints} // w przyszlosci przesylac tablice coordinatow meczow dostarczona z backendu
         markers={markerPoints}
         // w przyszlosci przesylac tablice coordinatow meczow dostarczona z backendu
       />
-    </>
+      <FAB
+        style={styles.fab}
+        icon="plus"
+        label="Utwórz mecz"
+        onPress={() => navigation.navigate('MatchCreate')}
+      />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  fab: {
+    position: 'absolute',
+    right: 16,
+    bottom: 16,
+    backgroundColor: '#fff',
+  },
+});

@@ -9,7 +9,10 @@ export const AppButton: React.FC<AppButtonProps> = (props) => (
     {...props}
     theme={{ roundness: 100 }}
     uppercase={false}
-    contentStyle={[!props.compact && styles.button, props.contentStyle]}
+    contentStyle={[
+      !props.compact && styles.buttonContainer,
+      props.contentStyle,
+    ]}
     labelStyle={[
       styles.text,
       props.mode === 'contained' && styles.textInverted,
@@ -19,7 +22,7 @@ export const AppButton: React.FC<AppButtonProps> = (props) => (
 );
 
 const styles = StyleSheet.create({
-  button: {
+  buttonContainer: {
     height: 56,
   },
   text: {
