@@ -25,7 +25,9 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
 }) => {
   const [matchJoinType, setMatchJoinType] = useState(MatchJoinType.TEAM);
   const [isMatchRanked, setMatchRanked] = useState(true);
-  const [matchVisbility, setMatchVisibility] = useState(MatchVisibility.PUBLIC);
+  const [matchVisibility, setMatchVisibility] = useState(
+    MatchVisibility.PUBLIC
+  );
   const [matchEntryFee, setMatchEntryFee] = useState(INITIAL_MATCH_ENTRY_FEE);
   const [playersAmount, setPlayersAmount] = useState<number>(
     INITIAL_PLAYERS_IN_TEAM_AMOUNT
@@ -35,8 +37,8 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
     navigation.push('MatchLocation', {
       type: matchJoinType === MatchJoinType.TEAM ? 'team' : 'ffa',
       isRated: isMatchRanked,
-      isPublic: matchVisbility === MatchVisibility.PUBLIC,
-      bet: matchEntryFee,
+      isPublic: matchVisibility === MatchVisibility.PUBLIC,
+      bet: isMatchRanked ? matchEntryFee : 0,
       playersAmount,
     });
   };
@@ -95,7 +97,7 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
           />
         </View>
 
-        {matchVisbility === MatchVisibility.PRIVATE &&
+        {matchVisibility === MatchVisibility.PRIVATE &&
         matchJoinType === MatchJoinType.TEAM ? (
           <View style={styles.invitation}>
             <Text style={{ textAlign: 'center' }}>
@@ -107,7 +109,7 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
           <></>
         )}
 
-        {matchVisbility === MatchVisibility.PRIVATE &&
+        {matchVisibility === MatchVisibility.PRIVATE &&
         matchJoinType === MatchJoinType.OPEN ? (
           <View style={styles.invitation}>
             <Text style={{ textAlign: 'center' }}>
