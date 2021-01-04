@@ -92,7 +92,7 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
         <Text style={styles.textInModal}>
           Mecz
           {matchTemp?.rated === true ? ' rankingowy' : ' towarzyski'}
-          {matchTemp?.rated === false ? `, stawka ${matchTemp.bet}` : ''}
+          {matchTemp?.rated === true ? `, stawka ${matchTemp.bet}` : ''}
         </Text>
         <AppButton mode="contained">Dołącz</AppButton>
       </Modal>
