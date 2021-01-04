@@ -15,9 +15,6 @@ export const useRegisterGameScoreMutation = () => {
       onSuccess: () => {
         queryCache.invalidateQueries(QUERY_GAMES_MEMOS);
       },
-      onError(error) {
-        console.log(error);
-      },
     }
   );
 };

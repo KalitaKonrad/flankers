@@ -51,7 +51,7 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
     setMatchTemp(match);
   };
 
-  const onPressMatchJoinWithCode = async ({ code }: MatchCodeFormData) => {
+  const onMatchJoinWithCodePress = async ({ code }: MatchCodeFormData) => {
     Keyboard.dismiss();
 
     try {
@@ -91,8 +91,8 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
       <Modal ref={modalMarkerPressedRef} title="Dołącz do meczu">
         <Text style={styles.textInModal}>
           Mecz
-          {matchTemp?.rated === true ? ' rankingowy' : ' towarzyski'}
-          {matchTemp?.rated === true ? `, stawka ${matchTemp.bet}` : ''}
+          {matchTemp?.rated ? ' rankingowy' : ' towarzyski'}
+          {matchTemp?.rated ? `, stawka ${matchTemp.bet}` : ''}
         </Text>
         <AppButton mode="contained">Dołącz</AppButton>
       </Modal>
@@ -110,7 +110,7 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
         )}
         <AppButton
           mode="contained"
-          onPress={handleSubmit(onPressMatchJoinWithCode)}>
+          onPress={handleSubmit(onMatchJoinWithCodePress)}>
           Dołącz
         </AppButton>
       </Modal>

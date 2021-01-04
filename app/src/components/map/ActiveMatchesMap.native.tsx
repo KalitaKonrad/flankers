@@ -15,10 +15,10 @@ const initialRegion = {
 
 export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
   const mapRef = useRef<MapView | null>(null);
-  const [heatPointsArray, setHeatPointsArray] = useState<WeightedLatLng[]>();
-  const [publicMatchesArray, setPublicMatchesArray] = useState<
-    MatchResponse[]
-  >();
+  // const [heatPointsArray, setHeatPointsArray] = useState<WeightedLatLng[]>();
+  // const [publicMatchesArray, setPublicMatchesArray] = useState<
+  //   MatchResponse[]
+  // >();
   const [marginFix, setMarginFix] = useState(1);
 
   const onMapReady = () => {
@@ -28,23 +28,20 @@ export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
     props.onMarkerPress(match);
   };
 
-  useEffect(() => {
-    const publicMatches = props.matchList.filter((match) => {
+  const publicMatches = useMemo(() => {
+    return props.matchList.filter((match) => {
       return match.public;
     });
-    setPublicMatchesArray(publicMatches);
   }, [props.matchList]);
 
-  useMemo(() => {
-    setHeatPointsArray(
-      publicMatchesArray?.map((match) => {
-        return {
-          latitude: match.lat,
-          longitude: match.long,
-        };
-      })
-    );
-  }, [publicMatchesArray]);
+  const heatMapPoints = useMemo(() => {
+    return publicMatches.map((match) => {
+      return {
+        latitude: match.lat,
+        longitude: match.long,
+      };
+    });
+  }, [publicMatches]);
 
   return (
     <View style={styles.container}>
@@ -56,12 +53,9 @@ export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
         showsMyLocationButton={false}
         showsUserLocation
         onMapReady={onMapReady}>
-        {heatPointsArray !== undefined && <Heatmap points={heatPointsArray} />}
+        <Heatmap points={heatMapPoints} />
 
-        {publicMatchesArray?.map((match) => {
-          if (match.lat === null || match.long === null) {
-            return <></>;
-          }
+        {publicMatches?.map((match) => {
           return (
             <Marker
               coordinate={{

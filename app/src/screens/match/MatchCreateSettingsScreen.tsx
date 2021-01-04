@@ -92,7 +92,6 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
             step={1}
             max={5}
             initialValue={INITIAL_PLAYERS_IN_TEAM_AMOUNT}
-            numberFormatter={(value) => value.toFixed(0)}
             onValueChange={(value) => setPlayersAmount(value)}
           />
         </View>
@@ -100,10 +99,10 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
         {matchVisibility === MatchVisibility.PRIVATE &&
         matchJoinType === MatchJoinType.TEAM ? (
           <View style={styles.invitation}>
-            <Text style={{ textAlign: 'center' }}>
+            <AppText style={styles.privateMatchMessage}>
               Kod gry dzięki któremu przeciwna drużyna będzie mogła dołączyć
               zostanie wygenerowany. Wybierz miejsce na mapie
-            </Text>
+            </AppText>
           </View>
         ) : (
           <></>
@@ -112,10 +111,10 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
         {matchVisibility === MatchVisibility.PRIVATE &&
         matchJoinType === MatchJoinType.OPEN ? (
           <View style={styles.invitation}>
-            <Text style={{ textAlign: 'center' }}>
+            <AppText style={styles.privateMatchMessage}>
               Kod gry dzięki któremu inne osoby będą mogły dołączyć zostanie
               wygenerowany. Wybierz miejsce na mapie
-            </Text>
+            </AppText>
           </View>
         ) : (
           <></>
@@ -151,5 +150,8 @@ const styles = StyleSheet.create({
   invitation: {
     bottom: 15,
     margin: 10,
+  },
+  privateMatchMessage: {
+    textAlign: 'center',
   },
 });

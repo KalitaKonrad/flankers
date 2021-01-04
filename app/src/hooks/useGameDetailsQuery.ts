@@ -1,17 +1,13 @@
-import { Query, useQuery } from 'react-query';
+import { useQuery } from 'react-query';
 
 import { QUERY_GAMES } from '../const/query.const';
+import { MatchResponse } from '../types/matchResponse';
 import { useAxios } from './useAxios';
-import { MatchListResponse } from './useMatchListQuery';
 
-interface GameDetailsResponse extends MatchListResponse {
-  squads: object[]; //TODO: squad interface
-}
-
-export const useGameDetailsQuery = (match_id: number | null | undefined) => {
+export const useGameDetailsQuery = (match_id: number | undefined) => {
   const axios = useAxios();
 
-  return useQuery<GameDetailsResponse>(
+  return useQuery<MatchResponse>(
     QUERY_GAMES,
     async () => {
       const response = await axios.get(`games/${match_id}`);
