@@ -5,3 +5,4 @@ export const QUERY_USER_SETTINGS_KEY = 'user/settings';
 export const QUERY_TEAM_INVITATION = 'teams/invites';
 export const QUERY_GAMES = 'games';
 export const QUERY_GAMES_MEMOS = 'games/memos';
+export const QUERY_GAME_SQUAD = 'games/memberships';
