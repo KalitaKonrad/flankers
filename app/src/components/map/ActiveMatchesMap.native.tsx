@@ -15,10 +15,6 @@ const initialRegion = {
 
 export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
   const mapRef = useRef<MapView | null>(null);
-  // const [heatPointsArray, setHeatPointsArray] = useState<WeightedLatLng[]>();
-  // const [publicMatchesArray, setPublicMatchesArray] = useState<
-  //   MatchResponse[]
-  // >();
   const [marginFix, setMarginFix] = useState(1);
 
   const onMapReady = () => {
