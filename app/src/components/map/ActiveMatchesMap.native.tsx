@@ -1,15 +1,6 @@
-import * as Location from 'expo-location';
-import { Accuracy } from 'expo-location';
-import * as Permissions from 'expo-permissions';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import MapView, {
-  Heatmap,
-  LatLng,
-  Marker,
-  WeightedLatLng,
-} from 'react-native-maps';
-import { IconButton } from 'react-native-paper';
+import MapView, { Heatmap, Marker, WeightedLatLng } from 'react-native-maps';
 
 import { ActiveMatchesMapProps } from '../../types/activeMatchesMapComponentProps';
 import { MatchResponse } from '../../types/matchResponse';
@@ -24,8 +15,10 @@ const initialRegion = {
 
 export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
   const mapRef = useRef<MapView | null>(null);
-  // const [markers, setMarkers] = useState<LatLng[]>(initialMarkers);
   const [heatPointsArray, setHeatPointsArray] = useState<WeightedLatLng[]>();
+  const [publicMatchesArray, setPublicMatchesArray] = useState<
+    MatchResponse[]
+  >();
   const [marginFix, setMarginFix] = useState(1);
 
   const onMapReady = () => {
@@ -36,15 +29,22 @@ export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
   };
 
   useEffect(() => {
+    const publicMatches = props.matchList.filter((match) => {
+      return match.public;
+    });
+    setPublicMatchesArray(publicMatches);
+  }, [props.matchList]);
+
+  useMemo(() => {
     setHeatPointsArray(
-      props.matchList.map((match) => {
+      publicMatchesArray?.map((match) => {
         return {
           latitude: match.lat,
           longitude: match.long,
         };
       })
     );
-  }, [props.matchList]);
+  }, [publicMatchesArray]);
 
   return (
     <View style={styles.container}>
@@ -58,7 +58,7 @@ export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
         onMapReady={onMapReady}>
         {heatPointsArray !== undefined && <Heatmap points={heatPointsArray} />}
 
-        {props.matchList.map((match) => {
+        {publicMatchesArray?.map((match) => {
           if (match.lat === null || match.long === null) {
             return <></>;
           }

@@ -33,7 +33,7 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
 
   const onCreate = () => {
     navigation.push('MatchLocation', {
-      type: matchJoinType === MatchJoinType.TEAM ? 'team' : 'public',
+      type: matchJoinType === MatchJoinType.TEAM ? 'team' : 'ffa',
       isRated: isMatchRanked,
       isPublic: matchVisbility === MatchVisibility.PUBLIC,
       bet: matchEntryFee,
@@ -88,10 +88,10 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
           <NumberSelector
             min={2}
             step={1}
-            max={6}
+            max={5}
             initialValue={INITIAL_PLAYERS_IN_TEAM_AMOUNT}
             numberFormatter={(value) => value.toFixed(0)}
-            onValueChange={(value) => setMatchEntryFee(value)}
+            onValueChange={(value) => setPlayersAmount(value)}
           />
         </View>
 

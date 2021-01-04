@@ -49,14 +49,7 @@ export const MatchCreateSelectLocationScreen: React.FC<MatchCreateSelectLocation
         onLocationSelected={(location) => setMatchLocation(location)}
       />
       <View style={styles.buttonContainer}>
-        <AppButton
-          mode="contained"
-          onPress={() => {
-            console.log(
-              `przeslij coordinaty meczu ${matchLocation?.longitude} | ${matchLocation?.latitude}`
-            );
-            navigation.push('MatchInLobby');
-          }}>
+        <AppButton mode="contained" onPress={onPress}>
           Potwierdź lokalizacje
         </AppButton>
       </View>
