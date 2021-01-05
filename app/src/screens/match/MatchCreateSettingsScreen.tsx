@@ -35,7 +35,7 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
 
   const onCreate = () => {
     navigation.push('MatchLocation', {
-      type: matchJoinType === MatchJoinType.TEAM ? 'team' : 'ffa',
+      type: matchJoinType,
       isRated: isMatchRanked,
       isPublic: matchVisibility === MatchVisibility.PUBLIC,
       bet: isMatchRanked ? matchEntryFee : 0,

@@ -5,8 +5,8 @@ export interface Match {
 }
 
 export enum MatchJoinType {
-  TEAM,
-  OPEN,
+  TEAM = 'team',
+  OPEN = 'ffa',
 }
 
 export enum MatchVisibility {

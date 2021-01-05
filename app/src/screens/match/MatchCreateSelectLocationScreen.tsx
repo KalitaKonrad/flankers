@@ -31,11 +31,7 @@ export const MatchCreateSelectLocationScreen: React.FC<MatchCreateSelectLocation
   const onPress = () => {
     if (matchLocation !== null) {
       mutate({
-        type,
-        isRated,
-        isPublic,
-        bet,
-        playersAmount,
+        ...route.params,
         lat: matchLocation.latitude,
         long: matchLocation.longitude,
       });
