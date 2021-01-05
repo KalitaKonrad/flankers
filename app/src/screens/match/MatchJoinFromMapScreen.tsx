@@ -80,27 +80,24 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
         />
       )}
 
-      <Portal>
-        <FAB.Group
-          visible
-          style={{ position: 'absolute', bottom: 48 }}
-          open={open}
-          icon={open ? 'close' : 'plus'}
-          actions={[
-            {
-              icon: 'textbox',
-              label: 'Wpisz kod',
-              onPress: () => modalMatchCodeRef?.current?.snapTo(0),
-            },
-            {
-              icon: 'flag-plus',
-              label: 'Utwórz mecz',
-              onPress: () => navigation.navigate('MatchCreate'),
-            },
-          ]}
-          onStateChange={onStateChange}
-        />
-      </Portal>
+      <FAB.Group
+        visible
+        open={open}
+        icon={open ? 'close' : 'plus'}
+        actions={[
+          {
+            icon: 'textbox',
+            label: 'Wpisz kod',
+            onPress: () => modalMatchCodeRef?.current?.snapTo(0),
+          },
+          {
+            icon: 'flag-plus',
+            label: 'Utwórz mecz',
+            onPress: () => navigation.navigate('MatchCreate'),
+          },
+        ]}
+        onStateChange={onStateChange}
+      />
 
       <Modal ref={modalMarkerPressedRef} title="Dołącz do meczu">
         <Text style={styles.textInModal}>
