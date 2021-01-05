@@ -3,7 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard, StyleSheet, View } from 'react-native';
-import { FAB, HelperText, Text } from 'react-native-paper';
+import { FAB, HelperText, Portal, Provider, Text } from 'react-native-paper';
 import BottomSheet from 'reanimated-bottom-sheet';
 import * as yup from 'yup';
 
@@ -35,6 +35,12 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
   const [matchTemp, setMatchTemp] = useState<MatchResponse>();
   const modalMarkerPressedRef = useRef<BottomSheet | null>(null);
   const modalMatchCodeRef = useRef<BottomSheet | null>(null);
+
+  const [fabState, setFabState] = React.useState({ open: false });
+
+  const onStateChange = ({ open }: { open: boolean }) => setFabState({ open });
+
+  const { open } = fabState;
 
   const {
     register,
@@ -73,20 +79,28 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
           onMarkerPress={(res) => onMarkerPressed(res)}
         />
       )}
-      <View style={styles.FABGroup}>
-        <FAB
-          style={styles.fab}
-          icon="plus"
-          label="Wpisz kod"
-          onPress={() => modalMatchCodeRef?.current?.snapTo(0)}
+
+      <Portal>
+        <FAB.Group
+          visible
+          style={{ position: 'absolute', bottom: 48 }}
+          open={open}
+          icon={open ? 'close' : 'plus'}
+          actions={[
+            {
+              icon: 'textbox',
+              label: 'Wpisz kod',
+              onPress: () => modalMatchCodeRef?.current?.snapTo(0),
+            },
+            {
+              icon: 'flag-plus',
+              label: 'Utwórz mecz',
+              onPress: () => navigation.navigate('MatchCreate'),
+            },
+          ]}
+          onStateChange={onStateChange}
         />
-        <FAB
-          style={styles.fab}
-          icon="plus"
-          label="Utwórz mecz"
-          onPress={() => navigation.navigate('MatchCreate')}
-        />
-      </View>
+      </Portal>
 
       <Modal ref={modalMarkerPressedRef} title="Dołącz do meczu">
         <Text style={styles.textInModal}>

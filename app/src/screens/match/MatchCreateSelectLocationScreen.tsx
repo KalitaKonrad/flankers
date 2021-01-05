@@ -25,7 +25,6 @@ export const MatchCreateSelectLocationScreen: React.FC<MatchCreateSelectLocation
 }) => {
   const [matchLocation, setMatchLocation] = useState<LatLng | null>(null);
 
-  const { type, isRated, isPublic, bet, playersAmount } = route.params;
   const [mutate, mutation] = useMatchCreateMutation();
 
   const onPress = () => {
