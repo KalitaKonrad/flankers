@@ -5,6 +5,7 @@ import { LatLng } from 'react-native-maps';
 
 import { MatchLocationSelectMap } from '../../components/map/MatchLocationSelectMap.native';
 import { AppButton } from '../../components/shared/AppButton';
+import { useMatchCreateMutation } from '../../hooks/useMatchCreateMutation';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 interface Coordinates {
@@ -20,8 +21,22 @@ type MatchCreateSelectLocationScreenProps = StackScreenProps<
 
 export const MatchCreateSelectLocationScreen: React.FC<MatchCreateSelectLocationScreenProps> = ({
   navigation,
+  route,
 }) => {
   const [matchLocation, setMatchLocation] = useState<LatLng | null>(null);
+
+  const [mutate, mutation] = useMatchCreateMutation();
+
+  const onPress = () => {
+    if (matchLocation !== null) {
+      mutate({
+        ...route.params,
+        lat: matchLocation.latitude,
+        long: matchLocation.longitude,
+      });
+      navigation.push('MatchInLobby');
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -29,14 +44,7 @@ export const MatchCreateSelectLocationScreen: React.FC<MatchCreateSelectLocation
         onLocationSelected={(location) => setMatchLocation(location)}
       />
       <View style={styles.buttonContainer}>
-        <AppButton
-          mode="contained"
-          onPress={() => {
-            console.log(
-              `przeslij coordinaty meczu ${matchLocation?.longitude} | ${matchLocation?.latitude}`
-            );
-            navigation.push('MatchInLobby');
-          }}>
+        <AppButton mode="contained" onPress={onPress}>
           Potwierdź lokalizacje
         </AppButton>
       </View>

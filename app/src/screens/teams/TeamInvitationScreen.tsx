@@ -37,6 +37,7 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
 }) => {
   const userProfile = useUserProfileQuery();
   const [mutate, mutation] = useTeamInvitationMutation();
+
   const theme = useTheme();
 
   const {
