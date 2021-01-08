@@ -20,6 +20,9 @@ class GameInviteController extends Controller
     /**
      * Fetch game related to invite code
      *
+     * @group Game management
+     * @urlParam code string required 6-character Invite code Example: 1ADC31
+     *
      * @param string $code
      * @return void
      */
@@ -29,13 +32,12 @@ class GameInviteController extends Controller
     }
 
     /**
-     * Create new team
+     * Destroy game invite
      *
      * User which is creating the team will be set as its owner
      *
      * @group Game management
-     * @bodyParam name string required Team name Example: Flankersi
-     * @bodyParam description string Team description Example: Best team ever
+     * @urlParam code string required 6-character Invite code Example: 1ADC31
      *
      * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
