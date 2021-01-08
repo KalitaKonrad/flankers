@@ -64,6 +64,14 @@ class Game extends Model
     }
 
     /**
+     * Return invite related to game
+     */
+    public function invite()
+    {
+        return $this->hasOne(GameInvite::class);
+    }
+
+    /**
      * Ends the game
      */
     public function end()
@@ -74,8 +82,14 @@ class Game extends Model
 
         $this->completed = true;
         $this->save();
+        $this->invite()->delete();
 
         GameFinished::dispatch($this);
+    }
+
+    public function description()
+    {
+        return $this->with('squads', 'squads.members', 'invite')->find($this->id);
     }
 
     /**

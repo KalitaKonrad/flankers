@@ -26,7 +26,7 @@ class GameController extends Controller
      * Show list of games
      *
      * Return list of all public games or the ones belonging
-     * to request user, together with its squads. Fetch 
+     * to request user, together with its squads. Fetch
      * specified game to get more informations.
      *
      * @group Game data
@@ -35,7 +35,7 @@ class GameController extends Controller
      */
     public function index()
     {
-        return Game::with('squads')
+        return Game::with('squads', 'squads.members')
             ->where('public', true)
             ->orWhere('owner_id', Auth::id())
             ->get();
@@ -77,7 +77,7 @@ class GameController extends Controller
 
         GameCreated::dispatch($game);
 
-        return Message::ok('Game created', $game->with('squads')->find($game->id));
+        return Message::ok('Game created', $game->description());
     }
 
     /**
@@ -94,7 +94,7 @@ class GameController extends Controller
      */
     public function show(int $game_id)
     {
-        return Game::with('squads', 'squads.members')->findOrFail($game_id);
+        return Game::findOrFail($game_id)->description();
     }
 
     /**
