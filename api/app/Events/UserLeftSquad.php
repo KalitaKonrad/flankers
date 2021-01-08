@@ -5,10 +5,11 @@ namespace App\Events;
 use App\Models\User;
 use App\Models\Squad;
 use BeyondCode\LaravelWebSockets\WebSockets\Channels\Channel;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 
-class UserLeftSquad
+class UserLeftSquad implements ShouldBroadcast
 {
     use Dispatchable, SerializesModels;
 
