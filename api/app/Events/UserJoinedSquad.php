@@ -4,10 +4,11 @@ namespace App\Events;
 
 use App\Models\User;
 use App\Models\Squad;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 
-class UserJoinedSquad
+class UserJoinedSquad implements ShouldBroadcast
 {
     use Dispatchable, SerializesModels;
 
