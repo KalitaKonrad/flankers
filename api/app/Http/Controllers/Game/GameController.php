@@ -70,8 +70,10 @@ class GameController extends Controller
             'bet' => 0,
             'duration' => 60 * 10,
             'long' => null,
-            'lat' => null
+            'lat' => null,
+            'squad_size' => 5
         ];
+
         $data = array_merge($defaults, $request->all());
         $game = Game::create($data);
 
