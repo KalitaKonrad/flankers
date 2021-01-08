@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\GameFinished;
 use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,7 +20,8 @@ class Game extends Model
         'bet',
         'duration',
         'long',
-        'lat'
+        'lat',
+        'squad_size'
     ];
 
     protected $appends = [
@@ -60,6 +62,35 @@ class Game extends Model
     public function memos()
     {
         return $this->hasMany(Memo::class);
+    }
+
+    /**
+     * Return invite related to game
+     */
+    public function invite()
+    {
+        return $this->hasOne(GameInvite::class);
+    }
+
+    /**
+     * Ends the game
+     */
+    public function end()
+    {
+        if ($this->completed) {
+            return;
+        }
+
+        $this->completed = true;
+        $this->save();
+        $this->invite()->delete();
+
+        GameFinished::dispatch($this);
+    }
+
+    public function description()
+    {
+        return $this->with('squads', 'squads.members', 'invite')->find($this->id);
     }
 
     /**

@@ -11,6 +11,9 @@ class UserJoinedSquad
 {
     use Dispatchable, SerializesModels;
 
+    public $squad;
+    public $user;
+
     /**
      * Create a new event instance.
      *
@@ -20,5 +23,15 @@ class UserJoinedSquad
     {
         $this->squad = $squad;
         $this->user = $user;
+    }
+
+    /**
+     * Get the channels the event should broadcast on.
+     *
+     * @return \Illuminate\Broadcasting\Channel|array
+     */
+    public function broadcastOn()
+    {
+        return new Channel("games.{$this->squad->game->id}");
     }
 }

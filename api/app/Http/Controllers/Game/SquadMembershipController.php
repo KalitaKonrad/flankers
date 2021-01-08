@@ -7,6 +7,8 @@ use App\Models\User;
 use App\Http\Message;
 use App\Models\Squad;
 use Illuminate\Http\Request;
+use App\Events\UserChangedSquad;
+use App\Events\UserLeftGame;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -130,10 +132,14 @@ class SquadMembershipController extends Controller
 
         DB::commit();
 
-        return Message::ok('Squad changed', [
+        $memberList = [
             $currentSquad->with('members')->get(),
             $newSquad->with('members')->get()
-        ]);
+        ];
+
+        UserChangedSquad::dispatch($game, $memberList);
+
+        return Message::ok('Squad changed', $memberList);
     }
 
     /**

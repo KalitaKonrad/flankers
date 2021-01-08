@@ -65,7 +65,7 @@ class Squad extends Model
     }
 
     /**
-     * If squad game is for teams, it will 
+     * If squad game is for teams, it will
      * can have team assigned.
      *
      * @return BelongsTo
@@ -77,7 +77,7 @@ class Squad extends Model
 
     /**
      * Add user to the squad, if possible
-     * 
+     *
      * @throws SquadFullException
      * @throws MatchAlreadyJoinedException
      * @return void
@@ -93,7 +93,7 @@ class Squad extends Model
 
     /**
      * Remove user from squad if possible
-     * 
+     *
      * @throws ModelNotFoundException
      * @return void
      */
@@ -108,7 +108,7 @@ class Squad extends Model
 
     /**
      * Check if user can join the squad
-     * 
+     *
      * @throws SquadFullException
      * @throws MatchAlreadyJoinedException
      * @return void

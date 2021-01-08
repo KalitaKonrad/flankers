@@ -2,6 +2,7 @@
 cd /app
 
 php artisan cache:clear
+php artisan migrate:fresh
 php artisan migrate --force
 php artisan db:seed
 

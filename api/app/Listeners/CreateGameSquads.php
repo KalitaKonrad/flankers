@@ -29,7 +29,7 @@ class CreateGameSquads
         Squad::factory(2)
             ->state([
                 'game_id' => $event->game->id,
-                'slots' => 5
+                'slots' => $event->game->squad_size
             ])
             ->create();
     }

@@ -10,3 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+use App\Models\User;
+use Illuminate\Support\Facades\Route;
+
+if (config('app.debug') == true) {
+    Route::get('/', fn () => view('welcome')->with('user', User::first()));
+}
