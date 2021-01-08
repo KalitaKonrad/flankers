@@ -88,8 +88,8 @@ Route::prefix('teams')->group(function () {
  * ----------------------------------------
  */
 Route::prefix('games')->group(function () {
-    // Route::resource('invites', GameInviteController::class);
-    // Route::resource('bets', GameBetsController::class);
+    Route::resource('invites', GameInviteController::class)
+        ->only(['show', 'destroy']);
 
     Route::resource('memos', GameMemoController::class)
         ->parameters(['memos' => 'game_id'])
