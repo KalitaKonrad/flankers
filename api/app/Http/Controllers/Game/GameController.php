@@ -44,18 +44,15 @@ class GameController extends Controller
     /**
      * Create new game.
      *
-     * TODO: Right now only public game type is implemented,
-     * ranking points will not be calculated, bets won't be
-     * deduced and game won't close after time has passed.
-     *
      * @group Game management
      * @bodyParam type string Public or private, default - public
      * @bodyParam rated boolean If ranking points should be assigned rated, default - false
      * @bodyParam bet integer Game bet which each user will be charged for, default - 0
      * @bodyParam start_date timestamp Game starting time
      * @bodyParam duration integer Game time in seconds, default - 60 * 10
-     * @bodyParam long Game longitude - default null
-     * @bodyParam lat Game latitude - default null
+     * @bodyParam long float Game longitude - default null
+     * @bodyParam lat float Game latitude - default null
+     * @bodyParam squad_size int Game squad size - default 5
      *
      * @param  CreateGameRequest $request
      * @return \Illuminate\Http\Response
