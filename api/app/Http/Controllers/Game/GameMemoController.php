@@ -78,9 +78,9 @@ class GameMemoController extends Controller
      */
     public function show(int $game_id)
     {
-        return GameService::appraise(
+        return Message::ok('Current game score', GameService::appraise(
             Game::findOrFail($game_id)
-        );
+        ));
     }
 
     /**

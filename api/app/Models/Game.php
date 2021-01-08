@@ -20,7 +20,8 @@ class Game extends Model
         'bet',
         'duration',
         'long',
-        'lat'
+        'lat',
+        'squad_size'
     ];
 
     protected $appends = [
