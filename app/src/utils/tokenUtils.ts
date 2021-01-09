@@ -1,5 +1,3 @@
-import * as SecureStore from 'expo-secure-store';
-
 import { TOKEN_STORAGE_KEY } from '../const/auth.const';
 import { TOKEN_CHANGED_EVENT } from '../const/events.const';
 import { EventBus } from './eventBus';
