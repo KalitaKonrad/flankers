@@ -1,3 +1,4 @@
+import { InvitePayload } from './invitePayload';
 import { SquadResponse } from './squadResponse';
 
 export interface Game {
@@ -12,9 +13,11 @@ export interface Game {
   lat: number;
   owner_id: number;
   completed: boolean;
+  squad_size: string;
   location: {
     long: number;
     lat: number;
   };
   squads: SquadResponse[];
+  invite?: InvitePayload;
 }

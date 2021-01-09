@@ -6,3 +6,4 @@ export const QUERY_TEAM_INVITATION = 'teams/invites';
 export const QUERY_GAMES = 'games';
 export const QUERY_GAMES_MEMOS = 'games/memos';
 export const QUERY_GAME_SQUAD = 'games/memberships';
+export const QUERY_GAME_INVITATION = 'games/invites';
