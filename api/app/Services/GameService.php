@@ -93,7 +93,6 @@ class GameService
             }
         }
 
-
         self::applyEloChanges(
             self::getEloChanges($entries),
             User::class
