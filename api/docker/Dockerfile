@@ -30,9 +30,6 @@ ARG NON_ROOT_USER=${NON_ROOT_USER:-app}
 RUN addgroup -S $NON_ROOT_GROUP && adduser -S $NON_ROOT_USER -G $NON_ROOT_GROUP
 RUN addgroup $NON_ROOT_USER wheel
 
-# Set cron job
-RUN chmod 777 /usr/sbin/crond
-
 # Switch to non-root 'app' user & install app dependencies
 COPY composer.json composer.lock ./
 RUN chown -R $NON_ROOT_USER:$NON_ROOT_GROUP $LARAVEL_PATH
