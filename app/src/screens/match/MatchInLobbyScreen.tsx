@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Container } from '../../components/layout/Container';
@@ -7,8 +7,11 @@ import { PaddedInputScrollView } from '../../components/layout/PaddedInputScroll
 import { PlayerAvatarList } from '../../components/match/PlayerAvatarList';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
+import { GAME_UPDATE_EVENT } from '../../const/events.const';
+import { useEcho } from '../../hooks/useEcho';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
+import { GameUpdateEvent } from '../../types/gameUpdateEvent';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 type MatchInLobbyScreenProps = StackScreenProps<
@@ -16,7 +19,12 @@ type MatchInLobbyScreenProps = StackScreenProps<
   'MatchInLobby'
 >;
 
+export interface MatchInLobbyScreenRouteParams {
+  gameId: number;
+}
+
 export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
+  route,
   navigation,
 }) => {
   const profile = useUserProfileQuery();
@@ -28,6 +36,25 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     }
     return [];
   }, [profile.data, profile.isSuccess]);
+
+  const { echo, isReady: isEchoReady } = useEcho();
+
+  const onGameUpdated = useCallback((event: GameUpdateEvent) => {
+    console.log('===> Received GameUpdateEvent');
+    console.log(event);
+  }, []);
+
+  useEffect(() => {
+    const channel = `games.${route.params.gameId}`;
+
+    if (isEchoReady) {
+      echo?.channel(channel).listen(GAME_UPDATE_EVENT, onGameUpdated);
+    }
+
+    return () => {
+      echo?.channel(channel).stopListening(GAME_UPDATE_EVENT, onGameUpdated);
+    };
+  }, [isEchoReady]);
 
   return (
     <Container>
