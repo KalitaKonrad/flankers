@@ -29,10 +29,10 @@ class UpdateGameRequest extends FormRequest
             'public' => 'boolean',
             'bet' => 'numeric',
             'duration' => 'integer',
-            'completed' => 'boolean',
             'start_date' => 'integer',
             'long' => 'between:-180,180',
-            'lat' => 'between:-90,90'
+            'lat' => 'between:-90,90',
+            'command.start_voting' => 'boolean',
         ];
     }
 }
