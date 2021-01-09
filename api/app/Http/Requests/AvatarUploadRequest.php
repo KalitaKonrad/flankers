@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateGameRequest extends FormRequest
+class AvatarUploadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,15 +24,7 @@ class UpdateGameRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'in:ffa,team',
-            'rated' => 'boolean',
-            'public' => 'boolean',
-            'bet' => 'numeric',
-            'duration' => 'integer',
-            'start_date' => 'integer',
-            'long' => 'between:-180,180',
-            'lat' => 'between:-90,90',
-            'command.start_voting' => 'boolean',
+            'avatar' => 'image|max:4096|required'
         ];
     }
 }

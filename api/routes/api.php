@@ -26,12 +26,14 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChangeTeamOwner;
 use App\Http\Controllers\Game\GameController;
 use App\Http\Controllers\TeamInviteController;
-use App\Http\Controllers\UserAvatarController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Game\GameMemoController;
 use App\Http\Controllers\TeamMembershipController;
-use App\Http\Controllers\Game\SquadMembershipController;
+use App\Http\Controllers\Game\GameInviteController;
+use App\Http\Controllers\Avatar\UserAvatarController;
+use App\Http\Controllers\Avatar\TeamAvatarController;
 use App\Http\Controllers\Ranking\LeaderboardController;
+use App\Http\Controllers\Game\SquadMembershipController;
 
 /**
  * ----------------------------------------
@@ -61,7 +63,10 @@ Route::get('user', [UserController::class, 'index']);
 Route::prefix('user')->group(function () {
     Route::get('settings', [UserProfileController::class, 'show']);
     Route::match(['put', 'patch'], 'settings', [UserProfileController::class, 'update']);
-    Route::resource('avatar', UserAvatarController::class);
+
+    Route::resource('avatar', UserAvatarController::class)
+        ->only(['index', 'store']);
+    Route::delete('avatar', [UserAvatarController::class, 'destroy']);
 });
 
 /**
@@ -77,9 +82,13 @@ Route::prefix('teams')->group(function () {
     Route::resource('memberships', TeamMembershipController::class)->parameters([
         'memberships' => 'team_id'
     ]);
+
     Route::resource('invites', TeamInviteController::class);
     Route::get('invites/{invite}', AcceptInvite::class);
     Route::get('invites/decline/{invite}', DeclineInvite::class);
+
+    Route::resource('avatar', TeamAvatarController::class)
+        ->only(['show', 'store', 'destroy']);
 });
 
 /**

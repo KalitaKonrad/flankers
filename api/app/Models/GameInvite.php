@@ -13,6 +13,10 @@ class GameInvite extends Model
 
     protected $primaryKey = 'code';
 
+    protected $casts = [
+        'code' => 'string'
+    ];
+
     public function game()
     {
         return $this->belongsTo(Game::class);

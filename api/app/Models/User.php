@@ -23,6 +23,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'name',
         'email',
         'password',
+        'avatar'
     ];
 
     /**
@@ -72,6 +73,26 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
+    }
+
+    /**
+     * Return path where user avatar should be stored
+     *
+     * @return string
+     */
+    public function avatarPath()
+    {
+        return 'avatars/users/' . $this->id . '.jpg';
+    }
+
+    /**
+     * Get default avatar url
+     *
+     * @return string
+     */
+    public function defaultAvatar()
+    {
+        return 'https://avatars.dicebear.com/4.5/api/initials/flankers.svg';
     }
 
     /**

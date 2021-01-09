@@ -27,8 +27,8 @@ class GenerateGameInvite
     public function handle($event)
     {
         $game = $event->game;
-        if (!$game->public && $game->invite == null) {
-            GameInvite::generate($event->game);
+        if ($game->invite == null) {
+            GameInvite::generate($game);
         }
     }
 

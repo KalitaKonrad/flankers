@@ -11,6 +11,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateGameRequest;
 use App\Http\Requests\UpdateGameRequest;
+use App\Structures\GameCommand;
+use Illuminate\Support\Arr;
 
 class GameController extends Controller
 {
@@ -125,6 +127,8 @@ class GameController extends Controller
     {
         $game = Game::findOrFail($id);
         $now = Carbon::now()->timestamp;
+        $data = Arr::except($request->all(), ['command']);
+        $command = $request->command ?? [];
 
         if ($game->completed) {
             return Message::error(403, 'This game was already completed, you cannot change it');
@@ -138,10 +142,10 @@ class GameController extends Controller
             return Message::error(403, 'You cannot change game bets or rating type if it has already started');
         }
 
-        $game->fill($request->all());
+        $game->fill($data);
         $game->save();
 
-        GameUpdated::dispatch($game);
+        GameUpdated::dispatch($game, new GameCommand($command));
         return Message::ok('Game updated', $game);
     }
 
