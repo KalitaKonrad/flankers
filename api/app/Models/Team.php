@@ -28,4 +28,24 @@ class Team extends TeamworkTeam
     {
         return $this->belongsToMany(User::class);
     }
+
+    /**
+     * Return path where team avatar should be stored
+     *
+     * @return string
+     */
+    public function avatarPath()
+    {
+        return 'avatars/teams/' . $this->id . '.jpg';
+    }
+
+    /**
+     * Get default avatar url
+     *
+     * @return string
+     */
+    public function defaultAvatar()
+    {
+        return 'https://avatars.dicebear.com/4.5/api/initials/flankers.svg';
+    }
 }
