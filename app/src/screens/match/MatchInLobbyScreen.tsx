@@ -8,10 +8,15 @@ import { PaddedInputScrollView } from '../../components/layout/PaddedInputScroll
 import { PlayerAvatarList } from '../../components/match/PlayerAvatarList';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
-import { GAME_UPDATE_EVENT } from '../../const/events.const';
+import {
+  GAME_UPDATE_EVENT,
+  USER_JOINED_SQUAD_EVENT,
+} from '../../const/events.const';
+import { useAddUserToGameSquadMutation } from '../../hooks/useAddUserToGameSquadMutation';
 import { useEcho } from '../../hooks/useEcho';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
+import { UserJoinedSquadEvent } from '../../types/UserJoinedSquadEvent';
 import { GameUpdateEvent } from '../../types/gameUpdateEvent';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
@@ -29,6 +34,8 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   navigation,
 }) => {
   const profile = useUserProfileQuery();
+  const [mutateJoinSquad, mutationJoinSquad] = useAddUserToGameSquadMutation();
+
   const mockPlayerList = useMemo(() => {
     if (profile.isSuccess) {
       return Array(5)
@@ -45,20 +52,46 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     console.log(event);
   }, []);
 
+  const onUserJoinedSquad = useCallback((event: UserJoinedSquadEvent) => {
+    console.log('===> Received UserJoinedSquadEvent');
+    console.log(event);
+  }, []);
+
   useEffect(() => {
     const channel = `games.${route.params.gameId}`;
 
     if (isEchoReady) {
       echo?.channel(channel).listen(GAME_UPDATE_EVENT, onGameUpdated);
+      echo?.channel(channel).listen(USER_JOINED_SQUAD_EVENT, onUserJoinedSquad);
     }
 
     return () => {
       echo?.channel(channel).stopListening(GAME_UPDATE_EVENT, onGameUpdated);
+      echo
+        ?.channel(channel)
+        .stopListening(USER_JOINED_SQUAD_EVENT, onUserJoinedSquad);
     };
-  }, [isEchoReady]);
+  }, [
+    echo,
+    isEchoReady,
+    onGameUpdated,
+    onUserJoinedSquad,
+    route.params.gameId,
+  ]);
 
-  const onJoin = () => {
-    console.log('JOIN');
+  const onJoin = async () => {
+    if (profile.data?.id === undefined) {
+      alert('Wystąpił błąd podczas dołączania do składu');
+      return;
+    }
+    try {
+      await mutateJoinSquad({
+        user_id: profile?.data?.id,
+        squad_id: route.params.gameId,
+      });
+    } catch (error) {
+      alert('Wystąpił błąd podaczas dołączania do składu');
+    }
   };
 
   return (

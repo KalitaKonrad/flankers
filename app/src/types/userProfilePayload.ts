@@ -8,6 +8,7 @@ export interface UserProfilePayload {
   created_at: string;
   updated_at: string;
   current_team_id: number;
+  elo: number;
   teams: TeamProfilePayload[];
   invites: [];
 }
