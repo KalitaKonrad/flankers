@@ -25,6 +25,7 @@ use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChangeTeamOwner;
 use App\Http\Controllers\Game\GameController;
+use App\Http\Controllers\Game\GameInviteController;
 use App\Http\Controllers\TeamInviteController;
 use App\Http\Controllers\UserAvatarController;
 use App\Http\Controllers\UserProfileController;
