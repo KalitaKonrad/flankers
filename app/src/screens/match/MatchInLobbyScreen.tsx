@@ -56,6 +56,15 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   >();
 
   const [currentSquad, setCurrentSquad] = useState<Squad | null>(null);
+  const [isUserAllowedToChangeSquad, setIsUserAllowedToChangeSquad] = useState(
+    true
+  );
+
+  const unlockChangingSquads = () => {
+    setTimeout(() => {
+      setIsUserAllowedToChangeSquad(true);
+    }, 30000);
+  };
 
   const { echo, isReady: isEchoReady } = useEcho();
 
@@ -114,12 +123,18 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
       alert('Wystąpił błąd podczas dołączania do składu');
       return;
     }
+    if (!isUserAllowedToChangeSquad) {
+      alert('Musi upłynąć 30 sekund od ostatniej zmiany składu');
+      return;
+    }
     try {
       await mutateJoinSquad({
         user_id: profile?.data?.id,
         squad_id: matchDetails.data?.squads[0].id,
       });
       setCurrentSquad(Squad.A);
+      setIsUserAllowedToChangeSquad(false);
+      unlockChangingSquads();
     } catch (error) {
       alert('Wystąpił błąd podaczas dołączania do składu');
     }
@@ -133,12 +148,18 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
       alert('Wystąpił błąd podczas dołączania do składu');
       return;
     }
+    if (!isUserAllowedToChangeSquad) {
+      alert('Musi upłynąć 30 sekund od ostatniej zmiany składu');
+      return;
+    }
     try {
       await mutateJoinSquad({
         user_id: profile?.data?.id,
         squad_id: matchDetails.data?.squads[1].id,
       });
       setCurrentSquad(Squad.B);
+      setIsUserAllowedToChangeSquad(false);
+      unlockChangingSquads();
     } catch (error) {
       alert('Wystąpił błąd podaczas dołączania do składu');
     }
