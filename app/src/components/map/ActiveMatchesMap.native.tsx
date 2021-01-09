@@ -37,7 +37,7 @@ export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
       })),
     [publicMatches]
   );
-  console.log(heatMapPoints);
+
   return (
     <View style={styles.container}>
       <MapLocateButton mapRef={mapRef.current} />
@@ -48,7 +48,7 @@ export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
         showsMyLocationButton={false}
         showsUserLocation
         onMapReady={onMapReady}>
-        {heatMapPoints.length && <Heatmap points={heatMapPoints} />}
+        {!!heatMapPoints.length && <Heatmap points={heatMapPoints} />}
 
         {publicMatches?.map((match) => {
           return (
