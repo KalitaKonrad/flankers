@@ -10,6 +10,7 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
 import {
   GAME_UPDATE_EVENT,
+  USER_CHANGED_SQUAD_EVENT,
   USER_JOINED_SQUAD_EVENT,
 } from '../../const/events.const';
 import { useAddUserToGameSquadMutation } from '../../hooks/useAddUserToGameSquadMutation';
@@ -17,7 +18,10 @@ import { useEcho } from '../../hooks/useEcho';
 import { useGameDetailsQuery } from '../../hooks/useGameDetailsQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
-import { UserJoinedSquadEvent } from '../../types/UserJoinedSquadEvent';
+import {
+  UserChangedSquadsEvent,
+  UserJoinedSquadEvent,
+} from '../../types/UserJoinedSquadEvent';
 import { GameUpdateEvent } from '../../types/gameUpdateEvent';
 import { UserProfilePayload } from '../../types/userProfilePayload';
 import { MatchScreenStackParamList } from './MatchScreenStack';
@@ -29,6 +33,11 @@ type MatchInLobbyScreenProps = StackScreenProps<
 
 export interface MatchInLobbyScreenRouteParams {
   gameId: number;
+}
+
+enum Squad {
+  A,
+  B,
 }
 
 export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
@@ -46,14 +55,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     UserProfilePayload[]
   >();
 
-  // const mockPlayerList = useMemo(() => {
-  //   if (profile.isSuccess) {
-  //     return Array(5)
-  //       .fill(profile.data)
-  //       .map((profile, i) => ({ ...profile, id: i }));
-  //   }
-  //   return [];
-  // }, [profile.data, profile.isSuccess]);
+  const [currentSquad, setCurrentSquad] = useState<Squad | null>(null);
 
   const { echo, isReady: isEchoReady } = useEcho();
 
@@ -62,26 +64,36 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     console.log(event);
   }, []);
 
-  const onUserJoinedSquad = useCallback(
-    (event: UserJoinedSquadEvent) => {
-      console.log('===> Received UserJoinedSquadEvent');
-      console.log(event);
-      setFirstTeamPlayersList(matchDetails.data?.squads[0].members);
-      setSecondTeamPlayersList(matchDetails.data?.squads[1].members);
-    },
-    [matchDetails.data?.squads]
-  );
+  const onUserChangedSquad = useCallback((event: UserChangedSquadsEvent) => {
+    console.log('===> Received UserChangedSquadEvent');
+    console.log(event);
+    setFirstTeamPlayersList(event.squads[0].members);
+    setSecondTeamPlayersList(event.squads[1].members);
+  }, []);
+
+  const onUserJoinedSquad = useCallback((event: UserJoinedSquadEvent) => {
+    console.log('===> Received UserJOINEDSquadEvent');
+    console.log(event);
+    setFirstTeamPlayersList(event.squad.members);
+  }, []);
 
   useEffect(() => {
+    console.log('++++++++> ', route.params.gameId);
     const channel = `games.${route.params.gameId}`;
 
     if (isEchoReady) {
       echo?.channel(channel).listen(GAME_UPDATE_EVENT, onGameUpdated);
+      echo
+        ?.channel(channel)
+        .listen(USER_CHANGED_SQUAD_EVENT, onUserChangedSquad);
       echo?.channel(channel).listen(USER_JOINED_SQUAD_EVENT, onUserJoinedSquad);
     }
 
     return () => {
       echo?.channel(channel).stopListening(GAME_UPDATE_EVENT, onGameUpdated);
+      echo
+        ?.channel(channel)
+        .stopListening(USER_CHANGED_SQUAD_EVENT, onUserChangedSquad);
       echo
         ?.channel(channel)
         .stopListening(USER_JOINED_SQUAD_EVENT, onUserJoinedSquad);
@@ -90,25 +102,47 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     echo,
     isEchoReady,
     onGameUpdated,
-    onUserJoinedSquad,
+    onUserChangedSquad,
     route.params.gameId,
   ]);
 
-  const onJoin = async () => {
-    if (profile.data?.id === undefined) {
+  const onJoinFirstSquad = async () => {
+    if (
+      profile.data?.id === undefined ||
+      matchDetails.data?.squads[0].id === undefined
+    ) {
       alert('Wystąpił błąd podczas dołączania do składu');
       return;
     }
     try {
       await mutateJoinSquad({
         user_id: profile?.data?.id,
-        squad_id: route.params.gameId,
+        squad_id: matchDetails.data?.squads[0].id,
       });
+      setCurrentSquad(Squad.A);
     } catch (error) {
       alert('Wystąpił błąd podaczas dołączania do składu');
     }
   };
 
+  const onJoinSecondSquad = async () => {
+    if (
+      profile.data?.id === undefined ||
+      matchDetails.data?.squads[1].id === undefined
+    ) {
+      alert('Wystąpił błąd podczas dołączania do składu');
+      return;
+    }
+    try {
+      await mutateJoinSquad({
+        user_id: profile?.data?.id,
+        squad_id: matchDetails.data?.squads[1].id,
+      });
+      setCurrentSquad(Squad.B);
+    } catch (error) {
+      alert('Wystąpił błąd podaczas dołączania do składu');
+    }
+  };
   return (
     <Container>
       <PaddedInputScrollView style={styles.container}>
@@ -120,7 +154,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
             <AppButton
               style={styles.joinBtn}
               mode="contained"
-              onPress={onJoin}
+              onPress={onJoinFirstSquad}
               contentStyle={styles.joinBtnContentStyle}>
               Dołącz
             </AppButton>
@@ -137,7 +171,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
             <AppButton
               style={styles.joinBtn}
               mode="contained"
-              onPress={onJoin}
+              onPress={onJoinSecondSquad}
               contentStyle={styles.joinBtnContentStyle}>
               Dołącz
             </AppButton>

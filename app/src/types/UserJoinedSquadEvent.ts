@@ -5,3 +5,7 @@ export interface UserJoinedSquadEvent {
   squad: SquadResponse;
   user: UserProfilePayload;
 }
+
+export interface UserChangedSquadsEvent {
+  squads: SquadResponse[];
+}

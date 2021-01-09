@@ -8,7 +8,7 @@ export const useGameDetailsQuery = (match_id: number | undefined) => {
   const axios = useAxios();
 
   return useQuery<MatchResponse>(
-    QUERY_GAMES,
+    `${QUERY_GAMES}/${match_id}`,
     async () => {
       const response = await axios.get(`games/${match_id}`);
       return response.data;
