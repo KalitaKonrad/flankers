@@ -5,8 +5,8 @@ namespace App\Listeners;
 use App\Jobs\SettleGame;
 use App\Events\GameCreated;
 use App\Events\GameUpdated;
-use App\Events\GameVotingStarted;
 use Illuminate\Support\Carbon;
+use App\Events\GameVotingStarted;
 
 class StartGameTimers
 {
@@ -64,12 +64,12 @@ class StartGameTimers
     {
         $events->listen(
             GameCreated::class,
-            [StartGameTimer::class, 'handleCreate']
+            [StartGameTimers::class, 'handleCreate']
         );
 
         $events->listen(
             GameUpdated::class,
-            [StartGameTimer::class, 'handleUpdate']
+            [StartGameTimers::class, 'handleUpdate']
         );
     }
 }
