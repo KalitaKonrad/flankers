@@ -127,11 +127,7 @@ class GameService
             }
         }
 
-        foreach ($changes as $id => $change) {
-            $changes[$id] = intval($changes[$id] / (count($changes) / 2));
-        }
-
-        return $changes;
+        return self::normalizeEloChanges($changes);
     }
 
     protected static function getEloChange(GameRankingEntry $player, GameRankingEntry $opponent)
@@ -157,5 +153,20 @@ class GameService
             $elos['a'] - $player->elo,
             $elos['b'] - $opponent->elo
         ];
+    }
+
+    protected static function normalizeEloChanges($changes)
+    {
+        $factor = (count($changes) / 2);
+
+        if ($factor == 0) {
+            return $changes;
+        }
+
+        foreach ($changes as $id => $change) {
+            $changes[$id] = intval($changes[$id] / $factor);
+        }
+
+        return $changes;
     }
 }
