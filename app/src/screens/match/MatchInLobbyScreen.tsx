@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import App from '../../../App';
@@ -14,10 +14,12 @@ import {
 } from '../../const/events.const';
 import { useAddUserToGameSquadMutation } from '../../hooks/useAddUserToGameSquadMutation';
 import { useEcho } from '../../hooks/useEcho';
+import { useGameDetailsQuery } from '../../hooks/useGameDetailsQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
 import { UserJoinedSquadEvent } from '../../types/UserJoinedSquadEvent';
 import { GameUpdateEvent } from '../../types/gameUpdateEvent';
+import { UserProfilePayload } from '../../types/userProfilePayload';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 type MatchInLobbyScreenProps = StackScreenProps<
@@ -35,15 +37,23 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
 }) => {
   const profile = useUserProfileQuery();
   const [mutateJoinSquad, mutationJoinSquad] = useAddUserToGameSquadMutation();
+  const matchDetails = useGameDetailsQuery(route.params.gameId);
 
-  const mockPlayerList = useMemo(() => {
-    if (profile.isSuccess) {
-      return Array(5)
-        .fill(profile.data)
-        .map((profile, i) => ({ ...profile, id: i }));
-    }
-    return [];
-  }, [profile.data, profile.isSuccess]);
+  const [firstTeamPlayersList, setFirstTeamPlayersList] = useState<
+    UserProfilePayload[]
+  >();
+  const [secondTeamPlayersList, setSecondTeamPlayersList] = useState<
+    UserProfilePayload[]
+  >();
+
+  // const mockPlayerList = useMemo(() => {
+  //   if (profile.isSuccess) {
+  //     return Array(5)
+  //       .fill(profile.data)
+  //       .map((profile, i) => ({ ...profile, id: i }));
+  //   }
+  //   return [];
+  // }, [profile.data, profile.isSuccess]);
 
   const { echo, isReady: isEchoReady } = useEcho();
 
@@ -52,10 +62,15 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     console.log(event);
   }, []);
 
-  const onUserJoinedSquad = useCallback((event: UserJoinedSquadEvent) => {
-    console.log('===> Received UserJoinedSquadEvent');
-    console.log(event);
-  }, []);
+  const onUserJoinedSquad = useCallback(
+    (event: UserJoinedSquadEvent) => {
+      console.log('===> Received UserJoinedSquadEvent');
+      console.log(event);
+      setFirstTeamPlayersList(matchDetails.data?.squads[0].members);
+      setSecondTeamPlayersList(matchDetails.data?.squads[1].members);
+    },
+    [matchDetails.data?.squads]
+  );
 
   useEffect(() => {
     const channel = `games.${route.params.gameId}`;
@@ -110,7 +125,9 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
               Dołącz
             </AppButton>
           </View>
-          <PlayerAvatarList players={mockPlayerList} />
+          {firstTeamPlayersList !== undefined && (
+            <PlayerAvatarList players={firstTeamPlayersList} />
+          )}
         </View>
         <View style={styles.row}>
           <View style={styles.teamLabel}>
@@ -125,7 +142,9 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
               Dołącz
             </AppButton>
           </View>
-          <PlayerAvatarList players={mockPlayerList} />
+          {secondTeamPlayersList !== undefined && (
+            <PlayerAvatarList players={secondTeamPlayersList} />
+          )}
         </View>
         <View style={styles.action}>
           <AppButton

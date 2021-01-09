@@ -6,5 +6,5 @@ export interface SquadResponse {
   slots: number;
   team_id: number;
   is_full: boolean;
-  members?: UserProfilePayload;
+  members?: UserProfilePayload[];
 }
