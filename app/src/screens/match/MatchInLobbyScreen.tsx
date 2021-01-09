@@ -16,6 +16,7 @@ import {
 import { useAddUserToGameSquadMutation } from '../../hooks/useAddUserToGameSquadMutation';
 import { useEcho } from '../../hooks/useEcho';
 import { useGameDetailsQuery } from '../../hooks/useGameDetailsQuery';
+import { useMoveMemberToAnotherSquadMutation } from '../../hooks/useMoveMemberToAnotherSquadMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
 import {
@@ -46,6 +47,10 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
 }) => {
   const profile = useUserProfileQuery();
   const [mutateJoinSquad, mutationJoinSquad] = useAddUserToGameSquadMutation();
+  const [
+    mutateChangeSquad,
+    mutationChangeSquad,
+  ] = useMoveMemberToAnotherSquadMutation();
   const matchDetails = useGameDetailsQuery(route.params.gameId);
 
   const [firstTeamPlayersList, setFirstTeamPlayersList] = useState<
@@ -115,55 +120,61 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     route.params.gameId,
   ]);
 
-  const onJoinFirstSquad = async () => {
+  const onJoinSquad = async (squadIndex: number) => {
     if (
       profile.data?.id === undefined ||
-      matchDetails.data?.squads[0].id === undefined
+      matchDetails.data?.squads[squadIndex].id === undefined
     ) {
       alert('Wystąpił błąd podczas dołączania do składu');
       return;
     }
+
+    if (currentSquad === squadIndex) {
+      alert('Jesteś przypisany do tego składu');
+      return;
+    }
+
     if (!isUserAllowedToChangeSquad) {
       alert('Musi upłynąć 30 sekund od ostatniej zmiany składu');
       return;
     }
-    try {
-      await mutateJoinSquad({
-        user_id: profile?.data?.id,
-        squad_id: matchDetails.data?.squads[0].id,
-      });
-      setCurrentSquad(Squad.A);
-      setIsUserAllowedToChangeSquad(false);
-      unlockChangingSquads();
-    } catch (error) {
-      alert('Wystąpił błąd podaczas dołączania do składu');
+
+    if (currentSquad == null) {
+      try {
+        await mutateJoinSquad({
+          user_id: profile?.data?.id,
+          squad_id: matchDetails.data?.squads[squadIndex].id,
+        });
+        setCurrentSquad(squadIndex === 0 ? Squad.A : Squad.B);
+        setIsUserAllowedToChangeSquad(false);
+        unlockChangingSquads();
+      } catch (error) {
+        alert('Wystąpił błąd podaczas dołączania do składu');
+      }
+    } else {
+      try {
+        const newSquadId =
+          squadIndex === 1
+            ? matchDetails.data.squads[1].id
+            : matchDetails.data.squads[0].id;
+        const actualSquadId =
+          squadIndex === 1
+            ? matchDetails.data.squads[0].id
+            : matchDetails.data.squads[1].id;
+        await mutateChangeSquad({
+          user_id: profile?.data?.id,
+          squad_id: actualSquadId,
+          new_squad_id: newSquadId,
+        });
+        setCurrentSquad(squadIndex === 0 ? Squad.A : Squad.B);
+        setIsUserAllowedToChangeSquad(false);
+        unlockChangingSquads();
+      } catch (error) {
+        alert('Wystąpił błąd podaczas dołączania do składu');
+      }
     }
   };
 
-  const onJoinSecondSquad = async () => {
-    if (
-      profile.data?.id === undefined ||
-      matchDetails.data?.squads[1].id === undefined
-    ) {
-      alert('Wystąpił błąd podczas dołączania do składu');
-      return;
-    }
-    if (!isUserAllowedToChangeSquad) {
-      alert('Musi upłynąć 30 sekund od ostatniej zmiany składu');
-      return;
-    }
-    try {
-      await mutateJoinSquad({
-        user_id: profile?.data?.id,
-        squad_id: matchDetails.data?.squads[1].id,
-      });
-      setCurrentSquad(Squad.B);
-      setIsUserAllowedToChangeSquad(false);
-      unlockChangingSquads();
-    } catch (error) {
-      alert('Wystąpił błąd podaczas dołączania do składu');
-    }
-  };
   return (
     <Container>
       <PaddedInputScrollView style={styles.container}>
@@ -175,7 +186,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
             <AppButton
               style={styles.joinBtn}
               mode="contained"
-              onPress={onJoinFirstSquad}
+              onPress={() => onJoinSquad(0)}
               contentStyle={styles.joinBtnContentStyle}>
               Dołącz
             </AppButton>
@@ -192,7 +203,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
             <AppButton
               style={styles.joinBtn}
               mode="contained"
-              onPress={onJoinSecondSquad}
+              onPress={() => onJoinSquad(1)}
               contentStyle={styles.joinBtnContentStyle}>
               Dołącz
             </AppButton>
