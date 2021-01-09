@@ -2,6 +2,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useMemo } from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import App from '../../../App';
 import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
 import { PlayerAvatarList } from '../../components/match/PlayerAvatarList';
@@ -56,25 +57,41 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     };
   }, [isEchoReady]);
 
+  const onJoin = () => {
+    console.log('JOIN');
+  };
+
   return (
     <Container>
       <PaddedInputScrollView style={styles.container}>
         <View style={styles.row}>
-          <AppText variant="h2" style={styles.title}>
-            Zespół A
-          </AppText>
+          <View style={styles.teamLabel}>
+            <AppText variant="h2" style={styles.title}>
+              Zespół A
+            </AppText>
+            <AppButton
+              style={styles.joinBtn}
+              mode="contained"
+              onPress={onJoin}
+              contentStyle={styles.joinBtnContentStyle}>
+              Dołącz
+            </AppButton>
+          </View>
           <PlayerAvatarList players={mockPlayerList} />
         </View>
         <View style={styles.row}>
-          <AppText variant="h2" style={styles.title}>
-            Zespół B
-          </AppText>
-          <PlayerAvatarList players={mockPlayerList} />
-        </View>
-        <View style={styles.row}>
-          <AppText variant="h2" style={styles.title}>
-            Oczekiwanie na graczy
-          </AppText>
+          <View style={styles.teamLabel}>
+            <AppText variant="h2" style={styles.title}>
+              Zespół B
+            </AppText>
+            <AppButton
+              style={styles.joinBtn}
+              mode="contained"
+              onPress={onJoin}
+              contentStyle={styles.joinBtnContentStyle}>
+              Dołącz
+            </AppButton>
+          </View>
           <PlayerAvatarList players={mockPlayerList} />
         </View>
         <View style={styles.action}>
@@ -94,7 +111,7 @@ const styles = StyleSheet.create({
     paddingTop: 32,
   },
   row: {
-    marginBottom: 24,
+    marginBottom: 28,
   },
   title: {
     borderBottomColor: theme.colors.darkGray,
@@ -104,5 +121,16 @@ const styles = StyleSheet.create({
   },
   action: {
     marginTop: 32,
+  },
+  joinBtn: {
+    marginBottom: 24,
+  },
+  joinBtnContentStyle: {
+    height: 45,
+    width: 122,
+  },
+  teamLabel: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
 });
