@@ -73,7 +73,7 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
 
   return (
     <View style={styles.container}>
-      {matchList.data !== undefined && (
+      {matchList.data !== undefined && matchList.data !== [] && (
         <ActiveMatchesMap
           matchList={matchList.data}
           onMarkerPress={(res) => onMarkerPressed(res)}
