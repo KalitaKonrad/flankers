@@ -41,7 +41,9 @@ class SquadMembershipController extends Controller
      *
      * This request will fail if: <br />
      * - user will try to join to a full squad (406) <br />
-     * - user has already joined the squad (406)
+     * - user has already joined the squad (406) <br />
+     * - user will try to join team game squad, and the squad is locked
+     *   to a team which user does not belong to (403)
      *
      * @group Game management
      * @bodyParam squad_id int required Squad id
@@ -89,7 +91,9 @@ class SquadMembershipController extends Controller
      *  This request will fail if: <br />
      * - request user tries to move someone other than himself, while not being game owner (403) <br />
      * - user will try to move membership between squads from different games (406) <br />
-     * - user will try to move to a full squad (406)
+     * - user will try to move to a full squad (406) <br />
+     * - user will try to join team game squad, and the squad is locked
+     *   to a team which user does not belong to (403)
      *
      * @group Game management
      * @urlParam squad_id int required Squad id

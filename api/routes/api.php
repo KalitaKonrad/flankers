@@ -31,7 +31,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Game\GameMemoController;
 use App\Http\Controllers\TeamMembershipController;
 use App\Http\Controllers\Game\SquadMembershipController;
-
+use App\Http\Controllers\Ranking\LeaderboardController;
 
 /**
  * ----------------------------------------
@@ -103,3 +103,5 @@ Route::prefix('games')->group(function () {
 Route::resource('games', GameController::class)
     ->parameters(['games' => 'game_id'])
     ->only(['index', 'store', 'show', 'update', 'destroy']);
+
+Route::get('/leaderboards/{leaderboard}', [LeaderboardController::class, 'show']);
