@@ -29,6 +29,8 @@
     "expo": "~39.0.2",
     "expo-constants": "~9.2.0",
     "expo-font": "~8.3.0",
+    "expo-notifications": "~0.7.2",
+    "expo-permissions": "~9.3.0",
     "expo-secure-store": "~9.2.0",
     "expo-status-bar": "~1.0.2",
     "react": "16.13.1",
@@ -46,8 +48,8 @@
     "react-native-switch-selector": "^2.0.6",
     "react-native-web": "^0.14.8",
     "react-query": "^2.26.4",
-    "yup": "^0.32.8",
-    "reanimated-bottom-sheet": "^1.0.0-alpha.22"
+    "reanimated-bottom-sheet": "^1.0.0-alpha.22",
+    "yup": "^0.32.8"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
