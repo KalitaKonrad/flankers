@@ -2,13 +2,15 @@
 
 namespace App\Services;
 
-use App\Constants\GameType;
+use App\Rating;
+use App\Models\User;
 use App\Models\Game;
 use App\Models\Memo;
 use App\Models\Team;
+use App\Models\Squad;
+use App\Constants\GameType;
 use App\Structures\GameScore;
-use Chovanec\Rating\Rating;
-use Illuminate\Support\Arr;
+use App\Structures\GameRankingEntry;
 
 class GameService
 {
@@ -52,26 +54,108 @@ class GameService
 
     protected static function squareTeamGame($game)
     {
-        $score = self::appraise($game);
-        $squads = $game->squads()->get();
-        $teams = $squads->each(fn ($squad) => Team::find($squad->team_id));
-        $modifiers = [];
+        $results = self::appraise($game);
+        $entries = [];
 
-        if (count($score->winners) > 1) {
-            $modifiers = [Rating::DRAW, Rating::DRAW];
-        } else {
-            $modifiers = $squads->each(
-                fn ($squad) => Arr::has($score->winners, [$squad->id]) ? Rating::WIN : Rating::LOST
-            );
+        foreach ($results->scores as $squadId => $score) {
+            $instance = Squad::find($squadId)->team;
+            $entries[] = new GameRankingEntry([
+                'instance' => $instance,
+                'id' => $instance->id,
+                'elo' => $instance->elo,
+                'isWinner' => in_array($squadId, $results->winners)
+            ]);
         }
 
-        $change = (new Rating($teams[0]->elo, $teams[1]->elo, $modifiers[0], $modifiers[1]))->getNewRatings();
-        $teams[0]->elo = $change['a'];
-        $teams[1]->elo = $change['b'];
-        $teams->each(fn ($team) => $team->save());
+        self::applyEloChanges(
+            self::getEloChanges($entries),
+            Team::class
+        );
     }
+
 
     protected static function squareFfaGame($game)
     {
+        $results = self::appraise($game);
+        $entries = [];
+
+        foreach ($results->scores as $squadId => $score) {
+            $members = Squad::find($squadId)->members()->get();
+            $isWinner = in_array($squadId, $results->winners);
+
+            foreach ($members as $member) {
+                $entries[] = new GameRankingEntry([
+                    'instance' => $member,
+                    'id' => $member->id,
+                    'elo' => $member->elo,
+                    'isWinner' => $isWinner
+                ]);
+            }
+        }
+
+
+        self::applyEloChanges(
+            self::getEloChanges($entries),
+            User::class
+        );
+    }
+
+    protected static function applyEloChanges(array $changes, string $model)
+    {
+        foreach ($changes as $id => $change) {
+            $instance = $model::find($id);
+            $instance->elo += $change;
+            $instance->save();
+        }
+    }
+
+    protected static function getEloChanges(array $entries)
+    {
+        $changes = [];
+
+        while (count($entries) > 0) {
+            $player = array_shift($entries);
+            foreach ($entries as $opponent) {
+                $eloChanges = self::getEloChange($player, $opponent);
+                array_map(function ($player, $eloChange) use (&$changes) {
+                    if (!array_key_exists($player->id, $changes)) {
+                        $changes[$player->id] = intval($eloChange);
+                    } else {
+                        $changes[$player->id] += intval($eloChange);
+                    }
+                }, [$player, $opponent], $eloChanges);
+            }
+        }
+
+        foreach ($changes as $id => $change) {
+            $changes[$id] = intval($changes[$id] / (count($changes) / 2));
+        }
+
+        return $changes;
+    }
+
+    protected static function getEloChange(GameRankingEntry $player, GameRankingEntry $opponent)
+    {
+        $operators = [];
+        $operatorMap = [Rating::LOST, Rating::WIN];
+
+        switch ([$player->isWinner, $opponent->isWinner]) {
+            case [true, true]:
+                $operators = [Rating::DRAW, Rating::DRAW];
+                break;
+            case [false, false]:
+                return [0, 0];
+            default:
+                $operators = [
+                    $operatorMap[$player->isWinner],
+                    $operatorMap[$opponent->isWinner]
+                ];
+        }
+
+        $elos = (new Rating($player->elo, $opponent->elo, ...$operators))->getNewRatings();
+        return [
+            $elos['a'] - $player->elo,
+            $elos['b'] - $opponent->elo
+        ];
     }
 }
