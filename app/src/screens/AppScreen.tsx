@@ -24,9 +24,6 @@ export const AppScreen: React.FC = () => {
     Inter_500Medium,
   });
 
-  // INITIALIZE NOTIFICATION AND ADD LISTENER
-
-  // useNotification();
   useEffect(() => {
     const unsubscribe = EventBus.on(NOTIFICATION_EVENT, handleNotifiationPress);
     return () => {

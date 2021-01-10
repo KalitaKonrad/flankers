@@ -4,6 +4,7 @@ import { NavigatorScreenParams } from '@react-navigation/native';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 
+import { useNotification } from '../hooks/useNotification';
 import { AuthScreenStackParamList } from '../screens/auth/AuthScreenStack';
 import {
   MatchScreenStack,
@@ -41,6 +42,7 @@ const ROUTE_TO_ICON_MAP: Record<keyof BottomTabNavigationParamList, string> = {
 
 export const BottomTabNavigation: React.FC = () => {
   const theme = useTheme();
+  const { expoPushToken } = useNotification(); // TODO: send token to backend
 
   return (
     <Tab.Navigator
