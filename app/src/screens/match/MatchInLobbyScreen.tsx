@@ -108,6 +108,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   }, [
     echo,
     isEchoReady,
+    matchDetails.data?.squads,
     onGameUpdated,
     onSquadMembersChanged,
     route.params.gameId,
