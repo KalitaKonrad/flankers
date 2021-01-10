@@ -1,24 +1,25 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { Keyboard, StyleSheet, Text, View } from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
+import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
+import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
+import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
-import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
-import MyAvatar from '../../components/shared/MyAvatar';
-import { SubmitButton } from '../../components/shared/SubmitButton';
+import { AppText } from '../../components/shared/AppText';
 import { useTeamInvitationMutation } from '../../hooks/useTeamInvitationMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
-import { ObjectStyle, TextStyle, theme } from '../../theme';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
-type TeamInvitationScreenProps = object &
-  StackScreenProps<TeamScreenStackParamList, 'TeamCreate'>;
+type TeamInvitationScreenProps = StackScreenProps<
+  TeamScreenStackParamList,
+  'TeamCreate'
+>;
 
 type InvitationFormData = {
   email: string;
@@ -36,6 +37,7 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
 }) => {
   const userProfile = useUserProfileQuery();
   const [mutate, mutation] = useTeamInvitationMutation();
+
   const theme = useTheme();
 
   const {
@@ -65,65 +67,40 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
   };
 
   return (
-    <InputScrollView>
-      <HeaderWithAvatar color={theme.colors.primary} center>
-        <View style={TextStyle.headerWithAvatarTitle}>
-          <Text style={TextStyle.headerWithAvatarTitle}>Zaproś</Text>
-        </View>
-        <View style={ObjectStyle.headerWithAvatarImage}>
-          <MyAvatar
-            src="../assets/avatar.png"
-            height={150}
-            width={150}
-            isBorder
+    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+      <View style={styles.meta}>
+        <AppText variant="h2">Zaproś użytkownika</AppText>
+      </View>
+      <PaddedInputScrollView>
+        <View style={styles.row}>
+          <AppInput
+            mode="outlined"
+            label="Email użytkownika"
+            onChangeText={(text) => setValue('email', text)}
           />
+          {!!errors.email && (
+            <HelperText type="error" visible={!!errors.email}>
+              {errors.email?.message}
+            </HelperText>
+          )}
         </View>
-      </HeaderWithAvatar>
-
-      <View style={styles.note}>
-        <Text style={[TextStyle.noteH2]}>Zaproś użytkownika</Text>
-      </View>
-      <View style={styles.container}>
-        <AppInput
-          style={{ marginBottom: 7 }}
-          label="Email użytkownika"
-          onChangeText={(text) => setValue('email', text)}
-        />
-        {!!errors.email && (
-          <HelperText type="error" visible={!!errors.email}>
-            {errors.email?.message}
-          </HelperText>
-        )}
-      </View>
-      <SubmitButton
-        disabled={mutation.isLoading}
-        backgroundColor={theme.colors.primary}
-        labelColor={theme.colors.white}
-        onPress={handleSubmit(onPress)}>
-        Prześlij zaproszenie
-      </SubmitButton>
-    </InputScrollView>
+        <AppButton
+          mode="contained"
+          disabled={mutation.isLoading}
+          onPress={handleSubmit(onPress)}>
+          Prześlij zaproszenie
+        </AppButton>
+      </PaddedInputScrollView>
+    </ContainerWithAvatar>
   );
 };
 
 const styles = StyleSheet.create({
-  note: {
-    display: 'flex',
-    justifyContent: 'center',
+  meta: {
     alignItems: 'center',
-    top: 70,
+    marginBottom: 24,
   },
-  container: {
-    top: 90,
-    height: 350,
-  },
-  textInputStyle: {
-    borderRadius: 12,
-    margin: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor: theme.colors.darkGray,
+  row: {
+    marginBottom: 8,
   },
 });

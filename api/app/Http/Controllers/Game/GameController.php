@@ -5,11 +5,14 @@ namespace App\Http\Controllers\Game;
 use App\Models\Game;
 use App\Http\Message;
 use App\Events\GameCreated;
+use App\Events\GameUpdated;
 use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateGameRequest;
 use App\Http\Requests\UpdateGameRequest;
+use App\Structures\GameCommand;
+use Illuminate\Support\Arr;
 
 class GameController extends Controller
 {
@@ -24,9 +27,9 @@ class GameController extends Controller
     /**
      * Show list of games
      *
-     * Return list of all games, but without details,
-     * fetch specified game from here to get more
-     * informations.
+     * Return list of all public games or the ones belonging
+     * to request user, together with its squads. Fetch
+     * specified game to get more informations.
      *
      * @group Game data
      *
@@ -34,15 +37,14 @@ class GameController extends Controller
      */
     public function index()
     {
-        return Game::with('squads')->get();
+        return Game::with('squads', 'squads.members')
+            ->where('public', true)
+            ->orWhere('owner_id', Auth::id())
+            ->get();
     }
 
     /**
      * Create new game.
-     *
-     * TODO: Right now only public game type is implemented,
-     * ranking points will not be calculated, bets won't be
-     * deduced and game won't close after time has passed.
      *
      * @group Game management
      * @bodyParam type string Public or private, default - public
@@ -50,8 +52,9 @@ class GameController extends Controller
      * @bodyParam bet integer Game bet which each user will be charged for, default - 0
      * @bodyParam start_date timestamp Game starting time
      * @bodyParam duration integer Game time in seconds, default - 60 * 10
-     * @bodyParam long Game longitude - default null
-     * @bodyParam lat Game latitude - default null
+     * @bodyParam long float Game longitude - default null
+     * @bodyParam lat float Game latitude - default null
+     * @bodyParam squad_size int Game squad size - default 5
      *
      * @param  CreateGameRequest $request
      * @return \Illuminate\Http\Response
@@ -66,14 +69,16 @@ class GameController extends Controller
             'bet' => 0,
             'duration' => 60 * 10,
             'long' => null,
-            'lat' => null
+            'lat' => null,
+            'squad_size' => 5
         ];
+
         $data = array_merge($defaults, $request->all());
         $game = Game::create($data);
 
         GameCreated::dispatch($game);
 
-        return Message::ok('Game created', $game->with('squads')->find($game->id));
+        return Message::ok('Game created', $game->description());
     }
 
     /**
@@ -90,7 +95,7 @@ class GameController extends Controller
      */
     public function show(int $game_id)
     {
-        return Game::with('squads', 'squads.members')->findOrFail($game_id);
+        return Game::findOrFail($game_id)->description();
     }
 
     /**
@@ -122,6 +127,8 @@ class GameController extends Controller
     {
         $game = Game::findOrFail($id);
         $now = Carbon::now()->timestamp;
+        $data = Arr::except($request->all(), ['command']);
+        $command = $request->command ?? [];
 
         if ($game->completed) {
             return Message::error(403, 'This game was already completed, you cannot change it');
@@ -135,9 +142,10 @@ class GameController extends Controller
             return Message::error(403, 'You cannot change game bets or rating type if it has already started');
         }
 
-        $game->fill($request->all());
+        $game->fill($data);
         $game->save();
 
+        GameUpdated::dispatch($game, new GameCommand($command));
         return Message::ok('Game updated', $game);
     }
 

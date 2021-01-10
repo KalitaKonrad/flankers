@@ -7,8 +7,10 @@ import { BottomTabNavigationParamList } from '../../components/BottomTabNavigati
 import { useNotification } from '../../hooks/useNotification';
 import { NotificationEvents } from '../../utils/notificationHandler';
 
-type RankingScreenProps = object &
-  MaterialBottomTabScreenProps<BottomTabNavigationParamList, 'Ranking'>;
+type RankingScreenProps = MaterialBottomTabScreenProps<
+  BottomTabNavigationParamList,
+  'Ranking'
+>;
 
 export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
   const { notification, sendPushNotification } = useNotification();

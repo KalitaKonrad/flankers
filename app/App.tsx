@@ -1,4 +1,8 @@
-import { NavigationContainer } from '@react-navigation/native';
+import {
+  DefaultTheme as NavigationDefaultTheme,
+  NavigationContainer,
+} from '@react-navigation/native';
+import merge from 'deepmerge';
 import * as Notifications from 'expo-notifications';
 import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
@@ -16,6 +20,7 @@ setConsole({
 });
 
 const queryCache = new QueryCache();
+const CombinedDefaultTheme = merge(NavigationDefaultTheme, theme);
 
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
@@ -30,8 +35,8 @@ const App: React.FC = () => {
     <NotificationProvider>
       <AuthProvider>
         <ReactQueryCacheProvider queryCache={queryCache}>
-          <PaperProvider theme={theme}>
-            <NavigationContainer>
+          <PaperProvider theme={CombinedDefaultTheme}>
+            <NavigationContainer theme={CombinedDefaultTheme}>
               <AppScreen />
             </NavigationContainer>
           </PaperProvider>

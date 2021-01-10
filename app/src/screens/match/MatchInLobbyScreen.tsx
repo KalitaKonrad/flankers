@@ -1,45 +1,81 @@
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import { StackScreenProps } from '@react-navigation/stack';
+import React, { useMemo } from 'react';
+import { StyleSheet, View } from 'react-native';
 
-import { PlayersSquad } from '../../components/PlayersSquad';
-import { SubmitButton } from '../../components/shared/SubmitButton';
+import { Container } from '../../components/layout/Container';
+import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
+import { PlayerAvatarList } from '../../components/match/PlayerAvatarList';
+import { AppButton } from '../../components/shared/AppButton';
+import { AppText } from '../../components/shared/AppText';
+import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
-type MatchInLobbyScreenProps = object &
-  StackScreenProps<MatchScreenStackParamList, 'MatchInLobby'>;
+type MatchInLobbyScreenProps = StackScreenProps<
+  MatchScreenStackParamList,
+  'MatchInLobby'
+>;
 
 export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   navigation,
 }) => {
+  const profile = useUserProfileQuery();
+  const mockPlayerList = useMemo(() => {
+    if (profile.isSuccess) {
+      return Array(5)
+        .fill(profile.data)
+        .map((profile, i) => ({ ...profile, id: i }));
+    }
+    return [];
+  }, [profile.data, profile.isSuccess]);
+
   return (
-    <>
-      {/*////////////////////////////////////////////////////////////////////////*/}
-      {/*//TODO: INLINE HEADER*/}
-      {/*/////////////////////////////////////////////////////*/}
-      <PlayersSquad
-        firstTeamAvatarList={['src', 'oki']}
-        firstTeamName="A"
-        secondTeamAvatarList={['src']}
-        secondTeamName="B"
-        notReadyPlayersAvatarList={['jp2']}
-      />
-      <View style={styles.submitBtn}>
-        <SubmitButton
-          labelColor={theme.colors.white}
-          backgroundColor={theme.colors.primary}
-          onPress={() => navigation.push('MatchInProgress')}>
-          Rozpocznij
-        </SubmitButton>
-      </View>
-    </>
+    <Container>
+      <PaddedInputScrollView style={styles.container}>
+        <View style={styles.row}>
+          <AppText variant="h2" style={styles.title}>
+            Zespół A
+          </AppText>
+          <PlayerAvatarList players={mockPlayerList} />
+        </View>
+        <View style={styles.row}>
+          <AppText variant="h2" style={styles.title}>
+            Zespół B
+          </AppText>
+          <PlayerAvatarList players={mockPlayerList} />
+        </View>
+        <View style={styles.row}>
+          <AppText variant="h2" style={styles.title}>
+            Oczekiwanie na graczy
+          </AppText>
+          <PlayerAvatarList players={mockPlayerList} />
+        </View>
+        <View style={styles.action}>
+          <AppButton
+            mode="contained"
+            onPress={() => navigation.navigate('MatchInProgress')}>
+            Rozpocznij mecz
+          </AppButton>
+        </View>
+      </PaddedInputScrollView>
+    </Container>
   );
 };
 
 const styles = StyleSheet.create({
-  submitBtn: {
-    display: 'flex',
-    bottom: 15,
+  container: {
+    paddingTop: 32,
+  },
+  row: {
+    marginBottom: 24,
+  },
+  title: {
+    borderBottomColor: theme.colors.darkGray,
+    borderBottomWidth: 1,
+    paddingBottom: 12,
+    marginBottom: 12,
+  },
+  action: {
+    marginTop: 32,
   },
 });
