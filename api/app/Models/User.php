@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasWallet;
 use App\Traits\TeamMember;
 use Laravel\Cashier\Billable;
 use Illuminate\Support\Facades\Hash;
@@ -15,7 +16,7 @@ use function PHPSTORM_META\map;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
-    use HasFactory, Notifiable, TeamMember, Billable;
+    use HasFactory, HasWallet, Notifiable, TeamMember, Billable;
 
     /**
      * The attributes that are mass assignable.
