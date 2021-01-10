@@ -5,6 +5,7 @@ import { Button } from 'react-native-paper';
 
 import { BottomTabNavigationParamList } from '../../components/BottomTabNavigation';
 import { useNotification } from '../../hooks/useNotification';
+import { NotificationEvents } from '../../utils/notificationHandler';
 
 type RankingScreenProps = object &
   MaterialBottomTabScreenProps<BottomTabNavigationParamList, 'Ranking'>;
@@ -16,7 +17,11 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
       <View>
         <Button
           style={{ marginTop: 50 }}
-          onPress={() => sendPushNotification('tytul', 'cialo', 'some data')}>
+          onPress={() =>
+            sendPushNotification('tytul', 'cialo', {
+              eventType: NotificationEvents.JOIN_SQUAD,
+            })
+          }>
           send notification
         </Button>
         <Text>{JSON.stringify(notification)}</Text>

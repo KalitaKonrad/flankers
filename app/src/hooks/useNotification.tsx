@@ -16,6 +16,7 @@ import {
   NOTIFICATION_EVENT,
 } from '../const/events.const';
 import { EventBus } from '../utils/eventBus';
+import { NotificationEvents } from '../utils/notificationHandler';
 import {
   getStoredNotificationToken,
   setNotificationToken,
@@ -26,6 +27,10 @@ type NotificationContextData = ReturnType<typeof useProvideNotification>;
 const NotificationContext = createContext<NotificationContextData>(
   {} as NotificationContextData
 );
+
+interface NotificationData {
+  eventType: NotificationEvents;
+}
 
 export const useNotification = () => {
   return useContext(NotificationContext);
@@ -63,14 +68,14 @@ const useProvideNotification = () => {
   const sendPushNotification = async (
     title: string,
     body: string,
-    data: string
+    data: NotificationData
   ) => {
     const message = {
       to: token, //TODO: should the token be passed dynamically? or can it be just passed from state inside this function?
       sound: 'default',
       title,
       body,
-      data: { data },
+      data,
     };
 
     await fetch(EXPO_NOTIFICATION_URL, {

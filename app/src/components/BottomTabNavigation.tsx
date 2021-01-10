@@ -3,12 +3,7 @@ import { createMaterialBottomTabNavigator } from '@react-navigation/material-bot
 import { NavigatorScreenParams } from '@react-navigation/native';
 import React from 'react';
 
-import { useAuth } from '../hooks/useAuth';
-import { useNotification } from '../hooks/useNotification';
-import {
-  AuthScreenStack,
-  AuthScreenStackParamList,
-} from '../screens/auth/AuthScreenStack';
+import { AuthScreenStackParamList } from '../screens/auth/AuthScreenStack';
 import {
   MatchScreenStack,
   MatchScreenStackParamList,
