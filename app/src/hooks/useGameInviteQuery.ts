@@ -11,7 +11,7 @@ export const useGameInviteQuery = (invite_code: string) => {
     QUERY_GAME_INVITATION,
     async () => {
       const response = await axios.get(`games/invites/${invite_code}`);
-      return response.data;
+      return response.data.data;
     },
     { enabled: !!invite_code }
   );

@@ -3,7 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard, StyleSheet, View } from 'react-native';
-import { FAB, HelperText, Portal, Provider, Text } from 'react-native-paper';
+import { FAB, HelperText, Text } from 'react-native-paper';
 import BottomSheet from 'reanimated-bottom-sheet';
 import * as yup from 'yup';
 
@@ -75,7 +75,7 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
     setCodeToJoin(code);
 
     try {
-      if (gameFromCode.isSuccess && gameFromCode.data?.id !== undefined) {
+      if (gameFromCode.isFetched && gameFromCode.data?.id !== undefined) {
         modalMatchCodeRef?.current?.snapTo(1);
         console.log('======>', gameFromCode.data);
         navigation.push('MatchInLobby', { gameId: gameFromCode.data?.id });
