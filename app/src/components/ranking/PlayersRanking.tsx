@@ -2,15 +2,14 @@ import React from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import { List } from 'react-native-paper';
 
-import { usePlayerLeaderboardsQuery } from '../../hooks/usePlayerLeaderboardsQuery';
 import { UserProfilePayload } from '../../types/userProfilePayload';
 import { Avatar } from '../shared/Avatar';
 
-interface PlayersRankingProps {}
+interface PlayersRankingProps {
+  players: UserProfilePayload[];
+}
 
-export const PlayersRanking: React.FC<PlayersRankingProps> = () => {
-  const playersList = usePlayerLeaderboardsQuery();
-
+export const PlayersRanking: React.FC<PlayersRankingProps> = ({ players }) => {
   const renderItem = ({ item }: ListRenderItemInfo<UserProfilePayload>) => (
     <List.Item
       title={item.name}
@@ -26,7 +25,7 @@ export const PlayersRanking: React.FC<PlayersRankingProps> = () => {
 
   return (
     <FlatList
-      data={playersList.data}
+      data={players}
       renderItem={renderItem}
       contentContainerStyle={styles.container}
       keyExtractor={(player) => player.id.toString()}

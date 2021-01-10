@@ -6,11 +6,11 @@ import { useTeamLeaderboardsQuery } from '../../hooks/useTeamLeaderboardsQuery';
 import { TeamProfilePayload } from '../../types/teamProfile';
 import { Avatar } from '../shared/Avatar';
 
-interface PlayersRankingProps {}
+interface PlayersRankingProps {
+  teams: TeamProfilePayload[];
+}
 
-export const TeamsRanking: React.FC<PlayersRankingProps> = () => {
-  const teamList = useTeamLeaderboardsQuery();
-
+export const TeamsRanking: React.FC<PlayersRankingProps> = ({ teams }) => {
   const renderItem = ({ item }: ListRenderItemInfo<TeamProfilePayload>) => (
     <List.Item
       title={item.name}
@@ -26,7 +26,7 @@ export const TeamsRanking: React.FC<PlayersRankingProps> = () => {
 
   return (
     <FlatList
-      data={teamList.data}
+      data={teams}
       renderItem={renderItem}
       contentContainerStyle={styles.container}
       keyExtractor={(player) => player.id.toString()}
