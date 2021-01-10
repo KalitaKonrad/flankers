@@ -2,18 +2,17 @@
 
 namespace App\Events;
 
-use App\Models\Game;
+use App\Models\Squad;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserChangedSquad implements ShouldBroadcast
+class SquadMembersChanged implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $game;
     public $squads;
 
     /**
@@ -21,10 +20,9 @@ class UserChangedSquad implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Game $game, array $squads)
+    public function __construct(Squad $squad)
     {
-        $this->game = $game;
-        $this->squads = $squads;
+        $this->squads = $squad->game->squads()->with('members')->get();
     }
 
     /**
@@ -34,6 +32,6 @@ class UserChangedSquad implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel("games.{$this->game->id}");
+        return new Channel("games.{$this->squad->game->id}");
     }
 }
