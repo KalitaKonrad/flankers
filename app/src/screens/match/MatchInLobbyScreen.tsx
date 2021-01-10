@@ -49,11 +49,11 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   const matchDetails = useGameDetailsQuery(route.params.gameId);
 
   const [firstTeamPlayersList, setFirstTeamPlayersList] = useState<
-    MembersPayload[]
-  >();
+    MembersPayload[] | undefined
+  >(matchDetails.data?.squads[0].members);
   const [secondTeamPlayersList, setSecondTeamPlayersList] = useState<
-    MembersPayload[]
-  >();
+    MembersPayload[] | undefined
+  >(matchDetails.data?.squads[1].members);
 
   const [currentSquad, setCurrentSquad] = useState<Squad | null>(null);
   const [isUserAllowedToChangeSquad, setIsUserAllowedToChangeSquad] = useState(
@@ -63,7 +63,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   const unlockChangingSquads = () => {
     setTimeout(() => {
       setIsUserAllowedToChangeSquad(true);
-    }, 30000);
+    }, 3000);
   };
 
   const { echo, isReady: isEchoReady } = useEcho();
@@ -87,6 +87,9 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   );
 
   useEffect(() => {
+    setFirstTeamPlayersList(matchDetails.data?.squads[0].members);
+    setSecondTeamPlayersList(matchDetails.data?.squads[1].members);
+
     const channel = `games.${route.params.gameId}`;
 
     if (isEchoReady) {
