@@ -68,10 +68,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
 
   const { echo, isReady: isEchoReady } = useEcho();
 
-  const onGameUpdated = useCallback((event: GameUpdateEvent) => {
-    console.log('===> Received GameUpdateEvent');
-    console.log(event);
-  }, []);
+  const onGameUpdated = useCallback((event: GameUpdateEvent) => {}, []);
 
   const onSquadMembersChanged = useCallback(
     (event: SquadMembersChangedEvent) => {
@@ -89,7 +86,9 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   useEffect(() => {
     setFirstTeamPlayersList(matchDetails.data?.squads[0].members);
     setSecondTeamPlayersList(matchDetails.data?.squads[1].members);
+  }, [matchDetails.data?.squads]);
 
+  useEffect(() => {
     const channel = `games.${route.params.gameId}`;
 
     if (isEchoReady) {

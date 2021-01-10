@@ -40,7 +40,6 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
   const [codeToJoin, setCodeToJoin] = useState<string>('');
 
   const gameFromCode = useGameInviteQuery(codeToJoin);
-  console.log('++++++++++++++++++++++++++++++', gameFromCode.data?.id);
 
   const [fabState, setFabState] = React.useState({ open: false });
 
@@ -77,7 +76,6 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
     try {
       if (gameFromCode.isFetched && gameFromCode.data?.id !== undefined) {
         modalMatchCodeRef?.current?.snapTo(1);
-        console.log('======>', gameFromCode.data);
         navigation.push('MatchInLobby', { gameId: gameFromCode.data?.id });
       }
     } catch (error) {
