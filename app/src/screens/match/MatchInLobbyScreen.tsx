@@ -133,6 +133,14 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
       return;
     }
 
+    if (
+      matchDetails.isFetched &&
+      matchDetails.data.squads[squadIndex].is_full
+    ) {
+      alert('Skład jest pełny');
+      return;
+    }
+
     if (currentSquad == null) {
       try {
         await mutateJoinSquad({
