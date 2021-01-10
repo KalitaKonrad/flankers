@@ -1,33 +1,23 @@
 import React from 'react';
-import {
-  FlatList,
-  ListRenderItemInfo,
-  StyleProp,
-  StyleSheet,
-  View,
-  ViewStyle,
-} from 'react-native';
+import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import { List } from 'react-native-paper';
 
+import { usePlayerLeaderboardsQuery } from '../../hooks/usePlayerLeaderboardsQuery';
 import { UserProfilePayload } from '../../types/userProfilePayload';
 import { Avatar } from '../shared/Avatar';
 
-interface TeamMemberListProps {
-  members: UserProfilePayload[];
-  style?: StyleProp<ViewStyle>;
-}
+interface PlayersRankingProps {}
 
-export const TeamMemberList: React.FC<TeamMemberListProps> = ({
-  members,
-  style,
-}) => {
+export const PlayersRanking: React.FC<PlayersRankingProps> = () => {
+  const playersList = usePlayerLeaderboardsQuery();
+
   const renderItem = ({ item }: ListRenderItemInfo<UserProfilePayload>) => (
     <List.Item
       title={item.name}
-      titleStyle={styles.memberName}
+      titleStyle={styles.playerName}
       description={`${item.elo} punktów rankingowych`}
       left={() => (
-        <View style={styles.memberAvatarContainer}>
+        <View style={styles.playerAvatarContainer}>
           <Avatar size={40} borderRadius={8} src={{ uri: item.avatar }} />
         </View>
       )}
@@ -36,10 +26,10 @@ export const TeamMemberList: React.FC<TeamMemberListProps> = ({
 
   return (
     <FlatList
-      data={members}
-      contentContainerStyle={styles.container}
+      data={playersList.data}
       renderItem={renderItem}
-      keyExtractor={(member) => member.id.toString()}
+      contentContainerStyle={styles.container}
+      keyExtractor={(player) => player.id.toString()}
     />
   );
 };
@@ -48,11 +38,10 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
   },
-  memberName: {
+  playerName: {
     fontWeight: 'bold',
   },
-
-  memberAvatarContainer: {
+  playerAvatarContainer: {
     justifyContent: 'center',
     marginRight: 4,
   },
