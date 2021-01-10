@@ -28,7 +28,7 @@ class AddGameSquadSizeColumn extends Migration
     public function down()
     {
         Schema::table('games', function (Blueprint $table) {
-            $table->dropColumn('suqad_size');
+            $table->dropColumn('squad_size');
         });
     }
 }
