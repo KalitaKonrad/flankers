@@ -1,8 +1,8 @@
-import { LatLng } from 'react-native-maps';
 import { useMutation, useQueryCache } from 'react-query';
 
 import { QUERY_GAMES } from '../const/query.const';
 import { MatchCreatePayload } from '../types/match';
+import { MatchResponse } from '../types/matchResponse';
 import { useAxios } from './useAxios';
 
 export const useMatchCreateMutation = () => {
@@ -11,8 +11,8 @@ export const useMatchCreateMutation = () => {
   const queryCache = useQueryCache();
 
   return useMutation(
-    (newMatch: MatchCreatePayload) =>
-      axios.post('games', {
+    async (newMatch: MatchCreatePayload) => {
+      const response = await axios.post<{ data: MatchResponse }>('games', {
         type: newMatch.type,
         rated: newMatch.isRated,
         public: newMatch.isPublic,
@@ -20,10 +20,15 @@ export const useMatchCreateMutation = () => {
         playersAmount: newMatch.playersAmount,
         long: newMatch.long,
         lat: newMatch.lat,
-      }),
+      });
+      return response.data.data;
+    },
     {
       onSuccess: () => {
         queryCache.invalidateQueries(QUERY_GAMES);
+      },
+      onError: (error) => {
+        alert('Wystąpił błąd podczas tworzenia meczu');
       },
     }
   );
