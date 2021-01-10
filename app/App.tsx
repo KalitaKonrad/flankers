@@ -9,6 +9,7 @@ import { Provider as PaperProvider } from 'react-native-paper';
 import { QueryCache, ReactQueryCacheProvider, setConsole } from 'react-query';
 
 import { AuthProvider } from './src/hooks/useAuth';
+import { EchoProvider } from './src/hooks/useEcho';
 import { AppScreen } from './src/screens/AppScreen';
 import { theme } from './src/theme';
 
@@ -24,13 +25,15 @@ const CombinedDefaultTheme = merge(NavigationDefaultTheme, theme);
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <ReactQueryCacheProvider queryCache={queryCache}>
-        <PaperProvider theme={CombinedDefaultTheme}>
-          <NavigationContainer theme={CombinedDefaultTheme}>
-            <AppScreen />
-          </NavigationContainer>
-        </PaperProvider>
-      </ReactQueryCacheProvider>
+      <EchoProvider>
+        <ReactQueryCacheProvider queryCache={queryCache}>
+          <PaperProvider theme={CombinedDefaultTheme}>
+            <NavigationContainer theme={CombinedDefaultTheme}>
+              <AppScreen />
+            </NavigationContainer>
+          </PaperProvider>
+        </ReactQueryCacheProvider>
+      </EchoProvider>
     </AuthProvider>
   );
 };

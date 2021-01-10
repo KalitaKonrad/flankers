@@ -24,20 +24,19 @@ export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
     props.onMarkerPress(match);
   };
 
-  const publicMatches = useMemo(() => {
-    return props.matchList.filter((match) => {
-      return match.public;
-    });
-  }, [props.matchList]);
+  const publicMatches = useMemo(
+    () => props.matchList.filter((match) => match.public),
+    [props.matchList]
+  );
 
-  const heatMapPoints = useMemo(() => {
-    return publicMatches.map((match) => {
-      return {
+  const heatMapPoints = useMemo(
+    () =>
+      publicMatches.map((match) => ({
         latitude: match.lat,
         longitude: match.long,
-      };
-    });
-  }, [publicMatches]);
+      })),
+    [publicMatches]
+  );
 
   return (
     <View style={styles.container}>
@@ -49,7 +48,7 @@ export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
         showsMyLocationButton={false}
         showsUserLocation
         onMapReady={onMapReady}>
-        <Heatmap points={heatMapPoints} />
+        {!!heatMapPoints.length && <Heatmap points={heatMapPoints} />}
 
         {publicMatches?.map((match) => {
           return (
