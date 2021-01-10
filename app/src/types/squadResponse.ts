@@ -6,5 +6,14 @@ export interface SquadResponse {
   slots: number;
   team_id: number;
   is_full: boolean;
-  members?: UserProfilePayload[];
+  members?: MembersPayload[];
+}
+
+export interface MembersPayload {
+  avatar: string;
+  current_team_id: number;
+  elo: number;
+  email: string;
+  id: number;
+  name: string;
 }

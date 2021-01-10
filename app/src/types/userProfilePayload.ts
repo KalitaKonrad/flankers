@@ -4,11 +4,12 @@ export interface UserProfilePayload {
   id: number;
   name: string;
   email: string;
-  email_verified_at: string;
-  created_at: string;
-  updated_at: string;
+  email_verified_at?: string;
+  created_at?: string;
+  updated_at?: string;
   current_team_id: number;
   elo: number;
+  avatar?: string;
   teams: TeamProfilePayload[];
-  invites: [];
+  invites?: [];
 }

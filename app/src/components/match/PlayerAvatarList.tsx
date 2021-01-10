@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { MembersPayload } from '../../types/squadResponse';
 import { UserProfilePayload } from '../../types/userProfilePayload';
 import { Avatar } from '../shared/Avatar';
 
 interface PlayerAvatarListProps {
-  players: UserProfilePayload[];
+  players: MembersPayload[];
 }
 
 export const PlayerAvatarList: React.FC<PlayerAvatarListProps> = ({

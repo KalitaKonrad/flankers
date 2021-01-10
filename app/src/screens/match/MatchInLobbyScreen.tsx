@@ -1,8 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
-import App from '../../../App';
 import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
 import { PlayerAvatarList } from '../../components/match/PlayerAvatarList';
@@ -10,8 +9,7 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
 import {
   GAME_UPDATE_EVENT,
-  USER_CHANGED_SQUAD_EVENT,
-  USER_JOINED_SQUAD_EVENT,
+  SQUAD_MEMBERS_CHANGED_EVENT,
 } from '../../const/events.const';
 import { useAddUserToGameSquadMutation } from '../../hooks/useAddUserToGameSquadMutation';
 import { useEcho } from '../../hooks/useEcho';
@@ -19,12 +17,9 @@ import { useGameDetailsQuery } from '../../hooks/useGameDetailsQuery';
 import { useMoveMemberToAnotherSquadMutation } from '../../hooks/useMoveMemberToAnotherSquadMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
-import {
-  UserChangedSquadsEvent,
-  UserJoinedSquadEvent,
-} from '../../types/UserJoinedSquadEvent';
+import { SquadMembersChangedEvent } from '../../types/UserJoinedSquadEvent';
 import { GameUpdateEvent } from '../../types/gameUpdateEvent';
-import { UserProfilePayload } from '../../types/userProfilePayload';
+import { MembersPayload } from '../../types/squadResponse';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 type MatchInLobbyScreenProps = StackScreenProps<
@@ -54,10 +49,10 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   const matchDetails = useGameDetailsQuery(route.params.gameId);
 
   const [firstTeamPlayersList, setFirstTeamPlayersList] = useState<
-    UserProfilePayload[]
+    MembersPayload[]
   >();
   const [secondTeamPlayersList, setSecondTeamPlayersList] = useState<
-    UserProfilePayload[]
+    MembersPayload[]
   >();
 
   const [currentSquad, setCurrentSquad] = useState<Squad | null>(null);
@@ -78,45 +73,40 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     console.log(event);
   }, []);
 
-  const onUserChangedSquad = useCallback((event: UserChangedSquadsEvent) => {
-    console.log('===> Received UserChangedSquadEvent');
-    console.log(event);
-    setFirstTeamPlayersList(event.squads[0].members);
-    setSecondTeamPlayersList(event.squads[1].members);
-  }, []);
-
-  const onUserJoinedSquad = useCallback((event: UserJoinedSquadEvent) => {
-    console.log('===> Received UserJOINEDSquadEvent');
-    console.log(event);
-    setFirstTeamPlayersList(event.squad.members);
-  }, []);
+  const onSquadMembersChanged = useCallback(
+    (event: SquadMembersChangedEvent) => {
+      if (matchDetails.data?.squads[0].id === event.squad.id) {
+        setFirstTeamPlayersList(event.squad.members);
+      } else if (matchDetails.data?.squads[1].id === event.squad.id) {
+        setSecondTeamPlayersList(event.squad.members);
+      } else {
+        alert('Nie udało się zaktualizować drużyn');
+      }
+    },
+    [matchDetails.data?.squads]
+  );
 
   useEffect(() => {
-    console.log('++++++++> ', route.params.gameId);
     const channel = `games.${route.params.gameId}`;
 
     if (isEchoReady) {
       echo?.channel(channel).listen(GAME_UPDATE_EVENT, onGameUpdated);
       echo
         ?.channel(channel)
-        .listen(USER_CHANGED_SQUAD_EVENT, onUserChangedSquad);
-      echo?.channel(channel).listen(USER_JOINED_SQUAD_EVENT, onUserJoinedSquad);
+        .listen(SQUAD_MEMBERS_CHANGED_EVENT, onSquadMembersChanged);
     }
 
     return () => {
       echo?.channel(channel).stopListening(GAME_UPDATE_EVENT, onGameUpdated);
       echo
         ?.channel(channel)
-        .stopListening(USER_CHANGED_SQUAD_EVENT, onUserChangedSquad);
-      echo
-        ?.channel(channel)
-        .stopListening(USER_JOINED_SQUAD_EVENT, onUserJoinedSquad);
+        .stopListening(SQUAD_MEMBERS_CHANGED_EVENT, onSquadMembersChanged);
     };
   }, [
     echo,
     isEchoReady,
     onGameUpdated,
-    onUserChangedSquad,
+    onSquadMembersChanged,
     route.params.gameId,
   ]);
 
