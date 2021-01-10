@@ -4,6 +4,7 @@ import { NavigatorScreenParams } from '@react-navigation/native';
 import React from 'react';
 
 import { useAuth } from '../hooks/useAuth';
+import { useNotification } from '../hooks/useNotification';
 import {
   AuthScreenStack,
   AuthScreenStackParamList,
@@ -44,6 +45,8 @@ const ROUTE_TO_ICON_MAP: Record<keyof BottomTabNavigationParamList, string> = {
 };
 
 export const BottomTabNavigation: React.FC = () => {
+  // useNotification(); // prompt user to accept permissions for sending notifications
+
   return (
     <Tab.Navigator
       activeColor="#FFF"

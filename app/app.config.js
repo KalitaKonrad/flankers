@@ -27,6 +27,7 @@ module.exports = {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#FFFFFF',
       },
+      useNextNotificationsApi: true,
     },
     web: {
       favicon: './assets/favicon.png',
