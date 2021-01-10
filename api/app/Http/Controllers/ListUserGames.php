@@ -20,6 +20,8 @@ class ListUserGames extends Controller
      *
      * This will return paginated query response.
      *
+     * @group User management
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -30,7 +32,7 @@ class ListUserGames extends Controller
             ->join('squads', 'games.id', '=', 'squads.game_id')
             ->join('squad_user', 'squads.id', '=', 'squad_user.squad_id')
             ->leftJoin('game_victor_squads', 'squads.id', '=', 'game_victor_squads.squad_id')
-            ->where('squad_user.user_id', 1)
+            ->where('squad_user.user_id', Auth::id())
             ->orderByDesc('games.id')
             ->paginate(10);
 
