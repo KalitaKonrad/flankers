@@ -31,6 +31,7 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Game\GameMemoController;
 use App\Http\Controllers\TeamMembershipController;
 use App\Http\Controllers\Game\GameInviteController;
+use App\Http\Controllers\Payment\CreateSetupIntent;
 use App\Http\Controllers\Avatar\UserAvatarController;
 use App\Http\Controllers\Avatar\TeamAvatarController;
 use App\Http\Controllers\Ranking\LeaderboardController;
@@ -117,3 +118,12 @@ Route::resource('games', GameController::class)
     ->only(['index', 'store', 'show', 'update', 'destroy']);
 
 Route::get('/leaderboards/{leaderboard}', [LeaderboardController::class, 'show']);
+
+/**
+ * ----------------------------------------
+ * Payment routes
+ * ----------------------------------------
+ */
+Route::prefix('payments')->group(function () {
+    Route::get('intent', CreateSetupIntent::class);
+});
