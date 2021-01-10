@@ -57,6 +57,13 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
     setMatchTemp(match);
   };
 
+  const onMatchJoinFromMarker = () => {
+    if (matchTemp !== undefined) {
+      modalMarkerPressedRef?.current?.snapTo;
+      navigation.push('MatchInLobby', { gameId: matchTemp?.id });
+    }
+  };
+
   const onMatchJoinWithCodePress = async ({ code }: MatchCodeFormData) => {
     Keyboard.dismiss();
 
@@ -105,7 +112,9 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
           {matchTemp?.rated ? ' rankingowy' : ' towarzyski'}
           {matchTemp?.rated ? `, stawka ${matchTemp.bet}` : ''}
         </Text>
-        <AppButton mode="contained">Dołącz</AppButton>
+        <AppButton mode="contained" onPress={onMatchJoinFromMarker}>
+          Dołącz
+        </AppButton>
       </Modal>
 
       <Modal ref={modalMatchCodeRef} title="Wpisz kod gry">
