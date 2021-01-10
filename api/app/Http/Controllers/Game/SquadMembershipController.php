@@ -13,6 +13,7 @@ use App\Events\UserLeftGame;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\UnauthorizedException;
 
 class SquadMembershipController extends Controller
 {
@@ -135,7 +136,7 @@ class SquadMembershipController extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return Message::error(406, $e->getMessage());
+            throw $e;
         }
 
         $memberList = $game->squads()->with('members')->get();

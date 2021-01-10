@@ -13,7 +13,7 @@ class SquadMembersChanged implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    public $squads;
+    public $squad;
 
     /**
      * Create a new event instance.
@@ -22,7 +22,7 @@ class SquadMembersChanged implements ShouldBroadcast
      */
     public function __construct(Squad $squad)
     {
-        $this->squads = $squad->game->squads()->with('members')->get();
+        $this->squad = Squad::with('members')->find($squad->id);
     }
 
     /**
