@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\TeamMember;
+use Laravel\Cashier\Billable;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -14,7 +15,7 @@ use function PHPSTORM_META\map;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
-    use HasFactory, Notifiable, TeamMember;
+    use HasFactory, Notifiable, TeamMember, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -98,7 +99,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      */
     public function defaultAvatar()
     {
-        return 'https://avatars.dicebear.com/4.5/api/initials/flankers.svg';
+        return 'https://eu.ui-avatars.com/api/?format=png&name=flankers';
     }
 
     /**

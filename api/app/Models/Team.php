@@ -46,6 +46,6 @@ class Team extends TeamworkTeam
      */
     public function defaultAvatar()
     {
-        return 'https://avatars.dicebear.com/4.5/api/initials/flankers.svg';
+        return 'https://eu.ui-avatars.com/api/?format=png&name=flankers';
     }
 }
