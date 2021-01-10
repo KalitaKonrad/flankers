@@ -18,6 +18,7 @@ use App\Http\Controllers\VerifyEmail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AcceptInvite;
 use App\Http\Controllers\RefreshToken;
+use App\Http\Controllers\ListUserGames;
 use App\Http\Controllers\DeclineInvite;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ForgotPassword;
@@ -67,6 +68,8 @@ Route::prefix('user')->group(function () {
     Route::resource('avatar', UserAvatarController::class)
         ->only(['index', 'store']);
     Route::delete('avatar', [UserAvatarController::class, 'destroy']);
+
+    Route::get('games', ListUserGames::class);
 });
 
 /**
