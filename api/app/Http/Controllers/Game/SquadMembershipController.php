@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Game;
 
+use App\Events\SquadMembersChanged;
 use Exception;
 use App\Models\User;
 use App\Http\Message;
@@ -125,23 +126,19 @@ class SquadMembershipController extends Controller
             return Message::error(406, 'Users can switch memberships only within the same game');
         }
 
-        DB::beginTransaction();
-
         try {
+            DB::beginTransaction();
+
             $currentSquad->kick($user);
             $newSquad->assign($user);
+
+            DB::commit();
         } catch (Exception $e) {
+            DB::rollBack();
             return Message::error(406, $e->getMessage());
         }
 
-        DB::commit();
-
-        $memberList = [
-            $currentSquad->with('members')->get(),
-            $newSquad->with('members')->get()
-        ];
-
-        UserChangedSquad::dispatch($game, $memberList);
+        $memberList = $game->squads()->with('members')->get();
 
         return Message::ok('Squad changed', $memberList);
     }
