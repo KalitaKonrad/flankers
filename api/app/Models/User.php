@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\UserCreated;
 use App\Traits\HasWallet;
 use App\Traits\TeamMember;
 use Laravel\Cashier\Billable;
@@ -28,6 +29,13 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'email',
         'password',
         'avatar'
+    ];
+
+    /**
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class,
     ];
 
     /**
