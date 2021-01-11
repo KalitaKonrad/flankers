@@ -22,12 +22,7 @@ class ChargeWallet extends Controller
             return Message::error(403, 'You must connect payment method first');
         }
 
-        try {
-            $user->invoiceFor('Wallet charge', $ammount);
-        } catch (Exception $e) {
-            return Message::error(400, $e->getMessage(), $e);
-        }
-
+        $user->invoiceFor('Wallet charge', $ammount);
         $user->wallet->charge($ammount);
 
         return Message::ok('User account charged');
