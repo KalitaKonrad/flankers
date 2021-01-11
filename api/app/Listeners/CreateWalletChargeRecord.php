@@ -25,8 +25,8 @@ class CreateWalletChargeRecord
      */
     public function handle(WalletCharged $event)
     {
-        $wallet = $event->wallet->id;
+        $wallet = $event->wallet;
         $charge = WalletCharge::create(['wallet_id' => $wallet->id, 'ammount' => $event->ammount]);
-        $event->wallet->charges()->attach($charge->id);
+        $wallet->charges()->save($charge);
     }
 }
