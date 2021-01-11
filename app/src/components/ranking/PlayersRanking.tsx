@@ -1,15 +1,27 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
-import { List, Text } from 'react-native-paper';
+import { List, Text, useTheme } from 'react-native-paper';
 
 import { UserProfilePayload } from '../../types/userProfilePayload';
 import { Avatar } from '../shared/Avatar';
 
 interface PlayersRankingProps {
   players: UserProfilePayload[];
+  pageNumber: number;
+  userId: number;
+  onEndReached(): void;
 }
 
-export const PlayersRanking: React.FC<PlayersRankingProps> = ({ players }) => {
+export const PlayersRanking: React.FC<PlayersRankingProps> = ({
+  players,
+  pageNumber,
+  userId,
+  onEndReached,
+}) => {
+  const theme = useTheme();
+
+  const [onEndReachedState, setOnEndReachedState] = useState(false);
+
   const renderItem = ({
     item,
     index,
@@ -23,7 +35,20 @@ export const PlayersRanking: React.FC<PlayersRankingProps> = ({ players }) => {
           <Avatar size={40} borderRadius={8} src={{ uri: item.avatar }} />
         </View>
       )}
-      right={() => <Text style={styles.rightIndexStyle}>{index + 1}</Text>}
+      right={() => (
+        <Text style={styles.rightIndexStyle}>
+          #{index + (pageNumber - 1) * 10 + 1}
+        </Text>
+      )}
+      style={
+        item.id === userId
+          ? {
+              backgroundColor: theme.colors.primary,
+              borderRadius: 8,
+              opacity: 0.5,
+            }
+          : { backgroundColor: theme.colors.white }
+      }
     />
   );
 
@@ -33,6 +58,10 @@ export const PlayersRanking: React.FC<PlayersRankingProps> = ({ players }) => {
       renderItem={renderItem}
       contentContainerStyle={styles.container}
       keyExtractor={(player) => player.id.toString()}
+      onEndReached={() => {
+        setOnEndReachedState(true);
+        onEndReached();
+      }}
     />
   );
 };

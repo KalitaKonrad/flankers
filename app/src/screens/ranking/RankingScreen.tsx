@@ -10,6 +10,7 @@ import { AppButton } from '../../components/shared/AppButton';
 import { Switch } from '../../components/shared/Switch';
 import { usePlayerLeaderboardsQuery } from '../../hooks/usePlayerLeaderboardsQuery';
 import { useTeamLeaderboardsQuery } from '../../hooks/useTeamLeaderboardsQuery';
+import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { RankingScreenStackParamList } from './RankingScreenStack';
 
 type RankingScreenProps = StackScreenProps<
@@ -21,6 +22,8 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
   const [showTeamsRanking, setShowTeamsRanking] = useState(false);
 
   const [page, setPage] = useState(1);
+
+  const profile = useUserProfileQuery();
 
   const {
     isLoading: isTeamLeaderboardsQueryLoading,
@@ -77,37 +80,47 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
           onSwitchToRight={() => setShowTeamsRanking(true)}
         />
       </View>
-      <PaddedInputScrollView>
-        {isTeamLeaderboardsQueryLoading ? (
-          <Text>Loading...</Text>
-        ) : isTeamLeaderboardsQueryError ? (
-          <Text>{teamLeaderboardsError.message}</Text>
-        ) : !showTeamsRanking || teamLeaderboardsList === undefined ? null : (
-          <TeamsRanking teams={teamLeaderboardsList.data} />
-        )}
+      {isTeamLeaderboardsQueryLoading ? (
+        <Text>Loading...</Text>
+      ) : isTeamLeaderboardsQueryError ? (
+        <Text>{teamLeaderboardsError.message}</Text>
+      ) : !showTeamsRanking ||
+        teamLeaderboardsList === undefined ||
+        profile.data?.current_team_id === undefined ? null : (
+        <TeamsRanking
+          teams={teamLeaderboardsList.data}
+          pageNumber={page}
+          userTeamId={profile.data.current_team_id}
+        />
+      )}
 
-        {isPlayerLeaderboardsQueryLoading ? (
-          <Text>Loading...</Text>
-        ) : isPlayerLeaderboardsQueryError ? (
-          <Text>{playerLeaderboardsError.message}</Text>
-        ) : showTeamsRanking || playerLeaderboardsList === undefined ? null : (
-          <PlayersRanking players={playerLeaderboardsList.data} />
-        )}
-        <View style={styles.buttonGroup}>
-          <AppButton onPress={onPreviousPage} disabled={page === 1}>
-            Wstecz
-          </AppButton>
-          <AppButton
-            onPress={onNextPage}
-            disabled={isPreviousPlayerLeaderboardsData}>
-            Naprzód
-          </AppButton>
-        </View>
-        {isTeamLeaderboardsQueryFetching ||
-        isPlayerLeaderboardsQueryFetching ? (
-          <Text>Loading</Text>
-        ) : null}
-      </PaddedInputScrollView>
+      {isPlayerLeaderboardsQueryLoading ? (
+        <Text>Loading...</Text>
+      ) : isPlayerLeaderboardsQueryError ? (
+        <Text>{playerLeaderboardsError.message}</Text>
+      ) : showTeamsRanking ||
+        playerLeaderboardsList === undefined ||
+        profile.data?.id === undefined ? null : (
+        <PlayersRanking
+          players={playerLeaderboardsList.data}
+          pageNumber={page}
+          userId={profile.data?.id}
+          onEndReached={onNextPage}
+        />
+      )}
+      <View style={styles.buttonGroup}>
+        <AppButton onPress={onPreviousPage} disabled={page === 1}>
+          Wstecz
+        </AppButton>
+        <AppButton
+          onPress={onNextPage}
+          disabled={isPreviousPlayerLeaderboardsData}>
+          Naprzód
+        </AppButton>
+      </View>
+      {isTeamLeaderboardsQueryFetching || isPlayerLeaderboardsQueryFetching ? (
+        <Text>Loading</Text>
+      ) : null}
     </Container>
   );
 };
