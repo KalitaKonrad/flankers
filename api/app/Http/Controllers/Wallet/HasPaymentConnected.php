@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers\Wallet;
 
-use Exception;
 use App\Http\Message;
 use App\Http\Controllers\Controller;
-use App\Models\Wallet;
 use Illuminate\Support\Facades\Auth;
 
-class FetchWallet extends Controller
+class HasPaymentConnected extends Controller
 {
     /**
      * Instantiate the controller
@@ -19,18 +17,15 @@ class FetchWallet extends Controller
     }
 
     /**
-     * Get current user wallet with charge history
+     * Check if user has payment method connected
      *
      * @group Payments
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(int $ammount)
+    public function __invoke()
     {
-        return Message::ok(
-            'Your wallet',
-            Wallet::with('charges')->where('owner_id', Auth::id())->firstOrFail()
-        );
+        return Message::ok('User has payment method connected', Auth::user()->hasDefaultPaymentMethod());
     }
 }

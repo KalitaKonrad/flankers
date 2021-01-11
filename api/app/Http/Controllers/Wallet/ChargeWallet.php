@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Wallet;
 
-use Exception;
 use App\Http\Message;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -10,14 +9,31 @@ use Illuminate\Support\Facades\Auth;
 class ChargeWallet extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Instantiate the controller
+     */
+    public function __construct()
+    {
+        $this->middleware(['auth:api']);
+    }
+
+    /**
+     * Charge wallet with given ammount
+     *
+     * User must have payment method connected for this to succeed
+     *
+     * @group Payments
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(int $ammount)
+    public function __invoke(float $ammount)
     {
         $user = Auth::user();
+
+        if ($ammount <= 0) {
+            return Message::error(400, 'Wallet charge must be positive');
+        }
+
         if (!$user->hasDefaultPaymentMethod()) {
             return Message::error(403, 'You must connect payment method first');
         }
