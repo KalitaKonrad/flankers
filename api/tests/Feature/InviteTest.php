@@ -43,7 +43,7 @@ it('should disallow to create more then one invite to the same team for single u
             'team_id' => $team->id,
             'email' => $user->email
         ])
-        ->assertStatus(406);
+        ->assertStatus(403);
 });
 
 it('should fail if invited user does not exist', function () {
