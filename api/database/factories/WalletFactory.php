@@ -2,18 +2,18 @@
 
 namespace Database\Factories;
 
-use App\Models\Game;
-use App\Models\Squad;
+use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class SquadFactory extends Factory
+class WalletFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Squad::class;
+    protected $model = Wallet::class;
 
     /**
      * Define the model's default state.
@@ -23,8 +23,8 @@ class SquadFactory extends Factory
     public function definition()
     {
         return [
-            'game_id' => Game::factory(),
-            'slots' => $this->faker->numberBetween(4, 10)
+            'owner_id' => User::factory(),
+            'balance' => 0,
         ];
     }
 }
