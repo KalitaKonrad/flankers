@@ -30,16 +30,11 @@ class GameService
         $tie = count($winners) > 1;
 
         return new GameResults([
-            'game' => $game->id,
+            'game' => $game,
             'scores' => $scores,
             'winners' => $winners,
             'tie' => $tie
         ]);
-    }
-
-    public function winners(Game $game)
-    {
-        return self::appraise($game)->winners;
     }
 
     public static function square($game)
@@ -47,14 +42,15 @@ class GameService
         $results = self::appraise($game);
 
         self::register($results);
+        self::applyBets($results);
 
         if ($game->rated) {
             switch ($game->type) {
                 case GameType::TEAM:
-                    self::squareTeamGame($results);
+                    self::squareTeamElo($results);
                     break;
                 case GameType::FREE_FOR_ALL:
-                    self::squareFfaGame($results);
+                    self::squareFfaElo($results);
                     break;
             }
         }
@@ -64,13 +60,35 @@ class GameService
     {
         foreach ($results->winners as $winner) {
             GameVictorSquad::create([
-                'game_id' => $results->game,
+                'game_id' => $results->game->id,
                 'squad_id' => $winner
             ]);
         }
     }
 
-    protected static function squareTeamGame($results)
+    protected static function applyBets(GameResults $results)
+    {
+        $winnings = 0;
+        foreach ($results->game->squads as $squad) {
+            $losing = !in_array($squad->id, $results->winners);
+
+            if ($losing) {
+                $squad->members->each(function ($member) use (&$winnings, $results) {
+                    $member->wallet->charge(-1 * $results->game->bet);
+                    $winnings += $results->game->bet;
+                });
+            }
+        }
+
+        $winners = Squad::with('members')
+            ->findMany($results->winners)
+            ->pluck('members')
+            ->flatten();
+
+        $winners->each(fn ($winner) => $winner->wallet->charge($winnings / count($winners)));
+    }
+
+    protected static function squareTeamElo($results)
     {
         $entries = [];
         foreach ($results->scores as $squadId => $score) {
@@ -90,7 +108,7 @@ class GameService
     }
 
 
-    protected static function squareFfaGame($results)
+    protected static function squareFfaElo($results)
     {
         $entries = [];
 
