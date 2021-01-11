@@ -15,7 +15,7 @@ class CreateWalletChargesTable extends Migration
     {
         Schema::create('wallet_charges', function (Blueprint $table) {
             $table->bigInteger('wallet_id');
-            $table->decimal('ammount', '10');
+            $table->decimal('ammount', 10, 2);
             $table->timestamps();
 
             $table->foreign('wallet_id')
