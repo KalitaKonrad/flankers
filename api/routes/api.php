@@ -25,15 +25,19 @@ use App\Http\Controllers\ForgotPassword;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChangeTeamOwner;
+use App\Http\Controllers\Wallet\FetchWallet;
+use App\Http\Controllers\Wallet\ChargeWallet;
 use App\Http\Controllers\Game\GameController;
 use App\Http\Controllers\TeamInviteController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\Game\GameMemoController;
+use App\Http\Controllers\Payment\SetPaymentMethod;
 use App\Http\Controllers\TeamMembershipController;
 use App\Http\Controllers\Game\GameInviteController;
 use App\Http\Controllers\Payment\CreateSetupIntent;
 use App\Http\Controllers\Avatar\UserAvatarController;
 use App\Http\Controllers\Avatar\TeamAvatarController;
+use App\Http\Controllers\Payment\HasPaymentConnected;
 use App\Http\Controllers\Ranking\LeaderboardController;
 use App\Http\Controllers\Game\SquadMembershipController;
 
@@ -121,9 +125,21 @@ Route::get('/leaderboards/{leaderboard}', [LeaderboardController::class, 'show']
 
 /**
  * ----------------------------------------
+ * Wallet routes
+ * ----------------------------------------
+ */
+
+Route::get('/wallet', FetchWallet::class);
+Route::post('/wallet/charge', ChargeWallet::class);
+
+
+/**
+ * ----------------------------------------
  * Payment routes
  * ----------------------------------------
  */
 Route::prefix('payments')->group(function () {
     Route::get('intent', CreateSetupIntent::class);
+    Route::post('setup', SetPaymentMethod::class);
+    Route::get('active', HasPaymentConnected::class);
 });
