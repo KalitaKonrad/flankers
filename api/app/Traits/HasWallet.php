@@ -11,6 +11,6 @@ trait HasWallet
      */
     public function wallet()
     {
-        return $this->hasOne(Wallet::class);
+        return $this->hasOne(Wallet::class, 'owner_id');
     }
 }
