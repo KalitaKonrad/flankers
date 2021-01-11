@@ -23,7 +23,7 @@ class WalletCharged implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct(Wallet $wallet, int $ammount)
+    public function __construct(Wallet $wallet, float $ammount)
     {
         $this->wallet = $wallet;
         $this->ammount = $ammount;
