@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
-import { List } from 'react-native-paper';
+import { List, Text } from 'react-native-paper';
 
 import { useTeamLeaderboardsQuery } from '../../hooks/useTeamLeaderboardsQuery';
 import { TeamProfilePayload } from '../../types/teamProfile';
@@ -11,7 +11,10 @@ interface PlayersRankingProps {
 }
 
 export const TeamsRanking: React.FC<PlayersRankingProps> = ({ teams }) => {
-  const renderItem = ({ item }: ListRenderItemInfo<TeamProfilePayload>) => (
+  const renderItem = ({
+    item,
+    index,
+  }: ListRenderItemInfo<TeamProfilePayload>) => (
     <List.Item
       title={item.name}
       titleStyle={styles.playerName}
@@ -21,6 +24,7 @@ export const TeamsRanking: React.FC<PlayersRankingProps> = ({ teams }) => {
           <Avatar size={40} borderRadius={8} src={{ uri: item.avatar }} />
         </View>
       )}
+      right={() => <Text style={styles.rightIndexStyle}>{index + 1}</Text>}
     />
   );
 
@@ -44,5 +48,11 @@ const styles = StyleSheet.create({
   playerAvatarContainer: {
     justifyContent: 'center',
     marginRight: 4,
+  },
+  rightIndexStyle: {
+    fontWeight: 'bold',
+    textAlign: 'justify',
+    marginRight: 12,
+    paddingTop: 6,
   },
 });

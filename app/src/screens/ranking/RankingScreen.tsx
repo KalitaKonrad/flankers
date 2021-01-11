@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
@@ -21,14 +21,42 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
   const [showTeamsRanking, setShowTeamsRanking] = useState(false);
 
   const [page, setPage] = useState(1);
-  console.log('=======================>', page);
-  const playersList = usePlayerLeaderboardsQuery(page);
-  console.log(playersList.data);
-  const teamList = useTeamLeaderboardsQuery(page);
+
+  const {
+    isLoading: isTeamLeaderboardsQueryLoading,
+    isError: isTeamLeaderboardsQueryError,
+    error: teamLeaderboardsError,
+    data: teamLeaderboardsList,
+    isFetching: isTeamLeaderboardsQueryFetching,
+    isPreviousData: isPreviousTeamLeaderboardsData,
+  } = useTeamLeaderboardsQuery(page);
+
+  const {
+    isLoading: isPlayerLeaderboardsQueryLoading,
+    isError: isPlayerLeaderboardsQueryError,
+    error: playerLeaderboardsError,
+    data: playerLeaderboardsList,
+    isFetching: isPlayerLeaderboardsQueryFetching,
+    isPreviousData: isPreviousPlayerLeaderboardsData,
+  } = usePlayerLeaderboardsQuery(page);
 
   const onNextPage = () => {
     const value = page + 1;
-    setPage(value);
+    if (showTeamsRanking) {
+      if (
+        !isPreviousTeamLeaderboardsData &&
+        teamLeaderboardsList?.next_page_url
+      ) {
+        setPage(value);
+      }
+    } else if (!showTeamsRanking) {
+      if (
+        !isPreviousPlayerLeaderboardsData &&
+        playerLeaderboardsList?.next_page_url
+      ) {
+        setPage(value);
+      }
+    }
   };
 
   const onPreviousPage = () => {
@@ -50,16 +78,35 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
         />
       </View>
       <PaddedInputScrollView>
-        {!showTeamsRanking && playersList.isSuccess && (
-          <PlayersRanking players={playersList.data!} />
+        {isTeamLeaderboardsQueryLoading ? (
+          <Text>Loading...</Text>
+        ) : isTeamLeaderboardsQueryError ? (
+          <Text>{teamLeaderboardsError.message}</Text>
+        ) : !showTeamsRanking || teamLeaderboardsList === undefined ? null : (
+          <TeamsRanking teams={teamLeaderboardsList.data} />
         )}
-        {showTeamsRanking && teamList.isSuccess && (
-          <TeamsRanking teams={teamList.data!} />
+
+        {isPlayerLeaderboardsQueryLoading ? (
+          <Text>Loading...</Text>
+        ) : isPlayerLeaderboardsQueryError ? (
+          <Text>{playerLeaderboardsError.message}</Text>
+        ) : showTeamsRanking || playerLeaderboardsList === undefined ? null : (
+          <PlayersRanking players={playerLeaderboardsList.data} />
         )}
         <View style={styles.buttonGroup}>
-          <AppButton onPress={onPreviousPage}>Wstecz</AppButton>
-          <AppButton onPress={onNextPage}>Naprzód</AppButton>
+          <AppButton onPress={onPreviousPage} disabled={page === 1}>
+            Wstecz
+          </AppButton>
+          <AppButton
+            onPress={onNextPage}
+            disabled={isPreviousPlayerLeaderboardsData}>
+            Naprzód
+          </AppButton>
         </View>
+        {isTeamLeaderboardsQueryFetching ||
+        isPlayerLeaderboardsQueryFetching ? (
+          <Text>Loading</Text>
+        ) : null}
       </PaddedInputScrollView>
     </Container>
   );
