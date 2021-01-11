@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Wallet;
 
 use App\Http\Message;
+use Illuminate\Http\Client\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -21,14 +22,20 @@ class ChargeWallet extends Controller
      *
      * User must have payment method connected for this to succeed
      *
-     * @group Payments
+     * @group Wallet
+     * @body_param ammount float required non-negative ammount which will charge the wallet
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(float $ammount)
+    public function __invoke(ClientRequest $request)
     {
+        $request->validate([
+            'ammount' => 'float|required'
+        ]);
+
         $user = Auth::user();
+        $ammount = $request->ammount;
 
         if ($ammount <= 0) {
             return Message::error(400, 'Wallet charge must be positive');
@@ -41,6 +48,6 @@ class ChargeWallet extends Controller
         $user->invoiceFor('Wallet charge', $ammount);
         $user->wallet->charge($ammount);
 
-        return Message::ok('User account charged');
+        return Message::ok('User account charged', $user->wallet);
     }
 }

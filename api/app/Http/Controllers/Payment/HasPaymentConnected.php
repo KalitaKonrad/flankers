@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Wallet;
+namespace App\Http\Controllers\Payment;
 
 use App\Http\Message;
 use App\Http\Controllers\Controller;

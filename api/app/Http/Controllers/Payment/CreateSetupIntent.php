@@ -15,7 +15,9 @@ class CreateSetupIntent extends Controller
     }
 
     /**
-     * Create intent to initiate payment registry
+     * Create intent to initiate payment registry and return its data
+     *
+     * @group Payments
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
