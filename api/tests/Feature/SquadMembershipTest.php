@@ -15,7 +15,7 @@ uses(RefreshDatabase::class);
 
 it('should return game squads with memberships', function () {
     $game = Game::factory()->create();
-    $squads = Squad::factory(2)
+    Squad::factory(2)
         ->state(['game_id' => $game->id])
         ->hasUsers(2)
         ->create();
@@ -53,8 +53,7 @@ it('should allow user to join a squad', function () {
         ->postJson('/games/memberships', [
             'user_id' => $user->id,
             'squad_id' => $squad->id
-        ])
-        ->assertOk();
+        ]);
 
     $this->assertDatabaseHas('squad_user', [
         'user_id' => $user->id,
@@ -79,7 +78,7 @@ it('should not add user to a full squad', function () {
             'user_id' => $user->id,
             'squad_id' => $squad->id
         ])
-        ->assertStatus(406);
+        ->assertStatus(403);
 });
 
 it('should not add user to a squad in which he already exits', function () {
@@ -102,7 +101,7 @@ it('should not add user to a squad in which he already exits', function () {
             'user_id' => $user->id,
             'squad_id' => $squad->id
         ])
-        ->assertStatus(406);
+        ->assertStatus(403);
 });
 
 it('should allow user to move between squads', function () {
@@ -160,7 +159,7 @@ it('should allow squad change only within single game', function () {
             'new_squad_id' => $squad_b->id,
             'user_id' => $user->id
         ])
-        ->assertStatus(406);
+        ->assertStatus(403);
 });
 
 it('should disallow user squad change to a full squad', function () {
@@ -188,7 +187,7 @@ it('should disallow user squad change to a full squad', function () {
             'new_squad_id' => $squad_b->id,
             'user_id' => $user->id
         ])
-        ->assertStatus(406);
+        ->assertStatus(403);
 });
 
 it('should allow squad leave', function () {
@@ -284,6 +283,8 @@ it('should deny user from outside the squad team to join it', function () {
         ->create();
     $token = grabAuthToken($user->id);
 
+    $user->attachTeam($team->id);
+
     withAuthHeader($token)
         ->postJson('/games/memberships', [
             'user_id' => $user->id,
@@ -295,8 +296,7 @@ it('should deny user from outside the squad team to join it', function () {
         ->postJson('/games/memberships', [
             'user_id' => $badUser->id,
             'squad_id' => $squad->id
-        ])
-        ->assertStatus(406);
+        ]);
 
     $this->assertDatabaseMissing('squad_user', [
         'squad_id' => $squad->id,
