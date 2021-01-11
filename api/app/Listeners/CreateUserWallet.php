@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Models\Wallet;
-use Illuminate\Auth\Events\Registered;
+use App\Events\UserCreated;
 
 class CreateUserWallet
 {
@@ -23,13 +23,11 @@ class CreateUserWallet
      * @param  object  $event
      * @return void
      */
-    public function handle(Registered $event)
+    public function handle(UserCreated $event)
     {
-        $wallet = Wallet::create([
+        Wallet::create([
             'owner_id' => $event->user->id,
             'balance' => 0
         ]);
-
-        $event->user->wallet()->associate($wallet->id);
     }
 }
