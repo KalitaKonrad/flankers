@@ -2,12 +2,12 @@
 
 namespace App\Exceptions;
 
-use Exception;
 use App\Http\Message;
+use Exception;
 
-class SquadFullException extends Exception
+class InsufficientFundsException extends Exception
 {
-    protected $message = 'Squad is already full';
+    protected $message = 'User does not have sufficient funds';
 
     /**
      * Render the exception into an HTTP response.
@@ -15,8 +15,8 @@ class SquadFullException extends Exception
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function render($request)
+    public function render()
     {
-        return Message::error(403, 'This squad is already full');
+        return Message::error(403, $this->getMessage());
     }
 }

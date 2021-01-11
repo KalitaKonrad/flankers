@@ -16,7 +16,7 @@ class AddTeamMetadata extends Migration
     {
         Schema::table(Config::get('teamwork.teams_table'), function (Blueprint $table) {
             $table->string('description')->default('');
-            $table->string('avatar')->default('https://avatars.dicebear.com/4.5/api/initials/flankers.svg');
+            $table->string('avatar')->default('https://eu.ui-avatars.com/api/?format=png&name=flankers');
         });
     }
 

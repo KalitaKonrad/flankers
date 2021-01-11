@@ -60,7 +60,7 @@ class TeamInviteController extends Controller
         }
 
         if (Teamwork::hasPendingInvite($request->email, $team)) {
-            return Message::error(406, 'This user was already invited to this team');
+            return Message::error(403, 'This user was already invited to this team');
         }
 
         $invite = Teamwork::inviteToTeam($invitedUser->email, $team);

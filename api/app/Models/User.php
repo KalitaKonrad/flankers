@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Events\UserCreated;
+use App\Traits\HasWallet;
 use App\Traits\TeamMember;
+use Laravel\Cashier\Billable;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -10,9 +13,11 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+use function PHPSTORM_META\map;
+
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
-    use HasFactory, Notifiable, TeamMember;
+    use HasFactory, HasWallet, Notifiable, TeamMember, Billable;
 
     /**
      * The attributes that are mass assignable.
@@ -27,6 +32,13 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     ];
 
     /**
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => UserCreated::class,
+    ];
+
+    /**
      * The attributes that should be hidden for arrays.
      *
      * @var array
@@ -34,6 +46,10 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
+        'email_verified_at',
+        'created_at',
+        'updated_at',
+        'pivot'
     ];
 
     /**
@@ -92,7 +108,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
      */
     public function defaultAvatar()
     {
-        return 'https://avatars.dicebear.com/4.5/api/initials/flankers.svg';
+        return 'https://eu.ui-avatars.com/api/?format=png&name=flankers';
     }
 
     /**

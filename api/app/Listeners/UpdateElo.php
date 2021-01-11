@@ -29,6 +29,10 @@ class UpdateElo
     {
         $game = $event->game;
 
+        if (!$game->ranked) {
+            return;
+        }
+
         if ($game->type == GameType::TEAM) {
             $teamSquadsExist = !$game->squads()->get()->first(function ($squad) {
                 return $squad->team == null;

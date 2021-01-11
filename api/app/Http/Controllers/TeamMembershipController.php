@@ -81,7 +81,7 @@ class TeamMembershipController extends Controller
 
         if ($team->members()->count() === 1) {
             return Message::error(
-                406,
+                403,
                 'Users cannot leave a team if they\'re the only one in it, please delete the team to do so'
             );
         }
