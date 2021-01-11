@@ -17,6 +17,6 @@ class SquadFullException extends Exception
      */
     public function render($request)
     {
-        return Message::error(406, 'This squad is already full');
+        return Message::error(403, 'This squad is already full');
     }
 }

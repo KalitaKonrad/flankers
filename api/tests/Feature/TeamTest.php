@@ -36,7 +36,7 @@ it('should not allow to create team with same name', function () {
 
     withAuthHeader()
         ->postJson('/teams', $team)
-        ->assertStatus(406);
+        ->assertStatus(403);
 });
 
 it('should allow to update existing team', function () {
