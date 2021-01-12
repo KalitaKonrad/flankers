@@ -15,6 +15,7 @@ $data =  [
     'rated' => true,
     'public' => true,
     'bet' => 1,
+    'start_date' => null,
     'duration' => 60 * 20,
     'long' => '56.3',
     'lat' => '42.1'

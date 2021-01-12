@@ -29,7 +29,7 @@ class UpdateGameRequest extends FormRequest
             'public' => 'boolean',
             'bet' => 'numeric',
             'duration' => 'integer',
-            'start_date' => 'integer',
+            'start_date' => 'integer|nullable',
             'long' => 'between:-180,180',
             'lat' => 'between:-90,90',
             'command.start_voting' => 'boolean',
