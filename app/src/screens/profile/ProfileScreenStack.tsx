@@ -4,18 +4,22 @@ import { useTheme } from 'react-native-paper';
 
 import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
 import { useAuth } from '../../hooks/useAuth';
+import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { ProfileEditRouteParameters } from '../../types/ProfileEditRouteParameters';
 import { ProfileEditScreen } from './ProfileEditScreen';
 import { ProfileScreen } from './ProfileScreen';
 
 export type ProfileScreenStackParamList = {
   Profile: undefined;
-  ProfileEdit: undefined;
+  ProfileEdit: ProfileEditRouteParameters;
 };
 
 const Stack = createStackNavigator<ProfileScreenStackParamList>();
 
 export const ProfileScreenStack: React.FC = () => {
   const { logout } = useAuth();
+  const userProfile = useUserProfileQuery();
+
   const theme = useTheme();
 
   const onLogout = async () => {
@@ -30,7 +34,12 @@ export const ProfileScreenStack: React.FC = () => {
         options={({ navigation }) => ({
           title: 'Profil',
           headerLeft: () => (
-            <HeaderAppButton onPress={() => navigation.push('ProfileEdit')}>
+            <HeaderAppButton
+              onPress={() =>
+                navigation.push('ProfileEdit', {
+                  avatar: userProfile.data?.avatar,
+                })
+              }>
               Edytuj
             </HeaderAppButton>
           ),

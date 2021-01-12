@@ -13,7 +13,7 @@ export const useUpdateAvatarMutation = () => {
   const queryCache = useQueryCache();
 
   return useMutation(
-    ({ avatar }: UpdateAvatarPayload) => axios.put(`user/avatar/${avatar}`),
+    ({ avatar }: UpdateAvatarPayload) => axios.post(`user/avatar`, { avatar }),
     {
       onSuccess: () => {
         queryCache.invalidateQueries(QUERY_USER_AVATAR);

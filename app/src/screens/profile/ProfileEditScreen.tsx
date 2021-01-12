@@ -1,8 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import * as ImagePicker from 'expo-image-picker';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Keyboard, StyleSheet, View } from 'react-native';
+import { Keyboard, Platform, StyleSheet, View } from 'react-native';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
@@ -12,6 +13,7 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
 import { useProfileEditMutation } from '../../hooks/useEditProfileMutation';
+import { useUpdateAvatarMutation } from '../../hooks/useUpdateAvatarMutation';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
@@ -42,8 +44,11 @@ const ProfileEditSchema = yup.object().shape({
 
 export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   navigation,
+  route,
 }) => {
   const [mutate, mutation] = useProfileEditMutation();
+  const [avatar, setAvatar] = useState<string>();
+  const [mutateAvatar, mutationAvatar] = useUpdateAvatarMutation();
   const theme = useTheme();
 
   const {
@@ -63,19 +68,48 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
     register('newPasswordConfirm');
   }, [register]);
 
+  useEffect(() => {
+    (async () => {
+      if (Platform.OS !== 'web') {
+        const {
+          status,
+        } = await ImagePicker.requestCameraRollPermissionsAsync();
+        if (status !== 'granted') {
+          alert('Sorry, we need camera roll permissions to make this work!');
+        }
+      }
+    })();
+  });
+
   const onEdit = async ({ name, newPassword }: ProfileEditFormData) => {
     Keyboard.dismiss();
 
     try {
       await mutate({ name, password: newPassword });
+      if (avatar !== undefined) {
+        mutateAvatar({ avatar });
+      }
       navigation.push('Profile');
     } catch (error) {
       setResponseErrors(error, setError);
     }
   };
 
+  const onAvatarButtonClick = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      setAvatar(result.uri);
+    }
+  };
+
   return (
-    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+    <ContainerWithAvatar avatar={{ uri: route.params.avatar }}>
       <View style={styles.meta}>
         <AppText variant="h2">Zmiana danych</AppText>
       </View>
