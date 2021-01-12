@@ -1,31 +1,30 @@
-import React, { useState } from 'react';
+import React, { ReactComponentElement, useState } from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import { List, Text, useTheme } from 'react-native-paper';
 
+import { TeamProfilePayload } from '../../types/teamProfile';
 import { UserProfilePayload } from '../../types/userProfilePayload';
 import { Avatar } from '../shared/Avatar';
 
 interface PlayersRankingProps {
-  players: UserProfilePayload[];
+  data: TeamProfilePayload[] | UserProfilePayload[];
   pageNumber: number;
   userId: number;
-  onEndReached(): void;
+  buttonGroup: React.ComponentType<any>;
 }
 
-export const PlayersRanking: React.FC<PlayersRankingProps> = ({
-  players,
+export const RankingList: React.FC<PlayersRankingProps> = ({
+  data,
   pageNumber,
   userId,
-  onEndReached,
+  buttonGroup,
 }) => {
   const theme = useTheme();
-
-  const [onEndReachedState, setOnEndReachedState] = useState(false);
 
   const renderItem = ({
     item,
     index,
-  }: ListRenderItemInfo<UserProfilePayload>) => (
+  }: ListRenderItemInfo<TeamProfilePayload | UserProfilePayload>) => (
     <List.Item
       title={item.name}
       titleStyle={styles.playerName}
@@ -54,14 +53,11 @@ export const PlayersRanking: React.FC<PlayersRankingProps> = ({
 
   return (
     <FlatList
-      data={players}
+      data={data as any}
       renderItem={renderItem}
       contentContainerStyle={styles.container}
       keyExtractor={(player) => player.id.toString()}
-      onEndReached={() => {
-        setOnEndReachedState(true);
-        onEndReached();
-      }}
+      ListFooterComponent={buttonGroup}
     />
   );
 };

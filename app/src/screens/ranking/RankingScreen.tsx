@@ -4,8 +4,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
-import { PlayersRanking } from '../../components/ranking/PlayersRanking';
-import { TeamsRanking } from '../../components/ranking/TeamRanking';
+import { RankingList } from '../../components/ranking/RankingList';
 import { AppButton } from '../../components/shared/AppButton';
 import { Switch } from '../../components/shared/Switch';
 import { usePlayerLeaderboardsQuery } from '../../hooks/usePlayerLeaderboardsQuery';
@@ -21,7 +20,8 @@ type RankingScreenProps = StackScreenProps<
 export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
   const [showTeamsRanking, setShowTeamsRanking] = useState(false);
 
-  const [page, setPage] = useState(1);
+  const [pagePlayerRanking, setPagePlayerRanking] = useState(1);
+  const [pageTeamRanking, setPageTeamRanking] = useState(1);
 
   const profile = useUserProfileQuery();
 
@@ -32,7 +32,7 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
     data: teamLeaderboardsList,
     isFetching: isTeamLeaderboardsQueryFetching,
     isPreviousData: isPreviousTeamLeaderboardsData,
-  } = useTeamLeaderboardsQuery(page);
+  } = useTeamLeaderboardsQuery(pageTeamRanking);
 
   const {
     isLoading: isPlayerLeaderboardsQueryLoading,
@@ -41,33 +41,42 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
     data: playerLeaderboardsList,
     isFetching: isPlayerLeaderboardsQueryFetching,
     isPreviousData: isPreviousPlayerLeaderboardsData,
-  } = usePlayerLeaderboardsQuery(page);
+  } = usePlayerLeaderboardsQuery(pagePlayerRanking);
 
-  const onNextPage = () => {
-    const value = page + 1;
-    if (showTeamsRanking) {
-      if (
-        !isPreviousTeamLeaderboardsData &&
-        teamLeaderboardsList?.next_page_url
-      ) {
-        setPage(value);
-      }
-    } else if (!showTeamsRanking) {
-      if (
-        !isPreviousPlayerLeaderboardsData &&
-        playerLeaderboardsList?.next_page_url
-      ) {
-        setPage(value);
-      }
+  const onNextPagePlayerRanking = () => {
+    const value = pagePlayerRanking + 1;
+    if (
+      !isPreviousPlayerLeaderboardsData &&
+      playerLeaderboardsList?.next_page_url
+    ) {
+      setPagePlayerRanking(value);
     }
   };
 
-  const onPreviousPage = () => {
-    let value = page - 1;
+  const onNextPageTeamRanking = () => {
+    const value = pageTeamRanking + 1;
+    if (
+      !isPreviousTeamLeaderboardsData &&
+      teamLeaderboardsList?.next_page_url
+    ) {
+      setPageTeamRanking(value);
+    }
+  };
+
+  const onPreviousPagePlayerRanking = () => {
+    let value = pagePlayerRanking - 1;
     if (value < 1) {
       value = 1;
     }
-    setPage(value);
+    setPagePlayerRanking(value);
+  };
+
+  const onPreviousPageTeamRanking = () => {
+    let value = pageTeamRanking - 1;
+    if (value < 1) {
+      value = 1;
+    }
+    setPageTeamRanking(value);
   };
 
   return (
@@ -80,44 +89,69 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
           onSwitchToRight={() => setShowTeamsRanking(true)}
         />
       </View>
-      {isTeamLeaderboardsQueryLoading ? (
-        <Text>Loading...</Text>
-      ) : isTeamLeaderboardsQueryError ? (
-        <Text>{teamLeaderboardsError.message}</Text>
-      ) : !showTeamsRanking ||
-        teamLeaderboardsList === undefined ||
-        profile.data?.current_team_id === undefined ? null : (
-        <TeamsRanking
-          teams={teamLeaderboardsList.data}
-          pageNumber={page}
-          userTeamId={profile.data.current_team_id}
-        />
-      )}
 
       {isPlayerLeaderboardsQueryLoading ? (
         <Text>Loading...</Text>
       ) : isPlayerLeaderboardsQueryError ? (
-        <Text>{playerLeaderboardsError.message}</Text>
+        alert('Błąd podczas wyświetlania rankungu użytkowników')
       ) : showTeamsRanking ||
         playerLeaderboardsList === undefined ||
         profile.data?.id === undefined ? null : (
-        <PlayersRanking
-          players={playerLeaderboardsList.data}
-          pageNumber={page}
+        <RankingList
+          data={playerLeaderboardsList.data}
+          pageNumber={pagePlayerRanking}
           userId={profile.data?.id}
-          onEndReached={onNextPage}
+          buttonGroup={
+            <View style={styles.buttonGroup}>
+              <AppButton
+                onPress={onPreviousPagePlayerRanking}
+                disabled={pagePlayerRanking === 1}>
+                Wstecz
+              </AppButton>
+              <AppButton
+                onPress={onNextPagePlayerRanking}
+                disabled={
+                  isPreviousPlayerLeaderboardsData ||
+                  playerLeaderboardsList.next_page_url === null
+                }>
+                Naprzód
+              </AppButton>
+            </View>
+          }
         />
       )}
-      <View style={styles.buttonGroup}>
-        <AppButton onPress={onPreviousPage} disabled={page === 1}>
-          Wstecz
-        </AppButton>
-        <AppButton
-          onPress={onNextPage}
-          disabled={isPreviousPlayerLeaderboardsData}>
-          Naprzód
-        </AppButton>
-      </View>
+
+      {isTeamLeaderboardsQueryLoading ? (
+        <Text>Loading...</Text>
+      ) : isTeamLeaderboardsQueryError ? (
+        alert('Błąd podczas wyświetlania rankingu drużynowego')
+      ) : !showTeamsRanking ||
+        teamLeaderboardsList === undefined ||
+        profile.data?.current_team_id === undefined ? null : (
+        <RankingList
+          data={teamLeaderboardsList.data}
+          pageNumber={pageTeamRanking}
+          userId={profile.data.current_team_id}
+          buttonGroup={
+            <View style={styles.buttonGroup}>
+              <AppButton
+                onPress={onPreviousPageTeamRanking}
+                disabled={pageTeamRanking === 1}>
+                Wstecz
+              </AppButton>
+              <AppButton
+                onPress={onNextPageTeamRanking}
+                disabled={
+                  isPreviousTeamLeaderboardsData ||
+                  teamLeaderboardsList.next_page_url === null
+                }>
+                Naprzód
+              </AppButton>
+            </View>
+          }
+        />
+      )}
+
       {isTeamLeaderboardsQueryFetching || isPlayerLeaderboardsQueryFetching ? (
         <Text>Loading</Text>
       ) : null}
