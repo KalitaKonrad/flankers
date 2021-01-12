@@ -67,7 +67,7 @@ const useProvideNotification = () => {
 
       if (Platform.OS === 'android') {
         await Notifications.setNotificationChannelAsync(
-          `user${userProfile.data?.id}`,
+          `user_${userProfile.data?.id}`,
           {
             name: 'default',
             importance: Notifications.AndroidImportance.MAX,
