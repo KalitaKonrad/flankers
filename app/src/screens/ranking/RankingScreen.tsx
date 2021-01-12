@@ -131,7 +131,7 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
         <RankingList
           data={teamLeaderboardsList.data}
           pageNumber={pageTeamRanking}
-          userId={profile.data.current_team_id}
+          userTeamId={profile.data.current_team_id}
           buttonGroup={
             <View style={styles.buttonGroup}>
               <AppButton

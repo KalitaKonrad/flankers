@@ -9,14 +9,16 @@ import { Avatar } from '../shared/Avatar';
 interface PlayersRankingProps {
   data: TeamProfilePayload[] | UserProfilePayload[];
   pageNumber: number;
-  userId: number;
-  buttonGroup: React.ComponentType<any>;
+  userId?: number;
+  userTeamId?: string;
+  buttonGroup: React.ComponentElement<any, any>;
 }
 
 export const RankingList: React.FC<PlayersRankingProps> = ({
   data,
   pageNumber,
   userId,
+  userTeamId,
   buttonGroup,
 }) => {
   const theme = useTheme();
@@ -27,10 +29,10 @@ export const RankingList: React.FC<PlayersRankingProps> = ({
   }: ListRenderItemInfo<TeamProfilePayload | UserProfilePayload>) => (
     <List.Item
       title={item.name}
-      titleStyle={styles.playerName}
+      titleStyle={styles.elementName}
       description={`${item.elo} punktów rankingowych`}
       left={() => (
-        <View style={styles.playerAvatarContainer}>
+        <View style={styles.elementAvatarContainer}>
           <Avatar size={40} borderRadius={8} src={{ uri: item.avatar }} />
         </View>
       )}
@@ -40,7 +42,15 @@ export const RankingList: React.FC<PlayersRankingProps> = ({
         </Text>
       )}
       style={
-        item.id === userId
+        userId
+          ? item.id === userId
+            ? {
+                backgroundColor: theme.colors.primary,
+                borderRadius: 8,
+                opacity: 0.5,
+              }
+            : { backgroundColor: theme.colors.white }
+          : item.id === parseFloat(userTeamId!)
           ? {
               backgroundColor: theme.colors.primary,
               borderRadius: 8,
@@ -66,10 +76,10 @@ const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 16,
   },
-  playerName: {
+  elementName: {
     fontWeight: 'bold',
   },
-  playerAvatarContainer: {
+  elementAvatarContainer: {
     justifyContent: 'center',
     marginRight: 4,
   },
