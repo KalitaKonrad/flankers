@@ -3,7 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Keyboard, Platform, StyleSheet, View } from 'react-native';
+import { Button, Keyboard, Platform, StyleSheet, View } from 'react-native';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
@@ -47,7 +47,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   route,
 }) => {
   const [mutate, mutation] = useProfileEditMutation();
-  const [avatar, setAvatar] = useState<string>();
+  const [avatar, setAvatar] = useState<string>(route.params.avatar);
   const [mutateAvatar, mutationAvatar] = useUpdateAvatarMutation();
   const theme = useTheme();
 
@@ -86,9 +86,6 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
 
     try {
       await mutate({ name, password: newPassword });
-      if (avatar !== undefined) {
-        mutateAvatar({ avatar });
-      }
       navigation.push('Profile');
     } catch (error) {
       setResponseErrors(error, setError);
@@ -107,9 +104,33 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
       setAvatar(result.uri);
     }
   };
+  const press = () => {
+    if (avatar !== undefined) {
+      console.log('bbbbbbbbbbbbbbbbbbbbbbbbb');
+      mutateAvatar(avatar)
+        .then((res) => {
+          console.log('aaaaaaaaaaaaaaaaaaa       ', JSON.stringify(res));
+          console.log(avatar);
+        })
+        .catch((err) => console.log('kkk   ', err));
+    }
+  };
 
   return (
-    <ContainerWithAvatar avatar={{ uri: route.params.avatar }}>
+    <ContainerWithAvatar avatar={{ uri: avatar }}>
+      <View style={styles.buttonWrapper}>
+        <AppButton
+          mode="contained"
+          style={{
+            backgroundColor: theme.colors.secondary,
+            width: '30%',
+            position: 'absolute',
+          }}
+          onPress={onAvatarButtonClick}>
+          Zmień
+        </AppButton>
+      </View>
+
       <View style={styles.meta}>
         <AppText variant="h2">Zmiana danych</AppText>
       </View>
@@ -173,6 +194,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
             Zapisz zmiany
           </AppButton>
         </View>
+        <Button title="name" onPress={press} />
       </PaddedInputScrollView>
     </ContainerWithAvatar>
   );
@@ -188,5 +210,9 @@ const styles = StyleSheet.create({
   },
   action: {
     marginTop: 16,
+  },
+  buttonWrapper: {
+    right: -210,
+    alignItems: 'flex-start',
   },
 });
