@@ -7,7 +7,7 @@ use App\Events\GameFinished;
 use App\Services\GameService;
 use Illuminate\Support\Facades\Log;
 
-class UpdateElo
+class SquareGame
 {
     /**
      * Create the event listener.
@@ -28,10 +28,6 @@ class UpdateElo
     public function handle(GameFinished $event)
     {
         $game = $event->game;
-
-        if (!$game->ranked) {
-            return;
-        }
 
         if ($game->type == GameType::TEAM) {
             $teamSquadsExist = !$game->squads()->get()->first(function ($squad) {
