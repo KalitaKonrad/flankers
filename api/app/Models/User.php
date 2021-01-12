@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Traits\TeamMember;
-use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
@@ -13,7 +12,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable, TeamMember;
+    use HasFactory, Notifiable, TeamMember;
 
     /**
      * The attributes that are mass assignable.
@@ -24,6 +23,7 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'name',
         'email',
         'password',
+        'avatar'
     ];
 
     /**
@@ -37,12 +37,12 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     ];
 
     /**
-     * The attributes that should be cast to native types.
      *
      * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'elo' => 'integer'
     ];
 
     /**
@@ -73,6 +73,26 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
+    }
+
+    /**
+     * Return path where user avatar should be stored
+     *
+     * @return string
+     */
+    public function avatarPath()
+    {
+        return 'avatars/users/' . $this->id . '.jpg';
+    }
+
+    /**
+     * Get default avatar url
+     *
+     * @return string
+     */
+    public function defaultAvatar()
+    {
+        return 'https://avatars.dicebear.com/4.5/api/initials/flankers.svg';
     }
 
     /**

@@ -1,7 +1,7 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 
-import { AppButton } from '../../components/shared/AppButton';
+import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
 import { LoginScreen } from './LoginScreen';
 import { PasswordResetConfirmScreen } from './PasswordResetConfirmScreen';
 import { PasswordResetScreen } from './PasswordResetScreen';
@@ -30,12 +30,11 @@ export const AuthScreenStack: React.FC = () => {
         options={({ navigation }) => ({
           title: 'Rejestracja',
           headerRight: () => (
-            <AppButton
-              compact
-              labelStyle={{ fontSize: 14 }}
+            <HeaderAppButton
+              inverse
               onPress={() => navigation.navigate('Login')}>
               Zaloguj
-            </AppButton>
+            </HeaderAppButton>
           ),
         })}
       />

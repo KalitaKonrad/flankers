@@ -64,7 +64,6 @@ class TeamMembershipController extends Controller
             'user_id' => 'integer|required'
         ]);
 
-        $data = $request->all();
         $user_id = $request->post('user_id');
         $user = User::findOrFail($user_id);
         $teamModel = config('teamwork.team_model');

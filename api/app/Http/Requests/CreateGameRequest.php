@@ -24,14 +24,15 @@ class CreateGameRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'in:public,private',
+            'type' => 'in:ffa,team',
             'rated' => 'boolean',
             'public' => 'boolean',
             'bet' => 'numeric',
             'start_date' => 'timestamp',
             'duration' => 'integer',
             'long' => 'between:-180,180|nullable',
-            'lat' => 'between:-90,90|nullable'
+            'lat' => 'between:-90,90|nullable',
+            'squad_size' => 'integer'
         ];
     }
 }

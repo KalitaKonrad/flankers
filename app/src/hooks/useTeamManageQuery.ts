@@ -1,6 +1,6 @@
-import { useMutation, useQuery, useQueryCache } from 'react-query';
+import { useQuery } from 'react-query';
 
-import { QUERY_TEAM_KEY, QUERY_TEAM_MEMBERS } from '../const/query.const';
+import { QUERY_TEAM_KEY } from '../const/query.const';
 import { TeamProfilePayload } from '../types/teamProfile';
 import { UserProfilePayload } from '../types/userProfilePayload';
 import { useAxios } from './useAxios';

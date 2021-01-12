@@ -1,9 +1,7 @@
 import * as React from 'react';
-import { useState } from 'react';
-import { Image, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
-import { TextStyle, theme } from '../theme';
-import MyAvatar from './shared/MyAvatar';
+import { Avatar } from './shared/Avatar';
 
 interface PlayersSquadProps {
   firstTeamAvatarList: string[];
@@ -17,30 +15,30 @@ export const PlayersSquad: React.FC<PlayersSquadProps> = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.label}>
-        <Text style={TextStyle.noteH1}>Zespół {props.firstTeamName}</Text>
+        <Text>Zespół {props.firstTeamName}</Text>
       </View>
       <View style={styles.avatarsList}>
         {props.firstTeamAvatarList.map((imgSrc, index) => (
-          <MyAvatar height={50} width={50} src={imgSrc} key={index} />
+          <Avatar size={50} src={{ uri: imgSrc }} key={index} />
         ))}
       </View>
 
       <View style={styles.label}>
-        <Text style={TextStyle.noteH1}>Zespół {props.secondTeamName}</Text>
+        <Text>Zespół {props.secondTeamName}</Text>
       </View>
       <View style={styles.avatarsList}>
         {props.secondTeamAvatarList.map((imgSrc, index) => (
-          <MyAvatar height={50} width={50} src={imgSrc} key={index} />
+          <Avatar size={50} src={{ uri: imgSrc }} key={index} />
         ))}
       </View>
       {props.notReadyPlayersAvatarList && (
         <View>
           <View style={styles.label}>
-            <Text style={TextStyle.noteH1}>Oczekiwanie na graczy</Text>
+            <Text>Oczekiwanie na graczy</Text>
           </View>
           <View style={styles.avatarsList}>
             {props.notReadyPlayersAvatarList.map((imgSrc, index) => (
-              <MyAvatar height={50} width={50} src={imgSrc} key={index} />
+              <Avatar size={50} src={{ uri: imgSrc }} key={index} />
             ))}
           </View>
         </View>

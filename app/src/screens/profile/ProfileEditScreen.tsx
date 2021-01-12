@@ -1,178 +1,158 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import * as ImagePicker from 'expo-image-picker';
-import React, { useEffect, useState } from 'react';
-import {
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TextInput,
-  View,
-} from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Keyboard, StyleSheet, View } from 'react-native';
+import { HelperText, useTheme } from 'react-native-paper';
+import * as yup from 'yup';
 
+import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
+import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
+import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
-import { Container } from '../../components/shared/Container';
-import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
-import MyAvatar from '../../components/shared/MyAvatar';
-import { SubmitButton } from '../../components/shared/SubmitButton';
-import { useUpdateAvatarMutation } from '../../hooks/useUpdateAvatarMutation';
-import { TextStyle, theme } from '../../theme';
+import { AppText } from '../../components/shared/AppText';
+import { useProfileEditMutation } from '../../hooks/useEditProfileMutation';
+import { setResponseErrors } from '../../utils/setResponseErrors';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
-type ProfileEditScreenProps = object &
-  StackScreenProps<ProfileScreenStackParamList, 'ProfileEdit'>;
+type ProfileEditScreenProps = StackScreenProps<
+  ProfileScreenStackParamList,
+  'ProfileEdit'
+>;
+
+type ProfileEditFormData = {
+  name: string;
+  actualPassword: string;
+  newPassword: string;
+  newPasswordConfirm: string;
+};
+
+const ProfileEditSchema = yup.object().shape({
+  name: yup.string().required('Nick jest wymagany'),
+  actualPassword: yup.string().required('Obecne hasło jest wymagane'),
+  newPassword: yup
+    .string()
+    .min(8, 'Hasło musi składać się z min. 8 znaków')
+    .required('Nowe hasło jest wymagane'),
+  newPasswordConfirm: yup
+    .string()
+    .oneOf([yup.ref('newPassword'), null], 'Hasła muszą być identyczne')
+    .required('Powtórz hasło'),
+});
 
 export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   navigation,
 }) => {
-  const [username, setUsername] = React.useState('');
-  const [actualPassword, setActualPassword] = React.useState('');
-  const [newPassword, setNewPassword] = React.useState('');
-  const [newPasswordRep, setNewPasswordRep] = React.useState('');
+  const [mutate, mutation] = useProfileEditMutation();
+  const theme = useTheme();
 
-  const [avatar, setAvatar] = useState<string>();
-  const [mutateAvatar, mutationAvatar] = useUpdateAvatarMutation();
-
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        const {
-          status,
-        } = await ImagePicker.requestCameraRollPermissionsAsync();
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
-        }
-      }
-    })();
+  const {
+    register,
+    setValue,
+    setError,
+    errors,
+    handleSubmit,
+  } = useForm<ProfileEditFormData>({
+    resolver: yupResolver(ProfileEditSchema),
   });
 
-  const onEdit = () => {
-    if (avatar !== undefined) {
-      mutateAvatar({ avatar });
-    }
-    navigation.push('Profile');
-  };
+  useEffect(() => {
+    register('name');
+    register('actualPassword');
+    register('newPassword');
+    register('newPasswordConfirm');
+  }, [register]);
 
-  const onAvatarButtonClick = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(result);
-    if (!result.cancelled) {
-      setAvatar(result.uri);
+  const onEdit = async ({ name, newPassword }: ProfileEditFormData) => {
+    Keyboard.dismiss();
+
+    try {
+      await mutate({ name, password: newPassword });
+      navigation.push('Profile');
+    } catch (error) {
+      setResponseErrors(error, setError);
     }
   };
 
   return (
-    <>
-      <HeaderWithAvatar color={theme.colors.primary} center>
-        <View style={styles.title}>
-          <Text style={styles.title}>Edycja profilu</Text>
-        </View>
-        <View style={styles.avatar}>
-          {!!avatar && (
-            <MyAvatar src={avatar} height={150} width={150} isBorder />
-          )}
-        </View>
-      </HeaderWithAvatar>
-
-      <ScrollView>
-        <View style={styles.note}>
-          <Text style={[TextStyle.noteH2]}>Zmiana danych</Text>
-        </View>
-        <View style={styles.container}>
-          <View style={styles.placeholder} />
-          <AppInput
-            style={{ marginBottom: 7 }}
-            label="Nazwa użytkownika"
-            onChangeText={(text) => setUsername(text)}
-          />
-          <AppInput
-            style={{ marginBottom: 7 }}
-            label="Aktualne hasło"
-            onChangeText={(text) => setActualPassword(text)}
-          />
-          <AppInput
-            style={{ marginBottom: 7 }}
-            label="Nowe hasło"
-            onChangeText={(text) => setNewPassword(text)}
-          />
-          <AppInput
-            style={{ marginBottom: 7 }}
-            label="Powtórz nowe hasło"
-            onChangeText={(text) => setNewPasswordRep(text)}
-          />
-        </View>
-        <SubmitButton
-          backgroundColor={theme.colors.primary}
-          labelColor={theme.colors.white}
-          onPress={onEdit}>
-          Zapisz zmiany
-        </SubmitButton>
-      </ScrollView>
-      <View style={styles.buttonWrapper}>
-        <SubmitButton
-          labelColor={theme.colors.white}
-          backgroundColor={theme.colors.secondary}
-          onPress={onAvatarButtonClick}>
-          Zmień
-        </SubmitButton>
+    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+      <View style={styles.meta}>
+        <AppText variant="h2">Zmiana danych</AppText>
       </View>
-    </>
+      <PaddedInputScrollView>
+        <AppInput
+          style={styles.row}
+          mode="outlined"
+          label="Nazwa użytkownika"
+          error={!!errors.name}
+          onChangeText={(text) => setValue('name', text)}
+        />
+        {!!errors.name && (
+          <HelperText type="error" visible={!!errors.name}>
+            {errors.name?.message}
+          </HelperText>
+        )}
+        <AppInput
+          secureTextEntry
+          style={styles.row}
+          mode="outlined"
+          label="Aktualne hasło"
+          error={!!errors.actualPassword}
+          onChangeText={(text) => setValue('actualPassword', text)}
+        />
+        {!!errors.actualPassword && (
+          <HelperText type="error" visible={!!errors.actualPassword}>
+            {errors.actualPassword?.message}
+          </HelperText>
+        )}
+        <AppInput
+          secureTextEntry
+          style={styles.row}
+          mode="outlined"
+          label="Nowe hasło"
+          error={!!errors.newPassword}
+          onChangeText={(text) => setValue('newPassword', text)}
+        />
+        {!!errors.newPassword && (
+          <HelperText type="error" visible={!!errors.newPassword}>
+            {errors.newPassword?.message}
+          </HelperText>
+        )}
+        <AppInput
+          secureTextEntry
+          style={styles.row}
+          mode="outlined"
+          label="Powtórz nowe hasło"
+          error={!!errors.newPasswordConfirm}
+          onChangeText={(text) => setValue('newPasswordConfirm', text)}
+        />
+        {!!errors.newPasswordConfirm && (
+          <HelperText type="error" visible={!!errors.newPasswordConfirm}>
+            {errors.newPasswordConfirm?.message}
+          </HelperText>
+        )}
+        <View style={styles.action}>
+          <AppButton
+            mode="contained"
+            disabled={mutation.isLoading}
+            onPress={handleSubmit(onEdit)}>
+            Zapisz zmiany
+          </AppButton>
+        </View>
+      </PaddedInputScrollView>
+    </ContainerWithAvatar>
   );
 };
 
 const styles = StyleSheet.create({
-  note: {
-    display: 'flex',
-    justifyContent: 'center',
+  meta: {
     alignItems: 'center',
-    top: 70,
+    marginBottom: 24,
   },
-  title: {
-    position: 'relative',
-    top: 0,
-    textAlign: 'center',
-    color: '#fff',
-    fontSize: 30,
-    fontWeight: 'bold',
-    letterSpacing: 0.95,
+  row: {
+    marginBottom: 8,
   },
-  avatar: {
-    display: 'flex',
-    position: 'absolute',
-    alignItems: 'center',
-    left: 0,
-    right: 0,
-    bottom: -60,
-  },
-  textInputStyle: {
-    borderTopLeftRadius: 12,
-    borderTopRightRadius: 12,
-    borderBottomLeftRadius: 12,
-    borderBottomRightRadius: 12,
-    margin: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor: theme.colors.darkGray,
-  },
-  container: {
-    top: 90,
-    height: 390,
-  },
-  placeholder: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  buttonWrapper: {
-    position: 'absolute',
-    right: 80,
-    top: 160,
+  action: {
+    marginTop: 16,
   },
 });

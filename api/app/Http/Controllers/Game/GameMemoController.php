@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Middleware\PreventInvalidScoring;
+use App\Services\GameService;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
 class GameMemoController extends Controller
@@ -77,22 +78,9 @@ class GameMemoController extends Controller
      */
     public function show(int $game_id)
     {
-        $squads = Game::findOrFail($game_id)->squads()->get();
-        $scores = [];
-
-        $squads->each(function ($squad) use (&$scores) {
-            $scores[$squad->id] = Memo::where('winning_squad', $squad->id)->count();
-        });
-
-        $maxScore = max($scores);
-        $winners = array_keys($scores, $maxScore);
-        $tie = count($winners) > 1;
-
-        return Message::ok('Current game results', [
-            'scores' => $scores,
-            'winners' => $winners,
-            'tie' => $tie
-        ]);
+        return Message::ok('Current game score', GameService::appraise(
+            Game::findOrFail($game_id)
+        ));
     }
 
     /**

@@ -1,20 +1,22 @@
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import { StackScreenProps } from '@react-navigation/stack';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 
 import { PlayersSquad } from '../../components/PlayersSquad';
-import { SubmitButton } from '../../components/shared/SubmitButton';
-import { theme } from '../../theme';
+import { Container } from '../../components/layout/Container';
+import { AppButton } from '../../components/shared/AppButton';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
-type MatchInProgressScreenProps = object &
-  StackScreenProps<MatchScreenStackParamList, 'MatchInProgress'>;
+type MatchInProgressScreenProps = StackScreenProps<
+  MatchScreenStackParamList,
+  'MatchInProgress'
+>;
 
 export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
   navigation,
 }) => {
   return (
-    <>
+    <Container>
       {/*////////////////////////////////////////////////////////////////////////*/}
       {/*//TODO: INLINE HEADER*/}
       {/*/////////////////////////////////////////////////////*/}
@@ -28,14 +30,11 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
         secondTeamName="B"
       />
       <View style={styles.submitBtn}>
-        <SubmitButton
-          labelColor={theme.colors.white}
-          backgroundColor={theme.colors.primary}
-          onPress={() => console.log('zakoncz mecz')}>
+        <AppButton onPress={() => console.log('zakoncz mecz')}>
           Zakończ mecz
-        </SubmitButton>
+        </AppButton>
       </View>
-    </>
+    </Container>
   );
 };
 

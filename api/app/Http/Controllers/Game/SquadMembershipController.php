@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Game;
 
-use App\Models\Game;
+use Exception;
 use App\Models\User;
 use App\Http\Message;
 use App\Models\Squad;
 use Illuminate\Http\Request;
+use App\Events\UserChangedSquad;
+use App\Events\UserLeftGame;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -39,7 +41,9 @@ class SquadMembershipController extends Controller
      *
      * This request will fail if: <br />
      * - user will try to join to a full squad (406) <br />
-     * - user has already joined the squad (406)
+     * - user has already joined the squad (406) <br />
+     * - user will try to join team game squad, and the squad is locked
+     *   to a team which user does not belong to (403)
      *
      * @group Game management
      * @bodyParam squad_id int required Squad id
@@ -58,15 +62,12 @@ class SquadMembershipController extends Controller
         $squad = Squad::findOrFail($request->squad_id);
         $user = User::findOrFail($request->user_id);
 
-        if (intval($squad->members()->count()) == $squad->slots) {
-            return Message::error(406, "You can't join a full squad");
+        try {
+            $squad->assign($user);
+        } catch (Exception $e) {
+            return Message::error(406, $e->getMessage());
         }
 
-        if ($squad->members()->find($user->id)) {
-            return Message::error(406, "You already joined this match");
-        }
-
-        $squad->members()->attach($user->id);
         return Message::ok('Squad joined');
     }
 
@@ -90,7 +91,9 @@ class SquadMembershipController extends Controller
      *  This request will fail if: <br />
      * - request user tries to move someone other than himself, while not being game owner (403) <br />
      * - user will try to move membership between squads from different games (406) <br />
-     * - user will try to move to a full squad (406)
+     * - user will try to move to a full squad (406) <br />
+     * - user will try to join team game squad, and the squad is locked
+     *   to a team which user does not belong to (403)
      *
      * @group Game management
      * @urlParam squad_id int required Squad id
@@ -108,35 +111,39 @@ class SquadMembershipController extends Controller
             'user_id' => 'integer|required'
         ]);
 
-        $currentSquad = Squad::firstOrFail($squad_id);
-        $newSquad = Squad::firstOrFail($request->new_squad_id);
-        $user = User::firstOrFail($request->user_id);
-        $game = $currentSquad->game()->first();
+        $currentSquad = Squad::findOrFail($squad_id);
+        $newSquad = Squad::findOrFail($request->new_squad_id);
+        $user = User::findOrFail($request->user_id);
+        $game = $currentSquad->game;
         $requestUser = Auth::user();
 
         if (!($requestUser == $user || $requestUser->isGameOwner($game))) {
             return Message::error(403, 'Only game owner or the user itself can initialize squad change');
         }
 
-        if ($currentSquad->id !== $newSquad->id) {
+        if ($currentSquad->game_id !== $newSquad->game_id) {
             return Message::error(406, 'Users can switch memberships only within the same game');
-        }
-
-        if ($newSquad->members()->count() == $newSquad->slots) {
-            return Message::error(406, 'User cannot move to the new squad, it is full');
         }
 
         DB::beginTransaction();
 
-        $currentSquad->members()->detach($user->id);
-        $newSquad->members()->attach($user->id);
+        try {
+            $currentSquad->kick($user);
+            $newSquad->assign($user);
+        } catch (Exception $e) {
+            return Message::error(406, $e->getMessage());
+        }
 
         DB::commit();
 
-        return Message::ok('Squad changed', [
+        $memberList = [
             $currentSquad->with('members')->get(),
             $newSquad->with('members')->get()
-        ]);
+        ];
+
+        UserChangedSquad::dispatch($game, $memberList);
+
+        return Message::ok('Squad changed', $memberList);
     }
 
     /**
@@ -169,11 +176,12 @@ class SquadMembershipController extends Controller
             return Message::error(403, 'Only game owner or the user itself can initialize squad leave');
         }
 
-        if (!$squad->members()->find($user->id)) {
-            return Message::error(406, 'This user does not belong to this squad, maybe he has already left');
+        try {
+            $squad->kick($user);
+        } catch (Exception $e) {
+            return Message::error(406, $e->getMessage());
         }
 
-        $squad->members()->detach($user->id);
         return Message::ok('Squad and game left');
     }
 }

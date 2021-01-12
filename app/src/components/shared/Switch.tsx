@@ -1,39 +1,57 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import { useTheme } from 'react-native-paper';
 import SwitchSelector from 'react-native-switch-selector';
-
-import { theme } from '../../theme';
 
 interface SwitchProps {
   leftLabel: string;
   rightLabel: string;
-  onLeftSideToggled: (arg: boolean) => void;
+  onSwitchToLeft(): void;
+  onSwitchToRight(): void;
 }
 
-export const Switch: React.FC<SwitchProps> = (props) => {
-  const [isLeftBtnActive, setIsLeftBtnActive] = useState<boolean>(true);
+enum SwitchValue {
+  LEFT = 'left',
+  RIGHT = 'right',
+}
+
+export const Switch: React.FC<SwitchProps> = ({
+  leftLabel,
+  rightLabel,
+  onSwitchToLeft,
+  onSwitchToRight,
+}) => {
+  const theme = useTheme();
+  const [currentValue, setCurrentValue] = useState(SwitchValue.LEFT);
+
+  const onPress = (value: SwitchValue) => {
+    if (currentValue !== value) {
+      setCurrentValue(value);
+      (value === SwitchValue.LEFT ? onSwitchToLeft : onSwitchToRight)();
+    }
+  };
+
+  const options = useMemo(
+    () => [
+      { label: leftLabel, value: SwitchValue.LEFT },
+      { label: rightLabel, value: SwitchValue.RIGHT },
+    ],
+    [leftLabel, rightLabel]
+  );
 
   return (
     <SwitchSelector
+      bold
+      hasPadding
       initial={0}
-      onPress={() => {
-        setIsLeftBtnActive(!isLeftBtnActive);
-        props.onLeftSideToggled(isLeftBtnActive);
-      }}
-      textColor="#7f8581"
+      textColor="#BDBDBD"
       selectedColor={theme.colors.primary}
       buttonColor={theme.colors.white}
-      borderColor={theme.colors.darkGray}
-      backgroundColor={theme.colors.darkGray}
-      hasPadding
-      valuePadding={2}
+      borderColor="#E8E8E8"
+      backgroundColor="#F6F6F6"
       height={50}
-      fontSize={20}
-      bold
-      options={[
-        { label: props.leftLabel, value: 'left' },
-        { label: props.rightLabel, value: 'right' },
-      ]}
-      style={{ marginLeft: 10, marginRight: 10 }}
+      fontSize={16}
+      options={options}
+      onPress={onPress}
     />
   );
 };

@@ -1,108 +1,113 @@
+import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useState } from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
-import { useTheme } from 'react-native-paper';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { Keyboard, StyleSheet, View } from 'react-native';
+import { HelperText, useTheme } from 'react-native-paper';
+import * as yup from 'yup';
 
+import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
+import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
+import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
-import { HeaderWithAvatar } from '../../components/shared/HeaderWithAvatar';
-import { MultilineTextInput } from '../../components/shared/MultilineTextInput';
-import MyAvatar from '../../components/shared/MyAvatar';
-import { SubmitButton } from '../../components/shared/SubmitButton';
-import { useTeamCreateQuery } from '../../hooks/useTeamCreateQuery';
-import { ObjectStyle, TextStyle, theme } from '../../theme';
+import { AppText } from '../../components/shared/AppText';
+import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
+import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
-type TeamCreateScreenProps = object &
-  StackScreenProps<TeamScreenStackParamList, 'TeamCreate'>;
+type TeamCreateScreenProps = StackScreenProps<
+  TeamScreenStackParamList,
+  'TeamCreate'
+>;
+
+type TeamCreateFormData = {
+  teamName: string;
+  description: string;
+};
+
+const TeamCreateSchema = yup.object().shape({
+  teamName: yup.string().required('Nazwa zespołu jest wymagana'),
+  description: yup.string(),
+});
 
 export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   navigation,
 }) => {
-  const [teamName, setTeamName] = useState('');
-  const [description, setDescription] = useState('');
+  const theme = useTheme();
 
-  const [mutate, mutation] = useTeamCreateQuery();
+  const [mutate, mutation] = useTeamCreateMutation();
 
-  const onPress = () => {
-    mutate({ name: teamName, description });
-    navigation.push('TeamManage');
+  const {
+    register,
+    setValue,
+    setError,
+    errors,
+    handleSubmit,
+  } = useForm<TeamCreateFormData>({
+    resolver: yupResolver(TeamCreateSchema),
+  });
+
+  useEffect(() => {
+    register('teamName');
+    register('description');
+  }, [register]);
+
+  const onPress = async ({ teamName, description }: TeamCreateFormData) => {
+    Keyboard.dismiss();
+
+    try {
+      await mutate({ name: teamName, description });
+      navigation.push('TeamManage');
+    } catch (error) {
+      setResponseErrors(error, setError);
+    }
   };
 
   return (
-    <InputScrollView>
-      <HeaderWithAvatar color={theme.colors.primary} center>
-        <View style={TextStyle.headerWithAvatarTitle}>
-          <Text style={TextStyle.headerWithAvatarTitle}>Utwórz zespół</Text>
+    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+      <View style={styles.meta}>
+        <AppText variant="h2">Dane zespołu</AppText>
+      </View>
+      <PaddedInputScrollView>
+        <View style={styles.row}>
+          <AppInput
+            label="Nazwa zespołu"
+            mode="outlined"
+            onChangeText={(text) => setValue('teamName', text)}
+          />
+          {!!errors.teamName && (
+            <HelperText type="error" visible={!!errors.teamName}>
+              {errors.teamName?.message}
+            </HelperText>
+          )}
         </View>
-        <View style={ObjectStyle.headerWithAvatarImage}>
-          <MyAvatar
-            src="../assets/avatar.png"
-            height={150}
-            width={150}
-            isBorder
+        <View style={styles.row}>
+          <AppInput
+            multiline
+            label="Opis"
+            mode="outlined"
+            onChangeText={(text) => setValue('description', text)}
           />
         </View>
-      </HeaderWithAvatar>
-
-      <View style={styles.note}>
-        <Text style={[TextStyle.noteH2]}>Dane zespołu</Text>
-      </View>
-      <View style={styles.container}>
-        <AppInput
-          style={{ marginBottom: 7 }}
-          label="Nazwa zespołu"
-          onChangeText={(text) => setTeamName(text)}
-        />
-        <MultilineTextInput
-          label="Opis"
-          style={{ marginVertical: 10 }}
-          onChangeText={(text) => setDescription(text)}
-        />
-      </View>
-      <SubmitButton
-        backgroundColor={useTheme().colors.primary}
-        labelColor={useTheme().colors.white}
-        onPress={onPress}>
-        Utwórz
-      </SubmitButton>
-    </InputScrollView>
+        <View style={styles.action}>
+          <AppButton mode="contained" onPress={handleSubmit(onPress)}>
+            Utwórz
+          </AppButton>
+        </View>
+      </PaddedInputScrollView>
+    </ContainerWithAvatar>
   );
 };
 
 const styles = StyleSheet.create({
-  note: {
-    display: 'flex',
-    justifyContent: 'center',
+  meta: {
     alignItems: 'center',
-    top: 70,
+    marginBottom: 16,
   },
-  container: {
-    top: 90,
-    height: 350,
+  row: {
+    marginBottom: 8,
   },
-  placeholder: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  textInputStyle: {
-    borderRadius: 12,
-    margin: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor: theme.colors.darkGray,
-  },
-  textMultiLineInputStyle: {
-    borderRadius: 12,
-    height: 150,
-    textAlignVertical: 'top',
-    margin: 10,
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderColor: 'gray',
-    borderWidth: 1,
-    backgroundColor: theme.colors.darkGray,
+  action: {
+    marginTop: 16,
   },
 });

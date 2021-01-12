@@ -1,11 +1,12 @@
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
-import { View, Text } from 'react-native';
+import { useTheme } from 'react-native-paper';
 
+import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
+import { useRemoveTeamMemberMutation } from '../../hooks/useRemoveTeamMemberMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
-import { theme } from '../../theme';
 import { TeamCreateScreen } from './TeamCreateScreen';
-import { TeamInvitationScreen } from './TeamIinvitationScreen';
+import { TeamInvitationScreen } from './TeamInvitationScreen';
 import { TeamManageScreen } from './TeamManageScreen';
 
 export type TeamScreenStackParamList = {
@@ -17,16 +18,59 @@ export type TeamScreenStackParamList = {
 const Stack = createStackNavigator<TeamScreenStackParamList>();
 
 export const TeamScreenStack: React.FC = () => {
+  const theme = useTheme();
   const userProfile = useUserProfileQuery();
+  const [removeTeamMember] = useRemoveTeamMemberMutation();
+
+  const onLeaveTeamPress = async () => {
+    if (!!userProfile.data?.id && !!userProfile.data?.current_team_id) {
+      await removeTeamMember({
+        team_id: userProfile.data.current_team_id,
+        user_id: userProfile.data.id,
+      });
+    }
+  };
+
   return (
     <Stack.Navigator
       initialRouteName={
         userProfile.data?.teams?.length !== 0 ? 'TeamManage' : 'TeamCreate'
       }
-      screenOptions={theme.headerOptions}>
-      <Stack.Screen name="TeamManage" component={TeamManageScreen} />
-      <Stack.Screen name="TeamCreate" component={TeamCreateScreen} />
-      <Stack.Screen name="TeamInvitation" component={TeamInvitationScreen} />
+      screenOptions={theme.tallHeader}>
+      <Stack.Screen
+        name="TeamManage"
+        component={TeamManageScreen}
+        options={({ navigation }) => ({
+          title: 'Zespół',
+          headerLeft: () => (
+            <HeaderAppButton
+              onPress={() => navigation.navigate('TeamInvitation')}>
+              Zaproś
+            </HeaderAppButton>
+          ),
+          headerRight: () => (
+            <HeaderAppButton
+              onPress={async () => {
+                await onLeaveTeamPress();
+                navigation.navigate('TeamCreate');
+              }}>
+              Opuść
+            </HeaderAppButton>
+          ),
+        })}
+      />
+      <Stack.Screen
+        name="TeamCreate"
+        component={TeamCreateScreen}
+        options={{
+          title: 'Utwórz zespół',
+        }}
+      />
+      <Stack.Screen
+        name="TeamInvitation"
+        component={TeamInvitationScreen}
+        options={{ title: 'Zaproś' }}
+      />
     </Stack.Navigator>
   );
 };
