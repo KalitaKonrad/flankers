@@ -14,14 +14,16 @@ class SettleGame implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
+    public $game_id;
+
     /**
      * Create a new job instance.
      *
      * @return void
      */
-    public function __construct(Game $game)
+    public function __construct(int $game_id)
     {
-        //
+        $this->game_id = $game_id;
     }
 
     /**
@@ -29,9 +31,9 @@ class SettleGame implements ShouldQueue
      *
      * @return void
      */
-    public function handle(int $game_id)
+    public function handle()
     {
-        $game = Game::find($game_id);
+        $game = Game::find($this->game_id);
 
         if ($game) {
             $game->end();

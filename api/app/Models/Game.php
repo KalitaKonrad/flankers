@@ -37,6 +37,7 @@ class Game extends Model
         'long' => 'float',
         'lat' => 'float',
         'completed' => 'boolean',
+        'start_date' => 'integer'
     ];
 
     protected $hidden = [

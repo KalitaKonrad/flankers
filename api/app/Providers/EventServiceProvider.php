@@ -26,7 +26,6 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     protected $subscribe = [
-        StartGameTimers::class,
         GenerateGameInvite::class,
     ];
 

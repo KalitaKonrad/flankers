@@ -52,24 +52,14 @@ class StartGameTimers
             );
             GameVotingStarted::dispatch($game, 60);
         }
-    }
 
-
-    /**
-     * Register the listeners for the subscriber.
-     *
-     * @param  Illuminate\Events\Dispatcher  $events
-     */
-    public function subscribe($events)
-    {
-        $events->listen(
-            GameCreated::class,
-            [StartGameTimers::class, 'handleCreate']
-        );
-
-        $events->listen(
-            GameUpdated::class,
-            [StartGameTimers::class, 'handleUpdate']
-        );
+        if ($event->command->start_game) {
+            $now = Carbon::now();
+            $game->start_date = $now->timestamp;
+            $game->save();
+            SettleGame::dispatch($game->id)->delay(
+                $now->addSeconds($game->duration)
+            );
+        }
     }
 }
