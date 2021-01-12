@@ -1,12 +1,13 @@
 <?php
 
+use App\Jobs\SettleGame;
 use App\Models\Game;
 use App\Models\User;
-
 use Illuminate\Support\Carbon;
 use function Tests\grabAuthToken;
 use function Tests\withAuthHeader;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Queue;
 
 uses(RefreshDatabase::class);
 
@@ -54,7 +55,7 @@ it('fail to set game start time in the past', function () use ($data) {
     $game = Game::factory()->state(['owner_id' => $user->id, 'completed' => true])->create();
     $token = grabAuthToken($user->id);
 
-    $res = withAuthHeader($token)
+    withAuthHeader($token)
         ->patchJson("/games/{$game->id}", [
             'start_date' => Carbon::now()->subDay()->timestamp
         ])
@@ -113,5 +114,36 @@ it('should prevent completed and started game deletion', function () use ($data)
 
     withAuthHeader($token)
         ->delete("/games/{$game_started->id}")
+        ->assertStatus(403);
+});
+
+it('should start game with command', function () use ($data) {
+    Queue::fake();
+
+    $user = User::factory()->create();
+    $game = Game::factory()->state(['owner_id' => $user->id])->create();
+    $token = grabAuthToken($user->id);
+    $payload = array_merge($game->toArray(), ['command' => ['start_game' => true]]);
+
+    withAuthHeader($token)
+        ->patchJson("/games/{$game->id}", $payload)
+        ->assertOk();
+
+    expect($game->fresh()->start_date)->toBeInt();
+    Queue::assertPushed(SettleGame::class, 1);
+});
+
+it('should not allow to start game which has already started', function () use ($data) {
+    $user = User::factory()->create();
+    $game = Game::factory()->state([
+        'owner_id' => $user->id,
+        'start_date' => Carbon::now()->subSecond()->timestamp
+    ])->create();
+    $token = grabAuthToken($user->id);
+    $payload = array_merge($game->toArray(), ['command' => ['start_game' => true]]);
+
+
+    withAuthHeader($token)
+        ->patchJson("/games/{$game->id}", $payload)
         ->assertStatus(403);
 });
