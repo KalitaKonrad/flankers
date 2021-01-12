@@ -129,9 +129,14 @@ class GameController extends Controller
         $now = Carbon::now()->timestamp;
         $data = Arr::except($request->all(), ['command']);
         $command = $request->command ?? [];
+        $command = new GameCommand($command);
 
         if ($game->completed) {
             return Message::error(403, 'This game was already completed, you cannot change it');
+        }
+
+        if ($command->start_game && $game->start_date && $game->start_date < $now) {
+            return Message::error(403, "You cannot start game which already started");
         }
 
         if ($request->start_date && $game->start_date < $now) {
@@ -145,7 +150,7 @@ class GameController extends Controller
         $game->fill($data);
         $game->save();
 
-        GameUpdated::dispatch($game, new GameCommand($command));
+        GameUpdated::dispatch($game, $command);
         return Message::ok('Game updated', $game);
     }
 
