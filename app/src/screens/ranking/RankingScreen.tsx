@@ -1,9 +1,8 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Container } from '../../components/layout/Container';
-import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
 import { RankingList } from '../../components/ranking/RankingList';
 import { AppButton } from '../../components/shared/AppButton';
 import { Switch } from '../../components/shared/Switch';
@@ -25,59 +24,42 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
 
   const profile = useUserProfileQuery();
 
-  const {
-    isLoading: isTeamLeaderboardsQueryLoading,
-    isError: isTeamLeaderboardsQueryError,
-    error: teamLeaderboardsError,
-    data: teamLeaderboardsList,
-    isFetching: isTeamLeaderboardsQueryFetching,
-    isPreviousData: isPreviousTeamLeaderboardsData,
-  } = useTeamLeaderboardsQuery(pageTeamRanking);
+  const teamLeaderboardsQuery = useTeamLeaderboardsQuery(pageTeamRanking);
 
-  const {
-    isLoading: isPlayerLeaderboardsQueryLoading,
-    isError: isPlayerLeaderboardsQueryError,
-    error: playerLeaderboardsError,
-    data: playerLeaderboardsList,
-    isFetching: isPlayerLeaderboardsQueryFetching,
-    isPreviousData: isPreviousPlayerLeaderboardsData,
-  } = usePlayerLeaderboardsQuery(pagePlayerRanking);
+  const playerLeaderboardsQuery = usePlayerLeaderboardsQuery(pagePlayerRanking);
 
   const onNextPagePlayerRanking = () => {
-    const value = pagePlayerRanking + 1;
     if (
-      !isPreviousPlayerLeaderboardsData &&
-      playerLeaderboardsList?.next_page_url
+      !playerLeaderboardsQuery.isPreviousData &&
+      playerLeaderboardsQuery.data?.next_page_url
     ) {
-      setPagePlayerRanking(value);
+      setPagePlayerRanking(pagePlayerRanking + 1);
     }
   };
 
   const onNextPageTeamRanking = () => {
-    const value = pageTeamRanking + 1;
     if (
-      !isPreviousTeamLeaderboardsData &&
-      teamLeaderboardsList?.next_page_url
+      !teamLeaderboardsQuery.isPreviousData &&
+      teamLeaderboardsQuery.data?.next_page_url
     ) {
-      setPageTeamRanking(value);
+      setPageTeamRanking(pageTeamRanking + 1);
     }
   };
 
   const onPreviousPagePlayerRanking = () => {
-    let value = pagePlayerRanking - 1;
-    if (value < 1) {
-      value = 1;
-    }
+    const value = Math.max(1, pagePlayerRanking - 1);
     setPagePlayerRanking(value);
   };
 
   const onPreviousPageTeamRanking = () => {
-    let value = pageTeamRanking - 1;
-    if (value < 1) {
-      value = 1;
-    }
+    const value = Math.max(1, pageTeamRanking - 1);
     setPageTeamRanking(value);
   };
+
+  if (playerLeaderboardsQuery.isError || teamLeaderboardsQuery.isError) {
+    alert('Błąd podczas wyświetlania rankingu');
+    return null;
+  }
 
   return (
     <Container>
@@ -90,15 +72,15 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
         />
       </View>
 
-      {isPlayerLeaderboardsQueryLoading ? (
+      {playerLeaderboardsQuery.isLoading ? (
         <Text>Loading...</Text>
-      ) : isPlayerLeaderboardsQueryError ? (
+      ) : playerLeaderboardsQuery.isError ? (
         alert('Błąd podczas wyświetlania rankungu użytkowników')
       ) : showTeamsRanking ||
-        playerLeaderboardsList === undefined ||
+        playerLeaderboardsQuery.data === undefined ||
         profile.data?.id === undefined ? null : (
         <RankingList
-          data={playerLeaderboardsList.data}
+          data={playerLeaderboardsQuery.data.data}
           pageNumber={pagePlayerRanking}
           userId={profile.data?.id}
           buttonGroup={
@@ -111,8 +93,8 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
               <AppButton
                 onPress={onNextPagePlayerRanking}
                 disabled={
-                  isPreviousPlayerLeaderboardsData ||
-                  playerLeaderboardsList.next_page_url === null
+                  playerLeaderboardsQuery.isPreviousData ||
+                  playerLeaderboardsQuery.data.next_page_url === null
                 }>
                 Naprzód
               </AppButton>
@@ -121,15 +103,15 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
         />
       )}
 
-      {isTeamLeaderboardsQueryLoading ? (
+      {teamLeaderboardsQuery.isLoading ? (
         <Text>Loading...</Text>
-      ) : isTeamLeaderboardsQueryError ? (
+      ) : teamLeaderboardsQuery.error ? (
         alert('Błąd podczas wyświetlania rankingu drużynowego')
       ) : !showTeamsRanking ||
-        teamLeaderboardsList === undefined ||
+        teamLeaderboardsQuery.data === undefined ||
         profile.data?.current_team_id === undefined ? null : (
         <RankingList
-          data={teamLeaderboardsList.data}
+          data={teamLeaderboardsQuery.data.data}
           pageNumber={pageTeamRanking}
           userTeamId={profile.data.current_team_id}
           buttonGroup={
@@ -142,8 +124,8 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
               <AppButton
                 onPress={onNextPageTeamRanking}
                 disabled={
-                  isPreviousTeamLeaderboardsData ||
-                  teamLeaderboardsList.next_page_url === null
+                  teamLeaderboardsQuery.isPreviousData ||
+                  teamLeaderboardsQuery.data.next_page_url === null
                 }>
                 Naprzód
               </AppButton>
@@ -152,7 +134,8 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
         />
       )}
 
-      {isTeamLeaderboardsQueryFetching || isPlayerLeaderboardsQueryFetching ? (
+      {teamLeaderboardsQuery.isFetching ||
+      playerLeaderboardsQuery.isFetching ? (
         <Text>Loading</Text>
       ) : null}
     </Container>
