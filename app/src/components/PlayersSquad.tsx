@@ -1,7 +1,6 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { TextStyle } from '../theme';
 import { Avatar } from './shared/Avatar';
 
 interface PlayersSquadProps {
@@ -16,7 +15,7 @@ export const PlayersSquad: React.FC<PlayersSquadProps> = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.label}>
-        <Text style={TextStyle.noteH1}>Zespół {props.firstTeamName}</Text>
+        <Text style={styles.h1}>Zespół {props.firstTeamName}</Text>
       </View>
       <View style={styles.avatarsList}>
         {props.firstTeamAvatarList.map((imgSrc, index) => (
@@ -25,7 +24,7 @@ export const PlayersSquad: React.FC<PlayersSquadProps> = (props) => {
       </View>
 
       <View style={styles.label}>
-        <Text style={TextStyle.noteH1}>Zespół {props.secondTeamName}</Text>
+        <Text style={styles.h1}>Zespół {props.secondTeamName}</Text>
       </View>
       <View style={styles.avatarsList}>
         {props.secondTeamAvatarList.map((imgSrc, index) => (
@@ -35,7 +34,7 @@ export const PlayersSquad: React.FC<PlayersSquadProps> = (props) => {
       {props.notReadyPlayersAvatarList && (
         <View>
           <View style={styles.label}>
-            <Text style={TextStyle.noteH1}>Oczekiwanie na graczy</Text>
+            <Text style={styles.h1}>Oczekiwanie na graczy</Text>
           </View>
           <View style={styles.avatarsList}>
             {props.notReadyPlayersAvatarList.map((imgSrc, index) => (
@@ -59,5 +58,8 @@ const styles = StyleSheet.create({
     marginRight: 2,
     marginLeft: 2,
     marginBottom: 40,
+  },
+  h1: {
+    color: '#432443',
   },
 });

@@ -150,7 +150,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
         setIsUserAllowedToChangeSquad(false);
         unlockChangingSquads();
       } catch (error) {
-        alert('Wystąpił błąd podaczas dołączania do składu');
+        alert('Wystąpił błąd podczas dołączania do składu');
       }
     } else {
       try {
