@@ -1,17 +1,17 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-
-import { useEcho } from '../../hooks/useEcho';
-import { GAME_FINISHED_EVENT } from '../../const/events.const';
 import BottomSheet from 'reanimated-bottom-sheet';
+
 import { Container } from '../../components/layout/Container';
 import { PlayerAvatarList } from '../../components/match/PlayerAvatarList';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
 import { Timer } from '../../components/shared/Timer';
 import { Modal } from '../../components/shared/modal/Modal';
+import { GAME_FINISHED_EVENT } from '../../const/events.const';
 import { useAxios } from '../../hooks/useAxios';
+import { useEcho } from '../../hooks/useEcho';
 import { useGameDetailsQuery } from '../../hooks/useGameDetailsQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
@@ -37,6 +37,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
   const axios = useAxios();
   const firstTeamId = matchDetails.data?.squads[0].team_id;
   const secondTeamId = matchDetails.data?.squads[1].team_id;
+
   const gameId = matchDetails.data?.id;
 
   const [firstTeamPlayersList, setFirstTeamPlayersList] = useState<
@@ -51,7 +52,9 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
 
   const onEndGame = useCallback((event: FinishGameEvent) => {
     modalEndGame?.current?.snapTo(0);
-    // TODO: zablokowac wysjcie z tego ekranu
+    // TODO: zablokowac wysjcie z tego ekranuc
+    // TODO: add stop timer effect when the game is ended
+    console.log('EVENT', event);
   }, []);
 
   const onSubmitGameScore = async (winningTeamId: number | undefined) => {
@@ -61,6 +64,9 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
         winning_squad: winningTeamId,
       });
     } catch (e) {
+      console.log('erroraaaa:', e.message);
+      console.log('erroraaaa:', JSON.stringify(e));
+
       alert(
         'Wystąpił błąd podczas przesyłania głosu na zwycięską drużynę. Sprawdź połączenie z internetem.'
       ); // TODO: dopisac com
@@ -75,9 +81,10 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
         },
       });
     } catch (e) {
+      console.log('errordddd:', e.message);
       alert(
         'Wystąpił błąd podczas próby zakończenia gry. Sprawdź połączenie z internetem.'
-      ); // TODO: dopisac com
+      );
     }
   };
 
@@ -93,6 +100,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
     };
   }, [echo, isEchoReady, onEndGame, route.params.gameId]);
 
+  // TODO: use this to allow only the owner to finish match
   const isOwner = matchDetails.data?.owner_id === profile.data?.id;
 
   return (
