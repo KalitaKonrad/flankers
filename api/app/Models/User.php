@@ -103,9 +103,9 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         $result = $this->avatar;
 
         if ($query) {
-            $result .= '&v=' . $this->created_at->timestamp;
+            $result .= '&v=' . $this->updated_at->timestamp;
         } else {
-            $result .= '?v=' . $this->created_at->timestamp;
+            $result .= '?v=' . $this->updated_at->timestamp;
         }
 
         return $result;

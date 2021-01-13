@@ -54,6 +54,7 @@ class UserAvatarController extends Controller
 
         Storage::cloud()->put($uploadPath, $img);
         $user->avatar = $url;
+        $user->touch();
         $user->save();
 
         return Message::ok('Avatar changed', $user->versioned_avatar);

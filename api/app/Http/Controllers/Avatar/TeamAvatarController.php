@@ -28,7 +28,7 @@ class TeamAvatarController extends Controller
      */
     public function show(int $team_id)
     {
-        return Message::ok('Team avatar', Team::findOrFail($team_id)->avatar);
+        return Message::ok('Team avatar', Team::findOrFail($team_id)->versioned_avatar);
     }
 
     /**
@@ -63,9 +63,10 @@ class TeamAvatarController extends Controller
 
         Storage::cloud()->put($uploadPath, $img);
         $team->avatar = $url;
+        $team->touch();
         $team->save();
 
-        return Message::ok('Avatar changed', $url);
+        return Message::ok('Avatar changed', $team->versioned_avatar);
     }
 
     /**
