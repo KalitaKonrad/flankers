@@ -12,6 +12,7 @@ import { PaddedInputScrollView } from '../../components/layout/PaddedInputScroll
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
+import { AvatarButton } from '../../components/shared/AvatarButton';
 import { useProfileEditMutation } from '../../hooks/useEditProfileMutation';
 import { useUpdateAvatarMutation } from '../../hooks/useUpdateAvatarMutation';
 import { setResponseErrors } from '../../utils/setResponseErrors';
@@ -48,7 +49,6 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
 }) => {
   const [mutate, mutation] = useProfileEditMutation();
   const [avatar, setAvatar] = useState<string>(route.params.avatar);
-  const [mutateAvatar, mutationAvatar] = useUpdateAvatarMutation();
   const theme = useTheme();
 
   const {
@@ -68,19 +68,6 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
     register('newPasswordConfirm');
   }, [register]);
 
-  useEffect(() => {
-    (async () => {
-      if (Platform.OS !== 'web') {
-        const {
-          status,
-        } = await ImagePicker.requestCameraRollPermissionsAsync();
-        if (status !== 'granted') {
-          alert('Sorry, we need camera roll permissions to make this work!');
-        }
-      }
-    })();
-  });
-
   const onEdit = async ({ name, newPassword }: ProfileEditFormData) => {
     Keyboard.dismiss();
 
@@ -92,42 +79,19 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
     }
   };
 
-  const onAvatarButtonClick = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-    console.log(result);
-    if (!result.cancelled) {
-      setAvatar(result.uri);
-    }
-  };
-  const press = () => {
-    if (avatar !== undefined) {
-      mutateAvatar(avatar);
-    }
-  };
-
   return (
     <ContainerWithAvatar avatar={{ uri: avatar }}>
-      <View style={styles.buttonWrapper}>
-        <AppButton
-          mode="contained"
-          style={{
-            backgroundColor: theme.colors.secondary,
-            width: '30%',
-            position: 'absolute',
-          }}
-          onPress={onAvatarButtonClick}>
-          Zmień
-        </AppButton>
+      <View style={styles.avatarBtnWrapper}>
+        <AvatarButton
+          avatarUri={avatar}
+          onAvatarChange={(avatarUri) => setAvatar(avatarUri)}
+          isTeamAvatar={false}
+        />
       </View>
-
       <View style={styles.meta}>
         <AppText variant="h2">Zmiana danych</AppText>
       </View>
+
       <PaddedInputScrollView>
         <AppInput
           style={styles.row}
@@ -188,7 +152,6 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
             Zapisz zmiany
           </AppButton>
         </View>
-        <Button title="name" onPress={press} />
       </PaddedInputScrollView>
     </ContainerWithAvatar>
   );
@@ -207,5 +170,9 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     left: 200,
+  },
+  avatarBtnWrapper: {
+    left: 200,
+    top: -60,
   },
 });

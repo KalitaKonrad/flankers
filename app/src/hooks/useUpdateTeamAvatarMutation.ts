@@ -1,6 +1,10 @@
 import { useMutation, useQueryCache } from 'react-query';
 
-import { QUERY_PROFILE_KEY, QUERY_TEAM_KEY } from '../const/query.const';
+import {
+  QUERY_LEADERBOARDS_TEAM,
+  QUERY_PROFILE_KEY,
+  QUERY_TEAM_KEY,
+} from '../const/query.const';
 import { useAxios } from './useAxios';
 
 interface TeamAvatarPayload {
@@ -38,6 +42,7 @@ export const useUpdateTeamAvatarMutation = () => {
       onSuccess: () => {
         queryCache.refetchQueries(QUERY_PROFILE_KEY, { active: true });
         queryCache.refetchQueries(QUERY_TEAM_KEY, { active: true });
+        queryCache.refetchQueries(QUERY_LEADERBOARDS_TEAM, { active: true });
       },
     }
   );

@@ -1,6 +1,12 @@
 import { useMutation, useQueryCache } from 'react-query';
 
-import { QUERY_PROFILE_KEY, QUERY_USER_AVATAR } from '../const/query.const';
+import {
+  QUERY_LEADERBOARDS_PLAYER,
+  QUERY_LEADERBOARDS_TEAM,
+  QUERY_PROFILE_KEY,
+  QUERY_TEAM_MEMBERS,
+  QUERY_USER_AVATAR,
+} from '../const/query.const';
 import { useAxios } from './useAxios';
 
 export const useUpdateAvatarMutation = () => {
@@ -29,8 +35,10 @@ export const useUpdateAvatarMutation = () => {
       });
     },
     {
-      onSuccess: (newAvatar) => {
+      onSuccess: () => {
         queryCache.refetchQueries(QUERY_PROFILE_KEY, { active: true });
+        queryCache.refetchQueries(QUERY_LEADERBOARDS_PLAYER, { active: true });
+        queryCache.refetchQueries(QUERY_TEAM_MEMBERS, { active: true });
       },
     }
   );
