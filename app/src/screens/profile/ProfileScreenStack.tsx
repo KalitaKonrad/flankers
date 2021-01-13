@@ -37,7 +37,7 @@ export const ProfileScreenStack: React.FC = () => {
             <HeaderAppButton
               onPress={() =>
                 navigation.push('ProfileEdit', {
-                  avatar: userProfile.data?.avatar,
+                  avatar: userProfile.data?.versioned_avatar,
                 })
               }>
               Edytuj

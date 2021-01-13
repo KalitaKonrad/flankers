@@ -33,7 +33,11 @@ export const RankingList: React.FC<PlayersRankingProps> = ({
       description={`${item.elo} punktów rankingowych`}
       left={() => (
         <View style={styles.elementAvatarContainer}>
-          <Avatar size={40} borderRadius={8} src={{ uri: item.avatar }} />
+          <Avatar
+            size={40}
+            borderRadius={8}
+            src={{ uri: item.versioned_avatar }}
+          />
         </View>
       )}
       right={() => (

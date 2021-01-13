@@ -106,13 +106,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   };
   const press = () => {
     if (avatar !== undefined) {
-      console.log('bbbbbbbbbbbbbbbbbbbbbbbbb');
-      mutateAvatar(avatar)
-        .then((res) => {
-          console.log('aaaaaaaaaaaaaaaaaaa       ', JSON.stringify(res));
-          console.log(avatar);
-        })
-        .catch((err) => console.log('kkk   ', err));
+      mutateAvatar(avatar);
     }
   };
 
@@ -212,7 +206,6 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   buttonWrapper: {
-    right: -210,
-    alignItems: 'flex-start',
+    left: 200,
   },
 });

@@ -1,18 +1,24 @@
 import { useMutation, useQueryCache } from 'react-query';
 
-import { QUERY_PROFILE_KEY, QUERY_USER_AVATAR } from '../const/query.const';
+import { QUERY_PROFILE_KEY, QUERY_TEAM_KEY } from '../const/query.const';
 import { useAxios } from './useAxios';
 
-export const useUpdateAvatarMutation = () => {
+interface TeamAvatarPayload {
+  avatarUri: string;
+  team_id: string;
+}
+
+export const useUpdateTeamAvatarMutation = () => {
   const axios = useAxios();
 
   const queryCache = useQueryCache();
 
   return useMutation(
-    (avatarUri: string) => {
+    ({ avatarUri, team_id }: TeamAvatarPayload) => {
       const uriParts = avatarUri.split('.');
       const fileType = uriParts[uriParts.length - 1];
       const formData = new FormData();
+      formData.append('team_id', team_id);
       formData.append(
         'avatar',
         JSON.parse(
@@ -24,13 +30,14 @@ export const useUpdateAvatarMutation = () => {
         )
       );
 
-      return axios.post(`user/avatar`, formData, {
+      return axios.post(`teams/avatar`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
     },
     {
-      onSuccess: (newAvatar) => {
+      onSuccess: () => {
         queryCache.refetchQueries(QUERY_PROFILE_KEY, { active: true });
+        queryCache.refetchQueries(QUERY_TEAM_KEY, { active: true });
       },
     }
   );

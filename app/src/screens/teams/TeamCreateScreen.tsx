@@ -64,7 +64,7 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   };
 
   return (
-    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+    <ContainerWithAvatar avatar={require('../../../assets/flankers-logo.png')}>
       <View style={styles.meta}>
         <AppText variant="h2">Dane zespołu</AppText>
       </View>

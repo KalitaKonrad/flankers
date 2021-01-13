@@ -6,5 +6,5 @@ export interface TeamProfilePayload {
   updated_at: string;
   created_at: string;
   elo?: number;
-  avatar?: string;
+  versioned_avatar?: string;
 }

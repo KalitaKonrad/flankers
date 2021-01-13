@@ -28,7 +28,11 @@ export const TeamMemberList: React.FC<TeamMemberListProps> = ({
       description={`${item.elo} punktów rankingowych`}
       left={() => (
         <View style={styles.memberAvatarContainer}>
-          <Avatar size={40} borderRadius={8} src={{ uri: item.avatar }} />
+          <Avatar
+            size={40}
+            borderRadius={8}
+            src={{ uri: item.versioned_avatar }}
+          />
         </View>
       )}
     />

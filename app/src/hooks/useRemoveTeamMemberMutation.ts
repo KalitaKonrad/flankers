@@ -3,7 +3,7 @@ import { useMutation, useQueryCache } from 'react-query';
 import { useAxios } from './useAxios';
 
 interface RemoveTeamMemberPayload {
-  team_id: number;
+  team_id: string;
   user_id: number;
 }
 
