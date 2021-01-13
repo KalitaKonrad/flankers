@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Events\UserCreated;
 use App\Traits\HasWallet;
 use App\Traits\TeamMember;
+use App\Events\UserCreated;
 use Laravel\Cashier\Billable;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -12,8 +12,6 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
-
-use function PHPSTORM_META\map;
 
 class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
@@ -28,7 +26,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'name',
         'email',
         'password',
-        'avatar'
+        'avatar',
+        'expo_token'
     ];
 
     /**
@@ -89,6 +88,21 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function setPasswordAttribute($password)
     {
         $this->attributes['password'] = Hash::make($password);
+    }
+
+    public function getVersionedAvatarAttribute()
+    {
+
+        $query = parse_url($this->avatar, PHP_URL_QUERY);
+        $result = $this->avatar;
+
+        if ($query) {
+            $result .= '&v=' . $this->created_at->timestamp;
+        } else {
+            $result .= '?v=' . $this->created_at->timestamp;
+        }
+
+        return $result;
     }
 
     /**
