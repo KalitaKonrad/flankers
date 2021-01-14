@@ -38,8 +38,10 @@ class GameController extends Controller
     public function index()
     {
         return Game::with('squads', 'squads.members')
-            ->where('public', true)
-            ->orWhere('owner_id', Auth::id())
+            ->where(
+                fn ($query) => $query->where('public', true)->orWhere('owner_id', Auth::id())
+            )
+            ->where('completed', false)
             ->get();
     }
 
