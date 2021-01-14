@@ -11,7 +11,7 @@ export const useTeamProfileQuery = () => {
   const axios = useAxios();
 
   return useQuery<TeamProfilePayload>(QUERY_TEAM_KEY, async () => {
-    const response = await axios.get<TeamProfilePayload>(QUERY_TEAM_KEY);
+    const response = await axios.get<TeamProfilePayload>('teams');
     return response.data;
   });
 };

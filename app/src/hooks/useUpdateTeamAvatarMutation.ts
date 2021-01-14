@@ -39,10 +39,12 @@ export const useUpdateTeamAvatarMutation = () => {
       });
     },
     {
-      onSuccess: () => {
-        queryCache.refetchQueries(QUERY_PROFILE_KEY, { active: true });
-        queryCache.refetchQueries(QUERY_TEAM_KEY, { active: true });
-        queryCache.refetchQueries(QUERY_LEADERBOARDS_TEAM, { active: true });
+      onSuccess: async () => {
+        await queryCache.refetchQueries(QUERY_PROFILE_KEY, { active: true });
+        await queryCache.refetchQueries(QUERY_TEAM_KEY, { active: true });
+        await queryCache.refetchQueries(QUERY_LEADERBOARDS_TEAM, {
+          active: true,
+        });
       },
     }
   );

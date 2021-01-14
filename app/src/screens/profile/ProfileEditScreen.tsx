@@ -12,7 +12,7 @@ import { PaddedInputScrollView } from '../../components/layout/PaddedInputScroll
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
-import { AvatarButton } from '../../components/shared/AvatarButton';
+import { AvatarSelectButton } from '../../components/shared/AvatarSelectButton';
 import { useProfileEditMutation } from '../../hooks/useEditProfileMutation';
 import { useUpdateAvatarMutation } from '../../hooks/useUpdateAvatarMutation';
 import { setResponseErrors } from '../../utils/setResponseErrors';
@@ -49,6 +49,8 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
 }) => {
   const [mutate, mutation] = useProfileEditMutation();
   const [avatar, setAvatar] = useState<string>(route.params.avatar);
+  const [mutateAvatar, mutationAvatar] = useUpdateAvatarMutation();
+
   const theme = useTheme();
 
   const {
@@ -79,13 +81,20 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
     }
   };
 
+  const changeAvatar = async (avatarUri: string) => {
+    console.log(avatarUri);
+    setAvatar(avatarUri);
+    await mutateAvatar(avatarUri).catch((error) =>
+      console.log(error.response.data)
+    );
+  };
+
   return (
     <ContainerWithAvatar avatar={{ uri: avatar }}>
       <View style={styles.avatarBtnWrapper}>
-        <AvatarButton
+        <AvatarSelectButton
           avatarUri={avatar}
-          onAvatarChange={(avatarUri) => setAvatar(avatarUri)}
-          isTeamAvatar={false}
+          onAvatarChange={(avatarUri) => changeAvatar(avatarUri)}
         />
       </View>
       <View style={styles.meta}>
