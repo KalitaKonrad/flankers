@@ -22,11 +22,34 @@ class Team extends TeamworkTeam
     ];
 
     /**
+     * @var array
+     */
+    protected $appends = [
+        'versioned_avatar'
+    ];
+
+
+    /**
      * Return all users belonging to this team
      */
     public function members()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function getVersionedAvatarAttribute()
+    {
+
+        $query = parse_url($this->avatar, PHP_URL_QUERY);
+        $result = $this->avatar;
+
+        if ($query) {
+            $result .= '&v=' . $this->updated_at->timestamp;
+        } else {
+            $result .= '?v=' . $this->updated_at->timestamp;
+        }
+
+        return $result;
     }
 
     /**

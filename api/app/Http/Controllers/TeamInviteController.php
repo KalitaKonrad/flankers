@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mpociot\Teamwork\Facades\Teamwork;
+use App\Notifications\TeamInviteCreated;
 
 class TeamInviteController extends Controller
 {
@@ -64,6 +65,8 @@ class TeamInviteController extends Controller
         }
 
         $invite = Teamwork::inviteToTeam($invitedUser->email, $team);
+        $invitedUser->notify(new TeamInviteCreated($team));
+
         return Message::ok('Invite sent', $invite);
     }
 }

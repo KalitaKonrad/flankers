@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Wallet;
 
 use App\Http\Message;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -28,10 +28,10 @@ class ChargeWallet extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(ClientRequest $request)
+    public function __invoke(Request $request)
     {
         $request->validate([
-            'ammount' => 'float|required'
+            'ammount' => 'numeric|required'
         ]);
 
         $user = Auth::user();
@@ -45,7 +45,7 @@ class ChargeWallet extends Controller
             return Message::error(403, 'You must connect payment method first');
         }
 
-        $user->invoiceFor('Wallet charge', $ammount);
+        $user->invoiceFor('Wallet charge', $ammount * 100);
         $user->wallet->charge($ammount);
 
         return Message::ok('User account charged', $user->wallet);

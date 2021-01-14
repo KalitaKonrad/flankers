@@ -2,20 +2,19 @@
 
 namespace App\Models;
 
-use App\Events\UserCreated;
 use App\Traits\HasWallet;
 use App\Traits\TeamMember;
+use App\Events\UserCreated;
 use Laravel\Cashier\Billable;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use App\Contracts\SendsExpoNotifications;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-use function PHPSTORM_META\map;
-
-class User extends Authenticatable implements JWTSubject, MustVerifyEmail
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail, SendsExpoNotifications
 {
     use HasFactory, HasWallet, Notifiable, TeamMember, Billable;
 
@@ -28,7 +27,8 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'name',
         'email',
         'password',
-        'avatar'
+        'avatar',
+        'expo_token'
     ];
 
     /**
@@ -53,12 +53,18 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     ];
 
     /**
-     *
      * @var array
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'elo' => 'integer'
+    ];
+
+    /**
+     * @var array
+     */
+    protected $appends = [
+        'versioned_avatar'
     ];
 
     /**
@@ -91,6 +97,21 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         $this->attributes['password'] = Hash::make($password);
     }
 
+    public function getVersionedAvatarAttribute()
+    {
+
+        $query = parse_url($this->avatar, PHP_URL_QUERY);
+        $result = $this->avatar;
+
+        if ($query) {
+            $result .= '&v=' . $this->updated_at->timestamp;
+        } else {
+            $result .= '?v=' . $this->updated_at->timestamp;
+        }
+
+        return $result;
+    }
+
     /**
      * Return path where user avatar should be stored
      *
@@ -120,5 +141,15 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function isGameOwner(Game $game)
     {
         return $game->owner_id == $this->id;
+    }
+
+    public function privateExpoChannel(): string
+    {
+        return "user_{$this->id}";
+    }
+
+    public function expoToken()
+    {
+        return $this->expo_token;
     }
 }
