@@ -18,7 +18,6 @@
   "dependencies": {
     "@expo-google-fonts/inter": "^0.1.0",
     "@hookform/resolvers": "^1.1.2",
-    "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/masked-view": "0.1.10",
     "@react-native-community/netinfo": "^5.9.10",
     "@react-navigation/material-bottom-tabs": "^5.3.10",
@@ -51,7 +50,6 @@
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
-    "react-native-skeleton-placeholder": "^3.0.2",
     "react-native-switch-selector": "^2.0.6",
     "react-native-web": "^0.14.8",
     "react-query": "^2.26.4",

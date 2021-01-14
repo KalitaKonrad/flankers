@@ -1,8 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useMemo, useState } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
 import { MatchHistoryList } from '../../components/match/MatchHistoryList';
@@ -13,7 +12,6 @@ import { TeamMemberList } from '../../components/team/TeamMembersList';
 import { useTeamMembersQuery } from '../../hooks/useTeamMembersQuery';
 import { useUpdateTeamAvatarMutation } from '../../hooks/useUpdateTeamAvatarMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
-import { ListPlaceholder } from '../../utils/listPlaceholder';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
 type TeamManageScreenProps = StackScreenProps<
@@ -30,6 +28,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
   const [avatar, setAvatar] = useState<string>(
     userProfile.data?.teams[0].versioned_avatar!
   );
+
   const theme = useTheme();
 
   const changeAvatar = (avatarUri: string) => {
@@ -41,26 +40,6 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
       });
     }
   };
-
-  const matchesView = useMemo(() => {
-    if (membersList.isFetching) {
-      return <ListPlaceholder placeholderCount={4} />;
-    }
-
-    if (showMatches) {
-      return <MatchHistoryList matchHistory={[]} />; // TODO: ADD LIST PLACEHOLDER WHEN MATCH HISTORY IS AVAILABLE
-    }
-
-    if (!showMatches && membersList.isSuccess) {
-      return <TeamMemberList members={membersList.data!} />;
-    }
-  }, [
-    membersList.data,
-    membersList.isFetching,
-    membersList.isSuccess,
-    showMatches,
-  ]);
-
   return (
     <ContainerWithAvatar avatar={{ uri: avatar }}>
       {avatar !== undefined && (
@@ -85,7 +64,10 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
           onSwitchToRight={() => setShowMatches(true)}
         />
       </View>
-      {matchesView}
+      {showMatches && <MatchHistoryList matchHistory={[]} />}
+      {!showMatches && membersList.isSuccess && (
+        <TeamMemberList members={membersList.data!} />
+      )}
     </ContainerWithAvatar>
   );
 };
