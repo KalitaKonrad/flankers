@@ -32,6 +32,7 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
       <AppText variant="h1" style={styles.header}>
         Historia
       </AppText>
+      {/* TODO: ADD LIST PLACEHOLDER WHEN MATCH HISTORY IS AVAILABLE*/}
       <WalletTransactionHistoryList />
       <Modal ref={modalRef} title="Wybierz kwotę doładowania">
         <View style={styles.numberSelectorContainer}>
