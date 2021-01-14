@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Game;
 
 use App\Models\Game;
 use App\Http\Message;
+use Illuminate\Support\Arr;
 use App\Events\GameCreated;
 use App\Events\GameUpdated;
 use Illuminate\Support\Carbon;
+use App\Structures\GameCommand;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\CreateGameRequest;
 use App\Http\Requests\UpdateGameRequest;
-use App\Structures\GameCommand;
-use Illuminate\Support\Arr;
 
 class GameController extends Controller
 {
@@ -28,8 +28,8 @@ class GameController extends Controller
      * Show list of games
      *
      * Return list of all public games or the ones belonging
-     * to request user, together with its squads. Fetch
-     * specified game to get more informations.
+     * to request user, together with its squads and members.
+     * Completed games are not returned.
      *
      * @group Game data
      *
@@ -49,7 +49,7 @@ class GameController extends Controller
      * Create new game.
      *
      * @group Game management
-     * @bodyParam type string Public or private, default - public
+     * @bodyParam type string free for all - ffa, or team game - team, default - ffa
      * @bodyParam rated boolean If ranking points should be assigned rated, default - false
      * @bodyParam bet integer Game bet which each user will be charged for, default - 0
      * @bodyParam start_date timestamp Game starting time
@@ -86,8 +86,8 @@ class GameController extends Controller
     /**
      * Display details of a game
      *
-     * Get all game details with squads
-     * and members.
+     * Get all game details with squads,
+     * members, and invite codes.
      *
      * @group Game data
      * @urlParam id int required Game id
@@ -109,17 +109,22 @@ class GameController extends Controller
      * - if you try to update game bets or rating type <br />
      *   after it has started (start_date < now)
      *
-     * These failures return 403 code
+     * These failures return 403 error code
      *
      * @group Game management
-     * @bodyParam type string Public or private
-     * @bodyParam rated boolean If ranking points should be assigned rated
-     * @bodyParam bet integer Game bet which each user will be charged for
+     * @bodyParam type string free for all - ffa, or team game - team, default - ffa
+     * @bodyParam rated boolean If ranking points should be assigned after the game.
+     * @bodyParam bet integer Game bet which each user will be charged for.
      * @bodyParam duration integer Game time in seconds, default
      * @bodyParam start_date timestamp Unix timestamp for game starting time
      * @bodyParam completed boolean True if game should be finalized instantly
      * @bodyParam long Game longitude - default null
      * @bodyParam lat Game latitude - default null
+     * @bodyParam command object Game related command
+     * @bodyParam command.start_game boolean Start the game
+     * @bodyParam command.end_game boolean End started game early, skipping voting timers
+     * @bodyParam command.start_voting boolean
+     * Start one minute timer in which users can vote, then close the game
      *
      * @param  UpdateGameRequest  $request
      * @param  int  $id
@@ -159,8 +164,8 @@ class GameController extends Controller
     /**
      * Delete the game
      *
-     * This will fail with 406 code if the
-     * game was already completed.
+     * This will fail with 403 code if the
+     * game started or was already completed.
      *
      * @group Game management
      * @urlParam id int required Game id

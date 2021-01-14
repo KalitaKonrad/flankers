@@ -14,7 +14,8 @@ class SetPaymentMethod extends Controller
         $this->middleware(['auth:api']);
     }
     /**
-     * Update user payment method with given id
+     * Update user payment method with given
+     * stripe payment method id.
      *
      * @group Payments
      * @body_param payment_method required stripe payment method id

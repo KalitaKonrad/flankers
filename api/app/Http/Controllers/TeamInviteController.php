@@ -35,7 +35,8 @@ class TeamInviteController extends Controller
     }
 
     /**
-     * Invite user to team
+     * Invite user to team, it will send notification
+     * request to underlying notification service
      *
      * @group Team management
      * @bodyParam team_id int required
