@@ -2,9 +2,8 @@
 
 namespace App\Models;
 
-use App\Events\UserLeftSquad;
-use App\Events\UserJoinedSquad;
 use App\Events\UserAccessesSquad;
+use App\Events\SquadMembersChanged;
 use App\Exceptions\SquadFullException;
 use Illuminate\Database\Eloquent\Model;
 use App\Exceptions\MatchAlreadyJoinedException;
@@ -88,7 +87,7 @@ class Squad extends Model
 
         $this->members()->attach($user->id);
 
-        UserJoinedSquad::dispatch($this, $user);
+        SquadMembersChanged::dispatch($this);
     }
 
     /**
@@ -103,7 +102,7 @@ class Squad extends Model
 
         $this->members()->detach([$user->id]);
 
-        UserLeftSquad::dispatch($this, $user);
+        SquadMembersChanged::dispatch($this);
     }
 
     /**

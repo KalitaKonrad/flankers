@@ -16,4 +16,5 @@ use Illuminate\Support\Facades\Route;
 
 if (config('app.debug') == true) {
     Route::get('/', fn () => view('welcome')->with('user', User::first()));
+    Route::get('/stripe', fn () => view('stripe'));
 }

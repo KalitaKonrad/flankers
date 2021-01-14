@@ -7,9 +7,9 @@ export interface UserProfilePayload {
   email_verified_at?: string;
   created_at?: string;
   updated_at?: string;
-  current_team_id: number;
+  current_team_id: string;
   elo: number;
-  avatar?: string;
+  versioned_avatar?: string;
   teams: TeamProfilePayload[];
   invites?: [];
 }

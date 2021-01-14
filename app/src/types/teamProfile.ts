@@ -5,4 +5,6 @@ export interface TeamProfilePayload {
   owner_id: number;
   updated_at: string;
   created_at: string;
+  elo?: number;
+  versioned_avatar?: string;
 }

@@ -14,12 +14,12 @@ type ProfileScreenProps = StackScreenProps<
 >;
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
-  const { data } = useUserProfileQuery();
-  // TODO: ADD LIST PLACEHOLDER WHEN MATCH HISTORY IS AVAILABLE
+  const profile = useUserProfileQuery();
+
   return (
-    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+    <ContainerWithAvatar avatar={{ uri: profile.data?.versioned_avatar }}>
       <View style={styles.meta}>
-        <AppText variant="h1">{data?.name}</AppText>
+        <AppText variant="h1">{profile.data?.name}</AppText>
         <AppText variant="h3">Punkty rankingowe: 2000</AppText>
       </View>
       <MatchHistoryList matchHistory={[]} />

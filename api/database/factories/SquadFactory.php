@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Game;
 use App\Models\Squad;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -22,6 +23,7 @@ class SquadFactory extends Factory
     public function definition()
     {
         return [
+            'game_id' => Game::factory(),
             'slots' => $this->faker->numberBetween(4, 10)
         ];
     }

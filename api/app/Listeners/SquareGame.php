@@ -7,7 +7,7 @@ use App\Events\GameFinished;
 use App\Services\GameService;
 use Illuminate\Support\Facades\Log;
 
-class UpdateElo
+class SquareGame
 {
     /**
      * Create the event listener.

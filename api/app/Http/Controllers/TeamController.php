@@ -42,7 +42,7 @@ class TeamController extends Controller
     {
         $teamModel = config('teamwork.team_model');
         if ($teamModel::where('name', $request->post('name'))->first()) {
-            return Message::error(406, 'Team with this name already exists');
+            return Message::error(403, 'Team with this name already exists');
         }
 
         $data = array_merge($request->all(), [

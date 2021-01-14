@@ -26,8 +26,6 @@ class EventServiceProvider extends ServiceProvider
     ];
 
     protected $subscribe = [
-        SetSquadTeam::class,
-        StartGameTimers::class,
         GenerateGameInvite::class,
     ];
 

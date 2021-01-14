@@ -32,9 +32,7 @@ class GameInviteController extends Controller
     }
 
     /**
-     * Destroy game invite
-     *
-     * User which is creating the team will be set as its owner
+     * Destroy game invite by its code
      *
      * @group Game management
      * @urlParam code string required 6-character Invite code Example: 1ADC31

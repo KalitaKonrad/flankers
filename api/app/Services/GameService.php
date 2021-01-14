@@ -9,13 +9,14 @@ use App\Models\Memo;
 use App\Models\Team;
 use App\Models\Squad;
 use App\Constants\GameType;
-use App\Structures\GameScore;
+use App\Models\GameVictorSquad;
+use App\Structures\GameResults;
 use App\Structures\GameRankingEntry;
 
 class GameService
 {
 
-    public static function appraise(Game $game): GameScore
+    public static function appraise(Game $game): GameResults
     {
         $squads = $game->squads()->get();
         $scores = [];
@@ -28,35 +29,68 @@ class GameService
         $winners = array_keys($scores, $maxScore);
         $tie = count($winners) > 1;
 
-        return new GameScore([
+        return new GameResults([
+            'game' => $game,
             'scores' => $scores,
             'winners' => $winners,
             'tie' => $tie
         ]);
     }
 
-    public function winners(Game $game)
-    {
-        return self::appraise($game)->winners;
-    }
-
     public static function square($game)
     {
-        switch ($game->type) {
-            case GameType::TEAM:
-                self::squareTeamGame($game);
-                break;
-            case GameType::FREE_FOR_ALL:
-                self::squareFfaGame($game);
-                break;
+        $results = self::appraise($game);
+
+        self::register($results);
+        self::applyBets($results);
+
+        if ($game->rated) {
+            switch ($game->type) {
+                case GameType::TEAM:
+                    self::squareTeamElo($results);
+                    break;
+                case GameType::FREE_FOR_ALL:
+                    self::squareFfaElo($results);
+                    break;
+            }
         }
     }
 
-    protected static function squareTeamGame($game)
+    protected static function register(GameResults $results)
     {
-        $results = self::appraise($game);
-        $entries = [];
+        foreach ($results->winners as $winner) {
+            GameVictorSquad::create([
+                'game_id' => $results->game->id,
+                'squad_id' => $winner
+            ]);
+        }
+    }
 
+    protected static function applyBets(GameResults $results)
+    {
+        $winnings = 0;
+        foreach ($results->game->squads as $squad) {
+            $losing = !in_array($squad->id, $results->winners);
+
+            if ($losing) {
+                $squad->members->each(function ($member) use (&$winnings, $results) {
+                    $member->wallet->charge(-1 * $results->game->bet);
+                    $winnings += $results->game->bet;
+                });
+            }
+        }
+
+        $winners = Squad::with('members')
+            ->findMany($results->winners)
+            ->pluck('members')
+            ->flatten();
+
+        $winners->each(fn ($winner) => $winner->wallet->charge($winnings / count($winners)));
+    }
+
+    protected static function squareTeamElo($results)
+    {
+        $entries = [];
         foreach ($results->scores as $squadId => $score) {
             $instance = Squad::find($squadId)->team;
             $entries[] = new GameRankingEntry([
@@ -74,9 +108,8 @@ class GameService
     }
 
 
-    protected static function squareFfaGame($game)
+    protected static function squareFfaElo($results)
     {
-        $results = self::appraise($game);
         $entries = [];
 
         foreach ($results->scores as $squadId => $score) {
