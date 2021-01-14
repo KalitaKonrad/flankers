@@ -30,10 +30,12 @@ use App\Http\Controllers\Wallet\ChargeWallet;
 use App\Http\Controllers\Game\GameController;
 use App\Http\Controllers\TeamInviteController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\Expo\SubscribePushToken;
 use App\Http\Controllers\Game\GameMemoController;
 use App\Http\Controllers\Payment\SetPaymentMethod;
 use App\Http\Controllers\TeamMembershipController;
 use App\Http\Controllers\Game\GameInviteController;
+use App\Http\Controllers\Expo\UnsubscribePushToken;
 use App\Http\Controllers\Payment\CreateSetupIntent;
 use App\Http\Controllers\Avatar\UserAvatarController;
 use App\Http\Controllers\Avatar\TeamAvatarController;
@@ -75,6 +77,9 @@ Route::prefix('user')->group(function () {
     Route::delete('avatar', [UserAvatarController::class, 'destroy']);
 
     Route::get('games', ListUserGames::class);
+
+    Route::post('notifications', SubscribePushToken::class);
+    Route::delete('notifications', UnsubscribePushToken::class);
 });
 
 /**
