@@ -13,6 +13,11 @@ class GameInvite extends Model
 
     protected $primaryKey = 'code';
 
+    protected $hidden = [
+        'created_at',
+        'updated_at'
+    ];
+
     protected $casts = [
         'code' => 'string'
     ];

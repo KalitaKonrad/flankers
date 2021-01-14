@@ -67,7 +67,7 @@ it('disallows for a team member to leave if he is the only one left', function (
         ->deleteJson("/teams/memberships/$team->id", [
             'user_id' => $team->owner_id
         ])
-        ->assertStatus(406);
+        ->assertStatus(403);
 });
 
 it('should disallow non-owners and non-team users to initiate member removal', function () {

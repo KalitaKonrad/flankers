@@ -15,7 +15,7 @@ class AddUserAvatarColumn extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->string('avatar')
-                ->default('https://avatars.dicebear.com/4.5/api/initials/flankers.svg');
+                ->default('https://eu.ui-avatars.com/api/?format=png&name=flankers');
         });
     }
 

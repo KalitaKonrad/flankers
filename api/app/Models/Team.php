@@ -22,11 +22,34 @@ class Team extends TeamworkTeam
     ];
 
     /**
+     * @var array
+     */
+    protected $appends = [
+        'versioned_avatar'
+    ];
+
+
+    /**
      * Return all users belonging to this team
      */
     public function members()
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function getVersionedAvatarAttribute()
+    {
+
+        $query = parse_url($this->avatar, PHP_URL_QUERY);
+        $result = $this->avatar;
+
+        if ($query) {
+            $result .= '&v=' . $this->updated_at->timestamp;
+        } else {
+            $result .= '?v=' . $this->updated_at->timestamp;
+        }
+
+        return $result;
     }
 
     /**
@@ -46,6 +69,6 @@ class Team extends TeamworkTeam
      */
     public function defaultAvatar()
     {
-        return 'https://avatars.dicebear.com/4.5/api/initials/flankers.svg';
+        return 'https://eu.ui-avatars.com/api/?format=png&name=flankers';
     }
 }
