@@ -13,13 +13,12 @@ interface AvatarButtonProps {
 export const AvatarSelectButton: React.FC<AvatarButtonProps> = (props) => {
   const theme = useTheme();
   const onAvatarButtonClick = async () => {
-    if (Platform.OS !== 'web') {
-      const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-      if (status !== 'granted') {
-        alert(
-          'Aby wykonać tą akcję zezwól tej aplikacji na dostęp do galerii '
-        );
-      }
+    if (Platform.OS === 'web') {
+      return;
+    }
+    const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+    if (status !== 'granted') {
+      alert('Aby wykonać tą akcję zezwól tej aplikacji na dostęp do galerii ');
     }
 
     const result = await ImagePicker.launchImageLibraryAsync({

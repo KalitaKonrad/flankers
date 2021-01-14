@@ -2,7 +2,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { ImageSourcePropType, Keyboard, StyleSheet, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
@@ -13,10 +13,7 @@ import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
 import { AvatarSelectButton } from '../../components/shared/AvatarSelectButton';
 import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
-import { useTeamProfileQuery } from '../../hooks/useTeamManageQuery';
 import { useUpdateTeamAvatarMutation } from '../../hooks/useUpdateTeamAvatarMutation';
-import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
-import { TeamProfilePayload } from '../../types/teamProfile';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
@@ -35,11 +32,12 @@ const TeamCreateSchema = yup.object().shape({
   description: yup.string(),
 });
 
+const img = require('../../../assets/versioned_initial_avatar.png').toString();
+
 export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   navigation,
 }) => {
   const theme = useTheme();
-  const img = require('../../../assets/versioned_initial_avatar.png').toString();
 
   const [mutate, mutation] = useTeamCreateMutation();
   const [mutateTeamAvatar, mutationTeamAvatar] = useUpdateTeamAvatarMutation();
@@ -61,19 +59,20 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
     register('description');
   }, [register]);
 
-  const changeAvatar = async (avatarUri: string, tempdata: any) => {
-    mutateTeamAvatar({
+  const changeAvatar = async (avatarUri: string, teamData: any) => {
+    await mutateTeamAvatar({
       avatarUri,
-      team_id: tempdata.id.toString()!,
-    }).then((r) => navigation.push('TeamManage'));
+      team_id: teamData.id.toString()!,
+    });
+    navigation.push('TeamManage');
   };
 
   const onPress = async ({ teamName, description }: TeamCreateFormData) => {
     Keyboard.dismiss();
 
     try {
-      const tempData = await mutate({ name: teamName, description });
-      await changeAvatar(avatar, tempData?.data.data);
+      const teamData = await mutate({ name: teamName, description });
+      await changeAvatar(avatar, teamData?.data.data);
     } catch (error) {
       setResponseErrors(error, setError);
     }

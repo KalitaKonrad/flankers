@@ -82,10 +82,9 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   };
 
   const changeAvatar = async (avatarUri: string) => {
-    console.log(avatarUri);
     setAvatar(avatarUri);
-    await mutateAvatar(avatarUri).catch((error) =>
-      console.log(error.response.data)
+    await mutateAvatar(avatarUri).catch(() =>
+      alert('Wystąpił błąd przy zmianie avataru')
     );
   };
 
