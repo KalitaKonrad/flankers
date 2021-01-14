@@ -1,9 +1,12 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function Tests\grabAuthToken;
 use function Tests\withAuthHeader;
+
+uses(RefreshDatabase::class);
 
 it('saves user notification token', function () {
     $user = User::factory()->create();
