@@ -26,6 +26,6 @@ class HasPaymentConnected extends Controller
      */
     public function __invoke()
     {
-        return Message::ok('User has payment method connected', Auth::user()->hasDefaultPaymentMethod());
+        return Message::ok('Payment method availability check result', Auth::user()->hasDefaultPaymentMethod());
     }
 }
