@@ -216,7 +216,12 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
         <View style={styles.action}>
           <AppButton
             mode="contained"
-            onPress={() => navigation.navigate('MatchInProgress')}>
+            onPress={() =>
+              navigation.navigate('MatchInProgress', {
+                screen: 'MatchInProgressScreen',
+                params: { gameId: route.params.gameId },
+              })
+            }>
             Rozpocznij mecz
           </AppButton>
         </View>

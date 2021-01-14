@@ -1,4 +1,4 @@
-import React, { ReactComponentElement, useState } from 'react';
+import React from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import { List, Text, useTheme } from 'react-native-paper';
 

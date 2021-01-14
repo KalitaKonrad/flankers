@@ -9,7 +9,10 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
 import { Timer } from '../../components/shared/Timer';
 import { Modal } from '../../components/shared/modal/Modal';
-import { GAME_FINISHED_EVENT } from '../../const/events.const';
+import {
+  GAME_FINISHED_EVENT,
+  GAME_VOTING_STARTED_EVENT,
+} from '../../const/events.const';
 import { useAxios } from '../../hooks/useAxios';
 import { useEcho } from '../../hooks/useEcho';
 import { useGameDetailsQuery } from '../../hooks/useGameDetailsQuery';
@@ -25,7 +28,10 @@ type MatchInProgressScreenProps = StackScreenProps<
 >;
 
 export interface MatchInProgressScreenRouteParams {
-  gameId: number;
+  screen: string;
+  params: {
+    gameId: number;
+  };
 }
 
 export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
@@ -33,12 +39,11 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
   route,
 }) => {
   const profile = useUserProfileQuery();
-  const matchDetails = useGameDetailsQuery(route.params.gameId);
+  const gameId = route.params.params.gameId;
+  const matchDetails = useGameDetailsQuery(gameId);
   const axios = useAxios();
   const firstTeamId = matchDetails.data?.squads[0].team_id;
   const secondTeamId = matchDetails.data?.squads[1].team_id;
-
-  const gameId = matchDetails.data?.id;
 
   const [firstTeamPlayersList, setFirstTeamPlayersList] = useState<
     MembersPayload[] | undefined
@@ -50,7 +55,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
   const modalEndGame = useRef<BottomSheet | null>(null);
   const { echo, isReady: isEchoReady } = useEcho();
 
-  const onEndGame = useCallback((event: FinishGameEvent) => {
+  const onStartVoting = useCallback((event: FinishGameEvent) => {
     modalEndGame?.current?.snapTo(0);
     // TODO: zablokowac wysjcie z tego ekranuc
     // TODO: add stop timer effect when the game is ended
@@ -63,6 +68,8 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
         game_id: gameId,
         winning_squad: winningTeamId,
       });
+
+      //TODO: jak przeslzo to przeroutuj na home
     } catch (e) {
       console.log('erroraaaa:', e.message);
       console.log('erroraaaa:', JSON.stringify(e));
@@ -88,17 +95,22 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
     }
   };
 
+  const onGameEnded = async () => {
+    //TODO: przerutuj na home
+  };
+
   useEffect(() => {
-    const channel = `games.${route.params.gameId}`;
+    const channel = `games.${gameId}`;
 
     if (isEchoReady) {
-      echo?.channel(channel).listen(GAME_FINISHED_EVENT, onEndGame);
+      echo?.channel(channel).listen(GAME_VOTING_STARTED_EVENT, onStartVoting);
+      echo?.channel(channel).listen(GAME_FINISHED_EVENT, onGameEnded);
     }
 
     return () => {
-      echo?.channel(channel).stopListening(GAME_FINISHED_EVENT, onEndGame);
+      echo?.channel(channel).stopListening(GAME_FINISHED_EVENT, onStartVoting);
     };
-  }, [echo, isEchoReady, onEndGame, route.params.gameId]);
+  }, [echo, isEchoReady, onStartVoting, gameId]);
 
   // TODO: use this to allow only the owner to finish match
   const isOwner = matchDetails.data?.owner_id === profile.data?.id;
@@ -144,13 +156,13 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
           <AppButton
             mode="contained"
             style={styles.modalButton}
-            onPress={() => onSubmitGameScore(firstTeamId)}>
+            onPress={() => onSubmitGameScore(1)}>
             Zespół A
           </AppButton>
           <AppButton
             mode="contained"
             style={styles.modalButton}
-            onPress={() => onSubmitGameScore(secondTeamId)}>
+            onPress={() => onSubmitGameScore(1)}>
             Zespół B
           </AppButton>
         </View>

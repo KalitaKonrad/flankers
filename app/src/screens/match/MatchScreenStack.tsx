@@ -53,7 +53,11 @@ export const MatchScreenStack: React.FC = () => {
         component={MatchInLobbyScreen}
         options={{ title: 'Lobby' }}
       />
-      <Stack.Screen name="MatchInProgress" component={MatchInProgressScreen} />
+      <Stack.Screen
+        name="MatchInProgress"
+        component={MatchInProgressScreen}
+        options={{ title: 'Mecz w trakcie' }}
+      />
     </Stack.Navigator>
   );
 };
