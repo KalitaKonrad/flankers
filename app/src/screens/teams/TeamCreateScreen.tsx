@@ -1,6 +1,6 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard, StyleSheet, View } from 'react-native';
 import { HelperText, useTheme } from 'react-native-paper';
@@ -11,7 +11,9 @@ import { PaddedInputScrollView } from '../../components/layout/PaddedInputScroll
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
+import { AvatarSelectButton } from '../../components/shared/AvatarSelectButton';
 import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
+import { useUpdateTeamAvatarMutation } from '../../hooks/useUpdateTeamAvatarMutation';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
@@ -30,12 +32,17 @@ const TeamCreateSchema = yup.object().shape({
   description: yup.string(),
 });
 
+const img = require('../../../assets/versioned_initial_avatar.png').toString();
+
 export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   navigation,
 }) => {
   const theme = useTheme();
 
   const [mutate, mutation] = useTeamCreateMutation();
+  const [mutateTeamAvatar, mutationTeamAvatar] = useUpdateTeamAvatarMutation();
+
+  const [avatar, setAvatar] = useState<string>(img);
 
   const {
     register,
@@ -52,19 +59,34 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
     register('description');
   }, [register]);
 
+  const changeAvatar = async (avatarUri: string, teamData: any) => {
+    await mutateTeamAvatar({
+      avatarUri,
+      team_id: teamData.id.toString()!,
+    });
+    navigation.push('TeamManage');
+  };
+
   const onPress = async ({ teamName, description }: TeamCreateFormData) => {
     Keyboard.dismiss();
 
     try {
-      await mutate({ name: teamName, description });
-      navigation.push('TeamManage');
+      const teamData = await mutate({ name: teamName, description });
+      await changeAvatar(avatar, teamData?.data.data);
     } catch (error) {
       setResponseErrors(error, setError);
     }
   };
 
   return (
-    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+    <ContainerWithAvatar avatar={{ uri: avatar }}>
+      <View style={styles.avatarBtnWrapper}>
+        <AvatarSelectButton
+          avatarUri={avatar}
+          onAvatarChange={(avatarUri) => setAvatar(avatarUri)}
+        />
+      </View>
+
       <View style={styles.meta}>
         <AppText variant="h2">Dane zespołu</AppText>
       </View>
@@ -109,5 +131,9 @@ const styles = StyleSheet.create({
   },
   action: {
     marginTop: 16,
+  },
+  avatarBtnWrapper: {
+    left: 200,
+    top: -60,
   },
 });

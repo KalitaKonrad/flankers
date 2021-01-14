@@ -38,11 +38,12 @@ class SquadMembershipController extends Controller
     /**
      * Add user to game squad
      *
-     * This request will fail if: <br />
-     * - user will try to join to a full squad (403) <br />
-     * - user has already joined the squad (403) <br />
+     * This request will fail with 403 code if: <br />
+     * - user will try to join to a full squad <br />
+     * - user has already joined the squad <br />
      * - user will try to join team game squad, and the squad is locked
-     *   to a team which user does not belong to (403)
+     *   to a team which user does not belong to
+     * - user does not have enough funds to pay for the game bet
      *
      * @group Game management
      * @bodyParam squad_id int required Squad id
@@ -83,12 +84,12 @@ class SquadMembershipController extends Controller
     /**
      * Move member from a squad to antoher within the same game
      *
-     *  This request will fail if: <br />
-     * - request user tries to move someone other than himself, while not being game owner (403) <br />
-     * - user will try to move membership between squads from different games (403) <br />
-     * - user will try to move to a full squad (403) <br />
+     *  This request will fail with 403 code if: <br />
+     * - request user tries to move someone other than himself, while not being game owner <br />
+     * - user will try to move membership between squads from different games <br />
+     * - user will try to move to a full squad <br />
      * - user will try to join team game squad, and the squad is locked
-     *   to a team which user does not belong to (403)
+     *   to a team which user does not belong to
      *
      * @group Game management
      * @urlParam squad_id int required Squad id
@@ -140,10 +141,10 @@ class SquadMembershipController extends Controller
     /**
      * Remove user from squad and effectively from game
      *
-     * The request will fail if: <br />
+     * The request will fail with 403 code if: <br />
      * - user which posts data is trying to remove someone else than <br />
-     *   themselves, while not being the game owner (403) <br />
-     * - user does not belong to the squad (403)
+     *   themselves, while not being the game owner <br />
+     * - user does not belong to the squad
      *
      * @group Game management
      * @urlParam squad_id int required Squad id

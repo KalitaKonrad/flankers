@@ -3,9 +3,10 @@
 namespace App\Http\Controllers\Wallet;
 
 use App\Http\Message;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Cashier\Exceptions\IncompletePayment;
 
 class ChargeWallet extends Controller
 {
@@ -20,7 +21,10 @@ class ChargeWallet extends Controller
     /**
      * Charge wallet with given ammount
      *
-     * User must have payment method connected for this to succeed
+     * User must have payment method connected for this to succeed.
+     * This endpoint may fail if payment action is required for charge,
+     * or payment failure occurs. Payment data will be returned on fail
+     * inside the response "errors" field.
      *
      * @group Wallet
      * @body_param ammount float required non-negative ammount which will charge the wallet
@@ -28,10 +32,10 @@ class ChargeWallet extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(ClientRequest $request)
+    public function __invoke(Request $request)
     {
         $request->validate([
-            'ammount' => 'float|required'
+            'ammount' => 'numeric|required'
         ]);
 
         $user = Auth::user();
@@ -45,7 +49,12 @@ class ChargeWallet extends Controller
             return Message::error(403, 'You must connect payment method first');
         }
 
-        $user->invoiceFor('Wallet charge', $ammount);
+        try {
+            $user->invoiceFor('Wallet charge', $ammount * 100);
+        } catch (IncompletePayment $exception) {
+            return Message::error(402, $exception->getMessage(), $exception->payment);
+        }
+
         $user->wallet->charge($ammount);
 
         return Message::ok('User account charged', $user->wallet);

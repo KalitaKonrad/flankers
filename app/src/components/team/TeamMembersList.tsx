@@ -25,13 +25,13 @@ export const TeamMemberList: React.FC<TeamMemberListProps> = ({
     <List.Item
       title={item.name}
       titleStyle={styles.memberName}
-      description={`${0} punktów rankingowych`}
+      description={`${item.elo} punktów rankingowych`}
       left={() => (
         <View style={styles.memberAvatarContainer}>
           <Avatar
             size={40}
             borderRadius={8}
-            src={require('../../../assets/avatar.png')}
+            src={{ uri: item.versioned_avatar }}
           />
         </View>
       )}

@@ -9,8 +9,13 @@ use Illuminate\Support\Facades\Auth;
 
 class SetPaymentMethod extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware(['auth:api']);
+    }
     /**
-     * Update user payment method with given id
+     * Update user payment method with given
+     * stripe payment method id.
      *
      * @group Payments
      * @body_param payment_method required stripe payment method id
@@ -24,7 +29,13 @@ class SetPaymentMethod extends Controller
             'payment_method' => 'string|required',
         ]);
 
-        Auth::user()->updateDefaultPaymentMethod($request->payment_method);
+        $user = Auth::user();
+
+        if (!$user->hasStripeId()) {
+            $user->createAsStripeCustomer();
+        }
+
+        $user->updateDefaultPaymentMethod($request->payment_method);
         return Message::ok('Payment method set up');
     }
 }

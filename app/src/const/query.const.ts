@@ -7,3 +7,6 @@ export const QUERY_GAMES = 'games';
 export const QUERY_GAMES_MEMOS = 'games/memos';
 export const QUERY_GAME_SQUAD = 'games/memberships';
 export const QUERY_GAME_INVITATION = 'games/invites';
+export const QUERY_LEADERBOARDS_PLAYER = 'leaderboards/player';
+export const QUERY_LEADERBOARDS_TEAM = 'leaderboards/team';
+export const QUERY_USER_AVATAR = 'user/avatar';

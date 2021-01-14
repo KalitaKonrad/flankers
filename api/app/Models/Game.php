@@ -21,7 +21,8 @@ class Game extends Model
         'duration',
         'long',
         'lat',
-        'squad_size'
+        'squad_size',
+        'created_at'
     ];
 
     protected $appends = [
