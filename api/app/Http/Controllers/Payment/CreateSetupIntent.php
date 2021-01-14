@@ -15,7 +15,8 @@ class CreateSetupIntent extends Controller
     }
 
     /**
-     * Create intent to initiate payment registry and return its data
+     * Create stripe payment intent to associate payment method
+     * with user account for subsequent purchases.
      *
      * @group Payments
      *

@@ -17,7 +17,9 @@ class HasPaymentConnected extends Controller
     }
 
     /**
-     * Check if user has payment method connected
+     * Check if user has stripe payment method connected
+     * Return data is boolean value indicating whether
+     * it is true or false.
      *
      * @group Payments
      *
