@@ -9,11 +9,12 @@ use Laravel\Cashier\Billable;
 use Illuminate\Support\Facades\Hash;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Notifications\Notifiable;
+use App\Contracts\SendsExpoNotifications;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable implements JWTSubject, MustVerifyEmail
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail, SendsExpoNotifications
 {
     use HasFactory, HasWallet, Notifiable, TeamMember, Billable;
 
@@ -140,5 +141,15 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function isGameOwner(Game $game)
     {
         return $game->owner_id == $this->id;
+    }
+
+    public function privateExpoChannel(): string
+    {
+        return "user_{$this->id}";
+    }
+
+    public function expoToken()
+    {
+        return $this->expo_token;
     }
 }

@@ -4,12 +4,11 @@ namespace App\Notifications;
 
 use App\Models\Team;
 use Illuminate\Bus\Queueable;
-use Illuminate\Notifications\Notification;
+use App\Broadcasting\ExpoChannel;
+use App\Contracts\ExpoNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use NotificationChannels\ExpoPushNotifications\ExpoChannel;
-use NotificationChannels\ExpoPushNotifications\ExpoMessage;
 
-class TeamInviteCreated extends Notification implements ShouldQueue
+class TeamInviteCreated extends ExpoNotification implements ShouldQueue
 {
     use Queueable;
 
@@ -36,13 +35,12 @@ class TeamInviteCreated extends Notification implements ShouldQueue
         return [ExpoChannel::class];
     }
 
-    public function toExpoPush()
+    public function toExpo($notifiable): array
     {
-        return ExpoMessage::create()
-            ->badge(1)
-            ->enableSound()
-            ->title("Flankers invite!")
-            ->body("Your were invited to join a team!")
-            ->setJsonData(["team" => $this->team->name]);
+        return [
+            "title" => "Your were invited to join a team!",
+            "body" => "{$this->team->name} are calling",
+            "data" => json_encode(["type" => "team_invite"])
+        ];
     }
 }
