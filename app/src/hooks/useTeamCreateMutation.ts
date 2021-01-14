@@ -1,6 +1,6 @@
 import { useMutation, useQueryCache } from 'react-query';
 
-import { QUERY_TEAM_KEY } from '../const/query.const';
+import { QUERY_PROFILE_KEY, QUERY_TEAM_KEY } from '../const/query.const';
 import { useAxios } from './useAxios';
 
 interface TeamCreatePayload {
@@ -15,8 +15,10 @@ export const useTeamCreateMutation = () => {
   return useMutation(
     (newTeam: TeamCreatePayload) => axios.post('teams', newTeam),
     {
-      onSuccess: () => {
-        queryCache.invalidateQueries(QUERY_TEAM_KEY);
+      onSuccess: async () => {
+        await queryCache.invalidateQueries(QUERY_TEAM_KEY);
+        await queryCache.refetchQueries(QUERY_TEAM_KEY);
+        await queryCache.refetchQueries(QUERY_PROFILE_KEY);
       },
       onError: (error) => {},
     }

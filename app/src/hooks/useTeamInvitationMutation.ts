@@ -5,7 +5,7 @@ import { useAxios } from './useAxios';
 
 interface TeamsInvitationPayload {
   email: string;
-  team_id: number;
+  team_id: string;
 }
 
 export const useTeamInvitationMutation = () => {

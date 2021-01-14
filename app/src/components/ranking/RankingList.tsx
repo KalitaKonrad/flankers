@@ -33,7 +33,11 @@ export const RankingList: React.FC<PlayersRankingProps> = ({
       description={`${item.elo} punktów rankingowych`}
       left={() => (
         <View style={styles.elementAvatarContainer}>
-          <Avatar size={40} borderRadius={8} src={{ uri: item.avatar }} />
+          <Avatar
+            size={40}
+            borderRadius={8}
+            src={{ uri: item.versioned_avatar }}
+          />
         </View>
       )}
       right={() => (
@@ -50,7 +54,7 @@ export const RankingList: React.FC<PlayersRankingProps> = ({
                 opacity: 0.5,
               }
             : { backgroundColor: theme.colors.white }
-          : item.id === parseFloat(userTeamId!)
+          : item.id === parseInt(userTeamId!, 10)
           ? {
               backgroundColor: theme.colors.primary,
               borderRadius: 8,
