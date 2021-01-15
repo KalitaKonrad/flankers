@@ -52,7 +52,7 @@
     "react-native-screens": "~2.10.1",
     "react-native-switch-selector": "^2.0.6",
     "react-native-web": "^0.14.8",
-    "react-query": "^2.26.4",
+    "react-query": "^3.5.12",
     "reanimated-bottom-sheet": "^1.0.0-alpha.22",
     "yup": "^0.32.8"
   },

@@ -22,7 +22,7 @@ type TeamManageScreenProps = StackScreenProps<
 export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
   const userProfile = useUserProfileQuery();
   const membersList = useTeamMembersQuery(userProfile.data?.current_team_id);
-  const [mutateTeamAvatar, mutationTeamAvatar] = useUpdateTeamAvatarMutation();
+  const mutationTeamAvatar = useUpdateTeamAvatarMutation();
 
   const [showMatches, setShowMatches] = useState(false);
   const [avatar, setAvatar] = useState<string>(
@@ -34,7 +34,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
   const changeAvatar = (avatarUri: string) => {
     if (userProfile.data?.current_team_id !== undefined) {
       setAvatar(avatarUri);
-      mutateTeamAvatar({
+      mutationTeamAvatar.mutate({
         avatarUri,
         team_id: userProfile.data?.current_team_id,
       });

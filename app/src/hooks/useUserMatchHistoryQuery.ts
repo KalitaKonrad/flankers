@@ -17,7 +17,7 @@ export const useUserMatchHistoryQuery = (page = 1) => {
       return response.data;
     },
     {
-      getFetchMore: (lastPage, allPages) => {
+      getNextPageParam: (lastPage, allPages) => {
         if (lastPage.next_page_url === null) {
           return false;
         }

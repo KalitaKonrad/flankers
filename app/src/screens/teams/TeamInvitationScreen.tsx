@@ -36,7 +36,7 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
   navigation,
 }) => {
   const userProfile = useUserProfileQuery();
-  const [mutate, mutation] = useTeamInvitationMutation();
+  const mutation = useTeamInvitationMutation();
 
   const theme = useTheme();
 
@@ -59,7 +59,10 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
 
     try {
       if (userProfile.data?.current_team_id !== undefined) {
-        await mutate({ email, team_id: userProfile.data?.current_team_id });
+        await mutation.mutateAsync({
+          email,
+          team_id: userProfile.data?.current_team_id,
+        });
       }
     } catch (error) {
       setResponseErrors(error, setError);

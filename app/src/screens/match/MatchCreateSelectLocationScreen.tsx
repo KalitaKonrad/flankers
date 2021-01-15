@@ -25,7 +25,7 @@ export const MatchCreateSelectLocationScreen: React.FC<MatchCreateSelectLocation
 }) => {
   const [matchLocation, setMatchLocation] = useState<LatLng | null>(null);
 
-  const [mutate, mutation] = useMatchCreateMutation();
+  const mutation = useMatchCreateMutation();
 
   const onPress = async () => {
     if (matchLocation === null) {
@@ -33,7 +33,7 @@ export const MatchCreateSelectLocationScreen: React.FC<MatchCreateSelectLocation
     }
 
     try {
-      await mutate(
+      await mutation.mutateAsync(
         {
           ...route.params,
           lat: matchLocation.latitude,

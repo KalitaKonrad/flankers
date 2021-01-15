@@ -1,4 +1,4 @@
-import { useMutation, useQueryCache } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { QUERY_USER_AVATAR } from '../const/query.const';
 import { useAxios } from './useAxios';
@@ -6,7 +6,7 @@ import { useAxios } from './useAxios';
 export const useDeleteAvatarMutation = () => {
   const axios = useAxios();
 
-  const queryCache = useQueryCache();
+  const queryCache = useQueryClient();
 
   return useMutation(() => axios.delete('user/avatar'), {
     onSuccess: () => {

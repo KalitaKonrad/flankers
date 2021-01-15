@@ -20,11 +20,11 @@ const Stack = createStackNavigator<TeamScreenStackParamList>();
 export const TeamScreenStack: React.FC = () => {
   const theme = useTheme();
   const userProfile = useUserProfileQuery();
-  const [removeTeamMember] = useRemoveTeamMemberMutation();
+  const removeTeamMember = useRemoveTeamMemberMutation();
 
   const onLeaveTeamPress = async () => {
     if (!!userProfile.data?.id && !!userProfile.data?.current_team_id) {
-      await removeTeamMember({
+      await removeTeamMember.mutateAsync({
         team_id: userProfile.data.current_team_id,
         user_id: userProfile.data.id,
       });

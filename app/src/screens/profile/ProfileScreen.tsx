@@ -31,7 +31,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const matchHistory = useUserMatchHistoryQuery();
 
   if (matchHistory.data !== undefined)
-    console.log(matchHistory.data[0].current_page);
+    console.log(matchHistory.data.pages[0].current_page);
 
   return (
     <ContainerWithAvatar avatar={{ uri: profile.data?.versioned_avatar }}>
@@ -40,12 +40,12 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         <AppText variant="h3">Punkty rankingowe: 2000</AppText>
       </View>
       <View style={{ paddingBottom: 180 }}>
-        {matchHistory.data?.[0].data !== undefined && (
+        {matchHistory.data?.pages[0].data !== undefined && (
           <MatchHistoryList
             onListEnd={() => {
               console.log('KONIECCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCccc');
               matchHistory
-                .fetchMore()
+                .fetchNextPage()
                 .then((r) =>
                   console.log(
                     'FETCH MOREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE'
@@ -53,7 +53,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
                 );
             }}
             // matchHistory={matchHistory.data[0].data}
-            matchHistory={matchHistory.data[0].data}
+            matchHistory={matchHistory.data.pages[0].data}
           />
         )}
       </View>
