@@ -6,6 +6,7 @@ use App\Http\Message;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Constants\WalletChargeSource;
 use Laravel\Cashier\Exceptions\IncompletePayment;
 
 class ChargeWallet extends Controller
@@ -55,7 +56,7 @@ class ChargeWallet extends Controller
             return Message::error(402, $exception->getMessage(), $exception->payment);
         }
 
-        $user->wallet->charge($amount);
+        $user->wallet->charge($amount, WalletChargeSource::PURCHASE);
 
         return Message::ok('User account charged', $user->wallet);
     }

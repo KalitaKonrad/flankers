@@ -30,11 +30,11 @@ class Wallet extends Model
         return $this->hasMany(WalletCharge::class);
     }
 
-    public function charge(float $amount)
+    public function charge(float $amount, $source = 'generic')
     {
         $this->balance += $amount;
         $this->save();
 
-        WalletCharged::dispatch($this, $amount);
+        WalletCharged::dispatch($this, $amount, $source);
     }
 }

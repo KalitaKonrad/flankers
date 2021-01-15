@@ -15,16 +15,18 @@ class WalletCharged implements ShouldBroadcast
 
     public $wallet;
     public $amount;
+    public $source;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Wallet $wallet, float $amount)
+    public function __construct(Wallet $wallet, float $amount, string $source)
     {
         $this->wallet = $wallet;
         $this->amount = $amount;
+        $this->source = $source;
     }
 
     /**
