@@ -42,6 +42,7 @@ use App\Http\Controllers\Avatar\TeamAvatarController;
 use App\Http\Controllers\Payment\HasPaymentConnected;
 use App\Http\Controllers\Ranking\LeaderboardController;
 use App\Http\Controllers\Game\SquadMembershipController;
+use App\Http\Controllers\ListTeamGames;
 
 /**
  * ----------------------------------------
@@ -102,6 +103,8 @@ Route::prefix('teams')->group(function () {
 
     Route::resource('avatar', TeamAvatarController::class)
         ->only(['show', 'store', 'destroy']);
+
+    Route::get('games/{game_id}', ListTeamGames::class);
 });
 
 /**
