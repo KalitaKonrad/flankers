@@ -5,6 +5,9 @@ use App\Models\Wallet;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use function Tests\grabAuthToken;
+use function Tests\withAuthHeader;
+
 uses(RefreshDatabase::class);
 
 it('should create empty wallet for registered user', function () {
@@ -42,4 +45,29 @@ it('should charge and create payment record', function () {
         'wallet_id' => $wallet->id,
         'amount' => -5.5
     ]);
+});
+
+it('should be fetchable', function () {
+    $user = User::factory()->create();
+    $wallet = $user->wallet;
+    $wallet->charge(5);
+    $wallet->charge(10);
+
+    withAuthHeader(grabAuthToken($user->id))
+        ->get('/wallet')
+        ->assertOk()
+        ->assertJson([
+            'data' => [
+                'id' => $wallet->id,
+                'balance' => 15.0,
+                'charges' => [
+                    [
+                        'amount' => 5
+                    ],
+                    [
+                        'amount' => 10
+                    ]
+                ]
+            ]
+        ]);
 });
