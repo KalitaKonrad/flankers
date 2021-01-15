@@ -1,7 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
 import { MatchHistoryList } from '../../components/match/MatchHistoryList';
@@ -27,7 +26,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
 
   const [showMatches, setShowMatches] = useState(false);
   const [avatar, setAvatar] = useState<string | undefined>(
-    userProfile.data?.teams[0].versioned_avatar
+    userProfile?.data?.teams?.[0].versioned_avatar
   );
 
   const changeAvatar = (avatarUri: string) => {

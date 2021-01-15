@@ -68,7 +68,7 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
 
   return (
     <ContainerWithAvatar
-      avatar={{ uri: userProfile.data?.teams[0].versioned_avatar }}>
+      avatar={{ uri: userProfile?.data?.teams?.[0].versioned_avatar }}>
       <View style={styles.meta}>
         <AppText variant="h2">Zaproś użytkownika</AppText>
       </View>

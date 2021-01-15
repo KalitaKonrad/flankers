@@ -113,7 +113,7 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
         />
       )}
 
-      {teamLeaderboardsQuery.isLoading ? (
+      {teamLeaderboardsQuery.isLoading && showTeamsRanking ? (
         <ListPlaceholder placeholderCount={5} itemHeight={40} />
       ) : teamLeaderboardsQuery.error ? (
         alert('Błąd podczas wyświetlania rankingu drużynowego')
