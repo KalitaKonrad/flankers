@@ -23,7 +23,6 @@ class WalletFactory extends Factory
     public function definition()
     {
         return [
-            'owner_id' => User::factory(),
             'balance' => 0,
         ];
     }
