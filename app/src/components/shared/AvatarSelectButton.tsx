@@ -1,5 +1,5 @@
 import * as ImagePicker from 'expo-image-picker';
-import React, { useState } from 'react';
+import React from 'react';
 import { Platform, StyleSheet } from 'react-native';
 import { useTheme } from 'react-native-paper';
 

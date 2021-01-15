@@ -1,6 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import { Container } from '../../components/layout/Container';
 import { RankingList } from '../../components/ranking/RankingList';
@@ -9,6 +10,7 @@ import { Switch } from '../../components/shared/Switch';
 import { usePlayerLeaderboardsQuery } from '../../hooks/usePlayerLeaderboardsQuery';
 import { useTeamLeaderboardsQuery } from '../../hooks/useTeamLeaderboardsQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { RankingScreenStackParamList } from './RankingScreenStack';
 
 type RankingScreenProps = StackScreenProps<
@@ -63,17 +65,25 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
 
   return (
     <Container>
-      <View style={styles.switchContainer}>
-        <Switch
-          leftLabel="Gracze"
-          rightLabel="Drużyny"
-          onSwitchToLeft={() => setShowTeamsRanking(false)}
-          onSwitchToRight={() => setShowTeamsRanking(true)}
-        />
-      </View>
+      {!profile.isFetching ? (
+        <View style={styles.switchContainer}>
+          <Switch
+            leftLabel="Gracze"
+            rightLabel="Drużyny"
+            onSwitchToLeft={() => setShowTeamsRanking(false)}
+            onSwitchToRight={() => setShowTeamsRanking(true)}
+          />
+        </View>
+      ) : (
+        <SkeletonPlaceholder>
+          <View style={styles.switchContainer}>
+            <View style={{ height: 50 }} />
+          </View>
+        </SkeletonPlaceholder>
+      )}
 
       {playerLeaderboardsQuery.isLoading ? (
-        <Text>Loading...</Text>
+        <ListPlaceholder placeholderCount={5} itemHeight={40} />
       ) : playerLeaderboardsQuery.isError ? (
         alert('Błąd podczas wyświetlania rankungu użytkowników')
       ) : showTeamsRanking ||
@@ -104,7 +114,7 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
       )}
 
       {teamLeaderboardsQuery.isLoading ? (
-        <Text>Loading...</Text>
+        <ListPlaceholder placeholderCount={5} itemHeight={40} />
       ) : teamLeaderboardsQuery.error ? (
         alert('Błąd podczas wyświetlania rankingu drużynowego')
       ) : !showTeamsRanking ||
@@ -133,11 +143,6 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
           }
         />
       )}
-
-      {teamLeaderboardsQuery.isFetching ||
-      playerLeaderboardsQuery.isFetching ? (
-        <Text>Loading</Text>
-      ) : null}
     </Container>
   );
 };

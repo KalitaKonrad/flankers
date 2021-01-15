@@ -1,7 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useMemo, useState } from 'react';
-import { Dimensions, StyleSheet, View } from 'react-native';
-import { useTheme } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
@@ -13,7 +12,7 @@ import { TeamMemberList } from '../../components/team/TeamMembersList';
 import { useTeamMembersQuery } from '../../hooks/useTeamMembersQuery';
 import { useUpdateTeamAvatarMutation } from '../../hooks/useUpdateTeamAvatarMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
-import { ListPlaceholder } from '../../utils/listPlaceholder';
+import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
 type TeamManageScreenProps = StackScreenProps<
@@ -27,10 +26,9 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
   const [mutateTeamAvatar, mutationTeamAvatar] = useUpdateTeamAvatarMutation();
 
   const [showMatches, setShowMatches] = useState(false);
-  const [avatar, setAvatar] = useState<string>(
-    userProfile.data?.teams[0].versioned_avatar!
+  const [avatar, setAvatar] = useState<string | undefined>(
+    userProfile.data?.teams[0].versioned_avatar
   );
-  const theme = useTheme();
 
   const changeAvatar = (avatarUri: string) => {
     if (userProfile.data?.current_team_id !== undefined) {
@@ -52,7 +50,12 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
     }
 
     if (!showMatches && membersList.isSuccess) {
-      return <TeamMemberList members={membersList.data!} />;
+      return (
+        <TeamMemberList
+          members={membersList.data!}
+          isLoading={membersList.isFetching}
+        />
+      );
     }
   }, [
     membersList.data,
@@ -62,7 +65,9 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
   ]);
 
   return (
-    <ContainerWithAvatar avatar={{ uri: avatar }}>
+    <ContainerWithAvatar
+      avatar={{ uri: avatar }}
+      isLoading={userProfile.isFetching}>
       {avatar !== undefined && (
         <View style={styles.avatarBtnWrapper}>
           <AvatarSelectButton

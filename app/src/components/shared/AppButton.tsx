@@ -2,11 +2,14 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { Button } from 'react-native-paper';
 
-type AppButtonProps = React.ComponentProps<typeof Button>;
+type AppButtonProps = React.ComponentProps<typeof Button> & {
+  isLoading?: boolean;
+};
 
 export const AppButton: React.FC<AppButtonProps> = (props) => (
   <Button
     {...props}
+    loading={props.isLoading}
     theme={{ roundness: 100 }}
     uppercase={false}
     contentStyle={[

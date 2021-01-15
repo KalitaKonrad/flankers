@@ -17,11 +17,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const profile = useUserProfileQuery();
 
   return (
-    <ContainerWithAvatar avatar={{ uri: profile.data?.versioned_avatar }}>
+    <ContainerWithAvatar
+      avatar={{ uri: profile.data?.versioned_avatar }}
+      isLoading={profile.isFetching}>
       <View style={styles.meta}>
         <AppText variant="h1">{profile.data?.name}</AppText>
         <AppText variant="h3">Punkty rankingowe: 2000</AppText>
       </View>
+      {/*TODO: ADD LOADING WHILE FETCHING*/}
       <MatchHistoryList matchHistory={[]} />
     </ContainerWithAvatar>
   );

@@ -46,7 +46,7 @@ const mockData: TransactionRecord[] = shuffle([
   ...mockWins,
   ...mockTopUps,
 ]);
-
+// TODO: ADD LISTPLACEHOLDER WHILE FETCHING REAL DATA
 export const WalletTransactionHistoryList: React.FC = () => {
   const renderItem = ({ item }: ListRenderItemInfo<TransactionRecord>) => (
     <List.Item

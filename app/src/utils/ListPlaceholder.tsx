@@ -4,10 +4,14 @@ import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 interface ListPlaceholderProps {
   placeholderCount: number;
+  itemHeight?: number;
+  itemWidth?: number;
 }
 
 export const ListPlaceholder: React.FC<ListPlaceholderProps> = ({
   placeholderCount,
+  itemHeight,
+  itemWidth,
 }) => {
   const placeholderWidth = useWindowDimensions().width - 40;
 
@@ -15,15 +19,15 @@ export const ListPlaceholder: React.FC<ListPlaceholderProps> = ({
     return [...Array(placeholderCount)].map((index) => (
       <View key={index}>
         <SkeletonPlaceholder.Item
-          width={placeholderWidth}
-          height={50}
+          width={itemWidth ?? placeholderWidth}
+          height={itemHeight ?? 50}
           paddingVertical={12}
           borderRadius={20}
           marginVertical={8}
         />
       </View>
     ));
-  }, [placeholderCount, placeholderWidth]);
+  }, [itemHeight, itemWidth, placeholderCount, placeholderWidth]);
 
   return (
     <SkeletonPlaceholder>
