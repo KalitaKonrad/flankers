@@ -1,4 +1,4 @@
-import { useInfiniteQuery, useQuery } from 'react-query';
+import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query';
 
 import {
   QUERY_LEADERBOARDS_TEAM,
@@ -7,22 +7,21 @@ import {
 import { MatchHistoryResponse } from '../types/match';
 import { useAxios } from './useAxios';
 
-export const useUserMatchHistoryQuery = (page = 1) => {
+export const useUserMatchHistoryQuery = ({ page = 1 }) => {
   const axios = useAxios();
 
   return useInfiniteQuery<MatchHistoryResponse>(
     QUERY_USER_GAMES,
-    async () => {
-      const response = await axios.get(`user/games?page=${page}`);
+    async ({ pageParam = page }) => {
+      const response = await axios.get<MatchHistoryResponse>(
+        `user/games?page=${pageParam}`
+      );
       return response.data;
     },
     {
-      getNextPageParam: (lastPage, allPages) => {
-        if (lastPage.next_page_url === null) {
-          return false;
-        }
-        // return allPages.length + 1;
-        return lastPage.current_page + 1;
+      keepPreviousData: true,
+      getNextPageParam: (lastPage) => {
+        return lastPage.next_page_url ? lastPage.current_page + 1 : false;
       },
     }
   );

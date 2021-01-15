@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
@@ -15,23 +15,20 @@ type ProfileScreenProps = StackScreenProps<
   'Profile'
 >;
 
-const mock: MatchElementInHistory[] = [
-  { winner: true, id: 1 },
-  { winner: false, id: 2 },
-  { winner: false, id: 3 },
-  { winner: false, id: 4 },
-  { winner: false, id: 5 },
-  { winner: false, id: 6 },
-  { winner: false, id: 7 },
-  { winner: false, id: 8 },
-];
-
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const profile = useUserProfileQuery();
-  const matchHistory = useUserMatchHistoryQuery();
-
-  if (matchHistory.data !== undefined)
-    console.log(matchHistory.data.pages[0].current_page);
+  const matchHistory = useUserMatchHistoryQuery({ page: 1 });
+  const matchHistoryList = useMemo(() => {
+    if (
+      (matchHistory.isFetching || matchHistory.isError) &&
+      !matchHistory.isFetchingNextPage
+    ) {
+      return [];
+    }
+    return matchHistory.data!.pages.reduce((list, page) => {
+      return [...list, ...page.data];
+    }, [] as MatchElementInHistory[]);
+  }, [matchHistory]);
 
   return (
     <ContainerWithAvatar avatar={{ uri: profile.data?.versioned_avatar }}>
@@ -40,22 +37,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         <AppText variant="h3">Punkty rankingowe: 2000</AppText>
       </View>
       <View style={{ paddingBottom: 180 }}>
-        {matchHistory.data?.pages[0].data !== undefined && (
-          <MatchHistoryList
-            onListEnd={() => {
-              console.log('KONIECCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCccc');
-              matchHistory
-                .fetchNextPage()
-                .then((r) =>
-                  console.log(
-                    'FETCH MOREEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEEE'
-                  )
-                );
-            }}
-            // matchHistory={matchHistory.data[0].data}
-            matchHistory={matchHistory.data.pages[0].data}
-          />
-        )}
+        <MatchHistoryList
+          onListEnd={() => {
+            if (matchHistory.hasNextPage) {
+              matchHistory.fetchNextPage();
+            }
+          }}
+          matchHistory={matchHistoryList}
+        />
       </View>
     </ContainerWithAvatar>
   );

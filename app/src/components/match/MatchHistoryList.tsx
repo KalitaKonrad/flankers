@@ -23,15 +23,6 @@ export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
     />
   );
   return (
-    // <>
-    //   {props.matchHistory.map((group, i) => (
-    //     <List.Item
-    //       title={'Mecz'}
-    //       description={group.winner ? 'Zwycięstwo' : 'Porażka'}
-    //       left={(props) => <List.Icon {...props} icon={'trophy'} />}
-    //     />
-    //   ))}
-    // </>
     <FlatList
       data={props.matchHistory}
       renderItem={renderItem}
