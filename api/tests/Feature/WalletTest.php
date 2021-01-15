@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\WalletChargeSource;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Auth\Events\Registered;
@@ -21,10 +22,10 @@ it('should create empty wallet for registered user', function () {
 });
 
 it('should charge and create payment record', function () {
-    $wallet = Wallet::factory()->create();
+    $wallet = User::factory()->create()->wallet;
 
     $wallet->charge(5);
-    $wallet->charge(10);
+    $wallet->charge(10, WalletChargeSource::GAME_LOST);
     $wallet->charge(-5.5);
 
     $this->assertDatabaseHas('wallets', [
@@ -33,12 +34,14 @@ it('should charge and create payment record', function () {
 
     $this->assertDatabaseHas('wallet_charges', [
         'wallet_id' => $wallet->id,
-        'amount' => 5
+        'amount' => 5,
+        'source' => 'generic'
     ]);
 
     $this->assertDatabaseHas('wallet_charges', [
         'wallet_id' => $wallet->id,
-        'amount' => 10
+        'amount' => 10,
+        'source' => 'game_lost'
     ]);
 
     $this->assertDatabaseHas('wallet_charges', [
@@ -62,7 +65,8 @@ it('should be fetchable', function () {
                 'balance' => 15.0,
                 'charges' => [
                     [
-                        'amount' => 5
+                        'amount' => 5,
+                        'source' => 'generic'
                     ],
                     [
                         'amount' => 10

@@ -1,12 +1,11 @@
 <?php
 
-use App\Models\Game;
 use App\Models\Memo;
 use App\Models\User;
-use App\Models\Wallet;
+use App\Models\Game;
 use App\Services\GameService;
+use App\Constants\WalletChargeSource;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Arr;
 
 uses(RefreshDatabase::class);
 
@@ -36,7 +35,20 @@ it('should apply bets after game is squared', function () {
     GameService::square($game);
 
     $winning_players->each(
-        fn ($user) => $this->assertTrue(abs($user->wallet->fresh()->balance - (10 + (4 / 3))) < 0.00001)
+        function ($user) {
+            $this->assertTrue(abs($user->wallet->fresh()->balance - (10 + (4 / 3))) < 0.00001);
+            $this->assertDatabaseHas('wallet_charges', [
+                'wallet_id' => $user->wallet->id,
+                'source' => WalletChargeSource::GAME_WON
+            ]);
+        }
     );
-    $losing_players->each(fn ($user) => $this->assertTrue($user->fresh()->wallet->balance == 8));
+
+    $losing_players->each(function ($user) {
+        $this->assertTrue($user->fresh()->wallet->balance == 8);
+        $this->assertDatabaseHas('wallet_charges', [
+            'wallet_id' => $user->wallet->id,
+            'source' => WalletChargeSource::GAME_LOST
+        ]);
+    });
 });
