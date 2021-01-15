@@ -303,3 +303,21 @@ it('should deny user from outside the squad team to join it', function () {
         'user_id' => $badUser->id
     ]);
 });
+
+it('should deny user which does not have a team to join a squad in team game', function () {
+    $user = User::factory()->create();
+    $game = Game::factory()
+        ->state(['type' => GameType::TEAM])
+        ->create();
+    $squad = Squad::factory()
+        ->state(['game_id' => $game->id])
+        ->create();
+    $token = grabAuthToken($user->id);
+
+    withAuthHeader($token)
+        ->postJson('/games/memberships', [
+            'user_id' => $user->id,
+            'squad_id' => $squad->id
+        ])
+        ->assertStatus(403);
+});
