@@ -30,16 +30,16 @@ it('should charge and create payment record', function () {
 
     $this->assertDatabaseHas('wallet_charges', [
         'wallet_id' => $wallet->id,
-        'ammount' => 5
+        'amount' => 5
     ]);
 
     $this->assertDatabaseHas('wallet_charges', [
         'wallet_id' => $wallet->id,
-        'ammount' => 10
+        'amount' => 10
     ]);
 
     $this->assertDatabaseHas('wallet_charges', [
         'wallet_id' => $wallet->id,
-        'ammount' => -5.5
+        'amount' => -5.5
     ]);
 });

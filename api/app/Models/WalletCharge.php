@@ -11,7 +11,7 @@ class WalletCharge extends Model
 
     protected $fillable = [
         'wallet_id',
-        'ammount'
+        'amount'
     ];
 
     protected $hidden = [

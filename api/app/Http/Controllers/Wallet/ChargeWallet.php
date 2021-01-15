@@ -19,7 +19,7 @@ class ChargeWallet extends Controller
     }
 
     /**
-     * Charge wallet with given ammount
+     * Charge wallet with given amount
      *
      * User must have payment method connected for this to succeed.
      * This endpoint may fail if payment action is required for charge,
@@ -27,7 +27,7 @@ class ChargeWallet extends Controller
      * inside the response "errors" field.
      *
      * @group Wallet
-     * @body_param ammount float required non-negative ammount which will charge the wallet
+     * @body_param amount float required non-negative amount which will charge the wallet
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -35,13 +35,13 @@ class ChargeWallet extends Controller
     public function __invoke(Request $request)
     {
         $request->validate([
-            'ammount' => 'numeric|required'
+            'amount' => 'numeric|required'
         ]);
 
         $user = Auth::user();
-        $ammount = $request->ammount;
+        $amount = $request->amount;
 
-        if ($ammount <= 0) {
+        if ($amount <= 0) {
             return Message::error(400, 'Wallet charge must be positive');
         }
 
@@ -50,12 +50,12 @@ class ChargeWallet extends Controller
         }
 
         try {
-            $user->invoiceFor('Wallet charge', $ammount * 100);
+            $user->invoiceFor('Wallet charge', $amount * 100);
         } catch (IncompletePayment $exception) {
             return Message::error(402, $exception->getMessage(), $exception->payment);
         }
 
-        $user->wallet->charge($ammount);
+        $user->wallet->charge($amount);
 
         return Message::ok('User account charged', $user->wallet);
     }
