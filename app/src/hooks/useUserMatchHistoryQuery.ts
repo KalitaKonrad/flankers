@@ -7,21 +7,22 @@ import {
 import { MatchHistoryResponse } from '../types/match';
 import { useAxios } from './useAxios';
 
-export const useUserMatchHistoryQuery = (page: number) => {
+export const useUserMatchHistoryQuery = (page = 1) => {
   const axios = useAxios();
 
   return useInfiniteQuery<MatchHistoryResponse>(
     QUERY_USER_GAMES,
     async () => {
-      const response = await axios.get(`leaderboards/team?page=${page}`);
+      const response = await axios.get(`user/games?page=${page}`);
       return response.data;
     },
     {
       getFetchMore: (lastPage, allPages) => {
-        if (lastPage === null) {
+        if (lastPage.next_page_url === null) {
           return false;
         }
-        return allPages.length + 1;
+        // return allPages.length + 1;
+        return lastPage.current_page + 1;
       },
     }
   );

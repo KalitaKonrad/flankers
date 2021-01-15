@@ -64,7 +64,12 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
           onSwitchToRight={() => setShowMatches(true)}
         />
       </View>
-      {showMatches && <MatchHistoryList matchHistory={[]} />}
+      {showMatches && (
+        <MatchHistoryList
+          matchHistory={[]}
+          onListEnd={() => console.log('end')}
+        />
+      )}
       {!showMatches && membersList.isSuccess && (
         <TeamMemberList members={membersList.data!} />
       )}
