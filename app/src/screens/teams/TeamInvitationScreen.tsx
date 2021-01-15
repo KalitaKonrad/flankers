@@ -56,14 +56,14 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
 
   const onPress = async ({ email }: InvitationFormData) => {
     Keyboard.dismiss();
-
+    if (!userProfile.data) {
+      return;
+    }
     try {
-      if (userProfile.data?.current_team_id !== undefined) {
-        await mutation.mutateAsync({
-          email,
-          team_id: userProfile.data?.current_team_id,
-        });
-      }
+      await mutation.mutateAsync({
+        email,
+        team_id: userProfile.data?.current_team_id,
+      });
     } catch (error) {
       setResponseErrors(error, setError);
     }

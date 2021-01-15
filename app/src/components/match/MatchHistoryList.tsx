@@ -6,7 +6,7 @@ import { MatchElementInHistory } from '../../types/match';
 
 interface MatchHistoryListProps {
   matchHistory: MatchElementInHistory[];
-  onListEnd(): void;
+  onListEndReached(): void;
 }
 
 export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
@@ -18,7 +18,9 @@ export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
       title="Mecz"
       titleStyle={styles.elementName}
       description={item.winner ? `Zwycięstwo ${item.id}` : `Porażka ${item.id}`}
-      left={() => <List.Icon {...props} icon="trophy" />}
+      left={() => (
+        <List.Icon {...props} icon={item.winner ? 'trophy' : 'trophy-broken'} />
+      )}
       right={() => <Text>#{index + 1}</Text>}
     />
   );
@@ -28,9 +30,7 @@ export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
       renderItem={renderItem}
       contentContainerStyle={styles.container}
       keyExtractor={(match) => match.id.toString()}
-      onEndReached={() => {
-        props.onListEnd();
-      }}
+      onEndReached={props.onListEndReached}
       onEndReachedThreshold={0.7}
     />
   );

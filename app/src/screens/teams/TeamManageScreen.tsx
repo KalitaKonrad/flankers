@@ -67,7 +67,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
       {showMatches && (
         <MatchHistoryList
           matchHistory={[]}
-          onListEnd={() => console.log('end')}
+          onListEndReached={() => console.log('end')} //TODO: DO ZAIMPLEMENTOWANIA
         />
       )}
       {!showMatches && membersList.isSuccess && (

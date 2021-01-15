@@ -38,7 +38,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       </View>
       <View style={{ paddingBottom: 180 }}>
         <MatchHistoryList
-          onListEnd={() => {
+          onListEndReached={() => {
             if (matchHistory.hasNextPage) {
               matchHistory.fetchNextPage();
             }
