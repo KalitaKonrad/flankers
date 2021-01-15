@@ -65,6 +65,8 @@ export const WalletTransactionHistoryList: React.FC = () => {
       contentContainerStyle={styles.contentContainer}
       data={mockData}
       renderItem={renderItem}
+      // TODO: use item id
+      keyExtractor={(item, index) => index.toString()}
     />
   );
 };
