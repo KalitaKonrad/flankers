@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import { StyleSheet, View } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 
@@ -15,7 +15,6 @@ import {
 } from '../../const/events.const';
 import { useAxios } from '../../hooks/useAxios';
 import { useEcho } from '../../hooks/useEcho';
-import { useGameDetailsQuery } from '../../hooks/useGameDetailsQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
 import { MembersPayload } from '../../types/squadResponse';
@@ -28,10 +27,12 @@ type MatchInProgressScreenProps = StackScreenProps<
 >;
 
 export interface MatchInProgressScreenRouteParams {
-  screen: string;
-  params: {
-    gameId: number;
-  };
+  gameId: number;
+  firstSquadId?: number;
+  secondSquadId?: number;
+  firstTeamPlayersList?: MembersPayload[];
+  secondTeamPlayersList?: MembersPayload[];
+  ownerId?: number;
 }
 
 export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
@@ -39,18 +40,15 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
   route,
 }) => {
   const profile = useUserProfileQuery();
-  const gameId = route.params.params.gameId;
-  const matchDetails = useGameDetailsQuery(gameId);
   const axios = useAxios();
-  const firstSquadId = matchDetails.data?.squads[0].id;
-  const secondSquadId = matchDetails.data?.squads[1].id;
-
-  const [firstTeamPlayersList, setFirstTeamPlayersList] = useState<
-    MembersPayload[] | undefined
-  >(matchDetails.data?.squads[0].members);
-  const [secondTeamPlayersList, setSecondTeamPlayersList] = useState<
-    MembersPayload[] | undefined
-  >(matchDetails.data?.squads[1].members);
+  const {
+    gameId,
+    firstSquadId,
+    secondSquadId,
+    firstTeamPlayersList,
+    secondTeamPlayersList,
+    ownerId,
+  } = route.params;
 
   const modalEndGame = useRef<BottomSheet | null>(null);
   const { echo, isReady: isEchoReady } = useEcho();
@@ -72,7 +70,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
 
       navigation.navigate('MatchCreate');
     } catch (e) {
-      alert('Wystąpił błąd podczas przesyłania głosu na zwycięską drużynę'); // TODO: dopisac com
+      alert('Wystąpił błąd podczas przesyłania głosu na zwycięską drużynę');
     }
   };
 
@@ -105,7 +103,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
   }, [echo, isEchoReady, onStartVoting, gameId, onGameEnded]);
 
   // TODO: use this to allow only the owner to finish match
-  const isOwner = matchDetails.data?.owner_id === profile.data?.id;
+  const isOwner = ownerId === profile.data?.id;
 
   return (
     <Container style={styles.container}>

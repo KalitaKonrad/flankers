@@ -74,11 +74,21 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   const onGameUpdated = useCallback(
     (event: GameUpdateEvent) => {
       navigation.navigate('MatchInProgress', {
-        screen: 'MatchInProgressScreen',
-        params: { gameId: event.game.id },
+        gameId: event.game.id,
+        firstSquadId: matchDetails.data?.squads[0].id,
+        secondSquadId: matchDetails.data?.squads[1].id,
+        firstTeamPlayersList,
+        secondTeamPlayersList,
+        ownerId: matchDetails.data?.owner_id,
       });
     },
-    [navigation]
+    [
+      firstTeamPlayersList,
+      matchDetails.data?.owner_id,
+      matchDetails.data?.squads,
+      navigation,
+      secondTeamPlayersList,
+    ]
   );
 
   const onSquadMembersChanged = useCallback(

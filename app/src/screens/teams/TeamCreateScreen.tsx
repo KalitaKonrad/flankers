@@ -3,7 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard, StyleSheet, View } from 'react-native';
-import { HelperText, useTheme } from 'react-native-paper';
+import { HelperText } from 'react-native-paper';
 import * as yup from 'yup';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
@@ -33,8 +33,6 @@ const TeamCreateSchema = yup.object().shape({
 export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   navigation,
 }) => {
-  const theme = useTheme();
-
   const [mutate, mutation] = useTeamCreateMutation();
 
   const {
