@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class RenameWalletAmmountColumn extends Migration
+class AddChargeSourceColumn extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class RenameWalletAmmountColumn extends Migration
      */
     public function up()
     {
-        Schema::table('wallet_charges', fn (Blueprint $table) => $table->renameColumn('ammount', 'amount'));
+        Schema::table('wallet_charges', fn (Blueprint $table) => $table->string('source')->default('generic'));
     }
 
     /**
@@ -23,6 +23,6 @@ class RenameWalletAmmountColumn extends Migration
      */
     public function down()
     {
-        Schema::table('wallet_charges', fn (Blueprint $table) => $table->renameColumn('amount', 'ammount'));
+        Schema::table('wallet_charges', fn (Blueprint $table) => $table->dropColumn('column'));
     }
 }
