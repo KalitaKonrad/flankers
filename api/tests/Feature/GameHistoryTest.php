@@ -86,8 +86,6 @@ it('should return team game history without incomplete games and with winner inf
     $response = withAuthHeader()
         ->get("/teams/games/{$team->id}");
 
-    dd($response);
-
     $response
         ->assertOk()
         ->assertJson(['data' => [
