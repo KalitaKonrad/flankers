@@ -12,6 +12,7 @@ import {
   SQUAD_MEMBERS_CHANGED_EVENT,
 } from '../../const/events.const';
 import { useAddUserToGameSquadMutation } from '../../hooks/useAddUserToGameSquadMutation';
+import { useAxios } from '../../hooks/useAxios';
 import { useEcho } from '../../hooks/useEcho';
 import { useGameDetailsQuery } from '../../hooks/useGameDetailsQuery';
 import { useMoveMemberToAnotherSquadMutation } from '../../hooks/useMoveMemberToAnotherSquadMutation';
@@ -48,6 +49,8 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   ] = useMoveMemberToAnotherSquadMutation();
   const matchDetails = useGameDetailsQuery(route.params.gameId);
 
+  const axios = useAxios();
+
   const [firstTeamPlayersList, setFirstTeamPlayersList] = useState<
     MembersPayload[] | undefined
   >(matchDetails.data?.squads[0].members);
@@ -68,7 +71,15 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
 
   const { echo, isReady: isEchoReady } = useEcho();
 
-  const onGameUpdated = useCallback((event: GameUpdateEvent) => {}, []);
+  const onGameUpdated = useCallback(
+    (event: GameUpdateEvent) => {
+      navigation.navigate('MatchInProgress', {
+        screen: 'MatchInProgressScreen',
+        params: { gameId: event.game.id },
+      });
+    },
+    [navigation]
+  );
 
   const onSquadMembersChanged = useCallback(
     (event: SquadMembersChangedEvent) => {
@@ -112,6 +123,20 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     onSquadMembersChanged,
     route.params.gameId,
   ]);
+
+  const gameOwnerId = matchDetails.data?.owner_id === profile.data?.id;
+
+  const onStartMatch = async () => {
+    try {
+      await axios.put(`games/${route.params.gameId}`, {
+        command: {
+          start_game: true,
+        },
+      });
+    } catch (e) {
+      alert('Wystąpił błąd podczas próby wystartowania gry');
+    }
+  };
 
   const onJoinSquad = async (squadIndex: number) => {
     if (
@@ -213,15 +238,9 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
             <PlayerAvatarList players={secondTeamPlayersList} />
           )}
         </View>
+        {/*{gameOwnerId && } TODO:uzyc tego do pozwolonia wystartiowania gry tylko ownerowi*/}
         <View style={styles.action}>
-          <AppButton
-            mode="contained"
-            onPress={() =>
-              navigation.navigate('MatchInProgress', {
-                screen: 'MatchInProgressScreen',
-                params: { gameId: route.params.gameId },
-              })
-            }>
+          <AppButton mode="contained" onPress={() => onStartMatch()}>
             Rozpocznij mecz
           </AppButton>
         </View>
