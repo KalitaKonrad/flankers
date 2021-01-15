@@ -16,7 +16,7 @@ const MODAL_HEIGHT = 295;
 const SNAP_POINTS = [MODAL_HEIGHT, 0];
 
 export const Modal = React.forwardRef<BottomSheet, ModalProps>(
-  ({ title, children }, ref) => {
+  ({ title, dismissible = true, children }, ref) => {
     const [isOpen, setOpen] = useState(false);
     const fadeAnim = useRef(new Animated.Value(1)).current;
 
@@ -25,11 +25,13 @@ export const Modal = React.forwardRef<BottomSheet, ModalProps>(
     };
 
     const onBackdropPress = () => {
-      close();
+      if (dismissible) {
+        close();
+      }
     };
 
     const onHardwareBackPress = () => {
-      if (isOpen) {
+      if (isOpen && dismissible) {
         close();
         return true;
       }
@@ -72,6 +74,7 @@ export const Modal = React.forwardRef<BottomSheet, ModalProps>(
         <BottomSheet
           initialSnap={SNAP_POINTS.length - 1}
           ref={ref}
+          enabledGestureInteraction={dismissible}
           snapPoints={SNAP_POINTS}
           borderRadius={10}
           callbackNode={fadeAnim}

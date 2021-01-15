@@ -1,6 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+// @ts-ignore
 import { CreditCardInput } from 'react-native-credit-card-input';
 
 import { Container } from '../../components/layout/Container';
@@ -10,7 +11,6 @@ import { useUpdateUserPaymentMethodMutation } from '../../hooks/payments/useUpda
 import { Stripe } from '../../lib/stripe';
 import { CreditCardInputResult } from '../../types/credit-card-input-result';
 import { WalletScreenStackParamList } from './WalletScreenStack';
-// @ts-ignore
 
 type WalletPaymentMethodScreenProps = StackScreenProps<
   WalletScreenStackParamList,
@@ -60,6 +60,7 @@ export const WalletPaymentMethodScreen: React.FC<WalletPaymentMethodScreenProps>
       alert(
         'Podczas zapisywania metody płatności wystąpił błąd. Spróbuj ponownie lub skontaktuj się z supportem.'
       );
+      console.log(error.response);
     } finally {
       setPending(false);
     }

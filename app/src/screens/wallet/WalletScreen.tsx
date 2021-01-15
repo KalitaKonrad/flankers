@@ -10,20 +10,45 @@ import { NumberSelector } from '../../components/shared/NumberSelector';
 import RoundInformation from '../../components/shared/RoundInformation';
 import { Modal } from '../../components/shared/modal/Modal';
 import { WalletTransactionHistoryList } from '../../components/wallet/WalletTransactionHistoryList';
+import { useChargeWalletMutation } from '../../hooks/payments/useChargeWalletMutation';
+import { useUserWallet } from '../../hooks/payments/useUserWallet';
 import { WalletScreenStackParamList } from './WalletScreenStack';
 
 type WalletScreenProps = StackScreenProps<WalletScreenStackParamList, 'Wallet'>;
 
 export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
-  const balance = 20;
+  const wallet = useUserWallet();
   const modalRef = useRef<BottomSheet | null>(null);
   const [topUpAmount, setTopUpAmount] = useState(0);
+  const [topUp] = useChargeWalletMutation();
+  const [isPending, setPending] = useState(false);
+
+  const onTopUpPress = async () => {
+    setPending(true);
+
+    try {
+      const response = await topUp(topUpAmount, { throwOnError: true });
+      console.log(response);
+    } catch (error) {
+      alert(
+        'Podczas doładowywania portfela wystąpił błąd. Spróbuj ponownie lub skontaktuj się z supportem'
+      );
+    } finally {
+      setPending(false);
+    }
+  };
+
+  /**
+   * TODO:
+   * Add skeleton loader
+   */
+  const text = wallet.isSuccess ? wallet.data?.balance.toFixed(2) : '...';
 
   return (
     <Container>
       <View style={styles.balanceContainer}>
         <RoundInformation
-          mainText={`${balance.toFixed(2)} PLN`}
+          mainText={text ?? ''}
           subText="Aktualny stan konta"
           buttonText="Doładuj"
           onButtonPress={() => modalRef?.current?.snapTo(0)}
@@ -33,7 +58,10 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
         Historia
       </AppText>
       <WalletTransactionHistoryList />
-      <Modal ref={modalRef} title="Wybierz kwotę doładowania">
+      <Modal
+        ref={modalRef}
+        dismissible={!isPending}
+        title="Wybierz kwotę doładowania">
         <View style={styles.numberSelectorContainer}>
           <NumberSelector
             min={0}
@@ -42,7 +70,13 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
             onValueChange={(value) => setTopUpAmount(value)}
           />
         </View>
-        <AppButton mode="contained">Doładuj</AppButton>
+        <AppButton
+          loading={isPending}
+          disabled={isPending}
+          mode="contained"
+          onPress={onTopUpPress}>
+          Doładuj
+        </AppButton>
       </Modal>
     </Container>
   );
