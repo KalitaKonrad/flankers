@@ -134,7 +134,6 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
           </AppButton>
         )}
       </View>
-      {/*TODO: turn off background click possibility when deciding which team won*/}
       <Modal ref={modalEndGame} title="Mecz dobiegł końca" dismissible={false}>
         <AppText style={styles.subtitle}>
           Wybierz drużynę, która zwyciężyła. Wyniki obliczane są na podstawie
