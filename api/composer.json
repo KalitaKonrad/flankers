@@ -66,6 +66,7 @@
     "scripts": {
         "test": "pest",
         "coverage": "pest --coverage --min=30",
+        "analyse": "phpstan analyze",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"
