@@ -90,6 +90,12 @@ class Game extends Model
         GameFinished::dispatch($this);
     }
 
+    /**
+     * Return extended game description - its
+     * squads, members and invite code.
+     *
+     * @return \Illuminate\Database\Eloquent\Model
+     */
     public function description()
     {
         return $this->with('squads', 'squads.members', 'invite')->find($this->id);

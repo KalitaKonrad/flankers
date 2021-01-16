@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Team;
 
-use App\Http\Message;
 use App\Models\User;
+use App\Http\Message;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Mpociot\Teamwork\Facades\Teamwork;
 use App\Notifications\TeamInviteCreated;
-use Illuminate\Http\Response;
 
 class TeamInviteController extends Controller
 {
