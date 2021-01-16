@@ -38,7 +38,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
 
   const matchHistory = useTeamMatchHistoryQuery(
     { page: 1 },
-    teamProfile.data?.[0].id
+    teamProfile.data?.id
   );
   const matchHistoryList = useMemo(() => {
     if (

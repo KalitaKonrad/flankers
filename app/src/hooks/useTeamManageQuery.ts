@@ -10,8 +10,8 @@ export type TeamMembersResponse = UserProfilePayload[];
 export const useTeamProfileQuery = () => {
   const axios = useAxios();
 
-  return useQuery<TeamProfilePayload[]>(QUERY_TEAM_KEY, async () => {
+  return useQuery<TeamProfilePayload>(QUERY_TEAM_KEY, async () => {
     const response = await axios.get<TeamProfilePayload[]>('teams');
-    return response.data; //backend zwraca tablice drużyn jednak my zakładamy że użytkownik ma tylko jedną drużynę
+    return response.data[0]; //backend zwraca tablice drużyn jednak my zakładamy że użytkownik ma tylko jedną drużynę
   });
 };
