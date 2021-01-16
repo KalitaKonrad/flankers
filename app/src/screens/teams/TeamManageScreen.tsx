@@ -23,11 +23,10 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
   const userProfile = useUserProfileQuery();
   const membersList = useTeamMembersQuery(userProfile.data?.current_team_id);
   const [mutateTeamAvatar, mutationTeamAvatar] = useUpdateTeamAvatarMutation();
+  const versionedAvatar = userProfile?.data?.teams?.[0]?.versioned_avatar;
 
   const [showMatches, setShowMatches] = useState(false);
-  const [avatar, setAvatar] = useState<string | undefined>(
-    userProfile?.data?.teams?.[0].versioned_avatar
-  );
+  const [avatar, setAvatar] = useState<string | undefined>(versionedAvatar);
 
   const changeAvatar = (avatarUri: string) => {
     if (userProfile.data?.current_team_id !== undefined) {
@@ -42,13 +41,9 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
   const matchesView = useMemo(() => {
     if (membersList.isFetching) {
       return <ListPlaceholder placeholderCount={4} />;
-    }
-
-    if (showMatches) {
+    } else if (showMatches) {
       return <MatchHistoryList matchHistory={[]} />; // TODO: ADD LIST PLACEHOLDER WHEN MATCH HISTORY IS AVAILABLE
-    }
-
-    if (!showMatches && membersList.isSuccess) {
+    } else if (!showMatches && membersList.isSuccess) {
       return (
         <TeamMemberList
           members={membersList.data!}
@@ -76,9 +71,11 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
         </View>
       )}
       <View style={styles.meta}>
-        <AppText variant="h1">{userProfile.data?.teams?.[0]?.name}</AppText>
+        <AppText variant="h1">
+          {userProfile.data?.teams?.[0]?.name ?? 'N/A'}
+        </AppText>
         <AppText variant="h3">
-          Punkty rankingowe: {userProfile.data?.teams[0].elo}
+          Punkty rankingowe: {userProfile.data?.teams?.[0]?.elo ?? 'N/A'}
         </AppText>
       </View>
       <View style={styles.switch}>
