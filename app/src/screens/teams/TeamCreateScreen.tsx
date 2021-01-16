@@ -135,8 +135,4 @@ const styles = StyleSheet.create({
   action: {
     marginTop: 16,
   },
-  avatarBtnWrapper: {
-    left: 200,
-    top: -60,
-  },
 });

@@ -183,8 +183,4 @@ const styles = StyleSheet.create({
   buttonWrapper: {
     left: 200,
   },
-  avatarBtnWrapper: {
-    left: 200,
-    top: -60,
-  },
 });

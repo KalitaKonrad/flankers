@@ -105,8 +105,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     marginBottom: 16,
   },
-  avatarBtnWrapper: {
-    left: 200,
-    top: -60,
-  },
 });
