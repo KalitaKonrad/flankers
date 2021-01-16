@@ -24,7 +24,7 @@ export const AvatarSelectButton: React.FC<AvatarButtonProps> = (props) => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
-      aspect: [4, 3],
+      aspect: [1, 1],
       quality: 1,
     });
     if (!result.cancelled) {
@@ -45,7 +45,5 @@ export const AvatarSelectButton: React.FC<AvatarButtonProps> = (props) => {
 const styles = StyleSheet.create({
   appBtnStyle: {
     width: 100,
-    position: 'absolute',
-    zIndex: 500,
   },
 });

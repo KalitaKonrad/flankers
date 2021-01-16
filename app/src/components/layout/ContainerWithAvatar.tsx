@@ -16,6 +16,7 @@ export const ContainerWithAvatar: React.FC<ContainerWithAvatarProps> = (
   props
 ) => {
   const theme = useTheme();
+  const Button = props.button;
 
   return (
     <Container {...props}>
@@ -61,8 +62,7 @@ const styles = StyleSheet.create({
     elevation: 7,
     position: 'absolute',
     zIndex: 100,
-    bottom: 50,
+    bottom: 0,
     left: AVATAR_SIZE / 2 + 10,
-    backgroundColor: 'red',
   },
 });
