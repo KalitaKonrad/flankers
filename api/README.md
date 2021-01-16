@@ -7,23 +7,28 @@
 First and foremost, you have to copy .env.example file, and fill all required
 (those not commented or with empty space after '=' sign). Commented values
 can be enabled and customized to your taste but are otherwise unused,
-and the app should support them out of the box.
+and the app should support them out of the box. To see detailed environment
+configuration, see ["Environments"](https://github.com/sekcja-memow/flankers/wiki/Environments) wiki section.
+
+Next, run all the commands below:
 
 ```bash
 copy env.example .env
 composer install
 
-# Provision file based database file
+# Provision file based database
 touch database/database.sqlite
 
 php artisan key:generate
 php artisan jwt:secret
 php artisan migrate
 ```
-
-By default, project needs websocket server listening 
-for connections and http server you can start them with:
+Now you can start the api
 ## Starting local dev server
+
+By default, project needs websocket server and an http server
+ listening for connections. You can start them with:
+
 ```bash
 php artisan serve
 php artisan websockets:serve
@@ -46,7 +51,6 @@ composer test
 composer coverage
 ```
 
-
 # Documentation
-- Developer guide is available [here](https://github.com/sekcja-memow/flankers/wiki) on github
+- Developer annotations are available [here](https://github.com/sekcja-memow/flankers/wiki) on github
 - API documentation is available [here](https://flapi.lados.dev/docs)
