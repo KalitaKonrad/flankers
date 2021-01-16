@@ -64,7 +64,16 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
     if (membersList.isFetching) {
       return <ListPlaceholder placeholderCount={4} />;
     } else if (showMatches) {
-      return <MatchHistoryList matchHistory={[]} />; // TODO: ADD LIST PLACEHOLDER WHEN MATCH HISTORY IS AVAILABLE
+      return (
+        <MatchHistoryList
+          matchHistory={matchHistoryList}
+          onListEndReached={() => {
+            if (matchHistory.hasNextPage) {
+              matchHistory.fetchNextPage();
+            }
+          }}
+        />
+      );
     } else if (!showMatches && membersList.isSuccess) {
       return (
         <TeamMemberList
@@ -74,6 +83,8 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
       );
     }
   }, [
+    matchHistory,
+    matchHistoryList,
     membersList.data,
     membersList.isFetching,
     membersList.isSuccess,
