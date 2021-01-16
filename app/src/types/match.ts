@@ -1,6 +1,7 @@
 export interface MatchElementInHistory {
   winner: boolean;
   id: number;
+  type: string;
 }
 
 export interface MatchHistoryResponse {

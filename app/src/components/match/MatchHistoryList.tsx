@@ -17,7 +17,11 @@ export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
     <List.Item
       title="Mecz"
       titleStyle={styles.elementName}
-      description={item.winner ? `Zwycięstwo ${item.id}` : `Porażka ${item.id}`}
+      description={
+        (item.winner ? 'Zwycięstwo' : 'Porażka') +
+        ' w trybie ' +
+        (item.type === 'team' ? 'drużynowym' : 'ogólnym')
+      }
       left={() => (
         <List.Icon {...props} icon={item.winner ? 'trophy' : 'trophy-broken'} />
       )}
