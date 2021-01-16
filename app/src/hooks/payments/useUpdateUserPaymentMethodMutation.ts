@@ -1,14 +1,11 @@
-import { queryCache, useMutation, useQueryCache } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
-import {
-  QUERY_USER_HAS_ACTIVE_PAYMENT_METHOD,
-  QUERY_USER_WALLET,
-} from '../../const/query.const';
+import { QUERY_USER_HAS_ACTIVE_PAYMENT_METHOD } from '../../const/query.const';
 import { useAxios } from '../useAxios';
 
 export const useUpdateUserPaymentMethodMutation = () => {
   const axios = useAxios();
-  const queryCache = useQueryCache();
+  const queryCache = useQueryClient();
 
   return useMutation(
     (paymentMethodKey: string) =>

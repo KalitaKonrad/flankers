@@ -27,7 +27,7 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
   const modalRef = useRef<BottomSheet | null>(null);
   const amountSelectorRef = useRef<NumberSelectorBehaviour | null>(null);
   const [topUpAmount, setTopUpAmount] = useState(INITIAL_TOP_UP_AMOUNT);
-  const [topUp] = useChargeWalletMutation();
+  const topUp = useChargeWalletMutation();
   const [isPending, setPending] = useState(false);
   const hasActivePaymentMethod = useUserHasActivePaymentMethodQuery().data;
 
@@ -48,7 +48,7 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
     setPending(true);
 
     try {
-      await topUp(topUpAmount, { throwOnError: true });
+      await topUp.mutateAsync(topUpAmount);
       modalRef.current?.snapTo(1);
     } catch (error) {
       alert(

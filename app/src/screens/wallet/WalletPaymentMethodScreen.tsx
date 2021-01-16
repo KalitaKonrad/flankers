@@ -39,7 +39,7 @@ export const WalletPaymentMethodScreen: React.FC<WalletPaymentMethodScreenProps>
   navigation,
 }) => {
   const [card, setCard] = useState<CreditCardInputResult | null>(null);
-  const [updatePaymentMethod] = useUpdateUserPaymentMethodMutation();
+  const updatePaymentMethod = useUpdateUserPaymentMethodMutation();
   const [isPending, setPending] = useState(false);
   const hasActivePaymentMethod = useUserHasActivePaymentMethodQuery().data;
   const [isUpdatingPaymentMethod, setUpdatingPaymentMethod] = useState(false);
@@ -57,7 +57,7 @@ export const WalletPaymentMethodScreen: React.FC<WalletPaymentMethodScreenProps>
         preparePaymentMethodPayload(card)
       );
       const { id } = response.data;
-      await updatePaymentMethod(id, { throwOnError: true });
+      await updatePaymentMethod.mutateAsync(id);
       navigation.navigate('Wallet');
     } catch (error) {
       alert(

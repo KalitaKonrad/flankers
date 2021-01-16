@@ -1,4 +1,4 @@
-import { useMutation, useQueryCache } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { QUERY_USER_WALLET } from '../../const/query.const';
 import { Wallet } from '../../types/payments/wallet';
@@ -10,7 +10,7 @@ interface ChargeWalletResponse {
 
 export const useChargeWalletMutation = () => {
   const axios = useAxios();
-  const queryCache = useQueryCache();
+  const queryCache = useQueryClient();
 
   return useMutation(
     async (amount: number) => {
