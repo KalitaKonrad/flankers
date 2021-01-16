@@ -46,9 +46,9 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   navigation,
   route,
 }) => {
-  const [mutate, mutation] = useProfileEditMutation();
+  const { mutate } = useProfileEditMutation();
   const [avatar, setAvatar] = useState<string>(route.params.avatar);
-  const [mutateAvatar, mutationAvatar] = useUpdateAvatarMutation();
+  const mutateAvatar = useUpdateAvatarMutation();
 
   const theme = useTheme();
 
@@ -83,7 +83,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   const changeAvatar = async (avatarUri: string) => {
     setAvatar(avatarUri);
     try {
-      await mutateAvatar(avatarUri);
+      await mutateAvatar.mutateAsync(avatarUri);
     } catch (err) {
       setResponseErrors(err, setError);
       alert('Wystąpił błąd przy zmianie avataru');
@@ -157,7 +157,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
         <View style={styles.action}>
           <AppButton
             mode="contained"
-            disabled={mutation.isLoading}
+            disabled={mutateAvatar.isLoading}
             onPress={handleSubmit(onEdit)}>
             Zapisz zmiany
           </AppButton>

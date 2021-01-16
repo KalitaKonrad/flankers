@@ -36,7 +36,7 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
   navigation,
 }) => {
   const userProfile = useUserProfileQuery();
-  const [mutate, mutation] = useTeamInvitationMutation();
+  const mutation = useTeamInvitationMutation();
   const versionedAvatar = userProfile?.data?.teams?.[0]?.versioned_avatar;
 
   const {
@@ -55,11 +55,14 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
 
   const onPress = async ({ email }: InvitationFormData) => {
     Keyboard.dismiss();
-
+    if (!userProfile.data) {
+      return;
+    }
     try {
-      if (userProfile.data?.current_team_id !== undefined) {
-        await mutate({ email, team_id: userProfile.data?.current_team_id });
-      }
+      await mutation.mutateAsync({
+        email,
+        team_id: userProfile.data?.current_team_id,
+      });
     } catch (error) {
       setResponseErrors(error, setError);
     }

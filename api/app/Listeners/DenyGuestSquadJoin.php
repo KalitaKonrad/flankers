@@ -35,8 +35,12 @@ class DenyGuestSquadJoin
             return;
         }
 
-        if ($squad->team && $squad->team !== $user->team) {
-            throw new UnauthorizedException("User cannot join squad which doesn't belong to his team");
+        if (!$user->currentTeam) {
+            abort(403, "User without a team cannot join a team game");
+        }
+
+        if ($squad->team && $squad->team !== $user->currentTeam) {
+            abort(403, "User cannot join squad which doesn't belong to his team");
         }
     }
 }

@@ -1,4 +1,4 @@
-import { useMutation, useQueryCache } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import {
   QUERY_LEADERBOARDS_TEAM,
@@ -15,7 +15,7 @@ interface TeamAvatarPayload {
 export const useUpdateTeamAvatarMutation = () => {
   const axios = useAxios();
 
-  const queryCache = useQueryCache();
+  const queryCache = useQueryClient();
 
   return useMutation(
     ({ avatarUri, team_id }: TeamAvatarPayload) => {

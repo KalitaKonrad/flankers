@@ -1,18 +1,16 @@
-import { useMutation, useQueryCache } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import {
   QUERY_LEADERBOARDS_PLAYER,
-  QUERY_LEADERBOARDS_TEAM,
   QUERY_PROFILE_KEY,
   QUERY_TEAM_MEMBERS,
-  QUERY_USER_AVATAR,
 } from '../const/query.const';
 import { useAxios } from './useAxios';
 
 export const useUpdateAvatarMutation = () => {
   const axios = useAxios();
 
-  const queryCache = useQueryCache();
+  const queryCache = useQueryClient();
 
   return useMutation(
     (avatarUri: string) => {

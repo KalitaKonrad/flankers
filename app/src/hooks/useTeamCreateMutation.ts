@@ -1,4 +1,4 @@
-import { useMutation, useQueryCache } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { QUERY_PROFILE_KEY, QUERY_TEAM_KEY } from '../const/query.const';
 import { useAxios } from './useAxios';
@@ -11,7 +11,7 @@ interface TeamCreatePayload {
 export const useTeamCreateMutation = () => {
   const axios = useAxios();
 
-  const queryCache = useQueryCache();
+  const queryCache = useQueryClient();
   return useMutation(
     (newTeam: TeamCreatePayload) => axios.post('teams', newTeam),
     {

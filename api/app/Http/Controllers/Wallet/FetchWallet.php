@@ -21,12 +21,12 @@ class FetchWallet extends Controller
     /**
      * Get current user wallet with charge history
      *
-     * @group Payments
+     * @group Wallet
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(int $ammount)
+    public function __invoke()
     {
         return Message::ok(
             'Your wallet',
