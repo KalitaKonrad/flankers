@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
@@ -8,7 +8,6 @@ import { AppText } from '../../components/shared/AppText';
 import { AvatarSelectButton } from '../../components/shared/AvatarSelectButton';
 import { Switch } from '../../components/shared/Switch';
 import { TeamMemberList } from '../../components/team/TeamMembersList';
-import { useTeamProfileQuery } from '../../hooks/useTeamManageQuery';
 import { useTeamMatchHistoryQuery } from '../../hooks/useTeamMatchHistoryQuery';
 import { useTeamMembersQuery } from '../../hooks/useTeamMembersQuery';
 import { useUpdateTeamAvatarMutation } from '../../hooks/useUpdateTeamAvatarMutation';
@@ -61,7 +60,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
     if (matchHistory.hasNextPage) {
       matchHistory.fetchNextPage();
     }
-  }, []);
+  }, [matchHistory]);
 
   const listView = useMemo(() => {
     const query = showMatches ? matchHistory : membersList;
