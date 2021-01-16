@@ -20,7 +20,7 @@ class CreateWalletChargeRecord
     /**
      * Create wallet charge record
      *
-     * @param  object  $event
+     * @param  WalletCharged  $event
      * @return void
      */
     public function handle(WalletCharged $event)

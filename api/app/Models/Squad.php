@@ -128,7 +128,7 @@ class Squad extends Model
     /**
      * Return whether this squad has empty slots
      *
-     * @return Collection
+     * @return bool
      */
     public function getIsFullAttribute()
     {

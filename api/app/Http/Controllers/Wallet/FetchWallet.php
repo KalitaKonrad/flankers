@@ -23,7 +23,6 @@ class FetchWallet extends Controller
      *
      * @group Wallet
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function __invoke()

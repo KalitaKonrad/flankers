@@ -22,10 +22,10 @@ class ExpoChannel
      * Send the given notification.
      *
      * @param  mixed  $notifiable
-     * @param  \Illuminate\Notifications\Notification  $notification
+     * @param  \App\Contracts\ExpoNotification  $notification
      * @return void
      */
-    public function send(User $notifiable, ExpoNotification $notification)
+    public function send($notifiable, ExpoNotification $notification)
     {
         $token = $notifiable->expoToken();
         $message = $notification->toExpo($notifiable);

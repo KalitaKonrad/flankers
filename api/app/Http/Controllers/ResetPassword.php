@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Message;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use App\Http\Requests\ResetPasswordRequest;
@@ -30,8 +31,8 @@ class ResetPassword extends Controller
      * @bodyParam password string required New password Example: kwakwa5!
      * @bodyParam password_confirmation required Password confirmation Example: kwakwa5!
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\ResetPasswordRequest  $request
+     * @return \Illuminate\Http\JsonResponse | string | null
      */
     public function __invoke(ResetPasswordRequest $request)
     {
@@ -46,7 +47,7 @@ class ResetPassword extends Controller
         );
 
         return $status == Password::PASSWORD_RESET
-            ? ['message' => __($status)]
-            : response()->json(['message' => 'Could not reset password', 'errors' => ['status' => __($status)]], 401);
+            ? Message::ok($status)
+            : Message::error(401, 'Could not reset password', ['status' => __($status)]);
     }
 }

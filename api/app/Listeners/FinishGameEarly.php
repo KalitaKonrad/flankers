@@ -22,7 +22,7 @@ class FinishGameEarly
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param  GameUpdated  $event
      * @return void
      */
     public function handle(GameUpdated $event)

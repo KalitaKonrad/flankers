@@ -24,7 +24,7 @@ class GameInviteController extends Controller
      * @urlParam code string required 6-character Invite code Example: 1ADC31
      *
      * @param string $code
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public function show(string $code)
     {
@@ -37,7 +37,7 @@ class GameInviteController extends Controller
      * @group Game management
      * @urlParam code string required 6-character Invite code Example: 1ADC31
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  string $code
      * @return \Illuminate\Http\Response
      */
     public function destroy(string $code)

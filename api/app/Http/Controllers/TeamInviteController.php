@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mpociot\Teamwork\Facades\Teamwork;
 use App\Notifications\TeamInviteCreated;
+use Illuminate\Http\Response;
 
 class TeamInviteController extends Controller
 {
@@ -26,8 +27,7 @@ class TeamInviteController extends Controller
      *
      * @group Team management
      *
-     * @param Request $request
-     * @return Illuminate\Http\Response
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
@@ -43,7 +43,6 @@ class TeamInviteController extends Controller
      * @bodyParam email string required
      *
      * @param Request $request
-     * @param int $team_id
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)

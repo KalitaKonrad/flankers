@@ -21,7 +21,7 @@ class CreateGameSquads
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param  GameCreated  $event
      * @return void
      */
     public function handle(GameCreated $event)
