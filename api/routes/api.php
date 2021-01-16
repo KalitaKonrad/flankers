@@ -18,7 +18,6 @@ use App\Http\Controllers\VerifyEmail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AcceptInvite;
 use App\Http\Controllers\RefreshToken;
-use App\Http\Controllers\ListUserGames;
 use App\Http\Controllers\DeclineInvite;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ForgotPassword;
@@ -30,6 +29,8 @@ use App\Http\Controllers\Wallet\ChargeWallet;
 use App\Http\Controllers\Game\GameController;
 use App\Http\Controllers\TeamInviteController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\History\ListUserGames;
+use App\Http\Controllers\History\ListTeamGames;
 use App\Http\Controllers\Expo\SubscribePushToken;
 use App\Http\Controllers\Game\GameMemoController;
 use App\Http\Controllers\Payment\SetPaymentMethod;
@@ -42,7 +43,6 @@ use App\Http\Controllers\Avatar\TeamAvatarController;
 use App\Http\Controllers\Payment\HasPaymentConnected;
 use App\Http\Controllers\Ranking\LeaderboardController;
 use App\Http\Controllers\Game\SquadMembershipController;
-use App\Http\Controllers\ListTeamGames;
 
 /**
  * ----------------------------------------
