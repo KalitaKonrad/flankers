@@ -57,6 +57,7 @@ export const PasswordResetScreen: React.FC<PasswordResetScreenProps> = ({
     try {
       console.log('jestem');
       await initiatePasswordReset(email);
+      navigation.navigate('PasswordResetConfirm');
     } catch (error) {
       setResponseErrors(error, setError);
     }
