@@ -97,8 +97,9 @@ export const theme = {
     headerTitleAlign: 'center',
     headerStyle: {
       elevation: 0,
-      height: 180,
       backgroundColor: colors.primary,
+      borderBottomWidth: 0,
+      shadowColor: 'transparent',
     },
     headerTitleStyle: {
       color: colors.white,

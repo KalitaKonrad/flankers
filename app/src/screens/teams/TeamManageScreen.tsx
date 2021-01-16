@@ -57,15 +57,16 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
   };
 
   return (
-    <ContainerWithAvatar avatar={{ uri: avatar }}>
-      {avatar !== undefined && (
-        <View style={styles.avatarBtnWrapper}>
+    <ContainerWithAvatar
+      avatar={{ uri: avatar }}
+      button={
+        !avatar ? null : (
           <AvatarSelectButton
             avatarUri={avatar}
             onAvatarChange={(avatarUri) => changeAvatar(avatarUri)}
           />
-        </View>
-      )}
+        )
+      }>
       <View style={styles.meta}>
         <AppText variant="h1">{userTeam?.name}</AppText>
         <AppText variant="h3">Punkty rankingowe: {userTeam?.elo}</AppText>

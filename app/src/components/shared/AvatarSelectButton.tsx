@@ -44,7 +44,7 @@ export const AvatarSelectButton: React.FC<AvatarButtonProps> = (props) => {
 
 const styles = StyleSheet.create({
   appBtnStyle: {
-    width: '30%',
+    width: 100,
     position: 'absolute',
     zIndex: 500,
   },
