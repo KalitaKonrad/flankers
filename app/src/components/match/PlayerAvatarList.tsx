@@ -21,7 +21,7 @@ export const PlayerAvatarList: React.FC<PlayerAvatarListProps> = ({
           key={player.id}
           containerStyle={[styles.avatar, { zIndex: players.length - i }]}
           size={65}
-          src={{ uri: player.avatar }}
+          src={{ uri: player.versioned_avatar }}
         />
       ))}
     </View>

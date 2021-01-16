@@ -1,4 +1,4 @@
-import { useMutation, useQueryCache } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { QUERY_GAMES_MEMOS } from '../const/query.const';
 import { GameScorePayload } from '../types/gameScorePayload';
@@ -7,7 +7,7 @@ import { useAxios } from './useAxios';
 export const useUpdateExistingMemoMutation = () => {
   const axios = useAxios();
 
-  const queryCache = useQueryCache();
+  const queryCache = useQueryClient();
 
   return useMutation(
     ({ game_id, score }: { game_id: number; score: GameScorePayload }) =>

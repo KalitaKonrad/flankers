@@ -1,4 +1,4 @@
-import { useMutation, useQueryCache } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { useAxios } from './useAxios';
 
@@ -10,7 +10,7 @@ interface RemoveTeamMemberPayload {
 export const useRemoveTeamMemberMutation = () => {
   const axios = useAxios();
 
-  const queryCache = useQueryCache();
+  const queryCache = useQueryClient();
 
   return useMutation(
     ({ team_id, user_id }: RemoveTeamMemberPayload) =>

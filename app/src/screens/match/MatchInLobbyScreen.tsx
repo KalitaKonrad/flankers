@@ -41,11 +41,8 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   navigation,
 }) => {
   const profile = useUserProfileQuery();
-  const [mutateJoinSquad, mutationJoinSquad] = useAddUserToGameSquadMutation();
-  const [
-    mutateChangeSquad,
-    mutationChangeSquad,
-  ] = useMoveMemberToAnotherSquadMutation();
+  const mutateJoinSquad = useAddUserToGameSquadMutation();
+  const mutateChangeSquad = useMoveMemberToAnotherSquadMutation();
   const matchDetails = useGameDetailsQuery(route.params.gameId);
 
   const [firstTeamPlayersList, setFirstTeamPlayersList] = useState<
@@ -142,7 +139,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
 
     if (currentSquad == null) {
       try {
-        await mutateJoinSquad({
+        await mutateJoinSquad.mutateAsync({
           user_id: profile?.data?.id,
           squad_id: matchDetails.data?.squads[squadIndex].id,
         });
@@ -162,7 +159,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
           squadIndex === 1
             ? matchDetails.data.squads[0].id
             : matchDetails.data.squads[1].id;
-        await mutateChangeSquad({
+        await mutateChangeSquad.mutateAsync({
           user_id: profile?.data?.id,
           squad_id: actualSquadId,
           new_squad_id: newSquadId,
