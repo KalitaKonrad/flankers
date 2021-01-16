@@ -75,6 +75,7 @@ export const theme = {
       elevation: 0,
       height: 120,
       backgroundColor: colors.primary,
+      shadowColor: 'transparent',
     },
     headerTitleStyle: {
       fontSize: 30,
@@ -86,6 +87,7 @@ export const theme = {
     headerTitleAlign: 'center',
     headerStyle: {
       elevation: 0,
+      shadowColor: 'transparent',
       backgroundColor: '#fff',
     },
     headerTitleStyle: {
@@ -97,8 +99,9 @@ export const theme = {
     headerTitleAlign: 'center',
     headerStyle: {
       elevation: 0,
-      height: 180,
       backgroundColor: colors.primary,
+      borderBottomWidth: 0,
+      shadowColor: 'transparent',
     },
     headerTitleStyle: {
       color: colors.white,

@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
@@ -22,21 +22,18 @@ type TeamManageScreenProps = StackScreenProps<
   'TeamManage'
 >;
 
-export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
+export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
+  navigation,
+}) => {
   const userProfile = useUserProfileQuery();
+  const userTeam = userProfile?.data?.teams?.[0];
   const membersList = useTeamMembersQuery(userProfile.data?.current_team_id);
   const mutationTeamAvatar = useUpdateTeamAvatarMutation();
-  const versionedAvatar = userProfile?.data?.teams?.[0]?.versioned_avatar;
-
   const [showMatches, setShowMatches] = useState(false);
-  const [avatar, setAvatar] = useState<string | undefined>(versionedAvatar);
-
-  const teamProfile = useTeamProfileQuery();
-
-  const matchHistory = useTeamMatchHistoryQuery(
-    { page: 1 },
-    teamProfile.data?.id
+  const [avatar, setAvatar] = useState<string>(
+    userProfile.data?.teams?.[0]?.versioned_avatar!
   );
+  const matchHistory = useTeamMatchHistoryQuery({ page: 1 }, userTeam?.id);
   const matchHistoryList = useMemo(() => {
     if (
       ((matchHistory.isFetching || matchHistory.isError) &&
@@ -60,56 +57,44 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
     }
   };
 
-  const matchesView = useMemo(() => {
-    if (membersList.isFetching) {
-      return <ListPlaceholder placeholderCount={4} />;
-    } else if (showMatches) {
-      return (
-        <MatchHistoryList
-          matchHistory={matchHistoryList}
-          onListEndReached={() => {
-            if (matchHistory.hasNextPage) {
-              matchHistory.fetchNextPage();
-            }
-          }}
-        />
-      );
-    } else if (!showMatches && membersList.isSuccess) {
-      return (
-        <TeamMemberList
-          members={membersList.data!}
-          isLoading={membersList.isFetching}
-        />
-      );
+  const onMatchHistoryListEndReached = useCallback(() => {
+    if (matchHistory.hasNextPage) {
+      matchHistory.fetchNextPage();
     }
-  }, [
-    matchHistory,
-    matchHistoryList,
-    membersList.data,
-    membersList.isFetching,
-    membersList.isSuccess,
-    showMatches,
-  ]);
+  }, []);
+
+  const listView = useMemo(() => {
+    const query = showMatches ? matchHistory : membersList;
+    const view = showMatches ? (
+      <MatchHistoryList
+        matchHistory={matchHistoryList}
+        onListEndReached={onMatchHistoryListEndReached}
+      />
+    ) : (
+      <TeamMemberList members={membersList.data!} />
+    );
+
+    if (query.isLoading) {
+      return <ListPlaceholder placeholderCount={6} />;
+    }
+    return view;
+  }, [showMatches, matchHistory, membersList, onMatchHistoryListEndReached]);
 
   return (
     <ContainerWithAvatar
       avatar={{ uri: avatar }}
-      isLoading={userProfile.isFetching}>
-      {avatar !== undefined && (
-        <View style={styles.avatarBtnWrapper}>
+      isLoading={userProfile.isFetching}
+      button={
+        !avatar ? null : (
           <AvatarSelectButton
             avatarUri={avatar}
             onAvatarChange={(avatarUri) => changeAvatar(avatarUri)}
           />
-        </View>
-      )}
+        )
+      }>
       <View style={styles.meta}>
-        <AppText variant="h1">
-          {userProfile.data?.teams?.[0]?.name ?? 'N/A'}
-        </AppText>
-        <AppText variant="h3">
-          Punkty rankingowe: {userProfile.data?.teams?.[0]?.elo ?? 'N/A'}
-        </AppText>
+        <AppText variant="h1">{userTeam?.name}</AppText>
+        <AppText variant="h3">Punkty rankingowe: {userTeam?.elo}</AppText>
       </View>
       <View style={styles.switch}>
         <Switch
@@ -119,7 +104,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
           onSwitchToRight={() => setShowMatches(true)}
         />
       </View>
-      {matchesView}
+      {listView}
     </ContainerWithAvatar>
   );
 };
@@ -132,9 +117,5 @@ const styles = StyleSheet.create({
   switch: {
     paddingHorizontal: 16,
     marginBottom: 16,
-  },
-  avatarBtnWrapper: {
-    left: 200,
-    top: -60,
   },
 });

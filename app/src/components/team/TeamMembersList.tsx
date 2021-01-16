@@ -16,36 +16,28 @@ import { Avatar } from '../shared/Avatar';
 interface TeamMemberListProps {
   members: UserProfilePayload[];
   style?: StyleProp<ViewStyle>;
-  isLoading: boolean;
 }
 
 export const TeamMemberList: React.FC<TeamMemberListProps> = ({
   members,
   style,
-  isLoading,
 }) => {
-  const renderItem = ({ item }: ListRenderItemInfo<UserProfilePayload>) =>
-    isLoading ? (
-      <SkeletonPlaceholder>
-        <View style={styles.container} />
-      </SkeletonPlaceholder>
-    ) : (
-      <List.Item
-        title={item.name}
-        titleStyle={styles.memberName}
-        description={`${item.elo} punktów rankingowych`}
-        left={() => (
-          <View style={styles.memberAvatarContainer}>
-            <Avatar
-              size={40}
-              borderRadius={8}
-              src={{ uri: item.versioned_avatar }}
-              isLoading={isLoading}
-            />
-          </View>
-        )}
-      />
-    );
+  const renderItem = ({ item }: ListRenderItemInfo<UserProfilePayload>) => (
+    <List.Item
+      title={item.name}
+      titleStyle={styles.memberName}
+      description={`${item.elo} punktów rankingowych`}
+      left={() => (
+        <View style={styles.memberAvatarContainer}>
+          <Avatar
+            size={40}
+            borderRadius={8}
+            src={{ uri: item.versioned_avatar }}
+          />
+        </View>
+      )}
+    />
+  );
 
   return (
     <FlatList

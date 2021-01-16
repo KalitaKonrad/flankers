@@ -16,7 +16,7 @@ export const ListPlaceholder: React.FC<ListPlaceholderProps> = ({
   const placeholderWidth = useWindowDimensions().width - 40;
 
   const placeholderList = useMemo(() => {
-    return [...Array(placeholderCount)].map((index) => (
+    return [...Array(placeholderCount)].map((_, index) => (
       <View key={index}>
         <SkeletonPlaceholder.Item
           width={itemWidth ?? placeholderWidth}

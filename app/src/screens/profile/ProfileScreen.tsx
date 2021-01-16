@@ -44,7 +44,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
       isLoading={profile.isFetching}>
       <View style={styles.meta}>
         <AppText variant="h1">{profile.data?.name}</AppText>
-        <AppText variant="h3">Punkty rankingowe: 2000</AppText>
+        <AppText variant="h3">Punkty rankingowe: {profile.data?.elo}</AppText>
       </View>
       {!isLoading ? (
         <View style={{ paddingBottom: 180 }}>

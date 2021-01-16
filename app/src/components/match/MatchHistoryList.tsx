@@ -3,6 +3,7 @@ import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
 import { List, Text } from 'react-native-paper';
 
 import { MatchElementInHistory } from '../../types/match';
+import { AppText } from '../shared/AppText';
 
 interface MatchHistoryListProps {
   matchHistory: MatchElementInHistory[];
@@ -22,10 +23,9 @@ export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
         ' w trybie ' +
         (item.type === 'team' ? 'drużynowym' : 'ogólnym')
       }
-      left={() => (
+      left={(props) => (
         <List.Icon {...props} icon={item.winner ? 'trophy' : 'trophy-broken'} />
       )}
-      right={() => <Text>#{index + 1}</Text>}
     />
   );
   return (
@@ -42,7 +42,7 @@ export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingHorizontal: 16,
+    paddingRight: 16,
   },
   elementName: {
     fontWeight: 'bold',

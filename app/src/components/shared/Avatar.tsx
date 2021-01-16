@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import {
   Image,
   ImageSourcePropType,
+  Platform,
   StyleProp,
   StyleSheet,
   View,
@@ -22,6 +23,18 @@ interface AvatarProps {
   isLoading?: boolean;
 }
 
+const shadow = {
+  shadowColor: 'rgba(0, 0, 0, 0.1)',
+  shadowRadius: 4,
+  shadowOpacity: 1,
+  shadowOffset: {
+    width: 0,
+    height: 4,
+  },
+};
+
+const avatarPlaceholder = require('../../../assets/versioned_initial_avatar.png').toString();
+
 export const Avatar: React.FC<AvatarProps> = ({
   size,
   src,
@@ -31,47 +44,53 @@ export const Avatar: React.FC<AvatarProps> = ({
   containerStyle,
   isLoading,
 }) => {
-  const avatarPlaceholder = require('../../../assets/versioned_initial_avatar.png').toString();
-
-  const imageStyle = useMemo(
-    () => ({
-      height: size,
-      width: size,
-      borderWidth: border,
-      borderRadius,
-    }),
-    [border, borderRadius, size]
+  const containerStyles = useMemo(
+    () => [
+      styles.container,
+      {
+        elevation,
+        height: size,
+        width: size,
+        borderRadius,
+      },
+      Platform.OS === 'ios' && elevation !== undefined ? shadow : {},
+      containerStyle,
+    ],
+    [elevation, size, borderRadius, containerStyle]
   );
 
-  const elevatedStyle = useMemo(
-    () => ({
-      elevation,
-      height: size,
-      width: size,
-      borderRadius,
-    }),
-    [borderRadius, elevation, size]
+  const imageStyles = useMemo(
+    () => [
+      styles.avatar,
+      {
+        height: size,
+        width: size,
+        borderWidth: border,
+        borderRadius,
+      },
+    ],
+    [size, border, borderRadius]
   );
 
-  return isLoading ? (
-    <SkeletonPlaceholder>
-      <View style={[styles.container, elevatedStyle, containerStyle]}>
-        <View style={[styles.avatar, imageStyle]} />
-      </View>
-    </SkeletonPlaceholder>
-  ) : (
-    <View style={[styles.container, elevatedStyle, containerStyle]}>
-      <Image
-        style={[styles.avatar, imageStyle]}
-        source={src ?? avatarPlaceholder}
-      />
+  if (isLoading) {
+    return (
+      <SkeletonPlaceholder>
+        <View style={containerStyles}>
+          <View style={imageStyles} />
+        </View>
+      </SkeletonPlaceholder>
+    );
+  }
+
+  return (
+    <View style={containerStyles}>
+      <Image style={imageStyles} source={src ?? avatarPlaceholder} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    zIndex: 80,
     backgroundColor: '#fff',
   },
   avatar: {

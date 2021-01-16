@@ -14,6 +14,7 @@ import { AppText } from '../../components/shared/AppText';
 import { AvatarSelectButton } from '../../components/shared/AvatarSelectButton';
 import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
 import { useUpdateTeamAvatarMutation } from '../../hooks/useUpdateTeamAvatarMutation';
+import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
@@ -39,8 +40,19 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
 }) => {
   const mutation = useTeamCreateMutation();
   const mutationTeamAvatar = useUpdateTeamAvatarMutation();
-
   const [avatar, setAvatar] = useState<string>(img);
+  const userProfile = useUserProfileQuery();
+  const userHasTeam = userProfile.data?.teams?.[0] !== undefined;
+
+  /**
+   * Check if user already has a team,
+   * if so, navigate him to the manage screen
+   */
+  useEffect(() => {
+    if (userHasTeam) {
+      navigation.navigate('TeamManage');
+    }
+  }, [userHasTeam]);
 
   const {
     register,
@@ -80,14 +92,14 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   };
 
   return (
-    <ContainerWithAvatar avatar={{ uri: avatar }}>
-      <View style={styles.avatarBtnWrapper}>
+    <ContainerWithAvatar
+      avatar={{ uri: avatar }}
+      button={
         <AvatarSelectButton
           avatarUri={avatar}
           onAvatarChange={(avatarUri) => setAvatar(avatarUri)}
         />
-      </View>
-
+      }>
       <View style={styles.meta}>
         <AppText variant="h2">Dane zespołu</AppText>
       </View>
@@ -132,9 +144,5 @@ const styles = StyleSheet.create({
   },
   action: {
     marginTop: 16,
-  },
-  avatarBtnWrapper: {
-    left: 200,
-    top: -60,
   },
 });
