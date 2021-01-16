@@ -2,9 +2,9 @@
 
 namespace App\Broadcasting;
 
-use App\Models\User;
 use ExponentPhpSDK\Expo;
 use App\Contracts\ExpoNotification;
+use Illuminate\Support\Facades\Log;
 
 class ExpoChannel
 {
@@ -36,6 +36,9 @@ class ExpoChannel
         }
 
         $expo->subscribe($notifiable->privateExpoChannel(), $token);
-        $expo->notify([$notifiable->privateExpoChannel()], $message);
+        $response = $expo->notify([$notifiable->privateExpoChannel()], $message);
+
+        Log::info("Sent notification on {$notifiable->privateExpoChannel()} with token {$token}");
+        Log::info($response);
     }
 }
