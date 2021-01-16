@@ -36,7 +36,7 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
   navigation,
 }) => {
   const userProfile = useUserProfileQuery();
-  const [mutate, mutation] = useTeamInvitationMutation();
+  const mutation = useTeamInvitationMutation();
 
   const theme = useTheme();
 
@@ -56,18 +56,22 @@ export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
 
   const onPress = async ({ email }: InvitationFormData) => {
     Keyboard.dismiss();
-
+    if (!userProfile.data) {
+      return;
+    }
     try {
-      if (userProfile.data?.current_team_id !== undefined) {
-        await mutate({ email, team_id: userProfile.data?.current_team_id });
-      }
+      await mutation.mutateAsync({
+        email,
+        team_id: userProfile.data?.current_team_id,
+      });
     } catch (error) {
       setResponseErrors(error, setError);
     }
   };
 
   return (
-    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+    <ContainerWithAvatar
+      avatar={{ uri: userProfile.data?.teams[0].versioned_avatar }}>
       <View style={styles.meta}>
         <AppText variant="h2">Zaproś użytkownika</AppText>
       </View>

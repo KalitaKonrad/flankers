@@ -30,6 +30,11 @@ class SetPaymentMethod extends Controller
         ]);
 
         $user = Auth::user();
+        $stripe = new \Stripe\StripeClient(
+            env('STRIPE_SECRET')
+        );
+        $intent = $user->createSetupIntent();
+        $stripe->setupIntents->confirm($intent->id, ['payment_method' => $request->payment_method]);
 
         if (!$user->hasStripeId()) {
             $user->createAsStripeCustomer();

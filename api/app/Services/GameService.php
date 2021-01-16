@@ -9,6 +9,7 @@ use App\Models\Memo;
 use App\Models\Team;
 use App\Models\Squad;
 use App\Constants\GameType;
+use App\Constants\WalletChargeSource;
 use App\Models\GameVictorSquad;
 use App\Structures\GameResults;
 use App\Structures\GameRankingEntry;
@@ -74,7 +75,7 @@ class GameService
 
             if ($losing) {
                 $squad->members->each(function ($member) use (&$winnings, $results) {
-                    $member->wallet->charge(-1 * $results->game->bet);
+                    $member->wallet->charge(-1 * $results->game->bet, WalletChargeSource::GAME_LOST);
                     $winnings += $results->game->bet;
                 });
             }
@@ -85,7 +86,7 @@ class GameService
             ->pluck('members')
             ->flatten();
 
-        $winners->each(fn ($winner) => $winner->wallet->charge($winnings / count($winners)));
+        $winners->each(fn ($winner) => $winner->wallet->charge($winnings / count($winners), WalletChargeSource::GAME_WON));
     }
 
     protected static function squareTeamElo($results)

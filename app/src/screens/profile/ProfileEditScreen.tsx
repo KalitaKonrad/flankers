@@ -1,8 +1,9 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect } from 'react';
+import * as ImagePicker from 'expo-image-picker';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Keyboard, StyleSheet, View } from 'react-native';
+import { Button, Keyboard, Platform, StyleSheet, View } from 'react-native';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 
@@ -11,7 +12,9 @@ import { PaddedInputScrollView } from '../../components/layout/PaddedInputScroll
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
+import { AvatarSelectButton } from '../../components/shared/AvatarSelectButton';
 import { useProfileEditMutation } from '../../hooks/useEditProfileMutation';
+import { useUpdateAvatarMutation } from '../../hooks/useUpdateAvatarMutation';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
@@ -42,8 +45,12 @@ const ProfileEditSchema = yup.object().shape({
 
 export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   navigation,
+  route,
 }) => {
-  const [mutate, mutation] = useProfileEditMutation();
+  const { mutate } = useProfileEditMutation();
+  const [avatar, setAvatar] = useState<string>(route.params.avatar);
+  const mutateAvatar = useUpdateAvatarMutation();
+
   const theme = useTheme();
 
   const {
@@ -74,11 +81,28 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
     }
   };
 
+  const changeAvatar = async (avatarUri: string) => {
+    setAvatar(avatarUri);
+    try {
+      await mutateAvatar.mutateAsync(avatarUri);
+    } catch (err) {
+      setResponseErrors(err, setError);
+      alert('Wystąpił błąd przy zmianie avataru');
+    }
+  };
+
   return (
-    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+    <ContainerWithAvatar avatar={{ uri: avatar }}>
+      <View style={styles.avatarBtnWrapper}>
+        <AvatarSelectButton
+          avatarUri={avatar}
+          onAvatarChange={(avatarUri) => changeAvatar(avatarUri)}
+        />
+      </View>
       <View style={styles.meta}>
         <AppText variant="h2">Zmiana danych</AppText>
       </View>
+
       <PaddedInputScrollView>
         <AppInput
           style={styles.row}
@@ -134,7 +158,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
         <View style={styles.action}>
           <AppButton
             mode="contained"
-            disabled={mutation.isLoading}
+            disabled={mutateAvatar.isLoading}
             onPress={handleSubmit(onEdit)}>
             Zapisz zmiany
           </AppButton>
@@ -154,5 +178,12 @@ const styles = StyleSheet.create({
   },
   action: {
     marginTop: 16,
+  },
+  buttonWrapper: {
+    left: 200,
+  },
+  avatarBtnWrapper: {
+    left: 200,
+    top: -60,
   },
 });

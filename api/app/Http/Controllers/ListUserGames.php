@@ -19,6 +19,7 @@ class ListUserGames extends Controller
      * Get user match history
      *
      * This will return paginated query response.
+     * Only completed games are returned.
      *
      * @group User management
      *
@@ -33,6 +34,7 @@ class ListUserGames extends Controller
             ->join('squad_user', 'squads.id', '=', 'squad_user.squad_id')
             ->leftJoin('game_victor_squads', 'squads.id', '=', 'game_victor_squads.squad_id')
             ->where('squad_user.user_id', Auth::id())
+            ->where('games.completed', true)
             ->orderByDesc('games.id')
             ->paginate(10);
 

@@ -4,6 +4,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 export interface ModalProps {
   children: ReactNode;
   title: string;
+  dismissible?: boolean;
 }
 
 export const Modal = React.forwardRef<BottomSheet, ModalProps>(

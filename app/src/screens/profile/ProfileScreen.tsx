@@ -1,11 +1,13 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
 import { MatchHistoryList } from '../../components/match/MatchHistoryList';
 import { AppText } from '../../components/shared/AppText';
+import { useUserMatchHistoryQuery } from '../../hooks/useUserMatchHistoryQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { MatchElementInHistory } from '../../types/match';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
 type ProfileScreenProps = StackScreenProps<
@@ -14,15 +16,36 @@ type ProfileScreenProps = StackScreenProps<
 >;
 
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
-  const { data } = useUserProfileQuery();
+  const profile = useUserProfileQuery();
+  const matchHistory = useUserMatchHistoryQuery({ page: 1 });
+  const matchHistoryList = useMemo(() => {
+    if (
+      (matchHistory.isFetching || matchHistory.isError) &&
+      !matchHistory.isFetchingNextPage
+    ) {
+      return [];
+    }
+    return matchHistory.data!.pages.reduce((list, page) => {
+      return [...list, ...page.data];
+    }, [] as MatchElementInHistory[]);
+  }, [matchHistory]);
 
   return (
-    <ContainerWithAvatar avatar={require('../../../assets/avatar.png')}>
+    <ContainerWithAvatar avatar={{ uri: profile.data?.versioned_avatar }}>
       <View style={styles.meta}>
-        <AppText variant="h1">{data?.name}</AppText>
+        <AppText variant="h1">{profile.data?.name}</AppText>
         <AppText variant="h3">Punkty rankingowe: 2000</AppText>
       </View>
-      <MatchHistoryList matchHistory={[]} />
+      <View style={{ paddingBottom: 180 }}>
+        <MatchHistoryList
+          onListEndReached={() => {
+            if (matchHistory.hasNextPage) {
+              matchHistory.fetchNextPage();
+            }
+          }}
+          matchHistory={matchHistoryList}
+        />
+      </View>
     </ContainerWithAvatar>
   );
 };
