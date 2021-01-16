@@ -8,6 +8,7 @@ import { AppText } from '../../components/shared/AppText';
 import { useUserMatchHistoryQuery } from '../../hooks/useUserMatchHistoryQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { MatchElementInHistory } from '../../types/match';
+import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
 type ProfileScreenProps = StackScreenProps<
@@ -18,34 +19,47 @@ type ProfileScreenProps = StackScreenProps<
 export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
   const profile = useUserProfileQuery();
   const matchHistory = useUserMatchHistoryQuery({ page: 1 });
+  const [isLoading, setLoading] = useState(true);
+
   const matchHistoryList = useMemo(() => {
-    if (
+    const initialLoad =
       (matchHistory.isFetching || matchHistory.isError) &&
-      !matchHistory.isFetchingNextPage
-    ) {
+      !matchHistory.isFetchingNextPage;
+
+    if (initialLoad) {
+      setLoading(true);
       return [];
     }
+
+    setLoading(false);
+
     return matchHistory.data!.pages.reduce((list, page) => {
       return [...list, ...page.data];
     }, [] as MatchElementInHistory[]);
   }, [matchHistory]);
 
   return (
-    <ContainerWithAvatar avatar={{ uri: profile.data?.versioned_avatar }}>
+    <ContainerWithAvatar
+      avatar={{ uri: profile?.data?.versioned_avatar }}
+      isLoading={profile.isFetching}>
       <View style={styles.meta}>
         <AppText variant="h1">{profile.data?.name}</AppText>
-        <AppText variant="h3">Punkty rankingowe: 2000</AppText>
+        <AppText variant="h3">Punkty rankingowe: {profile.data?.elo}</AppText>
       </View>
-      <View style={{ paddingBottom: 180 }}>
-        <MatchHistoryList
-          onListEndReached={() => {
-            if (matchHistory.hasNextPage) {
-              matchHistory.fetchNextPage();
-            }
-          }}
-          matchHistory={matchHistoryList}
-        />
-      </View>
+      {!isLoading ? (
+        <View style={{ paddingBottom: 180 }}>
+          <MatchHistoryList
+            onListEndReached={() => {
+              if (matchHistory.hasNextPage) {
+                matchHistory.fetchNextPage();
+              }
+            }}
+            matchHistory={matchHistoryList}
+          />
+        </View>
+      ) : (
+        <ListPlaceholder placeholderCount={5} />
+      )}
     </ContainerWithAvatar>
   );
 };

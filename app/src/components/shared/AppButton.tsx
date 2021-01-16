@@ -7,6 +7,7 @@ type AppButtonProps = React.ComponentProps<typeof Button>;
 export const AppButton: React.FC<AppButtonProps> = (props) => (
   <Button
     {...props}
+    loading={props.loading}
     theme={{ roundness: 100 }}
     uppercase={false}
     contentStyle={[

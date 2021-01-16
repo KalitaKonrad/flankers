@@ -4,15 +4,10 @@ import {
 } from '@react-navigation/native';
 import merge from 'deepmerge';
 import React from 'react';
-import { View } from 'react-native';
 import { Provider as PaperProvider } from 'react-native-paper';
-import {
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-  setLogger,
-} from 'react-query';
+import { QueryClient, QueryClientProvider, setLogger } from 'react-query';
 
+import { AlertProvider } from './src/hooks/useAlert';
 import { AuthProvider } from './src/hooks/useAuth';
 import { EchoProvider } from './src/hooks/useEcho';
 import { AppScreen } from './src/screens/AppScreen';
@@ -30,15 +25,17 @@ const CombinedDefaultTheme = merge(NavigationDefaultTheme, theme);
 const App: React.FC = () => {
   return (
     <AuthProvider>
-      <EchoProvider>
-        <QueryClientProvider client={queryClient}>
-          <PaperProvider theme={CombinedDefaultTheme}>
-            <NavigationContainer theme={CombinedDefaultTheme}>
-              <AppScreen />
-            </NavigationContainer>
-          </PaperProvider>
-        </QueryClientProvider>
-      </EchoProvider>
+      <AlertProvider>
+        <EchoProvider>
+          <QueryClientProvider client={queryClient}>
+            <PaperProvider theme={CombinedDefaultTheme}>
+              <NavigationContainer theme={CombinedDefaultTheme}>
+                <AppScreen />
+              </NavigationContainer>
+            </PaperProvider>
+          </QueryClientProvider>
+        </EchoProvider>
+      </AlertProvider>
     </AuthProvider>
   );
 };

@@ -5,24 +5,24 @@ import React from 'react';
 import { useTheme } from 'react-native-paper';
 
 import { useUserProfileQuery } from '../hooks/useUserProfileQuery';
-import { AuthScreenStackParamList } from '../screens/auth/AuthScreenStack';
+import { AuthScreenStackParamList } from './auth/AuthScreenStack';
 import {
   MatchScreenStack,
   MatchScreenStackParamList,
-} from '../screens/match/MatchScreenStack';
+} from './match/MatchScreenStack';
 import {
   ProfileScreenStack,
   ProfileScreenStackParamList,
-} from '../screens/profile/ProfileScreenStack';
+} from './profile/ProfileScreenStack';
 import {
   RankingScreenStack,
   RankingScreenStackParamList,
-} from '../screens/ranking/RankingScreenStack';
+} from './ranking/RankingScreenStack';
 import {
   TeamScreenStack,
   TeamScreenStackParamList,
-} from '../screens/teams/TeamScreenStack';
-import { WalletScreenStack } from '../screens/wallet/WalletScreenStack';
+} from './teams/TeamScreenStack';
+import { WalletScreenStack } from './wallet/WalletScreenStack';
 
 export type BottomTabNavigationParamList = {
   Auth: NavigatorScreenParams<AuthScreenStackParamList>;
@@ -43,8 +43,11 @@ const ROUTE_TO_ICON_MAP: Record<keyof BottomTabNavigationParamList, string> = {
   Ranking: 'format-list-numbered',
 };
 
-export const BottomTabNavigation: React.FC = () => {
+export const AppScreenStack: React.FC = () => {
+  // Preload user profile
+  useUserProfileQuery();
   const theme = useTheme();
+
   return (
     <Tab.Navigator
       activeColor="#FFF"

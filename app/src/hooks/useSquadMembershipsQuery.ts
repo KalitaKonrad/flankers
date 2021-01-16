@@ -1,7 +1,6 @@
 import { useQuery } from 'react-query';
 
-import { QUERY_GAME_SQUAD, QUERY_GAMES_MEMOS } from '../const/query.const';
-import { GameScoreResponse } from '../types/gameScoreResponse';
+import { QUERY_GAME_SQUAD } from '../const/query.const';
 import { SquadMembershipsResponse } from '../types/squadMembershipsResponse';
 import { useAxios } from './useAxios';
 
