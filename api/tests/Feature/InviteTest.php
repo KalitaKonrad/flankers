@@ -32,6 +32,31 @@ it('should allow team owner to create invite for user', function () {
     ]);
 });
 
+it('should retrieve invites for an user', function () {
+    $user = User::factory()->create();
+    $team = config('teamwork.team_model')::factory()->create();
+    $token = grabAuthToken($team->owner_id);
+
+    withAuthHeader($token)
+        ->postJson("/teams/invites", [
+            'team_id' => $team->id,
+            'email' => $user->email
+        ])
+        ->assertOk();
+
+    withAuthHeader(grabAuthToken($user->id))
+        ->get("/teams/invites")
+        ->assertOk()
+        ->assertJson([
+            'data' => [
+                [
+                    'email' => $user->email,
+                    'team_id' => $team->id
+                ]
+            ]
+        ]);
+});
+
 it('should disallow to create more then one invite to the same team for single user', function () {
     $user = User::factory()->create();
     $team = config('teamwork.team_model')::factory()->create();

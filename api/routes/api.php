@@ -88,8 +88,7 @@ Route::prefix('user')->group(function () {
  * Team routes
  * ----------------------------------------
  */
-Route::resource('teams', TeamController::class)
-    ->parameters(['teams' => 'team_id']);
+
 
 Route::prefix('teams')->group(function () {
     Route::post('owner', ChangeTeamOwner::class);
@@ -97,7 +96,10 @@ Route::prefix('teams')->group(function () {
         'memberships' => 'team_id'
     ]);
 
-    Route::resource('invites', TeamInviteController::class);
+    Route::resource('invites', TeamInviteController::class)
+        ->only(['store']);
+    Route::get('invites', [TeamInviteController::class, 'index']);
+
     Route::get('invites/{invite}', AcceptInvite::class);
     Route::get('invites/decline/{invite}', DeclineInvite::class);
 
@@ -106,6 +108,9 @@ Route::prefix('teams')->group(function () {
 
     Route::get('games/{game_id}', ListTeamGames::class);
 });
+
+Route::resource('teams', TeamController::class)
+    ->parameters(['teams' => 'team_id']);
 
 /**
  * ----------------------------------------
