@@ -55,12 +55,23 @@ export const PasswordResetScreen: React.FC<PasswordResetScreenProps> = ({
 
     setPending(true);
     try {
-      console.log('jestem');
       await initiatePasswordReset(email);
       navigation.navigate('PasswordResetConfirm');
     } catch (error) {
       setResponseErrors(error, setError);
+      const generalMessage = error.response?.data?.errors?.all;
+      if (!generalMessage) {
+        alert('Upewnij się że wprowadziłeś poprawny email');
+        return;
+      }
+      if (generalMessage) {
+        setError('email', {
+          type: 'server',
+          message: generalMessage,
+        });
+      }
     }
+
     setPending(false);
   };
 
