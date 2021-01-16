@@ -73,7 +73,7 @@ class SquadMembershipController extends Controller
      * @group Game data
      * @urlParam squad_id int required Squad id
      *
-     * @param  int  $id
+     * @param  int  $squad_id
      * @return \Illuminate\Http\Response
      */
     public function show(int $squad_id)
@@ -97,7 +97,7 @@ class SquadMembershipController extends Controller
      * @bodyParam user_id int required User id to move
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $squad_id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, int $squad_id)
@@ -150,7 +150,7 @@ class SquadMembershipController extends Controller
      * @urlParam squad_id int required Squad id
      * @bodyParam user_id int required User id remove from squad
      *
-     * @param  int  $id
+     * @param  int  $squad_id
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, int $squad_id)
@@ -161,7 +161,7 @@ class SquadMembershipController extends Controller
 
         $squad = Squad::findOrFail($squad_id);
         $user = User::findOrFail($request->user_id);
-        $game = $squad->game()->get();
+        $game = $squad->game;
         $requestUser = Auth::user();
 
         if (!($requestUser == $user || $requestUser->isGameOwner($game))) {

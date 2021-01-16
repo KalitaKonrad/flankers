@@ -22,7 +22,7 @@ class SquareGame
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param  GameFinished $event
      * @return void
      */
     public function handle(GameFinished $event)

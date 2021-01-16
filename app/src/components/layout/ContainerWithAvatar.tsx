@@ -1,3 +1,4 @@
+import { isLoading } from 'expo-font';
 import React, { ComponentProps } from 'react';
 import { ImageSourcePropType, StyleSheet, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
@@ -6,7 +7,8 @@ import { Avatar } from '../shared/Avatar';
 import { Container } from './Container';
 
 type ContainerWithAvatarProps = ComponentProps<typeof Container> & {
-  avatar: ImageSourcePropType;
+  avatar: ImageSourcePropType | undefined | null;
+  isLoading?: boolean;
   button?: React.ReactNode;
 };
 
@@ -16,7 +18,6 @@ export const ContainerWithAvatar: React.FC<ContainerWithAvatarProps> = (
   props
 ) => {
   const theme = useTheme();
-  const Button = props.button;
 
   return (
     <Container {...props}>
@@ -34,6 +35,7 @@ export const ContainerWithAvatar: React.FC<ContainerWithAvatarProps> = (
             elevation={6}
             size={AVATAR_SIZE}
             src={props.avatar}
+            isLoading={props.isLoading}
           />
           {props.button && <View style={styles.button}>{props.button}</View>}
         </View>

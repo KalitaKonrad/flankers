@@ -16,6 +16,7 @@ import { WalletTransactionHistoryList } from '../../components/wallet/WalletTran
 import { useChargeWalletMutation } from '../../hooks/payments/useChargeWalletMutation';
 import { useUserHasActivePaymentMethodQuery } from '../../hooks/payments/useUserHasActivePaymentMethodQuery';
 import { useUserWalletQuery } from '../../hooks/payments/useUserWalletQuery';
+import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { WalletScreenStackParamList } from './WalletScreenStack';
 
 type WalletScreenProps = StackScreenProps<WalletScreenStackParamList, 'Wallet'>;
@@ -74,12 +75,12 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
   return (
     <Container>
       <View style={styles.balanceContainer}>
-        {/* TODO: Add skeleton loader for wallet balance */}
         <RoundInformation
           mainText={balance}
           subText="Aktualny stan konta"
           buttonText="Doładuj"
           onButtonPress={onTopUpPress}
+          isLoading={wallet.isFetching}
         />
       </View>
       <AppText variant="h1" style={styles.header}>
@@ -88,8 +89,7 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
       {wallet.data ? (
         <WalletTransactionHistoryList transactions={transactions} />
       ) : (
-        // TODO: Add skeleton loader for transaction history list
-        <AppText>Loading...</AppText>
+        <ListPlaceholder placeholderCount={5} />
       )}
       <Modal
         ref={modalRef}

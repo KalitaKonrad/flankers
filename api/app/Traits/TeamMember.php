@@ -12,9 +12,7 @@ trait TeamMember
     /**
      * Get the token array structure.
      *
-     * @param string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
+     * @return boolean
      */
     public function belongsToTeam(Team $team)
     {

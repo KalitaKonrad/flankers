@@ -20,7 +20,7 @@ class SetSquadTeam
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param  SquadMembersChanged  $event
      * @return void
      */
     public function handle(SquadMembersChanged $event)

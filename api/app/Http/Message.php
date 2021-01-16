@@ -2,13 +2,15 @@
 
 namespace App\Http;
 
+use Illuminate\Http\Response;
+
 class Message
 {
     /**
      * Return ok response with message
      *
      * @param string $message
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public static function ok(string $message, $data = [])
     {
@@ -22,7 +24,7 @@ class Message
      * Return error response with message
      *
      * @param string $message
-     * @return void
+     * @return \Illuminate\Http\Response
      */
     public static function error(int $code, string $message, $errors = [])
     {

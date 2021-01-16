@@ -8,8 +8,8 @@ import {
 import AppLoading from 'expo-app-loading';
 import React from 'react';
 
-import { BottomTabNavigation } from '../components/BottomTabNavigation';
 import { useAuth } from '../hooks/useAuth';
+import { AppScreenStack } from './AppScreenStack';
 import { AuthScreenStack } from './auth/AuthScreenStack';
 
 export const AppScreen: React.FC = () => {
@@ -26,7 +26,7 @@ export const AppScreen: React.FC = () => {
   }
 
   if (isAuthenticated) {
-    return <BottomTabNavigation />;
+    return <AppScreenStack />;
   } else {
     return <AuthScreenStack />;
   }

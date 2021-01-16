@@ -27,7 +27,6 @@ class TeamMembershipController extends Controller
      * @group Team management
      * @urlParam team_id int required
      *
-     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show(int $team_id)
@@ -64,7 +63,7 @@ class TeamMembershipController extends Controller
             'user_id' => 'integer|required'
         ]);
 
-        $user_id = $request->post('user_id');
+        $user_id = intval($request->post('user_id'));
         $user = User::findOrFail($user_id);
         $teamModel = config('teamwork.team_model');
         $team = $teamModel::findOrFail($team_id);
@@ -95,7 +94,6 @@ class TeamMembershipController extends Controller
      *
      * @param \App\Models\User $user
      * @param \App\Models\Team $team
-     * @return void
      */
     protected function leave($user, $team)
     {

@@ -14,8 +14,8 @@ class LeaderboardController extends Controller
      * @group Leaderboards
      * @urlParam $leaderboard string - 'team' for team leaderboards, 'user' for users
      *
-     * @param  int  $game_id
-     * @return \Illuminate\Http\Response
+     * @param  string  $leaderboard
+     * @return \Illuminate\Contracts\Pagination\Paginator
      */
     public function show(string $leaderboard)
     {

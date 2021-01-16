@@ -1,9 +1,8 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Button, Keyboard, Platform, StyleSheet, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { HelperText, useTheme } from 'react-native-paper';
 import * as yup from 'yup';
 

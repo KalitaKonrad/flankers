@@ -23,8 +23,7 @@ class ListTeamGames extends Controller
      * @group Team management
      * @urlParam team_id int Team it for which history will be fetched
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function __invoke(int $team_id)
     {

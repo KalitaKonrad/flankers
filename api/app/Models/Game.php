@@ -108,7 +108,7 @@ class Game extends Model
     /**
      * Return concatenated game coordinates
      *
-     * @return Collection
+     * @return string
      */
     public function getLocationAttribute()
     {

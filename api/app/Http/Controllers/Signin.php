@@ -22,8 +22,8 @@ class Signin extends Controller
      * @bodyParam email string required User email Example: foo@bar.com
      * @bodyParam password string required User password Example: password
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \App\Http\Requests\SigninRequest  $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function __invoke(SigninRequest $request)
     {

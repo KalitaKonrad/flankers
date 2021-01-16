@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Message;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 
 class ForgotPassword extends Controller
 {
     /**
-     * Set middleware to guest to prvent user auth 
+     * Set middleware to guest to prvent user auth
      * when sending password reset request.
      *
      * @return void
@@ -20,11 +21,11 @@ class ForgotPassword extends Controller
 
     /**
      * Initiate password reset process.
-     * 
-     * When provided with valid email, email with password reset link 
+     *
+     * When provided with valid email, email with password reset link
      * will be sent and with the token provided there, new password
      * may be set by posting to /auth/reset-password.
-     * 
+     *
      * @group Authentication
      * @bodyParam email string required User email to which reset will be sent Example: foo@bar.com
      *
@@ -39,7 +40,7 @@ class ForgotPassword extends Controller
         );
 
         return $status === Password::RESET_LINK_SENT
-            ? ['message' => __($status)]
-            : response()->json(['message' => 'Could not send reset link', 'errors' => ['status' => __($status)]], 400);
+            ? Message::ok($status)
+            : Message::error(400, 'Could not send reset link', ['status' => __($status)]);
     }
 }
