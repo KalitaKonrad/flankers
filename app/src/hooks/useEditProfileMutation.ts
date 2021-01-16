@@ -1,4 +1,4 @@
-import { useMutation, useQueryCache } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { QUERY_USER_SETTINGS_KEY } from '../const/query.const';
 import { useAxios } from './useAxios';
@@ -11,7 +11,7 @@ interface ProfileEditPayload {
 export const useProfileEditMutation = () => {
   const axios = useAxios();
 
-  const queryCache = useQueryCache();
+  const queryCache = useQueryClient();
 
   return useMutation(
     (newProfileSettings: ProfileEditPayload) =>

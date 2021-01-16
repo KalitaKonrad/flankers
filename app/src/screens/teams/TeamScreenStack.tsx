@@ -20,11 +20,12 @@ const Stack = createStackNavigator<TeamScreenStackParamList>();
 export const TeamScreenStack: React.FC = () => {
   const theme = useTheme();
   const userProfile = useUserProfileQuery();
-  const [removeTeamMember] = useRemoveTeamMemberMutation();
+  const hasTeam = userProfile?.data?.teams?.[0] !== undefined;
+  const removeTeamMember = useRemoveTeamMemberMutation();
 
   const onLeaveTeamPress = async () => {
     if (!!userProfile.data?.id && !!userProfile.data?.current_team_id) {
-      await removeTeamMember({
+      await removeTeamMember.mutateAsync({
         team_id: userProfile.data.current_team_id,
         user_id: userProfile.data.id,
       });
@@ -33,9 +34,7 @@ export const TeamScreenStack: React.FC = () => {
 
   return (
     <Stack.Navigator
-      initialRouteName={
-        userProfile.data?.teams?.length !== 0 ? 'TeamManage' : 'TeamCreate'
-      }
+      initialRouteName={hasTeam ? 'TeamManage' : 'TeamCreate'}
       screenOptions={theme.tallHeader}>
       <Stack.Screen
         name="TeamManage"

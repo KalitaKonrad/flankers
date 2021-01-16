@@ -68,5 +68,5 @@ const useProvideAuth = () => {
     };
   }, []);
 
-  return { isLoading, isAuthenticated, register, login, logout };
+  return { isLoading, isAuthenticated, register, login, logout, token };
 };

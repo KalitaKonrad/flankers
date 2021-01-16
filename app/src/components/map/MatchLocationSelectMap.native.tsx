@@ -34,6 +34,7 @@ export const MatchLocationSelectMap: React.FC<MapLocationSelectMapProps> = ({
       <MapLocateButton mapRef={mapRef.current} />
       <MapView
         ref={mapRef}
+        provider="google"
         initialRegion={initialRegion}
         style={[StyleSheet.absoluteFill, { marginBottom: marginFix }]}
         showsUserLocation

@@ -24,17 +24,32 @@ export const MatchCreateSelectLocationScreen: React.FC<MatchCreateSelectLocation
   route,
 }) => {
   const [matchLocation, setMatchLocation] = useState<LatLng | null>(null);
+  const [isLocationSelected, setIsLocationSelected] = useState(
+    matchLocation !== null
+  );
 
-  const [mutate, mutation] = useMatchCreateMutation();
+  const { mutateAsync } = useMatchCreateMutation();
 
-  const onPress = () => {
-    if (matchLocation !== null) {
-      mutate({
-        ...route.params,
-        lat: matchLocation.latitude,
-        long: matchLocation.longitude,
-      });
-      navigation.push('MatchInLobby');
+  const onPress = async () => {
+    if (matchLocation === null) {
+      return;
+    }
+
+    try {
+      await mutateAsync(
+        {
+          ...route.params,
+          lat: matchLocation.latitude,
+          long: matchLocation.longitude,
+        },
+        {
+          onSuccess: (data) => {
+            navigation.push('MatchInLobby', { gameId: data.id });
+          },
+        }
+      );
+    } catch (error) {
+      alert('Wystąpił błąd podczas tworzenia meczu');
     }
   };
 

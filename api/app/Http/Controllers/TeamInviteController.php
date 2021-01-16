@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mpociot\Teamwork\Facades\Teamwork;
+use App\Notifications\TeamInviteCreated;
 
 class TeamInviteController extends Controller
 {
@@ -34,7 +35,8 @@ class TeamInviteController extends Controller
     }
 
     /**
-     * Invite user to team
+     * Invite user to team, it will send notification
+     * request to underlying notification service
      *
      * @group Team management
      * @bodyParam team_id int required
@@ -60,10 +62,12 @@ class TeamInviteController extends Controller
         }
 
         if (Teamwork::hasPendingInvite($request->email, $team)) {
-            return Message::error(406, 'This user was already invited to this team');
+            return Message::error(403, 'This user was already invited to this team');
         }
 
         $invite = Teamwork::inviteToTeam($invitedUser->email, $team);
+        $invitedUser->notify(new TeamInviteCreated($team));
+
         return Message::ok('Invite sent', $invite);
     }
 }

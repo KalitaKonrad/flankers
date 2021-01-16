@@ -2,29 +2,27 @@
 
 namespace App\Events;
 
-use App\Models\User;
 use App\Models\Squad;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserLeftSquad implements ShouldBroadcast
+class SquadMembersChanged implements ShouldBroadcast
 {
-    use Dispatchable, SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $squad;
-    public $user;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Squad $squad, User $user)
+    public function __construct(Squad $squad)
     {
-        $this->squad = $squad;
-        $this->user = $user;
+        $this->squad = Squad::with('members')->find($squad->id);
     }
 
     /**

@@ -12,10 +12,10 @@ class Signup extends Controller
 {
     /**
      * Register new user
-     * 
+     *
      * Created user will be unverfied, email with activation
      * link is going to be send to provided mail.
-     * 
+     *
      * @group Authentication
      * @bodyParam email string required Example: foo@bar.com
      * @bodyParam name string required User name Example: wosiuto

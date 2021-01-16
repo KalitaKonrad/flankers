@@ -1,8 +1,10 @@
 <?php
 
 use App\Models\User;
+use App\Notifications\TeamInviteCreated;
 use Mpociot\Teamwork\TeamInvite;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Notification;
 
 use function Tests\grabAuthToken;
 use function Tests\withAuthHeader;
@@ -14,12 +16,16 @@ it('should allow team owner to create invite for user', function () {
     $team = config('teamwork.team_model')::factory()->create();
     $token = grabAuthToken($team->owner_id);
 
+    Notification::fake();
+
     withAuthHeader($token)
         ->postJson("/teams/invites", [
             'team_id' => $team->id,
             'email' => $user->email
         ])
         ->assertOk();
+
+    Notification::assertSentTo([$user], TeamInviteCreated::class);
 
     $this->assertDatabaseHas('team_invites', [
         'email' => $user->email
@@ -43,7 +49,7 @@ it('should disallow to create more then one invite to the same team for single u
             'team_id' => $team->id,
             'email' => $user->email
         ])
-        ->assertStatus(406);
+        ->assertStatus(403);
 });
 
 it('should fail if invited user does not exist', function () {

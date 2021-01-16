@@ -3,12 +3,11 @@
 namespace App\Http\Controllers\Avatar;
 
 use App\Http\Message;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\AvatarUploadRequest;
 use Illuminate\Support\Facades\Auth;
 use Intervention\Image\Facades\Image;
 use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\AvatarUploadRequest;
 
 class UserAvatarController extends Controller
 {
@@ -26,7 +25,7 @@ class UserAvatarController extends Controller
      */
     public function index()
     {
-        return Message::ok('User avatar', Auth::user()->avatar);
+        return Message::ok('User avatar', Auth::user()->versioned_avatar);
     }
 
     /**
@@ -55,9 +54,10 @@ class UserAvatarController extends Controller
 
         Storage::cloud()->put($uploadPath, $img);
         $user->avatar = $url;
+        $user->touch();
         $user->save();
 
-        return Message::ok('Avatar changed', $url);
+        return Message::ok('Avatar changed', $user->versioned_avatar);
     }
 
     /**

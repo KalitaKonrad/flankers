@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Game;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Foundation\Events\Dispatchable;
@@ -13,6 +14,7 @@ class GameVotingStarted implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public int $timer;
+    public Game $game;
 
     /**
      * Create a new event instance.

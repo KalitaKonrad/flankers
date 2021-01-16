@@ -1,17 +1,17 @@
-import { useMutation, useQueryCache } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 
 import { QUERY_TEAM_INVITATION } from '../const/query.const';
 import { useAxios } from './useAxios';
 
 interface TeamsInvitationPayload {
   email: string;
-  team_id: number;
+  team_id: string;
 }
 
 export const useTeamInvitationMutation = () => {
   const axios = useAxios();
 
-  const queryCache = useQueryCache();
+  const queryCache = useQueryClient();
 
   return useMutation(
     ({ email, team_id }: TeamsInvitationPayload) =>

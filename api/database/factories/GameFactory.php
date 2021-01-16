@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Game;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class GameFactory extends Factory
@@ -22,11 +23,12 @@ class GameFactory extends Factory
     public function definition()
     {
         return [
+            'owner_id' => User::factory(),
             'type' => 'ffa',
             'rated' => false,
             'public' => true,
             'completed' => false,
-            'bet' => $this->faker->numberBetween(1, 10),
+            'bet' => 0,
             'duration' => $this->faker->numberBetween(60 * 10, 60 * 15),
             'long' => $this->faker->longitude(),
             'lat' => $this->faker->latitude()

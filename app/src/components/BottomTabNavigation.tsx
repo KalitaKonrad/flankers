@@ -14,7 +14,10 @@ import {
   ProfileScreenStack,
   ProfileScreenStackParamList,
 } from '../screens/profile/ProfileScreenStack';
-import { RankingScreen } from '../screens/ranking/RankingScreen';
+import {
+  RankingScreenStack,
+  RankingScreenStackParamList,
+} from '../screens/ranking/RankingScreenStack';
 import {
   TeamScreenStack,
   TeamScreenStackParamList,
@@ -27,7 +30,7 @@ export type BottomTabNavigationParamList = {
   Team: NavigatorScreenParams<TeamScreenStackParamList>;
   Profile: NavigatorScreenParams<ProfileScreenStackParamList>;
   Wallet: undefined;
-  Ranking: undefined;
+  Ranking: NavigatorScreenParams<RankingScreenStackParamList>;
 };
 const Tab = createMaterialBottomTabNavigator<BottomTabNavigationParamList>();
 
@@ -81,7 +84,7 @@ export const BottomTabNavigation: React.FC = () => {
       />
       <Tab.Screen
         name="Ranking"
-        component={RankingScreen}
+        component={RankingScreenStack}
         options={{ tabBarLabel: 'Ranking' }}
       />
     </Tab.Navigator>

@@ -2,28 +2,31 @@
 
 namespace App\Events;
 
-use App\Models\Game;
-use Illuminate\Broadcasting\Channel;
+use App\Models\Wallet;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class UserChangedSquad
+class WalletCharged implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    protected $game;
-    public $squads;
+    public $wallet;
+    public $amount;
+    public $source;
 
     /**
      * Create a new event instance.
      *
      * @return void
      */
-    public function __construct(Game $game, array $squads)
+    public function __construct(Wallet $wallet, float $amount, string $source)
     {
-        $this->game = $game;
-        $this->squads = $squads;
+        $this->wallet = $wallet;
+        $this->amount = $amount;
+        $this->source = $source;
     }
 
     /**
@@ -33,6 +36,6 @@ class UserChangedSquad
      */
     public function broadcastOn()
     {
-        return new Channel("games.{$this->game->id}");
+        return new PrivateChannel("users.{$this->wallet->user->id}");
     }
 }

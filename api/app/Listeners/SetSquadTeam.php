@@ -3,8 +3,7 @@
 namespace App\Listeners;
 
 use App\Constants\GameType;
-use App\Events\UserJoinedSquad;
-use App\Events\UserLeftSquad;
+use App\Events\SquadMembersChanged;
 
 class SetSquadTeam
 {
@@ -24,48 +23,25 @@ class SetSquadTeam
      * @param  object  $event
      * @return void
      */
-    public function onJoin(UserJoinedSquad $event)
+    public function handle(SquadMembersChanged $event)
     {
         $squad = $event->squad;
-        $user = $event->user;
         $isTeamGame = $squad->game->type === GameType::TEAM;
 
-        if ($isTeamGame && $squad->members()->count() == 1) {
-            $squad->team()->associate($user->currentTeam->id)->save();
+        if (!$isTeamGame) {
+            return;
         }
-    }
 
-    /**
-     * Handle the event.
-     *
-     * @param  object  $event
-     * @return void
-     */
-    public function onLeave(UserLeftSquad $event)
-    {
-        $squad = $event->squad;
+        if (!$squad->team_id && $squad->members()->count() == 1) {
+            $squad
+                ->team()
+                ->associate($squad->members()->first()->currentTeam->id)
+                ->save();
+        }
 
-        if ($squad->members()->count() == 0) {
+        if ($squad->team_id && $squad->members()->count() == 0) {
             $squad->team_id = null;
             $squad->save();
         }
-    }
-
-    /**
-     * Register the listeners for the subscriber.
-     *
-     * @param  Illuminate\Events\Dispatcher  $events
-     */
-    public function subscribe($events)
-    {
-        $events->listen(
-            UserJoinedSquad::class,
-            [SetSquadTeam::class, 'onJoin']
-        );
-
-        $events->listen(
-            UserLeftSquad::class,
-            [SetSquadTeam::class, 'onLeave']
-        );
     }
 }

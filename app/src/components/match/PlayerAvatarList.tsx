@@ -1,11 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 
+import { MembersPayload } from '../../types/squadResponse';
 import { UserProfilePayload } from '../../types/userProfilePayload';
 import { Avatar } from '../shared/Avatar';
 
 interface PlayerAvatarListProps {
-  players: UserProfilePayload[];
+  players: MembersPayload[];
 }
 
 export const PlayerAvatarList: React.FC<PlayerAvatarListProps> = ({
@@ -20,7 +21,7 @@ export const PlayerAvatarList: React.FC<PlayerAvatarListProps> = ({
           key={player.id}
           containerStyle={[styles.avatar, { zIndex: players.length - i }]}
           size={65}
-          src={require('../../../assets/avatar.png')}
+          src={{ uri: player.versioned_avatar }}
         />
       ))}
     </View>

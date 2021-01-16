@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useImperativeHandle, useMemo, useState } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { IconButton } from 'react-native-paper';
 
@@ -15,58 +15,80 @@ interface NumberSelectorProps {
   style?: StyleProp<ViewStyle>;
 }
 
+export interface NumberSelectorBehaviour {
+  reset(): void;
+}
+
 const defaultNumberFormatter = (value: number) => value.toString();
 
-export const NumberSelector: React.FC<NumberSelectorProps> = ({
-  min,
-  max,
-  step = 1,
-  initialValue = 0,
-  numberFormatter,
-  onValueChange,
-  style,
-}) => {
-  const [value, setValue] = useState(initialValue);
-  const formatter = useMemo(() => numberFormatter ?? defaultNumberFormatter, [
-    numberFormatter,
-  ]);
+export const NumberSelector = React.forwardRef<
+  NumberSelectorBehaviour,
+  NumberSelectorProps
+>(
+  (
+    {
+      min,
+      max,
+      step = 1,
+      initialValue = 0,
+      numberFormatter,
+      onValueChange,
+      style,
+    },
+    ref
+  ) => {
+    const [value, setValue] = useState(initialValue);
+    const formatter = useMemo(() => numberFormatter ?? defaultNumberFormatter, [
+      numberFormatter,
+    ]);
 
-  const onDecrementPress = () => {
-    let nextValue = value - step;
-    if (min !== undefined && nextValue < min) {
-      nextValue = min;
-    }
-    setValue(nextValue);
-    onValueChange?.(nextValue);
-  };
+    useImperativeHandle(
+      ref,
+      () => ({
+        reset: () => {
+          setValue(initialValue);
+        },
+      }),
+      []
+    );
 
-  const onIncrementPress = () => {
-    let nextValue = value + step;
-    if (max !== undefined && nextValue > max) {
-      nextValue = max;
-    }
-    setValue(nextValue);
-    onValueChange?.(nextValue);
-  };
+    const onDecrementPress = () => {
+      let nextValue = value - step;
+      if (min !== undefined && nextValue < min) {
+        nextValue = min;
+      }
+      setValue(nextValue);
+      onValueChange?.(nextValue);
+    };
 
-  return (
-    <View style={[styles.container, style]}>
-      <IconButton
-        icon="minus"
-        size={16}
-        style={styles.buttonContainer}
-        onPress={onDecrementPress}
-      />
-      <AppText variant="h1">{formatter(value)}</AppText>
-      <IconButton
-        icon="plus"
-        size={16}
-        style={styles.buttonContainer}
-        onPress={onIncrementPress}
-      />
-    </View>
-  );
-};
+    const onIncrementPress = () => {
+      let nextValue = value + step;
+      if (max !== undefined && nextValue > max) {
+        nextValue = max;
+      }
+      setValue(nextValue);
+      onValueChange?.(nextValue);
+    };
+
+    return (
+      <View style={[styles.container, style]}>
+        <IconButton
+          icon="minus"
+          size={16}
+          style={styles.buttonContainer}
+          onPress={onDecrementPress}
+        />
+        <AppText variant="h1">{formatter(value)}</AppText>
+        <IconButton
+          icon="plus"
+          size={16}
+          style={styles.buttonContainer}
+          onPress={onIncrementPress}
+        />
+      </View>
+    );
+  }
+);
 
 const styles = StyleSheet.create({
   container: {

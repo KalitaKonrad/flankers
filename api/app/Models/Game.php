@@ -21,7 +21,8 @@ class Game extends Model
         'duration',
         'long',
         'lat',
-        'squad_size'
+        'squad_size',
+        'created_at'
     ];
 
     protected $appends = [
@@ -37,6 +38,7 @@ class Game extends Model
         'long' => 'float',
         'lat' => 'float',
         'completed' => 'boolean',
+        'start_date' => 'integer'
     ];
 
     protected $hidden = [

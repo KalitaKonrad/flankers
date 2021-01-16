@@ -5,7 +5,10 @@ import { useTheme } from 'react-native-paper';
 import { MatchLocationSelectMapRoutesParameters } from '../../types/MatchLocationSelectMapRoutesParamaters';
 import { MatchCreateSelectLocationScreen } from './MatchCreateSelectLocationScreen';
 import { MatchCreateSettingsScreen } from './MatchCreateSettingsScreen';
-import { MatchInLobbyScreen } from './MatchInLobbyScreen';
+import {
+  MatchInLobbyScreen,
+  MatchInLobbyScreenRouteParams,
+} from './MatchInLobbyScreen';
 import { MatchInProgressScreen } from './MatchInProgressScreen';
 import { MatchJoinFromMapScreen } from './MatchJoinFromMapScreen';
 
@@ -13,7 +16,7 @@ export type MatchScreenStackParamList = {
   MatchActionChoice: undefined;
   MatchCreate: undefined;
   MatchJoinFromMap: undefined;
-  MatchInLobby: undefined;
+  MatchInLobby: MatchInLobbyScreenRouteParams;
   MatchInProgress: undefined;
   MatchLocation: MatchLocationSelectMapRoutesParameters;
 };
