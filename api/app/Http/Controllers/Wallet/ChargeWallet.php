@@ -58,6 +58,6 @@ class ChargeWallet extends Controller
 
         $user->wallet->charge($amount, WalletChargeSource::PURCHASE);
 
-        return Message::ok('User account charged', $user->wallet);
+        return Message::ok('User account charged', $user->wallet->load('charges'));
     }
 }
