@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Http\Message;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\SignupRequest;
@@ -21,7 +22,7 @@ class Signup extends Controller
      * @bodyParam name string required User name Example: wosiuto
      * @bodyParam password string required User password Example: kwakwa5!
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\SignupRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function __invoke(SignupRequest $request)
@@ -35,11 +36,9 @@ class Signup extends Controller
             DB::commit();
         } catch (Exception $e) {
             DB::rollBack();
-            return $e;
+            throw $e;
         }
 
-        return [
-            'message' => __('User registered successfully, check your email for confirmation link')
-        ];
+        return Message::ok('User registered successfully, check your email for confirmation link');
     }
 }

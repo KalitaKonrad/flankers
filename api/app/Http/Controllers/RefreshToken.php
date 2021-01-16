@@ -27,10 +27,9 @@ class RefreshToken extends Controller
      * @group Authentication
      * @header Authorization Bearer YOUR_TOKEN_HERE
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function __invoke(Request $request)
+    public function __invoke()
     {
         return $this->respondWithToken(Auth::refresh());
     }

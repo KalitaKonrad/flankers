@@ -32,6 +32,7 @@
         "laravel/telescope": "^4.3",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^5.0",
+        "nunomaduro/larastan": "^0.6.12",
         "pestphp/pest": "^0.3.14",
         "pestphp/pest-plugin-laravel": "^0.3.0",
         "phpunit/phpunit": "^9.3.10"
@@ -65,6 +66,7 @@
     "scripts": {
         "test": "pest",
         "coverage": "pest --coverage --min=30",
+        "analyse": "phpstan analyze",
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi"

@@ -35,7 +35,7 @@ class GenerateGameInvite
     /**
      * Register the listeners for the subscriber.
      *
-     * @param  Illuminate\Events\Dispatcher  $events
+     * @param mixed $events
      */
     public function subscribe($events)
     {

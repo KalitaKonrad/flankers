@@ -33,7 +33,7 @@ class GameController extends Controller
      *
      * @group Game data
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
@@ -92,7 +92,7 @@ class GameController extends Controller
      * @group Game data
      * @urlParam id int required Game id
      *
-     * @param  int  $id
+     * @param  int  $game_id
      * @return \Illuminate\Http\Response
      */
     public function show(int $game_id)

@@ -36,7 +36,7 @@ class UserAvatarController extends Controller
      * @group Avatars
      * @bodyParam avatar file required Avatar file, must be image under 4 MB
      *
-     * @param  \Illuminate\Http\AvatarUploadRequest  $request
+     * @param  \App\Http\Requests\AvatarUploadRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(AvatarUploadRequest $request)

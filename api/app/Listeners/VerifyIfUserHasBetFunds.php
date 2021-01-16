@@ -20,7 +20,7 @@ class VerifyIfUserHasBetFunds
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param UserAccessesSquad  $event
      * @return void
      */
     public function handle(UserAccessesSquad $event)

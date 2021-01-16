@@ -1,4 +1,4 @@
-name: API CI
+name: API tests
 on:
   push:
     paths: 
@@ -51,5 +51,8 @@ jobs:
         run: |
           php artisan scribe:generate
           
+      - name: Statically analyse app code
+        run: composer analyse
+
       - name: Execute tests
         run: composer coverage

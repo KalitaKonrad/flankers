@@ -22,7 +22,7 @@ class UserController extends Controller
      *
      * @group User management
      *
-     * @return void
+     * @return User
      */
     public function index()
     {

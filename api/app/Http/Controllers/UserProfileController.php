@@ -23,8 +23,6 @@ class UserProfileController extends Controller
      *
      * @group User management
      *
-     * @param  int  $userId
-     * @return \Illuminate\Http\Response
      */
     public function show()
     {
@@ -43,7 +41,6 @@ class UserProfileController extends Controller
      * @bodyParam password string User password Example: kwakwa5!
      *
      * @param  \App\Http\Requests\UpdateProfileRequest  $request
-     * @return \Illuminate\Http\Response
      */
     public function update(UpdateProfileRequest $request)
     {
