@@ -10,7 +10,7 @@ export interface SquadResponse {
 }
 
 export interface MembersPayload {
-  avatar: string;
+  versioned_avatar: string;
   current_team_id: number;
   elo: number;
   email: string;

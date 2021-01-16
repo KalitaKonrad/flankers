@@ -1,9 +1,13 @@
 <?php
 
+use App\Constants\WalletChargeSource;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+
+use function Tests\grabAuthToken;
+use function Tests\withAuthHeader;
 
 uses(RefreshDatabase::class);
 
@@ -18,10 +22,10 @@ it('should create empty wallet for registered user', function () {
 });
 
 it('should charge and create payment record', function () {
-    $wallet = Wallet::factory()->create();
+    $wallet = User::factory()->create()->wallet;
 
     $wallet->charge(5);
-    $wallet->charge(10);
+    $wallet->charge(10, WalletChargeSource::GAME_LOST);
     $wallet->charge(-5.5);
 
     $this->assertDatabaseHas('wallets', [
@@ -30,16 +34,44 @@ it('should charge and create payment record', function () {
 
     $this->assertDatabaseHas('wallet_charges', [
         'wallet_id' => $wallet->id,
-        'ammount' => 5
+        'amount' => 5,
+        'source' => 'generic'
     ]);
 
     $this->assertDatabaseHas('wallet_charges', [
         'wallet_id' => $wallet->id,
-        'ammount' => 10
+        'amount' => 10,
+        'source' => 'game_lost'
     ]);
 
     $this->assertDatabaseHas('wallet_charges', [
         'wallet_id' => $wallet->id,
-        'ammount' => -5.5
+        'amount' => -5.5
     ]);
+});
+
+it('should be fetchable', function () {
+    $user = User::factory()->create();
+    $wallet = $user->wallet;
+    $wallet->charge(5);
+    $wallet->charge(10);
+
+    withAuthHeader(grabAuthToken($user->id))
+        ->get('/wallet')
+        ->assertOk()
+        ->assertJson([
+            'data' => [
+                'id' => $wallet->id,
+                'balance' => 15.0,
+                'charges' => [
+                    [
+                        'amount' => 5,
+                        'source' => 'generic'
+                    ],
+                    [
+                        'amount' => 10
+                    ]
+                ]
+            ]
+        ]);
 });

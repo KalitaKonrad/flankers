@@ -39,8 +39,8 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
 }) => {
   const theme = useTheme();
 
-  const [mutate, mutation] = useTeamCreateMutation();
-  const [mutateTeamAvatar, mutationTeamAvatar] = useUpdateTeamAvatarMutation();
+  const mutation = useTeamCreateMutation();
+  const mutationTeamAvatar = useUpdateTeamAvatarMutation();
 
   const [avatar, setAvatar] = useState<string>(img);
 
@@ -60,7 +60,7 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   }, [register]);
 
   const changeAvatar = async (avatarUri: string, teamData: any) => {
-    await mutateTeamAvatar({
+    await mutationTeamAvatar.mutateAsync({
       avatarUri,
       team_id: teamData.id.toString()!,
     });
@@ -71,7 +71,10 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
     Keyboard.dismiss();
 
     try {
-      const teamData = await mutate({ name: teamName, description });
+      const teamData = await mutation.mutateAsync({
+        name: teamName,
+        description,
+      });
       await changeAvatar(avatar, teamData?.data.data);
     } catch (error) {
       setResponseErrors(error, setError);

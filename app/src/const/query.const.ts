@@ -10,5 +10,7 @@ export const QUERY_GAME_INVITATION = 'games/invites';
 export const QUERY_LEADERBOARDS_PLAYER = 'leaderboards/player';
 export const QUERY_LEADERBOARDS_TEAM = 'leaderboards/team';
 export const QUERY_USER_AVATAR = 'user/avatar';
+export const QUERY_USER_GAMES = 'user/games';
+export const QUERY_TEAM_GAMES = 'team/games';
 export const QUERY_USER_WALLET = 'user/wallet';
 export const QUERY_USER_HAS_ACTIVE_PAYMENT_METHOD = 'user/payment-active';
