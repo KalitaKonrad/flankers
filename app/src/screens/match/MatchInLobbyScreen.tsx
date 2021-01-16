@@ -248,12 +248,13 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
             <PlayerAvatarList players={secondTeamPlayersList} />
           )}
         </View>
-        {/*{gameOwnerId && } TODO:uzyc tego do pozwolonia wystartiowania gry tylko ownerowi*/}
-        <View style={styles.action}>
-          <AppButton mode="contained" onPress={() => onStartMatch()}>
-            Rozpocznij mecz
-          </AppButton>
-        </View>
+        {gameOwnerId && (
+          <View style={styles.action}>
+            <AppButton mode="contained" onPress={() => onStartMatch()}>
+              Rozpocznij mecz
+            </AppButton>
+          </View>
+        )}
       </PaddedInputScrollView>
     </Container>
   );

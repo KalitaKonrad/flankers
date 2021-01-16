@@ -102,7 +102,6 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
     };
   }, [echo, isEchoReady, onStartVoting, gameId, onGameEnded]);
 
-  // TODO: use this to allow only the owner to finish match
   const isOwner = ownerId === profile.data?.id;
 
   return (
@@ -129,12 +128,11 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
         </View>
       </View>
       <View style={styles.action}>
-        {/*{isOwner && TODO: ENABLE THAT(*/}
-        <AppButton mode="contained" onPress={() => onOwnerStartVoting()}>
-          Zakończ mecz
-        </AppButton>
-
-        {/*)}*/}
+        {isOwner && (
+          <AppButton mode="contained" onPress={() => onOwnerStartVoting()}>
+            Zakończ mecz
+          </AppButton>
+        )}
       </View>
       {/*TODO: turn off background click possibility when deciding which team won*/}
       <Modal ref={modalEndGame} title="Mecz dobiegł końca">
