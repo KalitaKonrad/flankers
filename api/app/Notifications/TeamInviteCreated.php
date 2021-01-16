@@ -34,11 +34,17 @@ class TeamInviteCreated extends ExpoNotification implements ShouldQueue
         return [ExpoChannel::class];
     }
 
+    /**
+     * Convert notification to expo request data
+     *
+     * @param mixed $notifiable
+     * @return array
+     */
     public function toExpo($notifiable): array
     {
         return [
-            "title" => "Your were invited to join a team!",
-            "body" => "{$this->team->name} are calling",
+            "title" => __("Your were invited to join a team!"),
+            "body" => "{$this->team->name} " . __("are calling"),
             "data" => json_encode(["type" => "team_invite"])
         ];
     }
