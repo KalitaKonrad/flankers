@@ -13,6 +13,9 @@ module.exports = {
         pusherKey: process.env.EXPO_PUSHER_APP_KEY,
         pusherCluster: process.env.EXPO_PUSHER_APP_CLUSTER,
       },
+      stripe: {
+        publicKey: process.env.EXPO_STRIPE_PUBLIC_KEY,
+      },
     },
     orientation: 'portrait',
     icon: './assets/icon.png',
