@@ -1,13 +1,14 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-// @ts-ignore
 import { CreditCardInput } from 'react-native-credit-card-input';
 
 import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
 import { AppButton } from '../../components/shared/AppButton';
+import { AppText } from '../../components/shared/AppText';
 import { useUpdateUserPaymentMethodMutation } from '../../hooks/payments/useUpdateUserPaymentMethodMutation';
+import { useUserHasActivePaymentMethodQuery } from '../../hooks/payments/useUserHasActivePaymentMethodQuery';
 import { Stripe } from '../../lib/stripe';
 import { CreditCardInputResult } from '../../types/credit-card-input-result';
 import { WalletScreenStackParamList } from './WalletScreenStack';
@@ -40,6 +41,8 @@ export const WalletPaymentMethodScreen: React.FC<WalletPaymentMethodScreenProps>
   const [card, setCard] = useState<CreditCardInputResult | null>(null);
   const [updatePaymentMethod] = useUpdateUserPaymentMethodMutation();
   const [isPending, setPending] = useState(false);
+  const hasActivePaymentMethod = useUserHasActivePaymentMethodQuery().data;
+  const [isUpdatingPaymentMethod, setUpdatingPaymentMethod] = useState(false);
 
   const onSave = async () => {
     if (!card || !card.valid) {
@@ -66,6 +69,24 @@ export const WalletPaymentMethodScreen: React.FC<WalletPaymentMethodScreenProps>
     }
   };
 
+  if (hasActivePaymentMethod && !isUpdatingPaymentMethod) {
+    return (
+      <Container>
+        <PaddedInputScrollView>
+          <AppText style={styles.info}>
+            Do Twojego konta została już podpięta karta płatnicza. Jeżeli chcesz
+            ją zmienić skorzystaj z przycisku poniżej
+          </AppText>
+          <AppButton
+            mode="contained"
+            onPress={() => setUpdatingPaymentMethod(true)}>
+            Zmień metodę płatności
+          </AppButton>
+        </PaddedInputScrollView>
+      </Container>
+    );
+  }
+
   return (
     <Container>
       <PaddedInputScrollView>
@@ -87,6 +108,10 @@ export const WalletPaymentMethodScreen: React.FC<WalletPaymentMethodScreenProps>
 };
 
 const styles = StyleSheet.create({
+  info: {
+    textAlign: 'center',
+    paddingVertical: 16,
+  },
   cardContainer: {
     paddingVertical: 64,
   },

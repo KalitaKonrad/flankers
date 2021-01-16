@@ -25,16 +25,11 @@ export const WalletScreenStack: React.FC = () => {
         component={WalletScreen}
         options={({ navigation }) => ({
           title: 'Portfel',
-          headerLeft: () => (
+          headerRight: () => (
             <HeaderAppButton
               inverse
               onPress={() => navigation.navigate('PaymentMethod')}>
               Karta
-            </HeaderAppButton>
-          ),
-          headerRight: () => (
-            <HeaderAppButton inverse onPress={() => alert('Not implemented')}>
-              Wypłać
             </HeaderAppButton>
           ),
         })}

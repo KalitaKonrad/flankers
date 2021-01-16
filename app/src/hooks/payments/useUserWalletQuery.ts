@@ -8,7 +8,7 @@ interface UserWalletResponse {
   data: Wallet;
 }
 
-export const useUserWallet = () => {
+export const useUserWalletQuery = () => {
   const axios = useAxios();
   return useQuery<Wallet>(QUERY_USER_WALLET, async () => {
     const response = await axios.get<UserWalletResponse>('/wallet');
