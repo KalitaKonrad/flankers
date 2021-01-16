@@ -12,6 +12,7 @@ import {
   SQUAD_MEMBERS_CHANGED_EVENT,
 } from '../../const/events.const';
 import { useAddUserToGameSquadMutation } from '../../hooks/useAddUserToGameSquadMutation';
+import { useAxios } from '../../hooks/useAxios';
 import { useEcho } from '../../hooks/useEcho';
 import { useGameDetailsQuery } from '../../hooks/useGameDetailsQuery';
 import { useMoveMemberToAnotherSquadMutation } from '../../hooks/useMoveMemberToAnotherSquadMutation';
@@ -45,6 +46,8 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   const mutateChangeSquad = useMoveMemberToAnotherSquadMutation();
   const matchDetails = useGameDetailsQuery(route.params.gameId);
 
+  const axios = useAxios();
+
   const [firstTeamPlayersList, setFirstTeamPlayersList] = useState<
     MembersPayload[] | undefined
   >(matchDetails.data?.squads[0].members);
@@ -65,7 +68,25 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
 
   const { echo, isReady: isEchoReady } = useEcho();
 
-  const onGameUpdated = useCallback((event: GameUpdateEvent) => {}, []);
+  const onGameUpdated = useCallback(
+    (event: GameUpdateEvent) => {
+      navigation.navigate('MatchInProgress', {
+        gameId: event.game.id,
+        firstSquadId: matchDetails.data?.squads[0].id,
+        secondSquadId: matchDetails.data?.squads[1].id,
+        firstTeamPlayersList,
+        secondTeamPlayersList,
+        ownerId: matchDetails.data?.owner_id,
+      });
+    },
+    [
+      firstTeamPlayersList,
+      matchDetails.data?.owner_id,
+      matchDetails.data?.squads,
+      navigation,
+      secondTeamPlayersList,
+    ]
+  );
 
   const onSquadMembersChanged = useCallback(
     (event: SquadMembersChangedEvent) => {
@@ -110,6 +131,20 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     route.params.gameId,
   ]);
 
+  const gameOwnerId = matchDetails.data?.owner_id === profile.data?.id;
+
+  const onStartMatch = async () => {
+    try {
+      await axios.put(`games/${route.params.gameId}`, {
+        command: {
+          start_game: true,
+        },
+      });
+    } catch (e) {
+      alert('Wystąpił błąd podczas próby wystartowania gry');
+    }
+  };
+
   const onJoinSquad = async (squadIndex: number) => {
     if (
       profile.data?.id === undefined ||
@@ -147,7 +182,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
         setIsUserAllowedToChangeSquad(false);
         unlockChangingSquads();
       } catch (error) {
-        alert('Wystąpił błąd podaczas dołączania do składu');
+        alert('Wystąpił błąd podczas dołączania do składu');
       }
     } else {
       try {
@@ -210,13 +245,13 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
             <PlayerAvatarList players={secondTeamPlayersList} />
           )}
         </View>
-        <View style={styles.action}>
-          <AppButton
-            mode="contained"
-            onPress={() => navigation.navigate('MatchInProgress')}>
-            Rozpocznij mecz
-          </AppButton>
-        </View>
+        {gameOwnerId && (
+          <View style={styles.action}>
+            <AppButton mode="contained" onPress={() => onStartMatch()}>
+              Rozpocznij mecz
+            </AppButton>
+          </View>
+        )}
       </PaddedInputScrollView>
     </Container>
   );

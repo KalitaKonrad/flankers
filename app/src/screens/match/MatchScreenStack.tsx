@@ -9,7 +9,10 @@ import {
   MatchInLobbyScreen,
   MatchInLobbyScreenRouteParams,
 } from './MatchInLobbyScreen';
-import { MatchInProgressScreen } from './MatchInProgressScreen';
+import {
+  MatchInProgressScreen,
+  MatchInProgressScreenRouteParams,
+} from './MatchInProgressScreen';
 import { MatchJoinFromMapScreen } from './MatchJoinFromMapScreen';
 
 export type MatchScreenStackParamList = {
@@ -17,7 +20,7 @@ export type MatchScreenStackParamList = {
   MatchCreate: undefined;
   MatchJoinFromMap: undefined;
   MatchInLobby: MatchInLobbyScreenRouteParams;
-  MatchInProgress: undefined;
+  MatchInProgress: MatchInProgressScreenRouteParams;
   MatchLocation: MatchLocationSelectMapRoutesParameters;
 };
 
@@ -50,7 +53,11 @@ export const MatchScreenStack: React.FC = () => {
         component={MatchInLobbyScreen}
         options={{ title: 'Lobby' }}
       />
-      <Stack.Screen name="MatchInProgress" component={MatchInProgressScreen} />
+      <Stack.Screen
+        name="MatchInProgress"
+        component={MatchInProgressScreen}
+        options={{ title: 'Mecz w trakcie' }}
+      />
     </Stack.Navigator>
   );
 };

@@ -31,3 +31,4 @@ export const AppScreen: React.FC = () => {
     return <AuthScreenStack />;
   }
 };
+t;

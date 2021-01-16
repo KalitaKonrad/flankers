@@ -1,15 +1,26 @@
-import React, { ComponentProps } from 'react';
-import { StyleSheet } from 'react-native';
-import InputScrollView from 'react-native-input-scroll-view';
+import React from 'react';
+import { StyleProp, ViewStyle, StyleSheet } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
-type PaddedInputScrollViewProps = ComponentProps<typeof InputScrollView>;
+interface PaddedInputScrollViewProps {
+  style?: StyleProp<ViewStyle>;
+}
 
-export const PaddedInputScrollView: React.FC<PaddedInputScrollViewProps> = (
-  props
-) => <InputScrollView {...props} style={[styles.container, props.style]} />;
+export const PaddedInputScrollView: React.FC<PaddedInputScrollViewProps> = ({
+  style,
+  children,
+}) => {
+  return (
+    <KeyboardAwareScrollView style={[styles.container, style]}>
+      {children}
+    </KeyboardAwareScrollView>
+  );
+};
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    padding: 8,
     paddingHorizontal: 16,
   },
 });
