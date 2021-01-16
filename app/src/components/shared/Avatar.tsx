@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { useMemo } from 'react';
 import {
   Image,
   ImageSourcePropType,
@@ -32,54 +33,36 @@ export const Avatar: React.FC<AvatarProps> = ({
 }) => {
   const avatarPlaceholder = require('../../../assets/versioned_initial_avatar.png').toString();
 
+  const imageStyle = useMemo(
+    () => ({
+      height: size,
+      width: size,
+      borderWidth: border,
+      borderRadius,
+    }),
+    [border, borderRadius, size]
+  );
+
+  const elevatedStyle = useMemo(
+    () => ({
+      elevation,
+      height: size,
+      width: size,
+      borderRadius,
+    }),
+    [borderRadius, elevation, size]
+  );
+
   return isLoading ? (
     <SkeletonPlaceholder>
-      <View
-        style={[
-          styles.container,
-          {
-            elevation,
-            height: size,
-            width: size,
-            borderRadius,
-          },
-          containerStyle,
-        ]}>
-        <View
-          style={[
-            styles.avatar,
-            {
-              height: size,
-              width: size,
-              borderWidth: border,
-              borderRadius,
-            },
-          ]}
-        />
+      <View style={[styles.container, elevatedStyle, containerStyle]}>
+        <View style={[styles.avatar, imageStyle]} />
       </View>
     </SkeletonPlaceholder>
   ) : (
-    <View
-      style={[
-        styles.container,
-        {
-          elevation,
-          height: size,
-          width: size,
-          borderRadius,
-        },
-        containerStyle,
-      ]}>
+    <View style={[styles.container, elevatedStyle, containerStyle]}>
       <Image
-        style={[
-          styles.avatar,
-          {
-            height: size,
-            width: size,
-            borderWidth: border,
-            borderRadius,
-          },
-        ]}
+        style={[styles.avatar, imageStyle]}
         source={src ?? avatarPlaceholder}
       />
     </View>

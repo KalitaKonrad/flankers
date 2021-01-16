@@ -18,7 +18,7 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
 
   return (
     <ContainerWithAvatar
-      avatar={{ uri: profile.data?.versioned_avatar }}
+      avatar={{ uri: profile?.data?.versioned_avatar }}
       isLoading={profile.isFetching}>
       <View style={styles.meta}>
         <AppText variant="h1">{profile.data?.name}</AppText>
