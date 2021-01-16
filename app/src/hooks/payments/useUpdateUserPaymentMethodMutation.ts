@@ -14,7 +14,7 @@ export const useUpdateUserPaymentMethodMutation = () => {
       }),
     {
       onSuccess: () => {
-        queryCache.setQueryData([QUERY_USER_HAS_ACTIVE_PAYMENT_METHOD], true);
+        queryCache.setQueryData(QUERY_USER_HAS_ACTIVE_PAYMENT_METHOD, true);
       },
     }
   );
