@@ -25,21 +25,14 @@ type TeamManageScreenProps = StackScreenProps<
 
 export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
   const userProfile = useUserProfileQuery();
-
+  const userTeam = userProfile?.data?.teams?.[0];
   const membersList = useTeamMembersQuery(userProfile.data?.current_team_id);
   const mutationTeamAvatar = useUpdateTeamAvatarMutation();
-
   const [showMatches, setShowMatches] = useState(false);
   const [avatar, setAvatar] = useState<string>(
-    userProfile.data?.teams[0].versioned_avatar!
+    userProfile.data?.teams?.[0]?.versioned_avatar!
   );
-
-  const teamProfile = useTeamProfileQuery();
-
-  const matchHistory = useTeamMatchHistoryQuery(
-    { page: 1 },
-    teamProfile.data?.id
-  );
+  const matchHistory = useTeamMatchHistoryQuery({ page: 1 }, userTeam?.id);
   const matchHistoryList = useMemo(() => {
     if (
       ((matchHistory.isFetching || matchHistory.isError) &&
@@ -62,21 +55,21 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
       });
     }
   };
+
   return (
-    <ContainerWithAvatar avatar={{ uri: avatar }}>
-      {avatar !== undefined && (
-        <View style={styles.avatarBtnWrapper}>
+    <ContainerWithAvatar
+      avatar={{ uri: avatar }}
+      button={
+        !avatar ? null : (
           <AvatarSelectButton
             avatarUri={avatar}
             onAvatarChange={(avatarUri) => changeAvatar(avatarUri)}
           />
-        </View>
-      )}
+        )
+      }>
       <View style={styles.meta}>
-        <AppText variant="h1">{userProfile.data?.teams?.[0]?.name}</AppText>
-        <AppText variant="h3">
-          Punkty rankingowe: {userProfile.data?.teams[0].elo}
-        </AppText>
+        <AppText variant="h1">{userTeam?.name}</AppText>
+        <AppText variant="h3">Punkty rankingowe: {userTeam?.elo}</AppText>
       </View>
       <View style={styles.switch}>
         <Switch
@@ -111,9 +104,5 @@ const styles = StyleSheet.create({
   switch: {
     paddingHorizontal: 16,
     marginBottom: 16,
-  },
-  avatarBtnWrapper: {
-    left: 200,
-    top: -60,
   },
 });

@@ -43,6 +43,7 @@ export const ActiveMatchesMap: React.FC<ActiveMatchesMapProps> = (props) => {
       <MapLocateButton mapRef={mapRef.current} />
       <MapView
         ref={mapRef}
+        provider="google"
         initialRegion={initialRegion}
         style={[StyleSheet.absoluteFill, { marginBottom: marginFix }]}
         showsMyLocationButton={false}

@@ -92,13 +92,14 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   };
 
   return (
-    <ContainerWithAvatar avatar={{ uri: avatar }}>
-      <View style={styles.avatarBtnWrapper}>
+    <ContainerWithAvatar
+      avatar={{ uri: avatar }}
+      button={
         <AvatarSelectButton
           avatarUri={avatar}
           onAvatarChange={(avatarUri) => changeAvatar(avatarUri)}
         />
-      </View>
+      }>
       <View style={styles.meta}>
         <AppText variant="h2">Zmiana danych</AppText>
       </View>
@@ -181,9 +182,5 @@ const styles = StyleSheet.create({
   },
   buttonWrapper: {
     left: 200,
-  },
-  avatarBtnWrapper: {
-    left: 200,
-    top: -60,
   },
 });
