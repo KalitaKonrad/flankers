@@ -15,7 +15,6 @@ const formatSeconds = (seconds: number) => {
 
 export const Timer: React.FC<TimerProps> = ({ subText }) => {
   const [seconds, setSeconds] = useState(0);
-  const [timer, setTimer] = useState('00:00');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -24,9 +23,7 @@ export const Timer: React.FC<TimerProps> = ({ subText }) => {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    setTimer(formatSeconds(seconds));
-  }, [seconds]);
-
-  return <RoundInformation mainText={timer} subText={subText} />;
+  return (
+    <RoundInformation mainText={formatSeconds(seconds)} subText={subText} />
+  );
 };
