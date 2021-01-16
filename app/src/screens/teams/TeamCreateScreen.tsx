@@ -80,14 +80,14 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
   };
 
   return (
-    <ContainerWithAvatar avatar={{ uri: avatar }}>
-      <View style={styles.avatarBtnWrapper}>
+    <ContainerWithAvatar
+      avatar={{ uri: avatar }}
+      button={
         <AvatarSelectButton
           avatarUri={avatar}
           onAvatarChange={(avatarUri) => setAvatar(avatarUri)}
         />
-      </View>
-
+      }>
       <View style={styles.meta}>
         <AppText variant="h2">Dane zespołu</AppText>
       </View>
@@ -132,9 +132,5 @@ const styles = StyleSheet.create({
   },
   action: {
     marginTop: 16,
-  },
-  avatarBtnWrapper: {
-    left: 200,
-    top: -60,
   },
 });
