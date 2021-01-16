@@ -20,7 +20,7 @@ class CreateUserWallet
     /**
      * Create wallet for an user when it is created
      *
-     * @param  object  $event
+     * @param  UserCreated  $event
      * @return void
      */
     public function handle(UserCreated $event)

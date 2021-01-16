@@ -23,8 +23,7 @@ class ListUserGames extends Controller
      *
      * @group User management
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
     public function __invoke()
     {

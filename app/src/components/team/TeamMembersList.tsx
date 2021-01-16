@@ -8,6 +8,7 @@ import {
   ViewStyle,
 } from 'react-native';
 import { List } from 'react-native-paper';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import { UserProfilePayload } from '../../types/userProfilePayload';
 import { Avatar } from '../shared/Avatar';

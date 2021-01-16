@@ -40,7 +40,7 @@ class TeamAvatarController extends Controller
      * @bodyParam avatar file required Avatar file, must be image under 4 MB
      * @bodyParam team_id int team id
      *
-     * @param  \Illuminate\Http\AvatarUploadRequest  $request
+     * @param  \App\Http\Requests\AvatarUploadRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(AvatarUploadRequest $request)

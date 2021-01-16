@@ -8,11 +8,11 @@ import {
 import AppLoading from 'expo-app-loading';
 import React, { useEffect } from 'react';
 
-import { BottomTabNavigation } from '../components/BottomTabNavigation';
 import { NOTIFICATION_EVENT } from '../const/events.const';
 import { useAuth } from '../hooks/useAuth';
 import { EventBus } from '../utils/eventBus';
 import { handleNotifiationPress } from '../utils/notificationHandler';
+import { AppScreenStack } from './AppScreenStack';
 import { AuthScreenStack } from './auth/AuthScreenStack';
 
 export const AppScreen: React.FC = () => {
@@ -36,7 +36,7 @@ export const AppScreen: React.FC = () => {
   }
 
   if (isAuthenticated) {
-    return <BottomTabNavigation />;
+    return <AppScreenStack />;
   } else {
     return <AuthScreenStack />;
   }

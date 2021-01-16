@@ -19,7 +19,7 @@ class TeamController extends Controller
      *
      * @group Team management
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Collection
      */
     public function index()
     {
@@ -35,7 +35,7 @@ class TeamController extends Controller
      * @bodyParam name string required Team name Example: Flankersi
      * @bodyParam description string Team description Example: Best team ever
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Http\Requests\CreateTeamRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(CreateTeamRequest $request)
@@ -67,7 +67,7 @@ class TeamController extends Controller
      * @bodyParam name string Team name Example: Flankersi
      * @bodyParam description string Team description Example: Best team ever
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  \App\Http\Requests\CreateTeamRequest $request
      * @param  int $id
      * @return \Illuminate\Http\Response
      */

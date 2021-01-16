@@ -23,7 +23,6 @@ class HasPaymentConnected extends Controller
      *
      * @group Payments
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function __invoke()

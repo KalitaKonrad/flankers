@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import { theme } from '../../theme';
 import { AppButton } from './AppButton';
@@ -10,6 +11,7 @@ interface RoundInformationProps {
   subText?: string;
   buttonText?: string;
   onButtonPress?: () => void;
+  isLoading?: boolean;
 }
 
 const RoundInformation: React.FC<RoundInformationProps> = ({
@@ -17,8 +19,9 @@ const RoundInformation: React.FC<RoundInformationProps> = ({
   subText,
   buttonText,
   onButtonPress,
+  isLoading,
 }) => {
-  return (
+  return !isLoading ? (
     <View style={styles.container}>
       <AppText variant="h1" style={styles.mainText}>
         {mainText}
@@ -33,6 +36,10 @@ const RoundInformation: React.FC<RoundInformationProps> = ({
         </AppButton>
       )}
     </View>
+  ) : (
+    <SkeletonPlaceholder>
+      <View style={styles.container} />
+    </SkeletonPlaceholder>
   );
 };
 

@@ -1,7 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { useTheme } from 'react-native-paper';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
 import { MatchHistoryList } from '../../components/match/MatchHistoryList';
@@ -13,9 +12,9 @@ import { useTeamProfileQuery } from '../../hooks/useTeamManageQuery';
 import { useTeamMatchHistoryQuery } from '../../hooks/useTeamMatchHistoryQuery';
 import { useTeamMembersQuery } from '../../hooks/useTeamMembersQuery';
 import { useUpdateTeamAvatarMutation } from '../../hooks/useUpdateTeamAvatarMutation';
-import { useUserMatchHistoryQuery } from '../../hooks/useUserMatchHistoryQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { MatchElementInHistory } from '../../types/match';
+import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
 type TeamManageScreenProps = StackScreenProps<
@@ -23,7 +22,9 @@ type TeamManageScreenProps = StackScreenProps<
   'TeamManage'
 >;
 
-export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
+export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
+  navigation,
+}) => {
   const userProfile = useUserProfileQuery();
   const userTeam = userProfile?.data?.teams?.[0];
   const membersList = useTeamMembersQuery(userProfile.data?.current_team_id);
@@ -56,9 +57,33 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
     }
   };
 
+  const onMatchHistoryListEndReached = useCallback(() => {
+    if (matchHistory.hasNextPage) {
+      matchHistory.fetchNextPage();
+    }
+  }, []);
+
+  const listView = useMemo(() => {
+    const query = showMatches ? matchHistory : membersList;
+    const view = showMatches ? (
+      <MatchHistoryList
+        matchHistory={matchHistoryList}
+        onListEndReached={onMatchHistoryListEndReached}
+      />
+    ) : (
+      <TeamMemberList members={membersList.data!} />
+    );
+
+    if (query.isLoading) {
+      return <ListPlaceholder placeholderCount={6} />;
+    }
+    return view;
+  }, [showMatches, matchHistory, membersList, onMatchHistoryListEndReached]);
+
   return (
     <ContainerWithAvatar
       avatar={{ uri: avatar }}
+      isLoading={userProfile.isFetching}
       button={
         !avatar ? null : (
           <AvatarSelectButton
@@ -79,19 +104,7 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = () => {
           onSwitchToRight={() => setShowMatches(true)}
         />
       </View>
-      {showMatches && (
-        <MatchHistoryList
-          matchHistory={matchHistoryList}
-          onListEndReached={() => {
-            if (matchHistory.hasNextPage) {
-              matchHistory.fetchNextPage();
-            }
-          }}
-        />
-      )}
-      {!showMatches && membersList.isSuccess && (
-        <TeamMemberList members={membersList.data!} />
-      )}
+      {listView}
     </ContainerWithAvatar>
   );
 };

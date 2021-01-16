@@ -1,14 +1,16 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import { Container } from '../../components/layout/Container';
 import { RankingList } from '../../components/ranking/RankingList';
 import { AppButton } from '../../components/shared/AppButton';
 import { Switch } from '../../components/shared/Switch';
+import { useAlert } from '../../hooks/useAlert';
 import { usePlayerLeaderboardsQuery } from '../../hooks/usePlayerLeaderboardsQuery';
 import { useTeamLeaderboardsQuery } from '../../hooks/useTeamLeaderboardsQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { RankingScreenStackParamList } from './RankingScreenStack';
 
 type RankingScreenProps = StackScreenProps<
@@ -23,6 +25,7 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
   const [pageTeamRanking, setPageTeamRanking] = useState(1);
 
   const profile = useUserProfileQuery();
+  const { showAlert } = useAlert();
 
   const teamLeaderboardsQuery = useTeamLeaderboardsQuery(pageTeamRanking);
 
@@ -56,10 +59,15 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
     setPageTeamRanking(value);
   };
 
-  if (playerLeaderboardsQuery.isError || teamLeaderboardsQuery.isError) {
-    alert('Błąd podczas wyświetlania rankingu');
-    return null;
-  }
+  useEffect(() => {
+    if (playerLeaderboardsQuery.isError || teamLeaderboardsQuery.isError) {
+      showAlert('Ups', 'Błąd podczas wyświetlania rankingu');
+    }
+  }, [
+    playerLeaderboardsQuery.isError,
+    showAlert,
+    teamLeaderboardsQuery.isError,
+  ]);
 
   return (
     <Container>
@@ -69,13 +77,12 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
           rightLabel="Drużyny"
           onSwitchToLeft={() => setShowTeamsRanking(false)}
           onSwitchToRight={() => setShowTeamsRanking(true)}
+          disabled={profile.isFetching}
         />
       </View>
 
       {playerLeaderboardsQuery.isLoading ? (
-        <Text>Loading...</Text>
-      ) : playerLeaderboardsQuery.isError ? (
-        alert('Błąd podczas wyświetlania rankungu użytkowników')
+        <ListPlaceholder placeholderCount={6} itemHeight={50} />
       ) : showTeamsRanking ||
         playerLeaderboardsQuery.data === undefined ||
         profile.data?.id === undefined ? null : (
@@ -103,10 +110,8 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
         />
       )}
 
-      {teamLeaderboardsQuery.isLoading ? (
-        <Text>Loading...</Text>
-      ) : teamLeaderboardsQuery.error ? (
-        alert('Błąd podczas wyświetlania rankingu drużynowego')
+      {teamLeaderboardsQuery.isLoading && showTeamsRanking ? (
+        <ListPlaceholder placeholderCount={6} itemHeight={50} />
       ) : !showTeamsRanking ||
         teamLeaderboardsQuery.data === undefined ||
         profile.data?.current_team_id === undefined ? null : (
@@ -133,11 +138,6 @@ export const RankingScreen: React.FC<RankingScreenProps> = ({ navigation }) => {
           }
         />
       )}
-
-      {teamLeaderboardsQuery.isFetching ||
-      playerLeaderboardsQuery.isFetching ? (
-        <Text>Loading</Text>
-      ) : null}
     </Container>
   );
 };

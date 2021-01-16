@@ -23,7 +23,7 @@ class StartGameTimers
     /**
      * Handle the event after game creation.
      *
-     * @param  object  $event
+     * @param GameCreated $event
      * @return void
      */
     public function handleCreate(GameCreated $event)
@@ -40,7 +40,7 @@ class StartGameTimers
     /**
      * Handle the event.
      *
-     * @param  object  $event
+     * @param  GameUpdated  $event
      * @return void
      */
     public function handleUpdate(GameUpdated $event)

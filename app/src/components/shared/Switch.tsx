@@ -7,6 +7,7 @@ interface SwitchProps {
   rightLabel: string;
   onSwitchToLeft(): void;
   onSwitchToRight(): void;
+  disabled?: boolean;
 }
 
 enum SwitchValue {
@@ -19,6 +20,7 @@ export const Switch: React.FC<SwitchProps> = ({
   rightLabel,
   onSwitchToLeft,
   onSwitchToRight,
+  disabled,
 }) => {
   const theme = useTheme();
   const [currentValue, setCurrentValue] = useState(SwitchValue.LEFT);
@@ -49,6 +51,7 @@ export const Switch: React.FC<SwitchProps> = ({
       borderColor="#E8E8E8"
       backgroundColor="#F6F6F6"
       height={50}
+      disabled={disabled}
       fontSize={16}
       options={options}
       onPress={onPress}

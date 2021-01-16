@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
+import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
 import { List, Text } from 'react-native-paper';
 
 import { MatchElementInHistory } from '../../types/match';
