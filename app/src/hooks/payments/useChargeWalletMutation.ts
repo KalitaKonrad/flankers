@@ -10,7 +10,7 @@ interface ChargeWalletResponse {
 
 export const useChargeWalletMutation = () => {
   const axios = useAxios();
-  const queryCache = useQueryClient();
+  const queryClient = useQueryClient();
 
   return useMutation(
     async (amount: number) => {
@@ -24,7 +24,7 @@ export const useChargeWalletMutation = () => {
     },
     {
       onSuccess: (wallet) => {
-        queryCache.setQueryData([QUERY_USER_WALLET], wallet);
+        queryClient.setQueryData(QUERY_USER_WALLET, wallet);
       },
     }
   );
