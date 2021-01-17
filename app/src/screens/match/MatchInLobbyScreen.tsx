@@ -16,6 +16,7 @@ import { useAxios } from '../../hooks/useAxios';
 import { useEcho } from '../../hooks/useEcho';
 import { useGameDetailsQuery } from '../../hooks/useGameDetailsQuery';
 import { useMoveMemberToAnotherSquadMutation } from '../../hooks/useMoveMemberToAnotherSquadMutation';
+import { useShare } from '../../hooks/useShare';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
 import { SquadMembersChangedEvent } from '../../types/UserJoinedSquadEvent';
@@ -45,6 +46,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   const mutateJoinSquad = useAddUserToGameSquadMutation();
   const mutateChangeSquad = useMoveMemberToAnotherSquadMutation();
   const matchDetails = useGameDetailsQuery(route.params.gameId);
+  const { share } = useShare();
 
   const axios = useAxios();
 
@@ -145,23 +147,23 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     }
   };
 
-  const onShare = async () => {
-    if (matchDetails?.data?.invite?.code === undefined) {
-      return;
-    }
-    try {
-      const result = await Share.share({
-        message: matchDetails.data.invite.code,
-      });
-      if (result.action === Share.sharedAction) {
-        alert('shared');
-      } else if (result.action === Share.dismissedAction) {
-        alert('dissmised');
-      }
-    } catch (error) {
-      alert(error.message);
-    }
-  };
+  // const onShare = async () => {
+  //   if (matchDetails?.data?.invite?.code === undefined) {
+  //     return;
+  //   }
+  //   try {
+  //     const result = await Share.share({
+  //       message: matchDetails.data.invite.code,
+  //     });
+  //     if (result.action === Share.sharedAction) {
+  //       alert('shared');
+  //     } else if (result.action === Share.dismissedAction) {
+  //       alert('dissmised');
+  //     }
+  //   } catch (error) {
+  //     alert(error.message);
+  //   }
+  // };
 
   const onJoinSquad = async (squadIndex: number) => {
     if (
@@ -271,7 +273,9 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
           </View>
         )}
         <View style={{ marginTop: 20 }}>
-          <AppButton onPress={() => onShare()}>Udostępnij kod gry</AppButton>
+          <AppButton onPress={() => share(matchDetails?.data?.invite?.code)}>
+            Udostępnij kod gry
+          </AppButton>
         </View>
       </PaddedInputScrollView>
     </Container>
