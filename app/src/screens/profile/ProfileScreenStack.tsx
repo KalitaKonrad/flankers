@@ -4,6 +4,7 @@ import { useTheme } from 'react-native-paper';
 
 import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
 import { useAuth } from '../../hooks/useAuth';
+import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { ProfileEditRouteParameters } from '../../types/ProfileEditRouteParameters';
 import { ProfileEditScreen } from './ProfileEditScreen';
@@ -16,9 +17,10 @@ export type ProfileScreenStackParamList = {
 
 const Stack = createStackNavigator<ProfileScreenStackParamList>();
 
-export const ProfileScreenStack: React.FC = () => {
+export const ProfileScreenStack: React.FC = ({ navigation }) => {
   const { logout } = useAuth();
   const userProfile = useUserProfileQuery();
+  useNotificationHandler(navigation);
 
   const theme = useTheme();
 

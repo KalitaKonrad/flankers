@@ -50,8 +50,6 @@ export const TeamInvitesList: React.FC<TeamInvitesProps> = ({
       right={() => (
         <View style={styles.buttonContainer}>
           <AppButton
-            style={styles.joinButton}
-            mode="contained"
             onPress={() => onInviteClick(item.accept_token, item.deny_token)}>
             Dołącz
           </AppButton>
@@ -78,8 +76,6 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    borderRadius: 16,
-    backgroundColor: theme.colors.lightGray,
     marginVertical: 8,
     height: 80,
   },
@@ -90,9 +86,6 @@ const styles = StyleSheet.create({
   },
   invitedByEmail: {
     fontWeight: 'bold',
-  },
-  joinButton: {
-    // height: 40,
   },
   memberAvatarContainer: {
     justifyContent: 'center',

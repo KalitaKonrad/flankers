@@ -30,7 +30,7 @@ export const NotificationProvider: React.FC = ({ children }) => {
 Notifications.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowAlert: true,
-    shouldPlaySound: false,
+    shouldPlaySound: true,
     shouldSetBadge: false,
   }),
 });
@@ -98,6 +98,9 @@ const useProvideNotification = () => {
     // interacts with a notification (works when app is foregrounded, backgrounded, or killed)
     const responseSubscription = Notifications.addNotificationResponseReceivedListener(
       (response) => {
+        console.log('NOTIFICATION TAPPED + RESPONSE', response);
+        console.log('REsPONSE JSON:', JSON.stringify(response));
+
         EventBus.emit(NOTIFICATION_EVENT, response);
       }
     );

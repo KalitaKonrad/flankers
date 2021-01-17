@@ -1,7 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { Text } from 'react-native-paper';
 
 import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';

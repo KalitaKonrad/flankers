@@ -13,8 +13,11 @@ export const useRemoveTeamMemberMutation = () => {
   const queryCache = useQueryClient();
 
   return useMutation(
-    ({ team_id, user_id }: RemoveTeamMemberPayload) =>
-      axios.delete(`teams/memberships/${team_id}`, { data: user_id }),
+    ({ team_id, user_id }: RemoveTeamMemberPayload) => {
+      axios.delete(`teams/memberships/${team_id}`, { data: user_id });
+      console.log('team_id', team_id);
+      console.log('user_id', user_id);
+    },
     {
       onSuccess: (team_id) => {
         queryCache.invalidateQueries(`teams/memberships/${team_id}`);

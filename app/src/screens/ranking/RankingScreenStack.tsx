@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 
+import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { RankingScreen } from './RankingScreen';
 
 export type RankingScreenStackParamList = {
@@ -10,8 +11,9 @@ export type RankingScreenStackParamList = {
 
 const Stack = createStackNavigator<RankingScreenStackParamList>();
 
-export const RankingScreenStack: React.FC = () => {
+export const RankingScreenStack: React.FC = ({ navigation }) => {
   const theme = useTheme();
+  useNotificationHandler(navigation);
 
   return (
     <Stack.Navigator

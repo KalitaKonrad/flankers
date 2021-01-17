@@ -3,6 +3,7 @@ import React from 'react';
 import { useTheme } from 'react-native-paper';
 
 import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
+import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { useRemoveTeamMemberMutation } from '../../hooks/useRemoveTeamMemberMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { TeamCreateScreen } from './TeamCreateScreen';
@@ -19,11 +20,12 @@ export type TeamScreenStackParamList = {
 
 const Stack = createStackNavigator<TeamScreenStackParamList>();
 
-export const TeamScreenStack: React.FC = () => {
+export const TeamScreenStack: React.FC = ({ navigation, route }) => {
   const theme = useTheme();
   const userProfile = useUserProfileQuery();
   const hasTeam = userProfile?.data?.teams?.[0] !== undefined;
   const removeTeamMember = useRemoveTeamMemberMutation();
+  useNotificationHandler(navigation);
 
   const onLeaveTeamPress = async () => {
     if (!!userProfile.data?.id && !!userProfile.data?.current_team_id) {
@@ -34,14 +36,9 @@ export const TeamScreenStack: React.FC = () => {
     }
   };
 
-  // TODO: notifications on click not working (!!!!!!!!!!!!!!!!!)
-  // TODO: add useNotificationHandler AT ALL SCREENS
   return (
     <Stack.Navigator
-      // initialRouteName={hasTeam ? 'TeamManage' : 'TeamCreate'}
-      //TODO: swap this out for avove routing when done with testing
-      initialRouteName="TeamInvitations"
-      // TODO: MAKE HEADER BIGGER/TALLER - SAME AS ON OTHER SCREENS
+      initialRouteName={hasTeam ? 'TeamManage' : 'TeamCreate'}
       screenOptions={theme.tallHeader}>
       <Stack.Screen
         name="TeamManage"
@@ -68,9 +65,18 @@ export const TeamScreenStack: React.FC = () => {
       <Stack.Screen
         name="TeamCreate"
         component={TeamCreateScreen}
-        options={{
+        options={({ navigation }) => ({
           title: 'Utwórz zespół',
-        }}
+          headerRight: () => (
+            <HeaderAppButton
+              onPress={async () => {
+                await onLeaveTeamPress();
+                navigation.push('TeamInvitations');
+              }}>
+              Zaproszenia
+            </HeaderAppButton>
+          ),
+        })}
       />
       <Stack.Screen
         name="TeamInviteMember"
@@ -80,7 +86,17 @@ export const TeamScreenStack: React.FC = () => {
       <Stack.Screen
         name="TeamInvitations"
         component={TeamInvitationsScreen}
-        options={{ title: 'Zaproszenia' }}
+        options={({ navigation }) => ({
+          title: 'Zaproszenia',
+          headerLeft: () => (
+            <HeaderAppButton
+              onPress={() => {
+                navigation.navigate(hasTeam ? 'TeamManage' : 'TeamCreate');
+              }}>
+              Cofnij
+            </HeaderAppButton>
+          ),
+        })}
       />
     </Stack.Navigator>
   );

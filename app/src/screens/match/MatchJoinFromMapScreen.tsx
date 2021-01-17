@@ -13,6 +13,7 @@ import { AppInput } from '../../components/shared/AppInput';
 import { Modal } from '../../components/shared/modal/Modal';
 import { useGameInviteQuery } from '../../hooks/useGameInviteQuery';
 import { useMatchListQuery } from '../../hooks/useMatchListQuery';
+import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { MatchResponse } from '../../types/matchResponse';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { MatchScreenStackParamList } from './MatchScreenStack';
@@ -33,7 +34,7 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
   navigation,
 }) => {
   const matchList = useMatchListQuery();
-
+  useNotificationHandler(navigation);
   const [matchTemp, setMatchTemp] = useState<MatchResponse>();
   const modalMarkerPressedRef = useRef<BottomSheet | null>(null);
   const modalMatchCodeRef = useRef<BottomSheet | null>(null);

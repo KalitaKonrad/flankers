@@ -12,22 +12,10 @@ export const NotificationEvents = {
 export const useNotificationHandler = (navigation: any) => {
   const handleNotifiationPress = useCallback(
     (response: NotificationResponse) => {
-      const eventType = response.notification.request.content.data.type;
-
-      if (
-        !(typeof eventType === 'string') ||
-        !Object.values(NotificationEvents).includes(eventType)
-      ) {
-        console.error('Event type not recognized');
-        return;
-      }
-
-      //TODO: add other events and refactor this solution
-      if (eventType === NotificationEvents.TEAM_INVITE) {
-        console.log('NAWIGACJA w useNotificationHanlder');
-
-        navigation.navigate('TeamInvitationsScreen');
-      }
+      // TODO: add other notification types and refactor this solution
+      navigation.jumpTo('Team', {
+        screen: 'TeamInvitations',
+      });
     },
     [navigation]
   );

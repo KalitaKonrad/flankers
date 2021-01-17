@@ -1,17 +1,19 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useRef, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 import { Container } from '../../components/layout/Container';
 import { AppButton } from '../../components/shared/AppButton';
+import { AppText } from '../../components/shared/AppText';
 import { Modal } from '../../components/shared/modal/Modal';
 import { TeamInvitesList } from '../../components/team/TeamInvitesList';
 import { useAlert } from '../../hooks/useAlert';
 import { useInvitationAcceptMutation } from '../../hooks/useInvitationAcceptMutation';
 import { useInvitationDeclineMutation } from '../../hooks/useInvitationDeclineMutation';
 import { useTeamInvitationsQuery } from '../../hooks/useTeamInvitationsQuery';
-import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
 type TeamInvitationsScreenProps = StackScreenProps<
@@ -19,76 +21,12 @@ type TeamInvitationsScreenProps = StackScreenProps<
   'TeamInvitations'
 >;
 
-// TODO: delete after testing phase
-const invitesList = [
-  {
-    id: 3,
-    user_id: 21,
-    team_id: 38,
-    type: 'invite',
-    email: 'jasen.langworth@example.com',
-    accept_token: '7750ae5359e316318f26b0653ebbe85f',
-    deny_token: 'f9e9e47a543b5b9092314b6c1e17b00f',
-    created_at: '2021-01-17 02:00:19',
-    updated_at: '2021-01-17 02:00:19',
-    team_name: 'Marlin Purdy',
-    team_description:
-      'Possimus magni repellendus aut rem explicabo cupiditate in. Sunt sit occaecati ipsum provident ut rerum vel et. Nisi eius sit qui sunt voluptatum quos nihil.',
-    team_avatar: 'https://eu.ui-avatars.com/api/?format=png&name=flankers',
-  },
-  {
-    id: 3,
-    user_id: 21,
-    team_id: 38,
-    type: 'invite',
-    email: 'jasen.langworth@example.com',
-    accept_token: '7750ae5359e316318f26b0653ebbe85f',
-    deny_token: 'f9e9e47a543b5b9092314b6c1e17b00f',
-    created_at: '2021-01-17 02:00:19',
-    updated_at: '2021-01-17 02:00:19',
-    team_name: 'Marlin Purdy',
-    team_description:
-      'Possimus magni repellendus aut rem explicabo cupiditate in. Sunt sit occaecati ipsum provident ut rerum vel et. Nisi eius sit qui sunt voluptatum quos nihil.',
-    team_avatar: 'https://eu.ui-avatars.com/api/?format=png&name=flankers',
-  },
-  {
-    id: 3,
-    user_id: 21,
-    team_id: 38,
-    type: 'invite',
-    email: 'jasen.langworth@example.com',
-    accept_token: '7750ae5359e316318f26b0653ebbe85f',
-    deny_token: 'f9e9e47a543b5b9092314b6c1e17b00f',
-    created_at: '2021-01-17 02:00:19',
-    updated_at: '2021-01-17 02:00:19',
-    team_name: 'Marlin Purdy',
-    team_description:
-      'Possimus magni repellendus aut rem explicabo cupiditate in. Sunt sit occaecati ipsum provident ut rerum vel et. Nisi eius sit qui sunt voluptatum quos nihil.',
-    team_avatar: 'https://eu.ui-avatars.com/api/?format=png&name=flankers',
-  },
-  {
-    id: 3,
-    user_id: 21,
-    team_id: 38,
-    type: 'invite',
-    email: 'jasen.langworth@example.com',
-    accept_token: '7750ae5359e316318f26b0653ebbe85f',
-    deny_token: 'f9e9e47a543b5b9092314b6c1e17b00f',
-    created_at: '2021-01-17 02:00:19',
-    updated_at: '2021-01-17 02:00:19',
-    team_name: 'Marlin Purdy',
-    team_description:
-      'Possimus magni repellendus aut rem explicabo cupiditate in. Sunt sit occaecati ipsum provident ut rerum vel et. Nisi eius sit qui sunt voluptatum quos nihil.',
-    team_avatar: 'https://eu.ui-avatars.com/api/?format=png&name=flankers',
-  },
-];
 export const TeamInvitationsScreen: React.FC<TeamInvitationsScreenProps> = ({
   route,
   navigation,
 }) => {
   const invites = useTeamInvitationsQuery();
-  // TODO: enable when real data is available
-  // const invitesList = invites?.data?.data ?? [];
+  const invitesList = invites?.data?.data ?? [];
 
   const profile = useUserProfileQuery();
   const userTeam = profile?.data?.teams?.[0];
@@ -115,6 +53,7 @@ export const TeamInvitationsScreen: React.FC<TeamInvitationsScreenProps> = ({
 
     try {
       await acceptInvitation.mutateAsync(acceptToken);
+      navigation.navigate('TeamManage');
     } catch (e) {
       showAlert(
         'Ups!',
@@ -124,7 +63,7 @@ export const TeamInvitationsScreen: React.FC<TeamInvitationsScreenProps> = ({
     } finally {
       modalJoinTeam?.current?.snapTo(1);
     }
-  }, [acceptInvitation, acceptToken, showAlert, userTeam]);
+  }, [acceptInvitation, acceptToken, navigation, showAlert, userTeam]);
 
   const onDeclineInvite = useCallback(async () => {
     try {
@@ -143,13 +82,19 @@ export const TeamInvitationsScreen: React.FC<TeamInvitationsScreenProps> = ({
     <Container>
       {invites.isFetching ? (
         <ListPlaceholder placeholderCount={6} itemHeight={80} />
-      ) : (
+      ) : invitesList?.length !== 0 ? (
         <TeamInvitesList
           invites={invitesList}
           modalRef={modalJoinTeam}
           setAcceptToken={setAcceptToken}
           setDeclineToken={setDeclineToken}
         />
+      ) : (
+        <View style={styles.noInvitesContainer}>
+          <AppText style={styles.noInvites}>
+            Nie masz żadnych zaproszeń.
+          </AppText>
+        </View>
       )}
       <Modal
         ref={modalJoinTeam}
@@ -162,7 +107,7 @@ export const TeamInvitationsScreen: React.FC<TeamInvitationsScreenProps> = ({
           Dołącz
         </AppButton>
         <AppButton
-          mode="contained"
+          mode="outlined"
           disabled={isLoading}
           loading={isLoading}
           onPress={onDeclineInvite}>
@@ -172,3 +117,14 @@ export const TeamInvitationsScreen: React.FC<TeamInvitationsScreenProps> = ({
     </Container>
   );
 };
+const styles = StyleSheet.create({
+  noInvites: {
+    fontSize: 16,
+  },
+  noInvitesContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 25,
+  },
+});
