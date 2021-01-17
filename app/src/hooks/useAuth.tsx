@@ -48,6 +48,7 @@ const useProvideAuth = () => {
 
   const logout = async () => {
     await axios.post('auth/signout');
+    await unsubscribeFromExpoNotifications();
     await deleteStoredToken();
   };
 
