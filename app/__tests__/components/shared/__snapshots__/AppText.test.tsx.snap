@@ -11,7 +11,7 @@ exports[`<AppText> should render correctly 1`] = `
       undefined,
     ]
   }
-  testID="text"
+  testID="app-text"
 >
   Test
 </Text>
@@ -28,7 +28,7 @@ exports[`<AppText> should set correct styles based on variant 1`] = `
       undefined,
     ]
   }
-  testID="text"
+  testID="app-text"
   variant="h1"
 >
   H1
@@ -46,7 +46,7 @@ exports[`<AppText> should set correct styles based on variant 2`] = `
       undefined,
     ]
   }
-  testID="text"
+  testID="app-text"
   variant="h2"
 >
   H1
@@ -64,7 +64,7 @@ exports[`<AppText> should set correct styles based on variant 3`] = `
       undefined,
     ]
   }
-  testID="text"
+  testID="app-text"
   variant="h3"
 >
   H1

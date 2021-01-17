@@ -15,7 +15,7 @@ import { theme } from '../../theme';
 
 interface AvatarProps {
   size: number;
-  src: ImageSourcePropType | undefined | null;
+  src?: ImageSourcePropType;
   border?: number;
   elevation?: number;
   borderRadius?: number;
@@ -75,7 +75,7 @@ export const Avatar: React.FC<AvatarProps> = ({
   if (isLoading) {
     return (
       <SkeletonPlaceholder>
-        <View style={containerStyles}>
+        <View style={containerStyles} testID="avatar-placeholder">
           <View style={imageStyles} />
         </View>
       </SkeletonPlaceholder>
@@ -84,7 +84,11 @@ export const Avatar: React.FC<AvatarProps> = ({
 
   return (
     <View style={containerStyles}>
-      <Image style={imageStyles} source={src ?? avatarPlaceholder} />
+      <Image
+        style={imageStyles}
+        source={src ?? avatarPlaceholder}
+        testID="avatar-image"
+      />
     </View>
   );
 };

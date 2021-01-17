@@ -11,7 +11,7 @@ describe('<AppText>', () => {
 
   it('should pass children to inner Text component', () => {
     const { getByTestId } = render(<AppText>Test text</AppText>);
-    expect(getByTestId('text').props.children).toBe('Test text');
+    expect(getByTestId('app-text').props.children).toBe('Test text');
   });
 
   it('should set correct styles based on variant', () => {
