@@ -14,9 +14,7 @@ interface MatchHistoryListProps {
 
 export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
   const showDate = (backendDate: string) => {
-    console.log('========================', backendDate);
     const date = moment(backendDate);
-    console.log();
     return date.format('DD/MM/YYYY HH:mm');
   };
 
