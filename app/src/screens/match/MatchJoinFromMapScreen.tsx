@@ -129,7 +129,7 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
 
       <Modal ref={modalMatchCodeRef} title="Wpisz kod gry">
         <AppInput
-          style={{ marginBottom: 7, marginTop: 20, marginHorizontal: 10 }}
+          mode="outlined"
           label="Kod gry"
           onChangeText={(text) => setValue('code', text)}
         />
