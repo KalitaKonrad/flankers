@@ -75,7 +75,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
         game_id: gameId,
         winning_squad: winningSquadId,
       });
-
+      modalEndGame?.current?.snapTo(1);
       navigation.jumpTo('Profile', { screen: 'Profile' });
     } catch (e) {
       alert('Wystąpił błąd podczas przesyłania głosu na zwycięską drużynę');
