@@ -36,7 +36,7 @@ class TeamInviteController extends Controller
             'User invites',
             DB::table('team_invites')
                 ->selectRaw('team_invites.*, teams.name as team_name, teams.description as team_description, teams.avatar as team_avatar')
-                ->join('teams', 'team_invites.team_id', '=', 'teams.team_id')
+                ->join('teams', 'team_invites.team_id', '=', 'teams.id')
                 ->where('email', Auth::user()->email)
                 ->orderByDesc('team_invites.created_at')
                 ->get()
