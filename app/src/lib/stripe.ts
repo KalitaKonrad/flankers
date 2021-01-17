@@ -1,8 +1,14 @@
+/**
+ * Stripe HTTP API Wrapper
+ */
 import axios from 'axios';
 import Constants from 'expo-constants';
 
 const qs = require('qs');
 
+/**
+ * Create HTTP client used for all Stripe related requests
+ */
 const stripeClient = axios.create({
   baseURL: 'https://api.stripe.com/v1',
   headers: {
@@ -12,6 +18,11 @@ const stripeClient = axios.create({
   },
 });
 
+/**
+ * Create new payment method using Stripe API
+ * @param payload - credit card details
+ * @return Promise<Stripe.PaymentMethod> - Stripe API response
+ */
 const createPaymentMethod = (payload: CreatePaymentMethodPayload) =>
   stripeClient.post<Stripe.PaymentMethod>(
     '/payment_methods',

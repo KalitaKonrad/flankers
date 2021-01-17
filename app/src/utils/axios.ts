@@ -5,6 +5,10 @@ import Constants from 'expo-constants';
 import { refreshTokenInterceptor } from './refreshTokenInterceptor';
 import { tokenInterceptor } from './tokenInterceptor';
 
+/**
+ * Create global HTTP client instance
+ * and set app defaults
+ */
 const instance = axios.create({
   baseURL: Constants.manifest.extra.apiBaseUrl,
   headers: {
@@ -12,6 +16,9 @@ const instance = axios.create({
   },
 });
 
+/**
+ * Init request and response interceptors
+ */
 instance.interceptors.request.use(tokenInterceptor);
 createAuthRefreshInterceptor(instance, refreshTokenInterceptor);
 

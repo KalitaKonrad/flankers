@@ -1,3 +1,6 @@
+/**
+ * Mock web implementation of tokenUtils.native
+ */
 import * as SecureStore from 'expo-secure-store';
 
 import { TOKEN_STORAGE_KEY } from '../const/auth.const';
