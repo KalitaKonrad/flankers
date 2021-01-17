@@ -6,6 +6,7 @@ import { LatLng } from 'react-native-maps';
 import { MatchLocationSelectMap } from '../../components/map/MatchLocationSelectMap.native';
 import { AppButton } from '../../components/shared/AppButton';
 import { useMatchCreateMutation } from '../../hooks/useMatchCreateMutation';
+import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 interface Coordinates {
@@ -27,6 +28,7 @@ export const MatchCreateSelectLocationScreen: React.FC<MatchCreateSelectLocation
   const [isLocationSelected, setIsLocationSelected] = useState(
     matchLocation !== null
   );
+  useNotificationHandler(navigation);
 
   const { mutateAsync } = useMatchCreateMutation();
 

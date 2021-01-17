@@ -1,6 +1,3 @@
-import { TeamProfilePayload } from './teamProfile';
-import { UserProfilePayload } from './userProfilePayload';
-
 export interface LeaderboardsResponse<T> {
   current_page: 1;
   data: T[];

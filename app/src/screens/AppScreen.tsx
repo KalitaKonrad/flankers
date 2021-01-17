@@ -6,12 +6,9 @@ import {
   useFonts,
 } from '@expo-google-fonts/inter';
 import AppLoading from 'expo-app-loading';
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { NOTIFICATION_EVENT } from '../const/events.const';
 import { useAuth } from '../hooks/useAuth';
-import { EventBus } from '../utils/eventBus';
-import { handleNotifiationPress } from '../utils/notificationHandler';
 import { AppScreenStack } from './AppScreenStack';
 import { AuthScreenStack } from './auth/AuthScreenStack';
 
@@ -23,13 +20,6 @@ export const AppScreen: React.FC = () => {
     Inter_400Regular,
     Inter_500Medium,
   });
-
-  useEffect(() => {
-    const unsubscribe = EventBus.on(NOTIFICATION_EVENT, handleNotifiationPress);
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   if (isLoading || !fontsLoaded) {
     return <AppLoading />;

@@ -22,15 +22,6 @@ setLogger({
 });
 
 const CombinedDefaultTheme = merge(NavigationDefaultTheme, theme);
-
-Notifications.setNotificationHandler({
-  handleNotification: async () => ({
-    shouldShowAlert: true,
-    shouldPlaySound: false,
-    shouldSetBadge: false,
-  }),
-});
-
 const queryClient = new QueryClient();
 
 const App: React.FC = () => {

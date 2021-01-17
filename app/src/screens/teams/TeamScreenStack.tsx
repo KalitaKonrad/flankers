@@ -6,13 +6,15 @@ import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
 import { useRemoveTeamMemberMutation } from '../../hooks/useRemoveTeamMemberMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { TeamCreateScreen } from './TeamCreateScreen';
-import { TeamInvitationScreen } from './TeamInvitationScreen';
+import { TeamInvitationsScreen } from './TeamInvitationsScreen';
+import { TeamInviteMemberScreen } from './TeamInviteMemberScreen';
 import { TeamManageScreen } from './TeamManageScreen';
 
 export type TeamScreenStackParamList = {
   TeamCreate: undefined;
   TeamManage: undefined;
-  TeamInvitation: undefined;
+  TeamInviteMember: undefined;
+  TeamInvitations: undefined;
 };
 
 const Stack = createStackNavigator<TeamScreenStackParamList>();
@@ -32,9 +34,14 @@ export const TeamScreenStack: React.FC = () => {
     }
   };
 
+  // TODO: notifications on click not working (!!!!!!!!!!!!!!!!!)
+  // TODO: add useNotificationHandler AT ALL SCREENS
   return (
     <Stack.Navigator
-      initialRouteName={hasTeam ? 'TeamManage' : 'TeamCreate'}
+      // initialRouteName={hasTeam ? 'TeamManage' : 'TeamCreate'}
+      //TODO: swap this out for avove routing when done with testing
+      initialRouteName="TeamInvitations"
+      // TODO: MAKE HEADER BIGGER/TALLER - SAME AS ON OTHER SCREENS
       screenOptions={theme.tallHeader}>
       <Stack.Screen
         name="TeamManage"
@@ -66,9 +73,14 @@ export const TeamScreenStack: React.FC = () => {
         }}
       />
       <Stack.Screen
-        name="TeamInvitation"
-        component={TeamInvitationScreen}
+        name="TeamInviteMember"
+        component={TeamInviteMemberScreen}
         options={{ title: 'Zaproś' }}
+      />
+      <Stack.Screen
+        name="TeamInvitations"
+        component={TeamInvitationsScreen}
+        options={{ title: 'Zaproszenia' }}
       />
     </Stack.Navigator>
   );
