@@ -17,7 +17,7 @@ module.exports = {
   },
   testMatch: ['**/__tests__/**/*.ts?(x)', '**/?(*.)+(spec|test).ts?(x)'],
   collectCoverageFrom: [
-    '**/*.{ts,tsx}',
+    'src/**/*.{ts,tsx}',
     '!**/coverage/**',
     '!**/node_modules/**',
     '!**/babel.config.js',
