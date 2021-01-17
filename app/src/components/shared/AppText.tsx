@@ -9,7 +9,7 @@ type AppTextProps = ComponentProps<typeof Paragraph> & {
 export const AppText: React.FC<AppTextProps> = (props) => {
   const style = styles[props.variant ?? 'default'];
   return (
-    <Text {...props} style={[style, props.style]}>
+    <Text {...props} style={[style, props.style]} testID="app-text">
       {props.children}
     </Text>
   );

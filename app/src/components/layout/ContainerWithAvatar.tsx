@@ -7,7 +7,7 @@ import { Avatar } from '../shared/Avatar';
 import { Container } from './Container';
 
 type ContainerWithAvatarProps = ComponentProps<typeof Container> & {
-  avatar: ImageSourcePropType | undefined | null;
+  avatar?: ImageSourcePropType;
   isLoading?: boolean;
   button?: React.ReactNode;
 };

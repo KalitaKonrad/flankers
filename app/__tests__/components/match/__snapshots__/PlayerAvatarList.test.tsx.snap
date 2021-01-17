@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PlayerAvatarList> should render correctly 1`] = `
+<View
+  style={
+    Object {
+      "flexDirection": "row",
+      "height": 72,
+      "paddingLeft": 24,
+    }
+  }
+/>
+`;
