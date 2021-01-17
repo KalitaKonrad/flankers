@@ -49,6 +49,26 @@ const useProvideAuth = () => {
     await deleteStoredToken();
   };
 
+  const initiatePasswordReset = (email: string) => {
+    return axios.post('auth/forgot-password', {
+      email,
+    });
+  };
+
+  const resetPassword = (
+    email: string,
+    token: string,
+    password: string,
+    passwordConfirmation: string
+  ) => {
+    return axios.post('auth/reset-password', {
+      token,
+      email,
+      password,
+      password_confirmation: passwordConfirmation,
+    });
+  };
+
   useEffect(() => {
     const initAuth = async () => {
       const storedToken = await getStoredToken();
@@ -68,5 +88,14 @@ const useProvideAuth = () => {
     };
   }, []);
 
-  return { isLoading, isAuthenticated, register, login, logout, token };
+  return {
+    isLoading,
+    isAuthenticated,
+    register,
+    login,
+    logout,
+    initiatePasswordReset,
+    resetPassword,
+    token,
+  };
 };
