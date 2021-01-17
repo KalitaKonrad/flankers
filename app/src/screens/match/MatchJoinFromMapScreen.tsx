@@ -100,6 +100,7 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
         visible
         open={open}
         icon={open ? 'close' : 'plus'}
+        fabStyle={styles.fabStyle}
         actions={[
           {
             icon: 'textbox',
@@ -151,16 +152,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  fab: {
-    bottom: 16,
-    backgroundColor: '#fff',
-    width: 170,
+  fabStyle: {
+    backgroundColor: '#29335C',
   },
   textInModal: {
     textAlign: 'center',
-  },
-  FABGroup: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
   },
 });
