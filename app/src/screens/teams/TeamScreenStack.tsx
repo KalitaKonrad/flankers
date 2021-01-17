@@ -70,7 +70,6 @@ export const TeamScreenStack: React.FC = ({ navigation, route }) => {
           headerRight: () => (
             <HeaderAppButton
               onPress={async () => {
-                await onLeaveTeamPress();
                 navigation.push('TeamInvitations');
               }}>
               Zaproszenia
