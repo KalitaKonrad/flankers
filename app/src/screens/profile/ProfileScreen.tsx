@@ -36,7 +36,13 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     return matchHistory.data!.pages.reduce((list, page) => {
       return [...list, ...page.data];
     }, [] as MatchElementInHistory[]);
-  }, [matchHistory]);
+  }, [
+    matchHistory.isFetching,
+    matchHistory.isError,
+    matchHistory.isFetchingNextPage,
+    matchHistory.data,
+    matchHistory.data?.pages,
+  ]);
 
   return (
     <ContainerWithAvatar
