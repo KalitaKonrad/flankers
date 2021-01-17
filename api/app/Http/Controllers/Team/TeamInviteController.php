@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Mpociot\Teamwork\Facades\Teamwork;
 use App\Notifications\TeamInviteCreated;
+use Illuminate\Support\Facades\DB;
 
 class TeamInviteController extends Controller
 {
@@ -31,7 +32,15 @@ class TeamInviteController extends Controller
      */
     public function index()
     {
-        return Message::ok('User invites', Auth::user()->invites()->get());
+        return Message::ok(
+            'User invites',
+            DB::table('team_invites')
+                ->selectRaw('team_invites.*, teams.name as team_name, teams.description as team_description, teams.avatar as team_avatar')
+                ->join('teams', 'team_invites.team_id', '=', 'teams.id')
+                ->where('email', Auth::user()->email)
+                ->orderByDesc('team_invites.created_at')
+                ->get()
+        );
     }
 
     /**
