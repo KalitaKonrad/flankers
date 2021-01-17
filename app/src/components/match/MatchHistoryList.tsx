@@ -1,6 +1,8 @@
+import moment from 'moment';
 import React from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
 import { List, Text } from 'react-native-paper';
+import { date } from 'yup';
 
 import { MatchElementInHistory } from '../../types/match';
 import { AppText } from '../shared/AppText';
@@ -11,6 +13,13 @@ interface MatchHistoryListProps {
 }
 
 export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
+  const showDate = (backendDate: string) => {
+    console.log('========================', backendDate);
+    const date = moment(backendDate);
+    console.log();
+    return date.format('DD/MM/YYYY HH:mm');
+  };
+
   const renderItem = ({
     item,
     index,
@@ -26,6 +35,7 @@ export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
       left={(props) => (
         <List.Icon {...props} icon={item.winner ? 'trophy' : 'trophy-broken'} />
       )}
+      right={() => <AppText>{showDate(item.updated_at)}</AppText>}
     />
   );
   return (
