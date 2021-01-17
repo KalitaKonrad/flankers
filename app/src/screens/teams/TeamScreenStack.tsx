@@ -1,3 +1,4 @@
+import { MaterialBottomTabScreenProps } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
@@ -6,6 +7,7 @@ import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
 import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { useRemoveTeamMemberMutation } from '../../hooks/useRemoveTeamMemberMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { BottomTabNavigationParamList } from '../AppScreenStack';
 import { TeamCreateScreen } from './TeamCreateScreen';
 import { TeamInvitationsScreen } from './TeamInvitationsScreen';
 import { TeamInviteMemberScreen } from './TeamInviteMemberScreen';
@@ -20,7 +22,15 @@ export type TeamScreenStackParamList = {
 
 const Stack = createStackNavigator<TeamScreenStackParamList>();
 
-export const TeamScreenStack: React.FC = ({ navigation, route }) => {
+type TeamScreenStackProps = MaterialBottomTabScreenProps<
+  BottomTabNavigationParamList,
+  'Team'
+>;
+
+export const TeamScreenStack: React.FC<TeamScreenStackProps> = ({
+  navigation,
+  route,
+}) => {
   const theme = useTheme();
   const userProfile = useUserProfileQuery();
   const hasTeam = userProfile?.data?.teams?.[0] !== undefined;
@@ -29,10 +39,23 @@ export const TeamScreenStack: React.FC = ({ navigation, route }) => {
 
   const onLeaveTeamPress = async () => {
     if (!!userProfile.data?.id && !!userProfile.data?.current_team_id) {
-      await removeTeamMember.mutateAsync({
-        team_id: userProfile.data.current_team_id,
-        user_id: userProfile.data.id,
-      });
+      try {
+        await removeTeamMember.mutateAsync(
+          {
+            team_id: userProfile.data.current_team_id,
+            user_id: userProfile.data.id,
+          },
+          {}
+        );
+      } catch (error) {
+        if (error.response.status === 403) {
+          alert('Jesteś ostatnim członkiem zespołu - nie możesz go opuścić');
+        } else {
+          alert(
+            'Podczas opuszczania zespołu wystąpił błąd - spróbuj ponownie później'
+          );
+        }
+      }
     }
   };
 

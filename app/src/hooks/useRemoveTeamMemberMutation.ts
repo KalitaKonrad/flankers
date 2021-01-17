@@ -8,7 +8,7 @@ import {
 import { useAxios } from './useAxios';
 
 interface RemoveTeamMemberPayload {
-  team_id: number;
+  team_id: string;
   user_id: number;
 }
 
@@ -19,7 +19,9 @@ export const useRemoveTeamMemberMutation = () => {
 
   return useMutation(
     ({ team_id, user_id }: RemoveTeamMemberPayload) => {
-      axios.delete(`teams/memberships/${team_id}`, { data: { user_id } });
+      return axios.delete(`teams/memberships/${team_id}`, {
+        data: { user_id },
+      });
     },
     {
       onSuccess: async () => {

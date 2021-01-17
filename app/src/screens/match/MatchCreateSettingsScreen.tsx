@@ -1,5 +1,5 @@
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { Container } from '../../components/layout/Container';
@@ -8,6 +8,7 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
 import { NumberSelector } from '../../components/shared/NumberSelector';
 import { Switch } from '../../components/shared/Switch';
+import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { MatchJoinType, MatchVisibility } from '../../types/match';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
@@ -22,7 +23,7 @@ const INITIAL_PLAYERS_IN_TEAM_AMOUNT = 2;
 export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
   navigation,
 }) => {
-  const [matchJoinType, setMatchJoinType] = useState(MatchJoinType.TEAM);
+  const [matchJoinType, setMatchJoinType] = useState(MatchJoinType.OPEN);
   const [isMatchRanked, setMatchRanked] = useState(true);
   const [matchVisibility, setMatchVisibility] = useState(
     MatchVisibility.PUBLIC
@@ -31,6 +32,10 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
   const [playersAmount, setPlayersAmount] = useState<number>(
     INITIAL_PLAYERS_IN_TEAM_AMOUNT
   );
+  const userProfile = useUserProfileQuery();
+  const hasTeam = useMemo(() => !!userProfile.data?.teams?.[0], [
+    userProfile.data?.teams,
+  ]);
 
   const onCreate = () => {
     navigation.push('MatchLocation', {
@@ -45,15 +50,17 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
   return (
     <Container>
       <PaddedInputScrollView style={styles.wrapper}>
-        <View style={styles.row}>
-          <AppText style={styles.title}>Typ meczu</AppText>
-          <Switch
-            leftLabel="Drużynowy"
-            rightLabel="Swobodny"
-            onSwitchToLeft={() => setMatchJoinType(MatchJoinType.TEAM)}
-            onSwitchToRight={() => setMatchJoinType(MatchJoinType.OPEN)}
-          />
-        </View>
+        {hasTeam && (
+          <View style={styles.row}>
+            <AppText style={styles.title}>Typ meczu</AppText>
+            <Switch
+              leftLabel="Swobodny"
+              rightLabel="Drużynowy"
+              onSwitchToLeft={() => setMatchJoinType(MatchJoinType.OPEN)}
+              onSwitchToRight={() => setMatchJoinType(MatchJoinType.TEAM)}
+            />
+          </View>
+        )}
         <View style={styles.row}>
           <AppText style={styles.title}>Mecz rankingowy</AppText>
           <Switch

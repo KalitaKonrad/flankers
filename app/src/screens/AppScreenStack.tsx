@@ -1,7 +1,7 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { NavigatorScreenParams } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTheme } from 'react-native-paper';
 
 import { useNotification } from '../hooks/useNotification';
@@ -49,21 +49,25 @@ export const AppScreenStack: React.FC = () => {
   // Preload user profile
   useUserProfileQuery();
   const theme = useTheme();
-  const mutation = useUpdateExpoPushTokenMutation();
-
+  const [
+    hasPushedNotificationsToken,
+    setHasPushedNotificationsToken,
+  ] = useState(false);
   const { expoPushToken } = useNotification();
+  const { mutate } = useUpdateExpoPushTokenMutation();
 
+  /**
+   * Setup Expo Push Notification token
+   * should be sent everytime user enters the application
+   */
   useEffect(() => {
-    const sendToken = async () => {
-      const token = expoPushToken ?? '';
-
-      await mutation.mutateAsync({
-        expoPushToken: token,
+    if (expoPushToken && !hasPushedNotificationsToken) {
+      setHasPushedNotificationsToken(true);
+      mutate({
+        expoPushToken,
       });
-    };
-
-    sendToken();
-  }, [expoPushToken, mutation]);
+    }
+  }, [expoPushToken, hasPushedNotificationsToken, mutate]);
 
   return (
     <Tab.Navigator
