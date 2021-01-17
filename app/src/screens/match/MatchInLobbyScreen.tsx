@@ -65,6 +65,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     true
   );
   const [timeoutId, setTimeoutId] = useState<number>();
+  const [isPending, setPending] = useState(false);
 
   const unlockChangingSquads = () => {
     const timeoutId = window.setTimeout(() => {
@@ -147,6 +148,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   const gameOwnerId = matchDetails.data?.owner_id === profile.data?.id;
 
   const onStartMatch = async () => {
+    setPending(true);
     try {
       await axios.put(`games/${route.params.gameId}`, {
         command: {
@@ -232,17 +234,6 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   return (
     <Container>
       <PaddedInputScrollView style={styles.container}>
-        <View style={styles.gameCode}>
-          <AppText style={{ fontSize: 20 }}>
-            Kod gry: {matchDetails?.data?.invite?.code}
-          </AppText>
-          <IconButton
-            icon="share-variant"
-            color={theme.colors.primary}
-            size={50}
-            onPress={onShareCode}
-          />
-        </View>
         <View style={styles.row}>
           <View style={styles.teamLabel}>
             <AppText variant="h2" style={styles.title}>
@@ -277,9 +268,27 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
             <PlayerAvatarList players={secondTeamPlayersList} />
           )}
         </View>
+        <View style={styles.gameCode}>
+          <View>
+            <AppText
+              style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
+              Kod gry: {matchDetails?.data?.invite?.code}
+            </AppText>
+          </View>
+          <IconButton
+            icon="share-variant"
+            color={theme.colors.white}
+            size={28}
+            onPress={onShareCode}
+          />
+        </View>
         {gameOwnerId && (
           <View style={styles.action}>
-            <AppButton mode="contained" onPress={() => onStartMatch()}>
+            <AppButton
+              loading={isPending}
+              disabled={isPending}
+              mode="contained"
+              onPress={() => onStartMatch()}>
               Rozpocznij mecz
             </AppButton>
           </View>
@@ -295,19 +304,15 @@ const styles = StyleSheet.create({
   },
   row: {
     marginBottom: 28,
+    height: 150,
   },
   title: {
     borderBottomColor: theme.colors.darkGray,
-    borderBottomWidth: 1,
-    paddingBottom: 12,
-    marginBottom: 12,
   },
   action: {
     marginTop: 32,
   },
-  joinBtn: {
-    marginBottom: 24,
-  },
+  joinBtn: {},
   joinBtnContentStyle: {
     height: 45,
     width: 122,
@@ -315,12 +320,17 @@ const styles = StyleSheet.create({
   teamLabel: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderBottomColor: 'rgba(0, 0, 0, 0.08)',
+    borderBottomWidth: 1,
+    paddingBottom: 12,
+    marginBottom: 12,
   },
   gameCode: {
+    height: 72,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: -20,
-    marginBottom: 20,
+    backgroundColor: theme.colors.secondary,
+    borderRadius: 16,
   },
 });

@@ -30,8 +30,9 @@ export const PlayerAvatarList: React.FC<PlayerAvatarListProps> = ({
 
 const styles = StyleSheet.create({
   container: {
+    height: 72,
     flexDirection: 'row',
-    paddingLeft: 20,
+    paddingLeft: 24,
   },
   avatar: {
     marginLeft: -20,
