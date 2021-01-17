@@ -39,6 +39,6 @@ class ExpoChannel
         $response = $expo->notify([$notifiable->privateExpoChannel()], $message);
 
         Log::info("Sent notification on {$notifiable->privateExpoChannel()} with token {$token}");
-        Log::info($response);
+        Log::info(json_encode($response));
     }
 }

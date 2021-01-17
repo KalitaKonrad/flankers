@@ -43,7 +43,8 @@ class GameMemoController extends Controller
             'winning_squad' => 'integer|required'
         ]);
 
-        if (Memo::where('user_id', Auth::id())->first()) {
+        $hasVoted = Memo::where('user_id', Auth::id())->where('game_id', $request->game_id)->exists();
+        if ($hasVoted) {
             return Message::error(403, 'User with this id already reported the game score');
         }
 
