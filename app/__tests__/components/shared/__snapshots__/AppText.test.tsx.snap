@@ -11,7 +11,62 @@ exports[`<AppText> should render correctly 1`] = `
       undefined,
     ]
   }
+  testID="text"
 >
   Test
+</Text>
+`;
+
+exports[`<AppText> should set correct styles based on variant 1`] = `
+<Text
+  style={
+    Array [
+      Object {
+        "fontSize": 30,
+        "fontWeight": "bold",
+      },
+      undefined,
+    ]
+  }
+  testID="text"
+  variant="h1"
+>
+  H1
+</Text>
+`;
+
+exports[`<AppText> should set correct styles based on variant 2`] = `
+<Text
+  style={
+    Array [
+      Object {
+        "fontSize": 24,
+        "fontWeight": "bold",
+      },
+      undefined,
+    ]
+  }
+  testID="text"
+  variant="h2"
+>
+  H1
+</Text>
+`;
+
+exports[`<AppText> should set correct styles based on variant 3`] = `
+<Text
+  style={
+    Array [
+      Object {
+        "fontSize": 16,
+        "fontWeight": "bold",
+      },
+      undefined,
+    ]
+  }
+  testID="text"
+  variant="h3"
+>
+  H1
 </Text>
 `;
