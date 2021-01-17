@@ -49,19 +49,19 @@ const useProvideAuth = () => {
     await deleteStoredToken();
   };
 
-  const initiatePasswordReset = async (email: string) => {
-    await axios.post('auth/forgot-password', {
+  const initiatePasswordReset = (email: string) => {
+    return axios.post('auth/forgot-password', {
       email,
     });
   };
 
-  const resetPassword = async (
+  const resetPassword = (
     email: string,
     token: string,
     password: string,
     passwordConfirmation: string
   ) => {
-    await axios.post('auth/reset-password', {
+    return axios.post('auth/reset-password', {
       token,
       email,
       password,

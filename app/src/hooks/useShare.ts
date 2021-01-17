@@ -1,13 +1,10 @@
 import { Share } from 'react-native';
 
 export const useShare = () => {
-  const share = async (code: string | undefined) => {
-    if (code === undefined) {
-      return;
-    }
+  const share = async (message: string) => {
     try {
       const result = await Share.share({
-        message: code,
+        message,
       });
       if (result.action === Share.sharedAction) {
         alert('Udostępniono');
