@@ -1,5 +1,3 @@
-import { UserProfilePayload } from './userProfilePayload';
-
 export interface SquadResponse {
   id: number;
   game_id: number;

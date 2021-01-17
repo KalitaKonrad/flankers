@@ -5,7 +5,7 @@ import { useAxios } from '../useAxios';
 
 export const useUpdateUserPaymentMethodMutation = () => {
   const axios = useAxios();
-  const queryCache = useQueryClient();
+  const queryClient = useQueryClient();
 
   return useMutation(
     (paymentMethodKey: string) =>
@@ -14,7 +14,7 @@ export const useUpdateUserPaymentMethodMutation = () => {
       }),
     {
       onSuccess: () => {
-        queryCache.setQueryData([QUERY_USER_HAS_ACTIVE_PAYMENT_METHOD], true);
+        queryClient.setQueryData(QUERY_USER_HAS_ACTIVE_PAYMENT_METHOD, true);
       },
     }
   );

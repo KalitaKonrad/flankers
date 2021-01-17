@@ -58,6 +58,7 @@ const styles = StyleSheet.create({
     position: 'relative',
   },
   contentContainer: {
+    flex: 1,
     paddingTop: 24,
   },
   button: {

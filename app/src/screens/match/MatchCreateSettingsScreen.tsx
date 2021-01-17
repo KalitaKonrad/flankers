@@ -145,6 +145,7 @@ const styles = StyleSheet.create({
   },
   action: {
     marginTop: 24,
+    marginBottom: 50,
   },
   invitation: {
     bottom: 15,

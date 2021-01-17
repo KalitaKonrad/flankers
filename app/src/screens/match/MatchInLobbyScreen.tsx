@@ -1,6 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Share, StyleSheet, View } from 'react-native';
+import { IconButton, Paragraph } from 'react-native-paper';
 
 import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
@@ -12,9 +13,12 @@ import {
   SQUAD_MEMBERS_CHANGED_EVENT,
 } from '../../const/events.const';
 import { useAddUserToGameSquadMutation } from '../../hooks/useAddUserToGameSquadMutation';
+import { useAlert } from '../../hooks/useAlert';
+import { useAxios } from '../../hooks/useAxios';
 import { useEcho } from '../../hooks/useEcho';
 import { useGameDetailsQuery } from '../../hooks/useGameDetailsQuery';
 import { useMoveMemberToAnotherSquadMutation } from '../../hooks/useMoveMemberToAnotherSquadMutation';
+import { useShare } from '../../hooks/useShare';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
 import { SquadMembersChangedEvent } from '../../types/UserJoinedSquadEvent';
@@ -44,6 +48,10 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   const mutateJoinSquad = useAddUserToGameSquadMutation();
   const mutateChangeSquad = useMoveMemberToAnotherSquadMutation();
   const matchDetails = useGameDetailsQuery(route.params.gameId);
+  const { share } = useShare();
+
+  const axios = useAxios();
+  const { showAlert } = useAlert();
 
   const [firstTeamPlayersList, setFirstTeamPlayersList] = useState<
     MembersPayload[] | undefined
@@ -56,16 +64,37 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   const [isUserAllowedToChangeSquad, setIsUserAllowedToChangeSquad] = useState(
     true
   );
+  const [timeoutId, setTimeoutId] = useState<number>();
+  const [isPending, setPending] = useState(false);
 
   const unlockChangingSquads = () => {
-    setTimeout(() => {
+    const timeoutId = window.setTimeout(() => {
       setIsUserAllowedToChangeSquad(true);
-    }, 3000);
+    }, 30000);
+    setTimeoutId(timeoutId);
   };
 
   const { echo, isReady: isEchoReady } = useEcho();
 
-  const onGameUpdated = useCallback((event: GameUpdateEvent) => {}, []);
+  const onGameUpdated = useCallback(
+    (event: GameUpdateEvent) => {
+      navigation.navigate('MatchInProgress', {
+        gameId: event.game.id,
+        firstSquadId: matchDetails.data?.squads[0].id,
+        secondSquadId: matchDetails.data?.squads[1].id,
+        firstTeamPlayersList,
+        secondTeamPlayersList,
+        ownerId: matchDetails.data?.owner_id,
+      });
+    },
+    [
+      firstTeamPlayersList,
+      matchDetails.data?.owner_id,
+      matchDetails.data?.squads,
+      navigation,
+      secondTeamPlayersList,
+    ]
+  );
 
   const onSquadMembersChanged = useCallback(
     (event: SquadMembersChangedEvent) => {
@@ -74,7 +103,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
       } else if (matchDetails.data?.squads[1].id === event.squad.id) {
         setSecondTeamPlayersList(event.squad.members);
       } else {
-        alert('Nie udało się zaktualizować drużyn');
+        showAlert('Ups', 'Nie udało się zaktualizować drużyn');
       }
     },
     [matchDetails.data?.squads]
@@ -110,22 +139,43 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     route.params.gameId,
   ]);
 
+  useEffect(() => {
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [timeoutId]);
+
+  const gameOwnerId = matchDetails.data?.owner_id === profile.data?.id;
+
+  const onStartMatch = async () => {
+    setPending(true);
+    try {
+      await axios.put(`games/${route.params.gameId}`, {
+        command: {
+          start_game: true,
+        },
+      });
+    } catch (e) {
+      showAlert('Ups', 'Wystąpił błąd podczas próby wystartowania gry');
+    }
+  };
+
   const onJoinSquad = async (squadIndex: number) => {
     if (
       profile.data?.id === undefined ||
       matchDetails.data?.squads[squadIndex].id === undefined
     ) {
-      alert('Wystąpił błąd podczas dołączania do składu');
+      showAlert('Ups', 'Wystąpił błąd podczas dołączania do składu');
       return;
     }
 
     if (currentSquad === squadIndex) {
-      alert('Jesteś przypisany do tego składu');
+      showAlert('Ups', 'Jesteś przypisany do tego składu');
       return;
     }
 
     if (!isUserAllowedToChangeSquad) {
-      alert('Musi upłynąć 30 sekund od ostatniej zmiany składu');
+      showAlert('Ups', 'Musi upłynąć 30 sekund od ostatniej zmiany składu');
       return;
     }
 
@@ -133,7 +183,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
       matchDetails.isFetched &&
       matchDetails.data.squads[squadIndex].is_full
     ) {
-      alert('Skład jest pełny');
+      showAlert('Ups', 'Skład jest pełny');
       return;
     }
 
@@ -147,7 +197,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
         setIsUserAllowedToChangeSquad(false);
         unlockChangingSquads();
       } catch (error) {
-        alert('Wystąpił błąd podaczas dołączania do składu');
+        showAlert('Ups', 'Wystąpił błąd podczas dołączania do składu');
       }
     } else {
       try {
@@ -168,9 +218,17 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
         setIsUserAllowedToChangeSquad(false);
         unlockChangingSquads();
       } catch (error) {
-        alert('Wystąpił błąd podaczas dołączania do składu');
+        showAlert('Ups', 'Wystąpił błąd podaczas dołączania do składu');
       }
     }
+  };
+
+  const onShareCode = () => {
+    if (matchDetails?.data?.invite?.code === undefined) {
+      showAlert('Ups', 'Udostępnionianie nie powiodło się');
+      return;
+    }
+    share(matchDetails.data.invite.code);
   };
 
   return (
@@ -210,13 +268,31 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
             <PlayerAvatarList players={secondTeamPlayersList} />
           )}
         </View>
-        <View style={styles.action}>
-          <AppButton
-            mode="contained"
-            onPress={() => navigation.navigate('MatchInProgress')}>
-            Rozpocznij mecz
-          </AppButton>
+        <View style={styles.gameCode}>
+          <View>
+            <AppText
+              style={{ color: '#fff', fontSize: 20, fontWeight: 'bold' }}>
+              Kod gry: {matchDetails?.data?.invite?.code}
+            </AppText>
+          </View>
+          <IconButton
+            icon="share-variant"
+            color={theme.colors.white}
+            size={28}
+            onPress={onShareCode}
+          />
         </View>
+        {gameOwnerId && (
+          <View style={styles.action}>
+            <AppButton
+              loading={isPending}
+              disabled={isPending}
+              mode="contained"
+              onPress={() => onStartMatch()}>
+              Rozpocznij mecz
+            </AppButton>
+          </View>
+        )}
       </PaddedInputScrollView>
     </Container>
   );
@@ -228,19 +304,15 @@ const styles = StyleSheet.create({
   },
   row: {
     marginBottom: 28,
+    height: 150,
   },
   title: {
     borderBottomColor: theme.colors.darkGray,
-    borderBottomWidth: 1,
-    paddingBottom: 12,
-    marginBottom: 12,
   },
   action: {
     marginTop: 32,
   },
-  joinBtn: {
-    marginBottom: 24,
-  },
+  joinBtn: {},
   joinBtnContentStyle: {
     height: 45,
     width: 122,
@@ -248,5 +320,17 @@ const styles = StyleSheet.create({
   teamLabel: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    borderBottomColor: 'rgba(0, 0, 0, 0.08)',
+    borderBottomWidth: 1,
+    paddingBottom: 12,
+    marginBottom: 12,
+  },
+  gameCode: {
+    height: 72,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.colors.secondary,
+    borderRadius: 16,
   },
 });

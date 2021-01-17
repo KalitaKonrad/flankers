@@ -18,31 +18,31 @@ use App\Http\Controllers\VerifyEmail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AcceptInvite;
 use App\Http\Controllers\RefreshToken;
-use App\Http\Controllers\ListUserGames;
 use App\Http\Controllers\DeclineInvite;
 use App\Http\Controllers\ResetPassword;
 use App\Http\Controllers\ForgotPassword;
-use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ChangeTeamOwner;
 use App\Http\Controllers\Wallet\FetchWallet;
+use App\Http\Controllers\Team\TeamController;
 use App\Http\Controllers\Wallet\ChargeWallet;
 use App\Http\Controllers\Game\GameController;
-use App\Http\Controllers\TeamInviteController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\History\ListUserGames;
+use App\Http\Controllers\History\ListTeamGames;
 use App\Http\Controllers\Expo\SubscribePushToken;
 use App\Http\Controllers\Game\GameMemoController;
 use App\Http\Controllers\Payment\SetPaymentMethod;
-use App\Http\Controllers\TeamMembershipController;
 use App\Http\Controllers\Game\GameInviteController;
 use App\Http\Controllers\Expo\UnsubscribePushToken;
 use App\Http\Controllers\Payment\CreateSetupIntent;
+use App\Http\Controllers\Team\TeamInviteController;
 use App\Http\Controllers\Avatar\UserAvatarController;
 use App\Http\Controllers\Avatar\TeamAvatarController;
 use App\Http\Controllers\Payment\HasPaymentConnected;
+use App\Http\Controllers\Team\TeamMembershipController;
 use App\Http\Controllers\Ranking\LeaderboardController;
 use App\Http\Controllers\Game\SquadMembershipController;
-use App\Http\Controllers\ListTeamGames;
 
 /**
  * ----------------------------------------
@@ -88,8 +88,7 @@ Route::prefix('user')->group(function () {
  * Team routes
  * ----------------------------------------
  */
-Route::resource('teams', TeamController::class)
-    ->parameters(['teams' => 'team_id']);
+
 
 Route::prefix('teams')->group(function () {
     Route::post('owner', ChangeTeamOwner::class);
@@ -97,7 +96,10 @@ Route::prefix('teams')->group(function () {
         'memberships' => 'team_id'
     ]);
 
-    Route::resource('invites', TeamInviteController::class);
+    Route::resource('invites', TeamInviteController::class)
+        ->only(['store']);
+    Route::get('invites', [TeamInviteController::class, 'index']);
+
     Route::get('invites/{invite}', AcceptInvite::class);
     Route::get('invites/decline/{invite}', DeclineInvite::class);
 
@@ -106,6 +108,9 @@ Route::prefix('teams')->group(function () {
 
     Route::get('games/{game_id}', ListTeamGames::class);
 });
+
+Route::resource('teams', TeamController::class)
+    ->parameters(['teams' => 'team_id']);
 
 /**
  * ----------------------------------------

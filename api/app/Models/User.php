@@ -18,11 +18,6 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, Sends
 {
     use HasFactory, HasWallet, Notifiable, TeamMember, Billable;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
     protected $fillable = [
         'name',
         'email',
@@ -31,18 +26,10 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, Sends
         'expo_token'
     ];
 
-    /**
-     * @var array
-     */
     protected $dispatchesEvents = [
         'created' => UserCreated::class,
     ];
 
-    /**
-     * The attributes that should be hidden for arrays.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password',
         'remember_token',
@@ -52,17 +39,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, Sends
         'pivot'
     ];
 
-    /**
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
         'elo' => 'integer'
     ];
 
-    /**
-     * @var array
-     */
     protected $appends = [
         'versioned_avatar'
     ];
@@ -97,6 +78,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, Sends
         $this->attributes['password'] = Hash::make($password);
     }
 
+    /**
+     * Return avatar url with version query for cache control
+     *
+     * @return string
+     */
     public function getVersionedAvatarAttribute()
     {
 
@@ -143,11 +129,22 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail, Sends
         return $game->owner_id == $this->id;
     }
 
+    /**
+     * Get expo channel on which private
+     * notifications should be distributed.
+     *
+     * @return string
+     */
     public function privateExpoChannel(): string
     {
         return "user_{$this->id}";
     }
 
+    /**
+     * Return user expo token
+     *
+     * @return string
+     */
     public function expoToken()
     {
         return $this->expo_token;

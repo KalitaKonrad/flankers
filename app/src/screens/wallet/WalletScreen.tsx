@@ -66,11 +66,14 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
     if (wallet.isFetching || wallet.isError) {
       return [];
     }
-    return [...wallet.data!.charges].sort(
+    const filteredCharges = wallet.data!.charges.filter(
+      (charge) => parseFloat(charge.amount) > 0
+    );
+    return [...filteredCharges].sort(
       (a, b) =>
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     );
-  }, [wallet]);
+  }, [wallet.isFetching, wallet.isError, wallet.data, wallet.data?.charges]);
 
   return (
     <Container>

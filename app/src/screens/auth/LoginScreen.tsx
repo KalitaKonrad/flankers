@@ -66,6 +66,7 @@ export const LoginScreen: React.FC<LoginPageProps> = ({ navigation }) => {
           message: generalMessage,
         });
       }
+    } finally {
       setPending(false);
     }
   };
@@ -106,6 +107,7 @@ export const LoginScreen: React.FC<LoginPageProps> = ({ navigation }) => {
         <View style={styles.actions}>
           <AppButton
             disabled={isPending}
+            loading={isPending}
             mode="contained"
             onPress={handleSubmit(onLogin)}>
             Zaloguj

@@ -69,7 +69,7 @@ export const AppScreenStack: React.FC = () => {
     <Tab.Navigator
       activeColor="#FFF"
       initialRouteName="Match"
-      inactiveColor={theme.colors.secondary}
+      inactiveColor="rgba(255, 255, 255, 0.6)"
       labeled
       barStyle={{ backgroundColor: theme.colors.primary }}
       screenOptions={({ route }) => ({

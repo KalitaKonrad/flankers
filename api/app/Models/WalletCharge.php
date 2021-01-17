@@ -19,6 +19,11 @@ class WalletCharge extends Model
         'updated_at'
     ];
 
+    /**
+     * Get wallet which was charged
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function wallet()
     {
         return $this->belongsTo(Wallet::class);

@@ -30,11 +30,19 @@ module.exports = {
     assetBundlePatterns: ['**/*'],
     ios: {
       supportsTablet: true,
+      config: {
+        googleMapsApiKey: process.env.EXPO_GOOGLE_MAPS_IOS_KEY,
+      },
     },
     android: {
       adaptiveIcon: {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#ffaf19',
+      },
+      config: {
+        googleMaps: {
+          apiKey: process.env.EXPO_GOOGLE_MAPS_ANDROID_KEY,
+        },
       },
       useNextNotificationsApi: true,
     },

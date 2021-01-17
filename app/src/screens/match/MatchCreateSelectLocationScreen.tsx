@@ -24,14 +24,11 @@ export const MatchCreateSelectLocationScreen: React.FC<MatchCreateSelectLocation
   route,
 }) => {
   const [matchLocation, setMatchLocation] = useState<LatLng | null>(null);
-  const [isLocationSelected, setIsLocationSelected] = useState(
-    matchLocation !== null
-  );
-
+  const isLocationSelected = matchLocation !== null;
   const { mutateAsync } = useMatchCreateMutation();
 
   const onPress = async () => {
-    if (matchLocation === null) {
+    if (!matchLocation) {
       return;
     }
 
@@ -59,7 +56,11 @@ export const MatchCreateSelectLocationScreen: React.FC<MatchCreateSelectLocation
         onLocationSelected={(location) => setMatchLocation(location)}
       />
       <View style={styles.buttonContainer}>
-        <AppButton mode="contained" onPress={onPress}>
+        <AppButton
+          disabled={!isLocationSelected}
+          style={!isLocationSelected ? { backgroundColor: '#bababa' } : {}}
+          mode="contained"
+          onPress={onPress}>
           Potwierdź lokalizacje
         </AppButton>
       </View>
