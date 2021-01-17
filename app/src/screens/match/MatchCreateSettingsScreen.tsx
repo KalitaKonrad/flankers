@@ -8,6 +8,7 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
 import { NumberSelector } from '../../components/shared/NumberSelector';
 import { Switch } from '../../components/shared/Switch';
+import { useUserWalletQuery } from '../../hooks/payments/useUserWalletQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { MatchJoinType, MatchVisibility } from '../../types/match';
 import { MatchScreenStackParamList } from './MatchScreenStack';
@@ -36,6 +37,16 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
   const hasTeam = useMemo(() => !!userProfile.data?.teams?.[0], [
     userProfile.data?.teams,
   ]);
+  const wallet = useUserWalletQuery();
+  const hasSufficientFunds = useMemo(() => {
+    if (!isMatchRanked) {
+      return true;
+    }
+    if (wallet?.data?.balance !== undefined) {
+      return wallet.data.balance >= matchEntryFee;
+    }
+    return false;
+  }, [isMatchRanked, matchEntryFee, wallet.data.balance]);
 
   const onCreate = () => {
     navigation.push('MatchLocation', {
@@ -127,7 +138,17 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
         )}
 
         <View style={styles.action}>
-          <AppButton mode="contained" onPress={onCreate}>
+          {!hasSufficientFunds && (
+            <AppText style={{ textAlign: 'center', marginBottom: 16 }}>
+              Twój aktualny stan konta wynosi{' '}
+              {(wallet?.data?.balance ?? 0).toFixed(2)}PLN. Aby rozpocząć grę z
+              wybraną stawką doładuj swoje konto!
+            </AppText>
+          )}
+          <AppButton
+            disabled={!hasSufficientFunds}
+            mode="contained"
+            onPress={onCreate}>
             Utwórz
           </AppButton>
         </View>
