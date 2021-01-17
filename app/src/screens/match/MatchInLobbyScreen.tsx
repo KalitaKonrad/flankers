@@ -1,6 +1,6 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Share, StyleSheet, View } from 'react-native';
 
 import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
@@ -63,7 +63,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   const unlockChangingSquads = () => {
     setTimeout(() => {
       setIsUserAllowedToChangeSquad(true);
-    }, 3000);
+    }, 30000);
   };
 
   const { echo, isReady: isEchoReady } = useEcho();
@@ -142,6 +142,24 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
       });
     } catch (e) {
       alert('Wystąpił błąd podczas próby wystartowania gry');
+    }
+  };
+
+  const onShare = async () => {
+    if (matchDetails?.data?.invite?.code === undefined) {
+      return;
+    }
+    try {
+      const result = await Share.share({
+        message: matchDetails.data.invite.code,
+      });
+      if (result.action === Share.sharedAction) {
+        alert('shared');
+      } else if (result.action === Share.dismissedAction) {
+        alert('dissmised');
+      }
+    } catch (error) {
+      alert(error.message);
     }
   };
 
@@ -252,6 +270,9 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
             </AppButton>
           </View>
         )}
+        <View style={{ marginTop: 20 }}>
+          <AppButton onPress={() => onShare()}>Udostępnij kod gry</AppButton>
+        </View>
       </PaddedInputScrollView>
     </Container>
   );
