@@ -36,6 +36,7 @@ module.exports = {
         foregroundImage: './assets/adaptive-icon.png',
         backgroundColor: '#ffaf19',
       },
+      package: 'pl.flankers.app',
     },
     web: {
       favicon: './assets/favicon.png',

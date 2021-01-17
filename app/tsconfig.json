@@ -12,5 +12,5 @@
     "strict": true,
     "typeRoots": ["./src/types", "./node_modules/@types"]
   },
-  "exclude": ["node_modules", "**/*.test.ts"]
+  "exclude": ["node_modules"]
 }
