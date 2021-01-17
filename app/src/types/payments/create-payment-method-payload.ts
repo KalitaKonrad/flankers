@@ -1,4 +1,4 @@
-interface CreatePaymentMethodPayload {
+export interface CreatePaymentMethodPayload {
   type: string;
   card: {
     number: string;

@@ -1,11 +1,14 @@
 {
   "main": "node_modules/expo/AppEntry.js",
+  "license": "BSD",
   "scripts": {
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "eject": "expo eject"
+    "eject": "expo eject",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix"
   },
   "husky": {
     "hooks": {
@@ -13,7 +16,7 @@
     }
   },
   "lint-staged": {
-    "*.{.js,jsx,ts,tsx}": "eslint --fix"
+    "*.{js,jsx,ts,tsx}": "eslint --fix"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.1.0",

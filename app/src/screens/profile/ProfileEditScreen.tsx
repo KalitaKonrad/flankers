@@ -3,7 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard, StyleSheet, View } from 'react-native';
-import { HelperText, useTheme } from 'react-native-paper';
+import { HelperText } from 'react-native-paper';
 import * as yup from 'yup';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
@@ -49,8 +49,6 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   const { mutate } = useProfileEditMutation();
   const [avatar, setAvatar] = useState<string>(route.params.avatar);
   const mutateAvatar = useUpdateAvatarMutation();
-
-  const theme = useTheme();
 
   const {
     register,

@@ -52,7 +52,7 @@ export const TeamCreateScreen: React.FC<TeamCreateScreenProps> = ({
     if (userHasTeam) {
       navigation.navigate('TeamManage');
     }
-  }, [userHasTeam]);
+  }, [navigation, userHasTeam]);
 
   const {
     register,

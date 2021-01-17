@@ -33,6 +33,6 @@ export const refreshTokenInterceptor = async (failedRequest: any) => {
     ] = `Bearer ${access_token}`;
   } catch (error) {
     await deleteToken();
-    return Promise.reject();
+    return Promise.reject(error);
   }
 };

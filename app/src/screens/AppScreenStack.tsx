@@ -63,7 +63,7 @@ export const AppScreenStack: React.FC = () => {
     };
 
     sendToken();
-  }, []);
+  }, [expoPushToken, mutation]);
 
   return (
     <Tab.Navigator

@@ -1,9 +1,6 @@
-import { useInfiniteQuery, useQuery, useQueryClient } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 
-import {
-  QUERY_LEADERBOARDS_TEAM,
-  QUERY_USER_GAMES,
-} from '../const/query.const';
+import { QUERY_USER_GAMES } from '../const/query.const';
 import { MatchHistoryResponse } from '../types/match';
 import { useAxios } from './useAxios';
 

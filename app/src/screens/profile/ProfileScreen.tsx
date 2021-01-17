@@ -41,7 +41,6 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
     matchHistory.isError,
     matchHistory.isFetchingNextPage,
     matchHistory.data,
-    matchHistory.data?.pages,
   ]);
 
   return (

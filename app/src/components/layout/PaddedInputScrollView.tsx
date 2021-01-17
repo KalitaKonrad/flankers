@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleProp, ViewStyle, StyleSheet } from 'react-native';
+import { StyleProp, StyleSheet, ViewStyle } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 interface PaddedInputScrollViewProps {

@@ -16,7 +16,7 @@ export type AuthScreenStackParamList = {
 
 const Stack = createStackNavigator<AuthScreenStackParamList>();
 
-export const AuthScreenStack: React.FC = ({}) => {
+export const AuthScreenStack: React.FC = () => {
   return (
     <Stack.Navigator
       screenOptions={{

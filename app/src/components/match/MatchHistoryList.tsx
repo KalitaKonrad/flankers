@@ -1,6 +1,6 @@
 import React from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
-import { List, Text } from 'react-native-paper';
+import { List } from 'react-native-paper';
 
 import { MatchElementInHistory } from '../../types/match';
 import { formatDate } from '../../utils/formatBackendTIme';

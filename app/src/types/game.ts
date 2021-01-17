@@ -1,5 +1,11 @@
-import { InvitePayload } from './inviteResponse';
 import { SquadResponse } from './squadResponse';
+
+export interface GameInvitation {
+  code: string;
+  game_id: string;
+  created_at?: string;
+  updated_at?: string;
+}
 
 export interface Game {
   id: number;
@@ -19,5 +25,5 @@ export interface Game {
     lat: number;
   };
   squads: SquadResponse[];
-  invite?: InvitePayload;
+  invite?: GameInvitation;
 }

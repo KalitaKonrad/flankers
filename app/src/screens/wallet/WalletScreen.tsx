@@ -73,7 +73,7 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
       (a, b) =>
         new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
     );
-  }, [wallet.isFetching, wallet.isError, wallet.data, wallet.data?.charges]);
+  }, [wallet.isFetching, wallet.isError, wallet.data]);
 
   return (
     <Container>

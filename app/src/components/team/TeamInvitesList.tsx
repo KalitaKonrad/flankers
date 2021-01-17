@@ -10,7 +10,6 @@ import {
 import { List } from 'react-native-paper';
 import BottomSheet from 'reanimated-bottom-sheet';
 
-import { theme } from '../../theme';
 import { InvitePayload } from '../../types/inviteResponse';
 import { AppButton } from '../shared/AppButton';
 import { Avatar } from '../shared/Avatar';

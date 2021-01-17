@@ -1,6 +1,6 @@
 import { MaterialBottomTabNavigationProp } from '@react-navigation/material-bottom-tabs';
 import { CompositeNavigationProp, RouteProp } from '@react-navigation/native';
-import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';

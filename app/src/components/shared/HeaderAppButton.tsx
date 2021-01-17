@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, useTheme } from 'react-native-paper';
+import { useTheme } from 'react-native-paper';
 
 import { AppButton } from './AppButton';
 

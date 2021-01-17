@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import MapView, { Heatmap, Marker, WeightedLatLng } from 'react-native-maps';
+import MapView, { Heatmap, Marker } from 'react-native-maps';
 
 import { ActiveMatchesMapProps } from '../../types/activeMatchesMapComponentProps';
 import { MatchResponse } from '../../types/matchResponse';

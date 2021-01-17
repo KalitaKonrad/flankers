@@ -4,6 +4,8 @@
 import axios from 'axios';
 import Constants from 'expo-constants';
 
+import { CreatePaymentMethodPayload } from '../types/payments/create-payment-method-payload';
+
 const qs = require('qs');
 
 /**

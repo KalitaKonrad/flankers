@@ -1,7 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Share, StyleSheet, View } from 'react-native';
-import { IconButton, Paragraph } from 'react-native-paper';
+import { StyleSheet, View } from 'react-native';
+import { IconButton } from 'react-native-paper';
 
 import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
@@ -106,7 +106,7 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
         showAlert('Ups', 'Nie udało się zaktualizować drużyn');
       }
     },
-    [matchDetails.data?.squads]
+    [matchDetails.data?.squads, showAlert]
   );
 
   useEffect(() => {

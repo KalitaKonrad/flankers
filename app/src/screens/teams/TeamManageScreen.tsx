@@ -79,7 +79,13 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
       return <ListPlaceholder placeholderCount={6} />;
     }
     return view;
-  }, [showMatches, matchHistory, membersList, onMatchHistoryListEndReached]);
+  }, [
+    showMatches,
+    matchHistory,
+    membersList,
+    matchHistoryList,
+    onMatchHistoryListEndReached,
+  ]);
 
   return (
     <ContainerWithAvatar

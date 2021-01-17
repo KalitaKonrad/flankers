@@ -1,4 +1,3 @@
-import { isLoading } from 'expo-font';
 import React, { ComponentProps } from 'react';
 import { ImageSourcePropType, StyleSheet, View } from 'react-native';
 import { useTheme } from 'react-native-paper';

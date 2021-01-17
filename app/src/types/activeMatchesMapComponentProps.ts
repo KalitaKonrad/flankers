@@ -1,5 +1,3 @@
-import { LatLng, WeightedLatLng } from 'react-native-maps';
-
 import { MatchResponse } from './matchResponse';
 
 export interface ActiveMatchesMapProps {

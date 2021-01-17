@@ -20,7 +20,10 @@ export const useTeamCreateMutation = () => {
         await queryCache.refetchQueries(QUERY_TEAM_KEY);
         await queryCache.refetchQueries(QUERY_PROFILE_KEY);
       },
-      onError: (error) => {},
+      onError: (error) => {
+        alert('Podczas tworzenia zespołu wystąpił błąd');
+        console.error(error);
+      },
     }
   );
 };

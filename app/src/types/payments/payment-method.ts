@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 declare module Stripe {
   export interface Address {
     city?: any;

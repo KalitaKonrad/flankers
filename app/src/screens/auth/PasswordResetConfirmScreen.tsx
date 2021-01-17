@@ -2,10 +2,9 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { Keyboard, StyleSheet, Text, View } from 'react-native';
+import { Keyboard, StyleSheet, View } from 'react-native';
 import { HelperText, Paragraph } from 'react-native-paper';
 import * as yup from 'yup';
-import { string } from 'yup';
 
 import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
@@ -15,7 +14,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { AuthScreenStackParamList } from './AuthScreenStack';
 
-type PasswordResetConfirmScreen = StackScreenProps<
+type PasswordResetConfirmScreenProps = StackScreenProps<
   AuthScreenStackParamList,
   'PasswordResetConfirm'
 >;
@@ -43,7 +42,7 @@ const PasswordResetConfirmSchema = yup.object().shape({
     .required('Powtórz hasło'),
 });
 
-export const PasswordResetConfirmScreen: React.FC<PasswordResetConfirmScreen> = ({
+export const PasswordResetConfirmScreen: React.FC<PasswordResetConfirmScreenProps> = ({
   navigation,
 }) => {
   const {

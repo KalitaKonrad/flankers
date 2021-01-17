@@ -24,11 +24,12 @@ export const useMatchCreateMutation = () => {
       return response.data.data;
     },
     {
-      onSuccess: () => {
-        queryCache.invalidateQueries(QUERY_GAMES);
+      onSuccess: async () => {
+        await queryCache.invalidateQueries(QUERY_GAMES);
       },
       onError: (error) => {
         alert('Wystąpił błąd podczas tworzenia meczu');
+        console.error(error);
       },
     }
   );

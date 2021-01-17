@@ -49,7 +49,7 @@ export const NumberSelector = React.forwardRef<
           setValue(initialValue);
         },
       }),
-      []
+      [initialValue]
     );
 
     const onDecrementPress = () => {
