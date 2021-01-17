@@ -1,15 +1,19 @@
+const { defaults: tsjPreset } = require('ts-jest/presets');
+
 module.exports = {
+  ...tsjPreset,
   preset: 'jest-expo',
   globals: {
     'ts-jest': {
+      babelConfig: true,
       tsconfig: {
         jsx: 'react',
       },
     },
   },
   transform: {
+    ...tsjPreset.transform,
     '^.+\\.js$': '<rootDir>/node_modules/react-native/jest/preprocessor.js',
-    '^.+\\.tsx?$': 'ts-jest',
   },
   testMatch: ['**/__tests__/**/*.ts?(x)', '**/?(*.)+(spec|test).ts?(x)'],
   collectCoverageFrom: [
