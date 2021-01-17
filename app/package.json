@@ -25,6 +25,7 @@
     "@react-navigation/stack": "^5.12.8",
     "axios": "^0.21.0",
     "axios-auth-refresh": "^3.0.0",
+    "date-fns": "^2.16.1",
     "deepmerge": "^4.2.2",
     "dotenv": "^8.2.0",
     "eventemitter3": "^4.0.7",

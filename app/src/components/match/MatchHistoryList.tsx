@@ -1,11 +1,8 @@
-import moment from 'moment';
 import React from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
 import { List, Text } from 'react-native-paper';
-import { date } from 'yup';
 
 import { MatchElementInHistory } from '../../types/match';
-import { AppText } from '../shared/AppText';
 
 interface MatchHistoryListProps {
   matchHistory: MatchElementInHistory[];
