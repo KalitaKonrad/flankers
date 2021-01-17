@@ -11,7 +11,6 @@ import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
-
 import { useAuth } from '../../hooks/useAuth';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { AuthScreenStackParamList } from './AuthScreenStack';
@@ -81,8 +80,9 @@ export const PasswordResetConfirmScreen: React.FC<PasswordResetConfirmScreen> = 
       navigation.navigate('Login');
     } catch (error) {
       setResponseErrors(error, setError);
+    } finally {
+      setPending(false);
     }
-    setPending(false);
   };
 
   return (
@@ -151,6 +151,7 @@ export const PasswordResetConfirmScreen: React.FC<PasswordResetConfirmScreen> = 
         <View style={styles.actions}>
           <AppButton
             mode="contained"
+            loading={isPending}
             disabled={isPending}
             onPress={handleSubmit(onResetPassword)}>
             Resetuj hasło
