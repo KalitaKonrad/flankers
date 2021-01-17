@@ -102,7 +102,6 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
       <View style={styles.meta}>
         <AppText variant="h2">Zmiana danych</AppText>
       </View>
-
       <PaddedInputScrollView>
         <AppInput
           style={styles.row}
@@ -178,8 +177,5 @@ const styles = StyleSheet.create({
   },
   action: {
     marginTop: 16,
-  },
-  buttonWrapper: {
-    left: 200,
   },
 });
