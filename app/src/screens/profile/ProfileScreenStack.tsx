@@ -4,8 +4,6 @@ import { useTheme } from 'react-native-paper';
 
 import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
 import { useAuth } from '../../hooks/useAuth';
-import { useDeleteExpoPushTokenMutation } from '../../hooks/useDeleteExpoPushTokenMutation';
-import { useNotification } from '../../hooks/useNotification';
 import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { ProfileEditRouteParameters } from '../../types/ProfileEditRouteParameters';
