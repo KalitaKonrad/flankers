@@ -47,16 +47,14 @@ export const ProfileScreen: React.FC<ProfileScreenProps> = ({ navigation }) => {
         <AppText variant="h3">Punkty rankingowe: {profile.data?.elo}</AppText>
       </View>
       {!isLoading ? (
-        <View style={{ paddingBottom: 350 }}>
-          <MatchHistoryList
-            onListEndReached={() => {
-              if (matchHistory.hasNextPage) {
-                matchHistory.fetchNextPage();
-              }
-            }}
-            matchHistory={matchHistoryList}
-          />
-        </View>
+        <MatchHistoryList
+          onListEndReached={() => {
+            if (matchHistory.hasNextPage) {
+              matchHistory.fetchNextPage();
+            }
+          }}
+          matchHistory={matchHistoryList}
+        />
       ) : (
         <ListPlaceholder placeholderCount={5} />
       )}
