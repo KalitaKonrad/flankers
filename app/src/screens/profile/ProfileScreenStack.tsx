@@ -1,3 +1,4 @@
+import { MaterialBottomTabScreenProps } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
@@ -7,6 +8,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { ProfileEditRouteParameters } from '../../types/ProfileEditRouteParameters';
+import { BottomTabNavigationParamList } from '../AppScreenStack';
 import { ProfileEditScreen } from './ProfileEditScreen';
 import { ProfileScreen } from './ProfileScreen';
 
@@ -15,9 +17,16 @@ export type ProfileScreenStackParamList = {
   ProfileEdit: ProfileEditRouteParameters;
 };
 
+type ProfileScreenStackProps = MaterialBottomTabScreenProps<
+  BottomTabNavigationParamList,
+  'Profile'
+>;
+
 const Stack = createStackNavigator<ProfileScreenStackParamList>();
 
-export const ProfileScreenStack: React.FC = ({ navigation }) => {
+export const ProfileScreenStack: React.FC<ProfileScreenStackProps> = ({
+  navigation,
+}) => {
   const { logout } = useAuth();
   const userProfile = useUserProfileQuery();
   useNotificationHandler(navigation);
