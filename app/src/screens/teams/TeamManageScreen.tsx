@@ -61,15 +61,17 @@ export const TeamManageScreen: React.FC<TeamManageScreenProps> = ({
     if (matchHistory.hasNextPage) {
       matchHistory.fetchNextPage();
     }
-  }, []);
+  }, [matchHistory]);
 
   const listView = useMemo(() => {
     const query = showMatches ? matchHistory : membersList;
     const view = showMatches ? (
-      <MatchHistoryList
-        matchHistory={matchHistoryList}
-        onListEndReached={onMatchHistoryListEndReached}
-      />
+      <View style={{ paddingBottom: 460 }}>
+        <MatchHistoryList
+          matchHistory={matchHistoryList}
+          onListEndReached={onMatchHistoryListEndReached}
+        />
+      </View>
     ) : (
       <TeamMemberList members={membersList.data!} />
     );

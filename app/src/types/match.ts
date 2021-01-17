@@ -2,6 +2,7 @@ export interface MatchElementInHistory {
   winner: boolean;
   id: number;
   type: string;
+  updated_at: string;
 }
 
 export interface MatchHistoryResponse {

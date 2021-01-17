@@ -48,7 +48,7 @@ const fontConfig = {
 
 const colors = {
   primary: '#ffaf19',
-  secondary: '#FFD789',
+  secondary: '#29335C',
   lightGray: '#F6F6F6',
   darkGray: '#E8E8E8',
   white: '#FFFFFF',

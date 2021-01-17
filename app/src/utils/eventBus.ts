@@ -6,6 +6,10 @@ interface EventHandler {
 
 const bus = new EventEmitter();
 
+/**
+ * Wrapper around eventemitter library
+ * Enables easier usage with React hooks
+ */
 export const EventBus = Object.freeze({
   on: (event: string, handler: EventHandler) => {
     bus.on(event, handler);
