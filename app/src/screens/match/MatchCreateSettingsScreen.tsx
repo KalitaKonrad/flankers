@@ -113,33 +113,21 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
           />
         </View>
 
-        {matchVisibility === MatchVisibility.PRIVATE &&
-        matchJoinType === MatchJoinType.TEAM ? (
-          <View style={styles.invitation}>
-            <AppText style={styles.privateMatchMessage}>
-              Kod gry dzięki któremu przeciwna drużyna będzie mogła dołączyć
-              zostanie wygenerowany. Wybierz miejsce na mapie
-            </AppText>
-          </View>
-        ) : (
-          <></>
-        )}
-
-        {matchVisibility === MatchVisibility.PRIVATE &&
-        matchJoinType === MatchJoinType.OPEN ? (
-          <View style={styles.invitation}>
-            <AppText style={styles.privateMatchMessage}>
-              Kod gry dzięki któremu inne osoby będą mogły dołączyć zostanie
-              wygenerowany. Wybierz miejsce na mapie
-            </AppText>
-          </View>
-        ) : (
-          <></>
+        {matchVisibility === MatchVisibility.PRIVATE && (
+          <AppText
+            style={[
+              styles.info,
+              !hasSufficientFunds ? { marginBottom: 0 } : {},
+            ]}>
+            {matchJoinType === MatchJoinType.TEAM
+              ? 'Kod gry dzięki któremu przeciwna drużyna będzie mogła dołączyć zostanie wygenerowany. Wybierz miejsce na mapie'
+              : 'Kod gry dzięki któremu inne osoby będą mogły dołączyć zostanie wygenerowany. Wybierz miejsce na mapie'}
+          </AppText>
         )}
 
         <View style={styles.action}>
           {!hasSufficientFunds && (
-            <AppText style={{ textAlign: 'center', marginBottom: 16 }}>
+            <AppText style={styles.info}>
               Twój aktualny stan konta wynosi{' '}
               {(wallet?.data?.balance ?? 0).toFixed(2)}PLN. Aby rozpocząć grę z
               wybraną stawką doładuj swoje konto!
@@ -175,11 +163,8 @@ const styles = StyleSheet.create({
     marginTop: 24,
     marginBottom: 50,
   },
-  invitation: {
-    bottom: 15,
-    margin: 10,
-  },
-  privateMatchMessage: {
+  info: {
     textAlign: 'center',
+    marginBottom: 16,
   },
 });
