@@ -108,6 +108,7 @@ exports[`<ContainerWithAvatar> should not render avatar image when isLoading pro
   <View
     style={
       Object {
+        "flex": 1,
         "paddingTop": 24,
       }
     }
@@ -226,6 +227,7 @@ exports[`<ContainerWithAvatar> should render button prop contents 1`] = `
   <View
     style={
       Object {
+        "flex": 1,
         "paddingTop": 24,
       }
     }
@@ -329,6 +331,7 @@ exports[`<ContainerWithAvatar> should render correctly 1`] = `
   <View
     style={
       Object {
+        "flex": 1,
         "paddingTop": 24,
       }
     }

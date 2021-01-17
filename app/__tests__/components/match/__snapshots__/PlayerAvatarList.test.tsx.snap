@@ -5,7 +5,8 @@ exports[`<PlayerAvatarList> should render correctly 1`] = `
   style={
     Object {
       "flexDirection": "row",
-      "paddingLeft": 20,
+      "height": 72,
+      "paddingLeft": 24,
     }
   }
 />
