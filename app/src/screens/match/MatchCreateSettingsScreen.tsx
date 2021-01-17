@@ -42,11 +42,11 @@ export const MatchCreateSettingsScreen: React.FC<MatchCreateScreenProps> = ({
     if (!isMatchRanked) {
       return true;
     }
-    if (wallet?.data?.balance !== undefined) {
+    if (wallet?.data !== undefined) {
       return wallet.data.balance >= matchEntryFee;
     }
     return false;
-  }, [isMatchRanked, matchEntryFee, wallet.data.balance]);
+  }, [isMatchRanked, matchEntryFee, wallet.data]);
 
   const onCreate = () => {
     navigation.push('MatchLocation', {
