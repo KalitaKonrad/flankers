@@ -33,6 +33,7 @@ module.exports = {
       config: {
         googleMapsApiKey: process.env.EXPO_GOOGLE_MAPS_IOS_KEY,
       },
+      bundleIdentifier: 'pl.flankers.app',
     },
     android: {
       adaptiveIcon: {
@@ -45,6 +46,7 @@ module.exports = {
         },
       },
       useNextNotificationsApi: true,
+      package: 'pl.flankers.app',
     },
     web: {
       favicon: './assets/favicon.png',
