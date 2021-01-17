@@ -4,6 +4,7 @@ import { StyleSheet, View } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 import { Container } from '../../components/layout/Container';
+import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
 import { PlayerAvatarList } from '../../components/match/PlayerAvatarList';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
@@ -106,61 +107,66 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
 
   return (
     <Container style={styles.container}>
-      <View style={styles.mainSection}>
-        <View style={styles.timer}>
-          <Timer subText="Czas trwania meczu" />
-        </View>
-        <AppText variant="h1" style={styles.title}>
-          Zespół A
-        </AppText>
-        <View style={styles.row}>
-          {firstTeamPlayersList !== undefined && (
-            <PlayerAvatarList players={firstTeamPlayersList} />
-          )}
-        </View>
-        <AppText variant="h1" style={styles.title}>
-          Zespół B
-        </AppText>
-        <View style={styles.row}>
-          {secondTeamPlayersList !== undefined && (
-            <PlayerAvatarList players={secondTeamPlayersList} />
-          )}
-        </View>
-      </View>
-      <View style={styles.action}>
-        {isOwner && (
-          <AppButton mode="contained" onPress={() => onOwnerStartVoting()}>
-            Zakończ mecz
-          </AppButton>
-        )}
-      </View>
-      <Modal ref={modalEndGame} title="Mecz dobiegł końca" dismissible={false}>
-        <AppText style={styles.subtitle}>
-          Wybierz drużynę, która zwyciężyła. Wyniki obliczane są na podstawie
-          głosów wszystkich uczestników
-        </AppText>
-        <View style={styles.endGameButtonsContainer}>
-          <AppButton
-            mode="contained"
-            style={styles.modalButton}
-            onPress={() => onSubmitGameScore(firstSquadId)}>
+      <PaddedInputScrollView style={styles.container}>
+        <View style={styles.mainSection}>
+          <View style={styles.timer}>
+            <Timer subText="Czas trwania meczu" />
+          </View>
+          <AppText variant="h1" style={styles.title}>
             Zespół A
-          </AppButton>
-          <AppButton
-            mode="contained"
-            style={styles.modalButton}
-            onPress={() => onSubmitGameScore(secondSquadId)}>
+          </AppText>
+          <View style={styles.row}>
+            {firstTeamPlayersList !== undefined && (
+              <PlayerAvatarList players={firstTeamPlayersList} />
+            )}
+          </View>
+          <AppText variant="h1" style={styles.title}>
             Zespół B
-          </AppButton>
+          </AppText>
+          <View style={styles.row}>
+            {secondTeamPlayersList !== undefined && (
+              <PlayerAvatarList players={secondTeamPlayersList} />
+            )}
+          </View>
         </View>
-      </Modal>
+        <View style={styles.action}>
+          {isOwner && (
+            <AppButton mode="contained" onPress={() => onOwnerStartVoting()}>
+              Zakończ mecz
+            </AppButton>
+          )}
+        </View>
+        <Modal
+          ref={modalEndGame}
+          title="Mecz dobiegł końca"
+          dismissible={false}>
+          <AppText style={styles.subtitle}>
+            Wybierz drużynę, która zwyciężyła. Wyniki obliczane są na podstawie
+            głosów wszystkich uczestników
+          </AppText>
+          <View style={styles.endGameButtonsContainer}>
+            <AppButton
+              mode="contained"
+              style={styles.modalButton}
+              onPress={() => onSubmitGameScore(firstSquadId)}>
+              Zespół A
+            </AppButton>
+            <AppButton
+              mode="contained"
+              style={styles.modalButton}
+              onPress={() => onSubmitGameScore(secondSquadId)}>
+              Zespół B
+            </AppButton>
+          </View>
+        </Modal>
+      </PaddedInputScrollView>
     </Container>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 32,
+    paddingTop: 8,
     paddingHorizontal: 16,
   },
   timer: {

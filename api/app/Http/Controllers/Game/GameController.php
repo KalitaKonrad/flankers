@@ -93,7 +93,7 @@ class GameController extends Controller
      * @urlParam id int required Game id
      *
      * @param  int  $game_id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Database\Eloquent\Model
      */
     public function show(int $game_id)
     {

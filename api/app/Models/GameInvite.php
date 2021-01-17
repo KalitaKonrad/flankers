@@ -22,12 +22,25 @@ class GameInvite extends Model
         'code' => 'string'
     ];
 
+    /**
+     * Get game related to invite
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function game()
     {
         return $this->belongsTo(Game::class);
     }
 
-    public static function generate($game, $retries = 0)
+    /**
+     * Generate invite code randomly, and retry
+     * up to five times if unique code exists
+     *
+     * @param \App\Models\Game $game
+     * @param integer $retries
+     * @return string
+     */
+    public static function generate(Game $game, $retries = 0)
     {
         $code = Str::upper(Str::random(6));
 
@@ -41,7 +54,7 @@ class GameInvite extends Model
         } catch (Exception $e) {
             if ($retries == 5)
                 throw $e;
-            return self::generate($retries + 1);
+            return self::generate($game, $retries + 1);
         }
     }
 }

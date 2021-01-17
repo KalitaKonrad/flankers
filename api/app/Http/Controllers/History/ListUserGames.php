@@ -1,10 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\History;
 
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\Controller;
 
-class ListTeamGames extends Controller
+class ListUserGames extends Controller
 {
     /**
      * Instantiate the controller
@@ -15,23 +17,23 @@ class ListTeamGames extends Controller
     }
 
     /**
-     * Get team match history
+     * Get user match history
      *
      * This will return paginated query response.
      * Only completed games are returned.
      *
-     * @group Team management
-     * @urlParam team_id int Team it for which history will be fetched
+     * @group User management
      *
      * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
      */
-    public function __invoke(int $team_id)
+    public function __invoke()
     {
-        $result = DB::table('squads')
-            ->selectRaw('games.*, squads.id as squad_id, game_victor_squads.squad_id as winner')
-            ->join('games', 'games.id', '=', 'squads.game_id')
+        $result = DB::table('games')
+            ->selectRaw('games.*, squad_user.squad_id, game_victor_squads.squad_id as winner')
+            ->join('squads', 'games.id', '=', 'squads.game_id')
+            ->join('squad_user', 'squads.id', '=', 'squad_user.squad_id')
             ->leftJoin('game_victor_squads', 'squads.id', '=', 'game_victor_squads.squad_id')
-            ->where('squads.team_id', $team_id)
+            ->where('squad_user.user_id', Auth::id())
             ->where('games.completed', true)
             ->orderByDesc('games.id')
             ->paginate(10);
