@@ -70,9 +70,9 @@ export const PasswordResetScreen: React.FC<PasswordResetScreenProps> = ({
           message: generalMessage,
         });
       }
+    } finally {
+      setPending(false);
     }
-
-    setPending(false);
   };
 
   return (
@@ -100,6 +100,7 @@ export const PasswordResetScreen: React.FC<PasswordResetScreenProps> = ({
         <View style={styles.actions}>
           <AppButton
             mode="contained"
+            loading={isPending}
             disabled={isPending}
             onPress={handleSubmit(onResetPassword)}>
             Resetuj hasło

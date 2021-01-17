@@ -1,5 +1,7 @@
-import { StackScreenProps } from '@react-navigation/stack';
-import React, { useCallback, useEffect, useRef } from 'react';
+import { MaterialBottomTabNavigationProp } from '@react-navigation/material-bottom-tabs';
+import { CompositeNavigationProp, RouteProp } from '@react-navigation/native';
+import { StackNavigationProp, StackScreenProps } from '@react-navigation/stack';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import BottomSheet from 'reanimated-bottom-sheet';
 
@@ -20,12 +22,16 @@ import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { theme } from '../../theme';
 import { MembersPayload } from '../../types/squadResponse';
 import { StartVotingEvent } from '../../types/startVotingEvent';
+import { BottomTabNavigationParamList } from '../AppScreenStack';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
-type MatchInProgressScreenProps = StackScreenProps<
-  MatchScreenStackParamList,
-  'MatchInProgress'
->;
+type MatchInProgressScreenProps = {
+  navigation: CompositeNavigationProp<
+    MaterialBottomTabNavigationProp<BottomTabNavigationParamList, 'Match'>,
+    StackNavigationProp<MatchScreenStackParamList, 'MatchInProgress'>
+  >;
+  route: RouteProp<MatchScreenStackParamList, 'MatchInProgress'>;
+};
 
 export interface MatchInProgressScreenRouteParams {
   gameId: number;
@@ -50,6 +56,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
     secondTeamPlayersList,
     ownerId,
   } = route.params;
+  const [isPending, setPending] = useState(false);
 
   const modalEndGame = useRef<BottomSheet | null>(null);
   const { echo, isReady: isEchoReady } = useEcho();
@@ -59,7 +66,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
   }, []);
 
   const onGameEnded = useCallback(() => {
-    navigation.navigate('MatchCreate');
+    navigation.jumpTo('Profile', { screen: 'Profile' });
   }, [navigation]);
 
   const onSubmitGameScore = async (winningSquadId: number | undefined) => {
@@ -68,14 +75,15 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
         game_id: gameId,
         winning_squad: winningSquadId,
       });
-
-      navigation.navigate('MatchCreate');
+      modalEndGame?.current?.snapTo(1);
+      navigation.jumpTo('Profile', { screen: 'Profile' });
     } catch (e) {
       alert('Wystąpił błąd podczas przesyłania głosu na zwycięską drużynę');
     }
   };
 
   const onOwnerStartVoting = async () => {
+    setPending(true);
     try {
       await axios.put(`games/${gameId}`, {
         command: {
@@ -131,7 +139,11 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
         </View>
         <View style={styles.action}>
           {isOwner && (
-            <AppButton mode="contained" onPress={() => onOwnerStartVoting()}>
+            <AppButton
+              loading={isPending}
+              disabled={isPending}
+              mode="contained"
+              onPress={() => onOwnerStartVoting()}>
               Zakończ mecz
             </AppButton>
           )}

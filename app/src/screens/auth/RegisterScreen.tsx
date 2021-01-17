@@ -152,6 +152,7 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
         </View>
         <View style={styles.actions}>
           <AppButton
+            loading={isPending}
             disabled={isPending}
             mode="contained"
             onPress={handleSubmit(onRegister)}>

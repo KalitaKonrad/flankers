@@ -29,7 +29,11 @@ module.exports = {
     },
     assetBundlePatterns: ['**/*'],
     ios: {
+      bundleIdentifier: 'pl.flankers.app',
       supportsTablet: true,
+      config: {
+        googleMapsApiKey: process.env.EXPO_GOOGLE_MAPS_IOS_KEY,
+      },
     },
     android: {
       adaptiveIcon: {
@@ -37,6 +41,11 @@ module.exports = {
         backgroundColor: '#ffaf19',
       },
       package: 'pl.flankers.app',
+      config: {
+        googleMaps: {
+          apiKey: process.env.EXPO_GOOGLE_MAPS_ANDROID_KEY,
+        },
+      },
     },
     web: {
       favicon: './assets/favicon.png',

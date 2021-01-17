@@ -9,6 +9,13 @@ interface RefreshTokenResponse {
   expires_in: number;
 }
 
+/**
+ * Axios request interceptor
+ * Intercepts requests which failed because of token expiration
+ * and tries to auto-refresh the token.
+ * If token refreshing fails it removes the token from the app storage.
+ * @param failedRequest
+ */
 export const refreshTokenInterceptor = async (failedRequest: any) => {
   try {
     const response = await axios.post<RefreshTokenResponse>(
