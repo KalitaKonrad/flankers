@@ -1,9 +1,11 @@
+import { MaterialBottomTabScreenProps } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 
 import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { MatchLocationSelectMapRoutesParameters } from '../../types/MatchLocationSelectMapRoutesParamaters';
+import { BottomTabNavigationParamList } from '../AppScreenStack';
 import { MatchCreateSelectLocationScreen } from './MatchCreateSelectLocationScreen';
 import { MatchCreateSettingsScreen } from './MatchCreateSettingsScreen';
 import {
@@ -25,9 +27,16 @@ export type MatchScreenStackParamList = {
   MatchLocation: MatchLocationSelectMapRoutesParameters;
 };
 
+type MatchScreenStackProps = MaterialBottomTabScreenProps<
+  BottomTabNavigationParamList,
+  'Match'
+>;
+
 const Stack = createStackNavigator<MatchScreenStackParamList>();
 
-export const MatchScreenStack: React.FC = ({ navigation }) => {
+export const MatchScreenStack: React.FC<MatchScreenStackProps> = ({
+  navigation,
+}) => {
   const theme = useTheme();
 
   useNotificationHandler(navigation);

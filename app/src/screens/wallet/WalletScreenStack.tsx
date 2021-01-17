@@ -1,9 +1,11 @@
+import { MaterialBottomTabScreenProps } from '@react-navigation/material-bottom-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 
 import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
 import { useNotificationHandler } from '../../hooks/useNotificationHandler';
+import { BottomTabNavigationParamList } from '../AppScreenStack';
 import { WalletPaymentMethodScreen } from './WalletPaymentMethodScreen';
 import { WalletScreen } from './WalletScreen';
 
@@ -14,7 +16,14 @@ export type WalletScreenStackParamList = {
 
 const Stack = createStackNavigator<WalletScreenStackParamList>();
 
-export const WalletScreenStack: React.FC = ({ navigation }) => {
+type WalletScreenStackProps = MaterialBottomTabScreenProps<
+  BottomTabNavigationParamList,
+  'Wallet'
+>;
+
+export const WalletScreenStack: React.FC<WalletScreenStackProps> = ({
+  navigation,
+}) => {
   const theme = useTheme();
   useNotificationHandler(navigation);
 
