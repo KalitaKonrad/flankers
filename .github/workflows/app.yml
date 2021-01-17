@@ -1,0 +1,33 @@
+name: Mobile app tests
+on:
+  push:
+    paths: 
+      - 'app/*'
+  pull_request:
+    paths:
+      - 'app/*'
+jobs:
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{ github.workspace }}/app
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+      
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12'
+          
+      - name: Install packages
+        run: yarn
+
+      - name: Lint files 
+        run: yarn lint
