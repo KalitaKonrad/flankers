@@ -47,7 +47,7 @@ export const TeamScreenStack: React.FC = ({ navigation, route }) => {
           title: 'Zespół',
           headerLeft: () => (
             <HeaderAppButton
-              onPress={() => navigation.navigate('TeamInvitation')}>
+              onPress={() => navigation.navigate('TeamInviteMember')}>
               Zaproś
             </HeaderAppButton>
           ),
@@ -69,9 +69,7 @@ export const TeamScreenStack: React.FC = ({ navigation, route }) => {
           title: 'Utwórz zespół',
           headerRight: () => (
             <HeaderAppButton
-              onPress={async () => {
-                navigation.push('TeamInvitations');
-              }}>
+              onPress={() => navigation.navigate('TeamInvitations')}>
               Zaproszenia
             </HeaderAppButton>
           ),
@@ -89,9 +87,9 @@ export const TeamScreenStack: React.FC = ({ navigation, route }) => {
           title: 'Zaproszenia',
           headerLeft: () => (
             <HeaderAppButton
-              onPress={() => {
-                navigation.navigate(hasTeam ? 'TeamManage' : 'TeamCreate');
-              }}>
+              onPress={() =>
+                navigation.navigate(hasTeam ? 'TeamManage' : 'TeamCreate')
+              }>
               Cofnij
             </HeaderAppButton>
           ),
