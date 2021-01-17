@@ -25,7 +25,7 @@ export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
     index,
   }: ListRenderItemInfo<MatchElementInHistory>) => (
     <List.Item
-      title="Mecz"
+      title={showDate(item.updated_at)}
       titleStyle={styles.elementName}
       description={
         (item.winner ? 'Zwycięstwo' : 'Porażka') +
@@ -35,7 +35,6 @@ export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
       left={(props) => (
         <List.Icon {...props} icon={item.winner ? 'trophy' : 'trophy-broken'} />
       )}
-      right={() => <AppText>{showDate(item.updated_at)}</AppText>}
     />
   );
   return (
