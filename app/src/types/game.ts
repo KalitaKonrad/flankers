@@ -1,4 +1,4 @@
-import { InvitePayload } from './invitePayload';
+import { InvitePayload } from './inviteResponse';
 import { SquadResponse } from './squadResponse';
 
 export interface Game {

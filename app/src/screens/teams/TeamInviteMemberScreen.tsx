@@ -32,7 +32,7 @@ const InvitationSchema = yup.object().shape({
     .required('Adres email jest wymagany'),
 });
 
-export const TeamInvitationScreen: React.FC<TeamInvitationScreenProps> = ({
+export const TeamInviteMemberScreen: React.FC<TeamInvitationScreenProps> = ({
   navigation,
 }) => {
   const userProfile = useUserProfileQuery();

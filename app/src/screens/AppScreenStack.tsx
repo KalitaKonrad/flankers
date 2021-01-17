@@ -1,9 +1,11 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { NavigatorScreenParams } from '@react-navigation/native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useTheme } from 'react-native-paper';
 
+import { useNotification } from '../hooks/useNotification';
+import { useUpdateExpoPushTokenMutation } from '../hooks/useUpdateExpoPushTokenMutation';
 import { useUserProfileQuery } from '../hooks/useUserProfileQuery';
 import { AuthScreenStackParamList } from './auth/AuthScreenStack';
 import {
@@ -47,6 +49,21 @@ export const AppScreenStack: React.FC = () => {
   // Preload user profile
   useUserProfileQuery();
   const theme = useTheme();
+  const mutation = useUpdateExpoPushTokenMutation();
+
+  const { expoPushToken } = useNotification();
+
+  useEffect(() => {
+    const sendToken = async () => {
+      const token = expoPushToken ?? '';
+
+      await mutation.mutateAsync({
+        expoPushToken: token,
+      });
+    };
+
+    sendToken();
+  }, []);
 
   return (
     <Tab.Navigator

@@ -3,6 +3,7 @@ import {
   NavigationContainer,
 } from '@react-navigation/native';
 import merge from 'deepmerge';
+import * as Notifications from 'expo-notifications';
 import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { QueryClient, QueryClientProvider, setLogger } from 'react-query';
@@ -10,6 +11,7 @@ import { QueryClient, QueryClientProvider, setLogger } from 'react-query';
 import { AlertProvider } from './src/hooks/useAlert';
 import { AuthProvider } from './src/hooks/useAuth';
 import { EchoProvider } from './src/hooks/useEcho';
+import { NotificationProvider } from './src/hooks/useNotification';
 import { AppScreen } from './src/screens/AppScreen';
 import { theme } from './src/theme';
 
@@ -19,8 +21,8 @@ setLogger({
   error: console.warn,
 });
 
-const queryClient = new QueryClient();
 const CombinedDefaultTheme = merge(NavigationDefaultTheme, theme);
+const queryClient = new QueryClient();
 
 const App: React.FC = () => {
   return (
@@ -28,11 +30,13 @@ const App: React.FC = () => {
       <AlertProvider>
         <EchoProvider>
           <QueryClientProvider client={queryClient}>
-            <PaperProvider theme={CombinedDefaultTheme}>
-              <NavigationContainer theme={CombinedDefaultTheme}>
-                <AppScreen />
-              </NavigationContainer>
-            </PaperProvider>
+            <NotificationProvider>
+              <PaperProvider theme={CombinedDefaultTheme}>
+                <NavigationContainer theme={CombinedDefaultTheme}>
+                  <AppScreen />
+                </NavigationContainer>
+              </PaperProvider>
+            </NotificationProvider>
           </QueryClientProvider>
         </EchoProvider>
       </AlertProvider>

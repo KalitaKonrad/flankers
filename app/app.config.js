@@ -44,6 +44,7 @@ module.exports = {
           apiKey: process.env.EXPO_GOOGLE_MAPS_ANDROID_KEY,
         },
       },
+      useNextNotificationsApi: true,
     },
     web: {
       favicon: './assets/favicon.png',

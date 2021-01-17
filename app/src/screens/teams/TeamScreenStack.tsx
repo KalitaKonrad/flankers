@@ -3,25 +3,29 @@ import React from 'react';
 import { useTheme } from 'react-native-paper';
 
 import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
+import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { useRemoveTeamMemberMutation } from '../../hooks/useRemoveTeamMemberMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { TeamCreateScreen } from './TeamCreateScreen';
-import { TeamInvitationScreen } from './TeamInvitationScreen';
+import { TeamInvitationsScreen } from './TeamInvitationsScreen';
+import { TeamInviteMemberScreen } from './TeamInviteMemberScreen';
 import { TeamManageScreen } from './TeamManageScreen';
 
 export type TeamScreenStackParamList = {
   TeamCreate: undefined;
   TeamManage: undefined;
-  TeamInvitation: undefined;
+  TeamInviteMember: undefined;
+  TeamInvitations: undefined;
 };
 
 const Stack = createStackNavigator<TeamScreenStackParamList>();
 
-export const TeamScreenStack: React.FC = () => {
+export const TeamScreenStack: React.FC = ({ navigation, route }) => {
   const theme = useTheme();
   const userProfile = useUserProfileQuery();
   const hasTeam = userProfile?.data?.teams?.[0] !== undefined;
   const removeTeamMember = useRemoveTeamMemberMutation();
+  useNotificationHandler(navigation);
 
   const onLeaveTeamPress = async () => {
     if (!!userProfile.data?.id && !!userProfile.data?.current_team_id) {
@@ -43,7 +47,7 @@ export const TeamScreenStack: React.FC = () => {
           title: 'Zespół',
           headerLeft: () => (
             <HeaderAppButton
-              onPress={() => navigation.navigate('TeamInvitation')}>
+              onPress={() => navigation.navigate('TeamInviteMember')}>
               Zaproś
             </HeaderAppButton>
           ),
@@ -61,14 +65,35 @@ export const TeamScreenStack: React.FC = () => {
       <Stack.Screen
         name="TeamCreate"
         component={TeamCreateScreen}
-        options={{
+        options={({ navigation }) => ({
           title: 'Utwórz zespół',
-        }}
+          headerRight: () => (
+            <HeaderAppButton
+              onPress={() => navigation.navigate('TeamInvitations')}>
+              Zaproszenia
+            </HeaderAppButton>
+          ),
+        })}
       />
       <Stack.Screen
-        name="TeamInvitation"
-        component={TeamInvitationScreen}
+        name="TeamInviteMember"
+        component={TeamInviteMemberScreen}
         options={{ title: 'Zaproś' }}
+      />
+      <Stack.Screen
+        name="TeamInvitations"
+        component={TeamInvitationsScreen}
+        options={({ navigation }) => ({
+          title: 'Zaproszenia',
+          headerLeft: () => (
+            <HeaderAppButton
+              onPress={() =>
+                navigation.navigate(hasTeam ? 'TeamManage' : 'TeamCreate')
+              }>
+              Cofnij
+            </HeaderAppButton>
+          ),
+        })}
       />
     </Stack.Navigator>
   );

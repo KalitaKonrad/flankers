@@ -16,7 +16,7 @@ export const AlertProvider: React.FC = ({ children }) => {
 };
 
 const useProvideAlert = () => {
-  const showAlert = async (
+  const showAlert = (
     title: string,
     message?: string,
     onDismiss?: () => void,

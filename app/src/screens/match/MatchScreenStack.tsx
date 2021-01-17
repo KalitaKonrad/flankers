@@ -2,6 +2,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 
+import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { MatchLocationSelectMapRoutesParameters } from '../../types/MatchLocationSelectMapRoutesParamaters';
 import { MatchCreateSelectLocationScreen } from './MatchCreateSelectLocationScreen';
 import { MatchCreateSettingsScreen } from './MatchCreateSettingsScreen';
@@ -26,8 +27,10 @@ export type MatchScreenStackParamList = {
 
 const Stack = createStackNavigator<MatchScreenStackParamList>();
 
-export const MatchScreenStack: React.FC = () => {
+export const MatchScreenStack: React.FC = ({ navigation }) => {
   const theme = useTheme();
+
+  useNotificationHandler(navigation);
 
   return (
     <Stack.Navigator
