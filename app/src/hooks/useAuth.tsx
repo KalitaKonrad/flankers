@@ -8,6 +8,7 @@ import {
   getToken as getStoredToken,
   setToken as setStoredToken,
 } from '../utils/tokenUtils';
+import { useNotification } from './useNotification';
 
 type AuthContextData = ReturnType<typeof useProvideAuth>;
 
@@ -26,6 +27,7 @@ const useProvideAuth = () => {
   const [token, setToken] = useState<string | null>(null);
   const [isLoading, setLoading] = useState(true);
   const isAuthenticated = token !== null;
+  const { unsubscribeFromExpoNotifications } = useNotification();
 
   const register = async (nick: string, email: string, password: string) => {
     return axios.post('auth/signup', {
@@ -82,11 +84,16 @@ const useProvideAuth = () => {
     const unsubscribe = EventBus.on(TOKEN_CHANGED_EVENT, async () => {
       const newToken = await getStoredToken();
       setToken(newToken);
+
+      // if token was deleted remove expoPushToken from backend
+      if (!newToken) {
+        await unsubscribeFromExpoNotifications();
+      }
     });
     return () => {
       unsubscribe();
     };
-  }, []);
+  }, [unsubscribeFromExpoNotifications]);
 
   return {
     isLoading,
