@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<AppText> should render correctly 1`] = `
+<Text
+  style={
+    Array [
+      Object {
+        "fontSize": 14,
+        "fontWeight": "normal",
+      },
+      undefined,
+    ]
+  }
+>
+  Test
+</Text>
+`;
