@@ -10,9 +10,9 @@ export const useShare = () => {
         message: code,
       });
       if (result.action === Share.sharedAction) {
-        alert('shared');
+        alert('Udostępniono');
       } else if (result.action === Share.dismissedAction) {
-        alert('dissmised');
+        return;
       }
     } catch (error) {
       alert(error.message);

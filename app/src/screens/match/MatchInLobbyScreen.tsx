@@ -1,6 +1,7 @@
 import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Share, StyleSheet, View } from 'react-native';
+import { IconButton, Paragraph } from 'react-native-paper';
 
 import { Container } from '../../components/layout/Container';
 import { PaddedInputScrollView } from '../../components/layout/PaddedInputScrollView';
@@ -147,24 +148,6 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
     }
   };
 
-  // const onShare = async () => {
-  //   if (matchDetails?.data?.invite?.code === undefined) {
-  //     return;
-  //   }
-  //   try {
-  //     const result = await Share.share({
-  //       message: matchDetails.data.invite.code,
-  //     });
-  //     if (result.action === Share.sharedAction) {
-  //       alert('shared');
-  //     } else if (result.action === Share.dismissedAction) {
-  //       alert('dissmised');
-  //     }
-  //   } catch (error) {
-  //     alert(error.message);
-  //   }
-  // };
-
   const onJoinSquad = async (squadIndex: number) => {
     if (
       profile.data?.id === undefined ||
@@ -231,6 +214,17 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
   return (
     <Container>
       <PaddedInputScrollView style={styles.container}>
+        <View style={styles.gameCode}>
+          <AppText style={{ fontSize: 20 }}>
+            Kod gry: {matchDetails?.data?.invite?.code}
+          </AppText>
+          <IconButton
+            icon="share-variant"
+            color={theme.colors.primary}
+            size={50}
+            onPress={() => share(matchDetails?.data?.invite?.code)}
+          />
+        </View>
         <View style={styles.row}>
           <View style={styles.teamLabel}>
             <AppText variant="h2" style={styles.title}>
@@ -272,11 +266,6 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
             </AppButton>
           </View>
         )}
-        <View style={{ marginTop: 20 }}>
-          <AppButton onPress={() => share(matchDetails?.data?.invite?.code)}>
-            Udostępnij kod gry
-          </AppButton>
-        </View>
       </PaddedInputScrollView>
     </Container>
   );
@@ -308,5 +297,12 @@ const styles = StyleSheet.create({
   teamLabel: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  gameCode: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: -20,
+    marginBottom: 20,
   },
 });
