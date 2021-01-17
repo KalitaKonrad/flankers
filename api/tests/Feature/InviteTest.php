@@ -51,7 +51,10 @@ it('should retrieve invites for an user', function () {
             'data' => [
                 [
                     'email' => $user->email,
-                    'team_id' => $team->id
+                    'team_id' => $team->id,
+                    'team_name' => $team->name,
+                    'team_description' => $team->description,
+                    'team_avatar' => $team->fresh()->avatar
                 ]
             ]
         ]);
