@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from 'react-query';
 
+import { QUERY_PROFILE_KEY } from '../const/query.const';
 import { useAxios } from './useAxios';
 
 interface RemoveTeamMemberPayload {
@@ -15,12 +16,11 @@ export const useRemoveTeamMemberMutation = () => {
   return useMutation(
     ({ team_id, user_id }: RemoveTeamMemberPayload) => {
       axios.delete(`teams/memberships/${team_id}`, { data: user_id });
-      console.log('team_id', team_id);
-      console.log('user_id', user_id);
     },
     {
       onSuccess: (team_id) => {
         queryCache.invalidateQueries(`teams/memberships/${team_id}`);
+        queryCache.invalidateQueries(QUERY_PROFILE_KEY);
       },
     }
   );
