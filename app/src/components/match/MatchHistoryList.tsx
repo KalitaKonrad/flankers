@@ -3,6 +3,7 @@ import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
 import { List, Text } from 'react-native-paper';
 
 import { MatchElementInHistory } from '../../types/match';
+import { formatDate } from '../../utils/formatBackendTIme';
 
 interface MatchHistoryListProps {
   matchHistory: MatchElementInHistory[];
@@ -10,17 +11,9 @@ interface MatchHistoryListProps {
 }
 
 export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
-  const showDate = (backendDate: string) => {
-    const date = moment(backendDate);
-    return date.format('DD/MM/YYYY HH:mm');
-  };
-
-  const renderItem = ({
-    item,
-    index,
-  }: ListRenderItemInfo<MatchElementInHistory>) => (
+  const renderItem = ({ item }: ListRenderItemInfo<MatchElementInHistory>) => (
     <List.Item
-      title={showDate(item.updated_at)}
+      title={formatDate(item.updated_at)}
       titleStyle={styles.elementName}
       description={
         (item.winner ? 'Zwycięstwo' : 'Porażka') +
