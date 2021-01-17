@@ -6,6 +6,7 @@ import { Platform } from 'react-native';
 
 import { NOTIFICATION_EVENT } from '../const/events.const';
 import { EventBus } from '../utils/eventBus';
+import { useDeleteExpoPushTokenMutation } from './useDeleteExpoPushTokenMutation';
 import { useUserProfileQuery } from './useUserProfileQuery';
 
 type NotificationContextData = ReturnType<typeof useProvideNotification>;
@@ -40,6 +41,7 @@ const useProvideNotification = () => {
     null
   );
   const [isLoading, setLoading] = useState(false);
+  const mutation = useDeleteExpoPushTokenMutation();
 
   const [
     notification,
@@ -98,9 +100,6 @@ const useProvideNotification = () => {
     // interacts with a notification (works when app is foregrounded, backgrounded, or killed)
     const responseSubscription = Notifications.addNotificationResponseReceivedListener(
       (response) => {
-        console.log('NOTIFICATION TAPPED + RESPONSE', response);
-        console.log('REsPONSE JSON:', JSON.stringify(response));
-
         EventBus.emit(NOTIFICATION_EVENT, response);
       }
     );
@@ -111,9 +110,19 @@ const useProvideNotification = () => {
     };
   }, [expoPushToken]);
 
+  const unsubscribeFromExpoNotifications = async () => {
+    try {
+      await mutation.mutateAsync({ expoPushToken: expoPushToken ?? '' });
+    } catch (e) {
+      console.error(
+        'Could not remove expoPushToken while unsubscribing from expo notifications'
+      );
+    }
+  };
   return {
     expoPushToken,
     isLoading,
     notification,
+    unsubscribeFromExpoNotifications,
   };
 };
