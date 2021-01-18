@@ -1,0 +1,28 @@
+374a803a0f3153b78d794c2e2eb783b8
+"use strict";
+
+var _jsxFileName = "C:\\Users\\Michael\\Projects\\flankers\\app\\__tests__\\components\\layout\\Container.test.tsx";
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var React = require("React");
+
+var react_native_1 = require("@testing-library/react-native");
+
+var Container_1 = require("../../../src/components/layout/Container");
+
+describe('<Container>', function () {
+  it('renders correctly', function () {
+    var tree = react_native_1.render(React.createElement(Container_1.Container, {
+      __self: this,
+      __source: {
+        fileName: _jsxFileName,
+        lineNumber: 8,
+        columnNumber: 42
+      }
+    })).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
+});
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkM6XFxVc2Vyc1xcTWljaGFlbFxcUHJvamVjdHNcXGZsYW5rZXJzXFxhcHBcXF9fdGVzdHNfX1xcY29tcG9uZW50c1xcbGF5b3V0XFxDb250YWluZXIudGVzdC50c3giXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6Ijs7Ozs7OztBQUFBLElBQUEsS0FBQSxHQUFBLE9BQUEsQ0FBQSxPQUFBLENBQUE7O0FBQ0EsSUFBQSxjQUFBLEdBQUEsT0FBQSxDQUFBLCtCQUFBLENBQUE7O0FBQ0EsSUFBQSxXQUFBLEdBQUEsT0FBQSw0Q0FBQTs7QUFFQSxRQUFRLENBQUMsYUFBRCxFQUFnQixZQUFBO0FBQ3RCLEVBQUEsRUFBRSxDQUFDLG1CQUFELEVBQXNCLFlBQUE7QUFDdEIsUUFBTSxJQUFJLEdBQUcsY0FBQSxDQUFBLE1BQUEsQ0FBTyxvQkFBQyxXQUFELENBQUMsU0FBRDtBQUFBO0FBQUE7QUFBQTtBQUFBO0FBQUE7QUFBQTtBQUFBLE1BQVAsRUFBc0IsTUFBdEIsRUFBYjtBQUNBLElBQUEsTUFBTSxDQUFDLElBQUQsQ0FBTixDQUFhLGVBQWI7QUFDRCxHQUhDLENBQUY7QUFJRCxDQUxPLENBQVIiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgKiBhcyBSZWFjdCBmcm9tICdSZWFjdCc7XHJcbmltcG9ydCB7IHJlbmRlciB9IGZyb20gJ0B0ZXN0aW5nLWxpYnJhcnkvcmVhY3QtbmF0aXZlJztcclxuaW1wb3J0IHsgQ29udGFpbmVyIH0gZnJvbSAnLi4vLi4vLi4vc3JjL2NvbXBvbmVudHMvbGF5b3V0L0NvbnRhaW5lcic7XHJcblxyXG5kZXNjcmliZSgnPENvbnRhaW5lcj4nLCAoKSA9PiB7XHJcbiAgaXQoJ3JlbmRlcnMgY29ycmVjdGx5JywgKCkgPT4ge1xyXG4gICAgY29uc3QgdHJlZSA9IHJlbmRlcig8Q29udGFpbmVyIC8+KS50b0pTT04oKTtcclxuICAgIGV4cGVjdCh0cmVlKS50b01hdGNoU25hcHNob3QoKTtcclxuICB9KTtcclxufSk7XHJcbiJdfQ==

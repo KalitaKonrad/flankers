@@ -1,0 +1,29 @@
+1a63e163a8c637c0229f3b9462efe930
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Container = void 0;
+
+var React = require("react");
+
+var react_native_1 = require("react-native");
+
+exports.Container = function (_a) {
+  var style = _a.style,
+      children = _a.children;
+  return React.createElement(react_native_1.View, {
+    style: [styles.container, style]
+  }, children);
+};
+
+var styles = react_native_1.StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    position: 'relative',
+    zIndex: 100
+  }
+});
+//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIkM6XFxVc2Vyc1xcTWljaGFlbFxcUHJvamVjdHNcXGZsYW5rZXJzXFxhcHBcXHNyY1xcY29tcG9uZW50c1xcbGF5b3V0XFxDb250YWluZXIudHN4Il0sIm5hbWVzIjpbXSwibWFwcGluZ3MiOiI7Ozs7Ozs7QUFBQSxJQUFBLEtBQUEsR0FBQSxPQUFBLENBQUEsT0FBQSxDQUFBOztBQUNBLElBQUEsY0FBQSxHQUFBLE9BQUEsQ0FBQSxjQUFBLENBQUE7O0FBTWEsT0FBQSxDQUFBLFNBQUEsR0FBc0MsVUFBQyxFQUFELEVBQW9CO01BQWpCLEtBQUssR0FBQSxFQUFBLENBQUEsSztNQUFFLFFBQVEsR0FBQSxFQUFBLENBQUEsUTtBQUFPLFNBQzFFLG9CQUFDLGNBQUQsQ0FBQyxJQUFEO0FBQU0sSUFBQSxLQUFLLEVBQUUsQ0FBQyxNQUFNLENBQUMsU0FBUixFQUFtQixLQUFuQjtBQUFiLEtBQXlDLFFBQXpDLENBRDBFO0FBRTNFLENBRlk7O0FBSWIsSUFBTSxNQUFNLEdBQUcsY0FBQSxDQUFBLFVBQUEsQ0FBVyxNQUFYLENBQWtCO0FBQy9CLEVBQUEsU0FBUyxFQUFFO0FBQ1QsSUFBQSxJQUFJLEVBQUUsQ0FERztBQUVULElBQUEsZUFBZSxFQUFFLE1BRlI7QUFHVCxJQUFBLFFBQVEsRUFBRSxVQUhEO0FBSVQsSUFBQSxNQUFNLEVBQUU7QUFKQztBQURvQixDQUFsQixDQUFmIiwic291cmNlc0NvbnRlbnQiOlsiaW1wb3J0ICogYXMgUmVhY3QgZnJvbSAncmVhY3QnO1xuaW1wb3J0IHsgU3R5bGVQcm9wLCBTdHlsZVNoZWV0LCBWaWV3LCBWaWV3U3R5bGUgfSBmcm9tICdyZWFjdC1uYXRpdmUnO1xuXG5pbnRlcmZhY2UgQ29udGFpbmVyUHJvcHMge1xuICBzdHlsZT86IFN0eWxlUHJvcDxWaWV3U3R5bGU+O1xufVxuXG5leHBvcnQgY29uc3QgQ29udGFpbmVyOiBSZWFjdC5GQzxDb250YWluZXJQcm9wcz4gPSAoeyBzdHlsZSwgY2hpbGRyZW4gfSkgPT4gKFxuICA8VmlldyBzdHlsZT17W3N0eWxlcy5jb250YWluZXIsIHN0eWxlXX0+e2NoaWxkcmVufTwvVmlldz5cbik7XG5cbmNvbnN0IHN0eWxlcyA9IFN0eWxlU2hlZXQuY3JlYXRlKHtcbiAgY29udGFpbmVyOiB7XG4gICAgZmxleDogMSxcbiAgICBiYWNrZ3JvdW5kQ29sb3I6ICcjZmZmJyxcbiAgICBwb3NpdGlvbjogJ3JlbGF0aXZlJyxcbiAgICB6SW5kZXg6IDEwMCxcbiAgfSxcbn0pO1xuIl19
