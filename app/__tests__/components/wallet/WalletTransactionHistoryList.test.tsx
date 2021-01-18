@@ -13,12 +13,13 @@ describe('< WalletTransactionHistoryList>', () => {
   });
 
   it('renders correctly when all data is provided', () => {
+    const date = new Date('01/01/2021');
     const mockData = [
       {
         amount: 'string',
         source: WalletChargeSource.GAME_WON,
         wallet_id: 5,
-        created_at: new Date(),
+        created_at: date,
       },
     ];
     const tree = render(

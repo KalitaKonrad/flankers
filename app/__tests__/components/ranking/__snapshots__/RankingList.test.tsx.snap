@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<RankingList> renders correctly 1`] = `
+exports[`<RankingList> renders correctly when all data provided 1`] = `
 <RCTScrollView
   ListFooterComponent={
     <Button
@@ -13,7 +13,20 @@ exports[`<RankingList> renders correctly 1`] = `
       "paddingHorizontal": 16,
     }
   }
-  data={Array []}
+  data={
+    Array [
+      Object {
+        "created_at": "string",
+        "description": "string",
+        "elo": 5,
+        "id": 5,
+        "name": "hehe",
+        "owner_id": 5,
+        "updated_at": "string",
+        "versioned_avatar": "string",
+      },
+    ]
+  }
   disableVirtualization={false}
   getItem={[Function]}
   getItemCount={[Function]}
@@ -37,6 +50,185 @@ exports[`<RankingList> renders correctly 1`] = `
   windowSize={21}
 >
   <View>
+    <View
+      onLayout={[Function]}
+      style={null}
+    >
+      <View
+        accessible={true}
+        focusable={false}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            false,
+            Array [
+              Object {
+                "padding": 8,
+              },
+              Object {
+                "backgroundColor": undefined,
+              },
+            ],
+          ]
+        }
+      >
+        <View
+          style={
+            Object {
+              "flexDirection": "row",
+            }
+          }
+        >
+          <View
+            style={
+              Object {
+                "justifyContent": "center",
+                "marginRight": 4,
+              }
+            }
+          >
+            <View
+              style={
+                Array [
+                  Object {
+                    "backgroundColor": "#fff",
+                  },
+                  Object {
+                    "borderRadius": 8,
+                    "elevation": 0,
+                    "height": 40,
+                    "width": 40,
+                  },
+                  Object {
+                    "shadowColor": "rgba(0, 0, 0, 0.1)",
+                    "shadowOffset": Object {
+                      "height": 4,
+                      "width": 0,
+                    },
+                    "shadowOpacity": 1,
+                    "shadowRadius": 4,
+                  },
+                  undefined,
+                ]
+              }
+            >
+              <Image
+                source={
+                  Object {
+                    "uri": "string",
+                  }
+                }
+                style={
+                  Array [
+                    Object {
+                      "borderColor": "#FFFFFF",
+                    },
+                    Object {
+                      "borderRadius": 8,
+                      "borderWidth": 0,
+                      "height": 40,
+                      "width": 40,
+                    },
+                  ]
+                }
+              />
+            </View>
+          </View>
+          <View
+            style={
+              Array [
+                Object {
+                  "marginVertical": 6,
+                  "paddingLeft": 8,
+                },
+                Object {
+                  "flex": 1,
+                  "justifyContent": "center",
+                },
+              ]
+            }
+          >
+            <Text
+              numberOfLines={1}
+              selectable={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#000000",
+                    "fontFamily": "System",
+                    "fontWeight": "400",
+                    "textAlign": "left",
+                  },
+                  Array [
+                    Object {
+                      "fontSize": 16,
+                    },
+                    Object {
+                      "color": "rgba(0, 0, 0, 0.87)",
+                    },
+                    Object {
+                      "fontWeight": "bold",
+                    },
+                  ],
+                ]
+              }
+            >
+              hehe
+            </Text>
+            <Text
+              numberOfLines={2}
+              selectable={false}
+              style={
+                Array [
+                  Object {
+                    "color": "#000000",
+                    "fontFamily": "System",
+                    "fontWeight": "400",
+                    "textAlign": "left",
+                  },
+                  Array [
+                    Object {
+                      "fontSize": 14,
+                    },
+                    Object {
+                      "color": "rgba(0, 0, 0, 0.54)",
+                    },
+                    undefined,
+                  ],
+                ]
+              }
+            >
+              5 punktów rankingowych
+            </Text>
+          </View>
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontSize": 14,
+                  "fontWeight": "normal",
+                },
+                Object {
+                  "fontWeight": "bold",
+                  "marginRight": 12,
+                  "paddingTop": 6,
+                  "textAlign": "justify",
+                },
+              ]
+            }
+          >
+            #
+            11
+          </Text>
+        </View>
+      </View>
+    </View>
     <View
       onLayout={[Function]}
     >
@@ -86,7 +278,7 @@ exports[`<RankingList> renders correctly 1`] = `
 </RCTScrollView>
 `;
 
-exports[`<RankingList> renders correctly when all data provided 1`] = `
+exports[`<RankingList> renders correctly when empty array with data provided 1`] = `
 <RCTScrollView
   ListFooterComponent={
     <Button
