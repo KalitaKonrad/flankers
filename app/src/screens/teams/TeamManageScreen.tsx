@@ -6,6 +6,7 @@ import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar
 import { MatchHistoryList } from '../../components/match/MatchHistoryList';
 import { AppText } from '../../components/shared/AppText';
 import { AvatarSelectButton } from '../../components/shared/AvatarSelectButton';
+import { ListPlaceholder } from '../../components/shared/ListPlaceholder';
 import { Switch } from '../../components/shared/Switch';
 import { TeamMemberList } from '../../components/team/TeamMembersList';
 import { useTeamMatchHistoryQuery } from '../../hooks/useTeamMatchHistoryQuery';
@@ -13,7 +14,6 @@ import { useTeamMembersQuery } from '../../hooks/useTeamMembersQuery';
 import { useUpdateTeamAvatarMutation } from '../../hooks/useUpdateTeamAvatarMutation';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { MatchElementInHistory } from '../../types/match';
-import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
 type TeamManageScreenProps = StackScreenProps<

@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
 import { List } from 'react-native-paper';
 
