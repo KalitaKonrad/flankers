@@ -5,10 +5,10 @@ import { StyleSheet, View } from 'react-native';
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
 import { MatchHistoryList } from '../../components/match/MatchHistoryList';
 import { AppText } from '../../components/shared/AppText';
+import { ListPlaceholder } from '../../components/shared/ListPlaceholder';
 import { useUserMatchHistoryQuery } from '../../hooks/useUserMatchHistoryQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
 import { MatchElementInHistory } from '../../types/match';
-import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
 type ProfileScreenProps = StackScreenProps<

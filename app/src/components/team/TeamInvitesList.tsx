@@ -1,4 +1,5 @@
-import React, { Dispatch, MutableRefObject, SetStateAction } from 'react';
+import * as React from 'react';
+import { Dispatch, MutableRefObject, SetStateAction } from 'react';
 import {
   FlatList,
   ListRenderItemInfo,

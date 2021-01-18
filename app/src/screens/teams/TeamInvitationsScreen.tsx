@@ -6,6 +6,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import { Container } from '../../components/layout/Container';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
+import { ListPlaceholder } from '../../components/shared/ListPlaceholder';
 import { Modal } from '../../components/shared/modal/Modal';
 import { TeamInvitesList } from '../../components/team/TeamInvitesList';
 import { useAlert } from '../../hooks/useAlert';
@@ -13,7 +14,6 @@ import { useInvitationAcceptMutation } from '../../hooks/useInvitationAcceptMuta
 import { useInvitationDeclineMutation } from '../../hooks/useInvitationDeclineMutation';
 import { useTeamInvitationsQuery } from '../../hooks/useTeamInvitationsQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
-import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
 type TeamInvitationsScreenProps = StackScreenProps<

@@ -1,6 +1,6 @@
-import React from 'react';
+import * as React from 'react';
 import { FlatList, ListRenderItemInfo, StyleSheet, View } from 'react-native';
-import { List, Text, useTheme } from 'react-native-paper';
+import { List, useTheme } from 'react-native-paper';
 
 import { TeamProfilePayload } from '../../types/teamProfile';
 import { UserProfilePayload } from '../../types/userProfilePayload';
