@@ -1,4 +1,5 @@
-import React, { ComponentProps } from 'react';
+import * as React from 'react';
+import { ComponentProps } from 'react';
 import { StyleSheet, Text } from 'react-native';
 import { Paragraph } from 'react-native-paper';
 
