@@ -1,4 +1,5 @@
-import React, { useImperativeHandle, useMemo, useState } from 'react';
+import * as React from 'react';
+import { useImperativeHandle, useMemo, useState } from 'react';
 import { StyleProp, StyleSheet, View, ViewStyle } from 'react-native';
 import { IconButton } from 'react-native-paper';
 

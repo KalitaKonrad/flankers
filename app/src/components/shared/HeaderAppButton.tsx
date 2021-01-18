@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { useTheme } from 'react-native-paper';
 
 import { AppButton } from './AppButton';
