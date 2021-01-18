@@ -1,21 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`<ContainerWIthAvatar> renders correctly 1`] = `
-<View
-  style={
-    Array [
-      Object {
-        "backgroundColor": "#fff",
-        "flex": 1,
-        "position": "relative",
-        "zIndex": 100,
-      },
-      undefined,
-    ]
-  }
-/>
-`;
-
 exports[`<ContainerWithAvatar> renders correctly 1`] = `
 <View
   style={
