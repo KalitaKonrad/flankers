@@ -1,8 +1,16 @@
-import React, { ComponentProps } from 'react';
+import React from 'react';
 import { TextInput } from 'react-native-paper';
 
-export type AppInputProps = ComponentProps<typeof TextInput>;
+export type AppInputProps = Omit<
+  React.ComponentProps<typeof TextInput>,
+  'accessibilityTraits' | 'accessibilityComponentType'
+>;
 
 export const AppInput: React.FC<AppInputProps> = (props) => (
-  <TextInput {...props} theme={{ roundness: 10 }} />
+  <TextInput
+    {...props}
+    accessibilityComponentType=""
+    accessibilityTraits=""
+    theme={{ roundness: 10 }}
+  />
 );

@@ -26,6 +26,8 @@ export const TeamMemberList: React.FC<TeamMemberListProps> = ({
       title={item.name}
       titleStyle={styles.memberName}
       description={`${item.elo} punktów rankingowych`}
+      accessibilityTraits=""
+      accessibilityComponentType
       left={() => (
         <View style={styles.memberAvatarContainer}>
           <Avatar

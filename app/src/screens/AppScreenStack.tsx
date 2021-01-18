@@ -80,7 +80,11 @@ export const AppScreenStack: React.FC = () => {
         tabBarIcon: ({ color }) => {
           const iconName = ROUTE_TO_ICON_MAP[route.name];
           return (
-            <MaterialCommunityIcons name={iconName} color={color} size={26} />
+            <MaterialCommunityIcons
+              name={iconName as any}
+              color={color}
+              size={26}
+            />
           );
         },
       })}>

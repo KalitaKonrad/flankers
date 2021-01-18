@@ -276,6 +276,8 @@ export const MatchInLobbyScreen: React.FC<MatchInLobbyScreenProps> = ({
             </AppText>
           </View>
           <IconButton
+            accessibilityComponentType=""
+            accessibilityTraits=""
             icon="share-variant"
             color={theme.colors.white}
             size={28}

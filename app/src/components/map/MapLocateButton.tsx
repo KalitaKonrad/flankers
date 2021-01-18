@@ -37,7 +37,13 @@ export const MapLocateButton: React.FC<MapLocateButtonProps> = ({ mapRef }) => {
   };
 
   return (
-    <IconButton style={styles.button} icon="crosshairs-gps" onPress={onPress} />
+    <IconButton
+      style={styles.button}
+      accessibilityTraits=""
+      accessibilityComponentType=""
+      icon="crosshairs-gps"
+      onPress={onPress}
+    />
   );
 };
 

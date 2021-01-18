@@ -9,7 +9,7 @@
     "eject": "expo eject",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix",
-    "test": "jest"
+    "test": "jest --collect-coverage"
   },
   "husky": {
     "hooks": {

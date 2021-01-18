@@ -10,6 +10,7 @@ import * as yup from 'yup';
 import { ActiveMatchesMap } from '../../components/map/ActiveMatchesMap';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
+import { AppText } from '../../components/shared/AppText';
 import { Modal } from '../../components/shared/modal/Modal';
 import { useGameInviteQuery } from '../../hooks/useGameInviteQuery';
 import { useMatchListQuery } from '../../hooks/useMatchListQuery';
@@ -118,11 +119,11 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
       />
 
       <Modal ref={modalMarkerPressedRef} title="Dołącz do meczu">
-        <Text style={styles.textInModal}>
+        <AppText style={styles.textInModal}>
           Mecz
           {matchTemp?.rated ? ' rankingowy' : ' towarzyski'}
           {matchTemp?.rated ? `, stawka ${matchTemp.bet}` : ''}
-        </Text>
+        </AppText>
         <AppButton mode="contained" onPress={onMatchJoinFromMarker}>
           Dołącz
         </AppButton>
