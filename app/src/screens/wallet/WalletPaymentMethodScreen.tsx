@@ -11,6 +11,7 @@ import { useUpdateUserPaymentMethodMutation } from '../../hooks/payments/useUpda
 import { useUserHasActivePaymentMethodQuery } from '../../hooks/payments/useUserHasActivePaymentMethodQuery';
 import { Stripe } from '../../lib/stripe';
 import { CreditCardInputResult } from '../../types/credit-card-input-result';
+import { CreatePaymentMethodPayload } from '../../types/payments/create-payment-method-payload';
 import { WalletScreenStackParamList } from './WalletScreenStack';
 
 type WalletPaymentMethodScreenProps = StackScreenProps<

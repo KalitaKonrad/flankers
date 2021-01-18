@@ -4,6 +4,7 @@ import { List, Text, useTheme } from 'react-native-paper';
 
 import { TeamProfilePayload } from '../../types/teamProfile';
 import { UserProfilePayload } from '../../types/userProfilePayload';
+import { AppText } from '../shared/AppText';
 import { Avatar } from '../shared/Avatar';
 
 interface PlayersRankingProps {
@@ -31,6 +32,8 @@ export const RankingList: React.FC<PlayersRankingProps> = ({
       title={item.name}
       titleStyle={styles.elementName}
       description={`${item.elo} punktów rankingowych`}
+      accessibilityComponentType=""
+      accessibilityTraits=""
       left={() => (
         <View style={styles.elementAvatarContainer}>
           <Avatar
@@ -41,9 +44,9 @@ export const RankingList: React.FC<PlayersRankingProps> = ({
         </View>
       )}
       right={() => (
-        <Text style={styles.rightIndexStyle}>
+        <AppText style={styles.rightIndexStyle}>
           #{index + (pageNumber - 1) * 10 + 1}
-        </Text>
+        </AppText>
       )}
       style={
         userId

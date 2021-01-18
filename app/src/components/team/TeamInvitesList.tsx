@@ -37,6 +37,8 @@ export const TeamInvitesList: React.FC<TeamInvitesProps> = ({
 
   const renderItem = ({ item }: ListRenderItemInfo<InvitePayload>) => (
     <List.Item
+      accessibilityTraits=""
+      accessibilityComponentType
       title={item.team_name}
       titleStyle={styles.invitedByEmail}
       description={item.team_description}

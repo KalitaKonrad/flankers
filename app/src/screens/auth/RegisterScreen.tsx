@@ -164,7 +164,9 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
         <Dialog
           visible={isSuccessModalOpen}
           onDismiss={() => setSuccessModalOpen(false)}>
-          <Dialog.Title>Sukces</Dialog.Title>
+          <Dialog.Title accessibilityComponentType="" accessibilityTraits="">
+            Sukces
+          </Dialog.Title>
           <Dialog.Content>
             <Paragraph>
               Twoje konto zostało pomyślnie zarejestrowane! Aktywuj je za pomocą
@@ -174,6 +176,8 @@ export const RegisterScreen: React.FC<RegisterScreenProps> = ({
           </Dialog.Content>
           <Dialog.Actions>
             <Button
+              accessibilityTraits=""
+              accessibilityComponentType=""
               onPress={() => {
                 setSuccessModalOpen(false);
                 navigation.navigate('Login');

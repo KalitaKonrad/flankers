@@ -13,6 +13,8 @@ interface MatchHistoryListProps {
 export const MatchHistoryList: React.FC<MatchHistoryListProps> = (props) => {
   const renderItem = ({ item }: ListRenderItemInfo<MatchElementInHistory>) => (
     <List.Item
+      accessibilityTraits=""
+      accessibilityComponentType
       title={formatDate(item.updated_at)}
       titleStyle={styles.elementName}
       description={

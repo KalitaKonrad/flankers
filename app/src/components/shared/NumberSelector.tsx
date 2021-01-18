@@ -73,6 +73,8 @@ export const NumberSelector = React.forwardRef<
     return (
       <View style={[styles.container, style]}>
         <IconButton
+          accessibilityTraits=""
+          accessibilityComponentType
           icon="minus"
           size={16}
           style={styles.buttonContainer}
@@ -80,6 +82,8 @@ export const NumberSelector = React.forwardRef<
         />
         <AppText variant="h1">{formatter(value)}</AppText>
         <IconButton
+          accessibilityTraits=""
+          accessibilityComponentType
           icon="plus"
           size={16}
           style={styles.buttonContainer}

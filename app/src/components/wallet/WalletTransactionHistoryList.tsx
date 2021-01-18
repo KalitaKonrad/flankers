@@ -35,6 +35,8 @@ export const WalletTransactionHistoryList: React.FC<WalletTransactionHistoryList
 }) => {
   const renderItem = ({ item: charge }: ListRenderItemInfo<WalletCharge>) => (
     <List.Item
+      accessibilityTraits=""
+      accessibilityComponentType
       title={`${TRANSACTION_SOURCE_TO_AMOUNT_SIGN[charge.source]}${parseFloat(
         charge.amount
       ).toFixed(2)}PLN`}
@@ -58,7 +60,13 @@ export const WalletTransactionHistoryList: React.FC<WalletTransactionHistoryList
       data={transactions}
       renderItem={renderItem}
       keyExtractor={(item, index) => `${item.created_at.toString()}-${index}`}
-      ListEmptyComponent={<List.Item title="Brak transakcji" />}
+      ListEmptyComponent={
+        <List.Item
+          accessibilityTraits=""
+          accessibilityComponentType
+          title="Brak transakcji"
+        />
+      }
     />
   );
 };

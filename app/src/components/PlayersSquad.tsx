@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { AppText } from './shared/AppText';
 import { Avatar } from './shared/Avatar';
 
 interface PlayersSquadProps {
@@ -15,7 +16,7 @@ export const PlayersSquad: React.FC<PlayersSquadProps> = (props) => {
   return (
     <View style={{ flex: 1 }}>
       <View style={styles.label}>
-        <Text>Zespół {props.firstTeamName}</Text>
+        <AppText>Zespół {props.firstTeamName}</AppText>
       </View>
       <View style={styles.avatarsList}>
         {props.firstTeamAvatarList.map((imgSrc, index) => (
@@ -24,7 +25,7 @@ export const PlayersSquad: React.FC<PlayersSquadProps> = (props) => {
       </View>
 
       <View style={styles.label}>
-        <Text>Zespół {props.secondTeamName}</Text>
+        <AppText>Zespół {props.secondTeamName}</AppText>
       </View>
       <View style={styles.avatarsList}>
         {props.secondTeamAvatarList.map((imgSrc, index) => (
@@ -34,7 +35,7 @@ export const PlayersSquad: React.FC<PlayersSquadProps> = (props) => {
       {props.notReadyPlayersAvatarList && (
         <View>
           <View style={styles.label}>
-            <Text>Oczekiwanie na graczy</Text>
+            <AppText>Oczekiwanie na graczy</AppText>
           </View>
           <View style={styles.avatarsList}>
             {props.notReadyPlayersAvatarList.map((imgSrc, index) => (
