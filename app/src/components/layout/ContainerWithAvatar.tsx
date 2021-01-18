@@ -1,4 +1,5 @@
-import React, { ComponentProps } from 'react';
+import * as React from 'react';
+import { ComponentProps } from 'react';
 import { ImageSourcePropType, StyleSheet, View } from 'react-native';
 import { useTheme } from 'react-native-paper';
 
