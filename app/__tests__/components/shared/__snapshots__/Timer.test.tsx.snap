@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Timer> renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "borderColor": "#ffaf19",
+      "borderRadius": 100,
+      "borderWidth": 3,
+      "height": 196,
+      "justifyContent": "center",
+      "position": "relative",
+      "width": 196,
+    }
+  }
+>
+  <Text
+    style={
+      Array [
+        Object {
+          "fontSize": 30,
+          "fontWeight": "bold",
+        },
+        Object {
+          "color": "#ffaf19",
+          "fontWeight": "bold",
+        },
+      ]
+    }
+    variant="h1"
+  >
+    00:00
+  </Text>
+</View>
+`;
