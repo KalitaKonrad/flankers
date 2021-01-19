@@ -105,7 +105,7 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
         fabStyle={styles.fabStyle}
         actions={[
           {
-            icon: 'textbox',
+            icon: 'form-textbox',
             label: 'Wpisz kod',
             onPress: () => modalMatchCodeRef?.current?.snapTo(0),
           },
