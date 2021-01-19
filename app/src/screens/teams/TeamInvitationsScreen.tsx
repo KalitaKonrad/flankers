@@ -9,10 +9,10 @@ import { AppText } from '../../components/shared/AppText';
 import { ListPlaceholder } from '../../components/shared/ListPlaceholder';
 import { Modal } from '../../components/shared/modal/Modal';
 import { TeamInvitesList } from '../../components/team/TeamInvitesList';
+import { useInvitationAcceptMutation } from '../../hooks/invitation/useInvitationAcceptMutation';
+import { useInvitationDeclineMutation } from '../../hooks/invitation/useInvitationDeclineMutation';
 import { useTeamInvitationsQuery } from '../../hooks/team/useTeamInvitationsQuery';
 import { useAlert } from '../../hooks/useAlert';
-import { useInvitationAcceptMutation } from '../../hooks/useInvitationAcceptMutation';
-import { useInvitationDeclineMutation } from '../../hooks/useInvitationDeclineMutation';
 import { useUserProfileQuery } from '../../hooks/user/useUserProfileQuery';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
