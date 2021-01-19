@@ -6,6 +6,7 @@ import BottomSheet from 'reanimated-bottom-sheet';
 import { Container } from '../../components/layout/Container';
 import { AppButton } from '../../components/shared/AppButton';
 import { AppText } from '../../components/shared/AppText';
+import { ListPlaceholder } from '../../components/shared/ListPlaceholder';
 import {
   NumberSelector,
   NumberSelectorBehaviour,
@@ -16,7 +17,6 @@ import { WalletTransactionHistoryList } from '../../components/wallet/WalletTran
 import { useChargeWalletMutation } from '../../hooks/payments/useChargeWalletMutation';
 import { useUserHasActivePaymentMethodQuery } from '../../hooks/payments/useUserHasActivePaymentMethodQuery';
 import { useUserWalletQuery } from '../../hooks/payments/useUserWalletQuery';
-import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { WalletScreenStackParamList } from './WalletScreenStack';
 
 type WalletScreenProps = StackScreenProps<WalletScreenStackParamList, 'Wallet'>;

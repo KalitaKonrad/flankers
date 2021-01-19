@@ -3,7 +3,7 @@ import { StackScreenProps } from '@react-navigation/stack';
 import React, { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard, StyleSheet, View } from 'react-native';
-import { FAB, HelperText, Text } from 'react-native-paper';
+import { FAB, HelperText } from 'react-native-paper';
 import BottomSheet from 'reanimated-bottom-sheet';
 import * as yup from 'yup';
 

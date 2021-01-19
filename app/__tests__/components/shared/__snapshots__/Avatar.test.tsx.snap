@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Avatar> renders correctly 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "backgroundColor": "#fff",
+      },
+      Object {
+        "borderRadius": 100,
+        "elevation": 0,
+        "height": 100,
+        "width": 100,
+      },
+      Object {
+        "shadowColor": "rgba(0, 0, 0, 0.1)",
+        "shadowOffset": Object {
+          "height": 4,
+          "width": 0,
+        },
+        "shadowOpacity": 1,
+        "shadowRadius": 4,
+      },
+      undefined,
+    ]
+  }
+>
+  <Image
+    source={
+      Object {
+        "uri": "https://test.example/image.jpg",
+      }
+    }
+    style={
+      Array [
+        Object {
+          "borderColor": "#FFFFFF",
+        },
+        Object {
+          "borderRadius": 100,
+          "borderWidth": 0,
+          "height": 100,
+          "width": 100,
+        },
+      ]
+    }
+  />
+</View>
+`;

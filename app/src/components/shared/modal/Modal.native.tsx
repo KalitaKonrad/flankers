@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import * as React from 'react';
 import {
   BackHandler,
   StyleSheet,
@@ -17,8 +17,8 @@ const SNAP_POINTS = [MODAL_HEIGHT, 0];
 
 export const Modal = React.forwardRef<BottomSheet, ModalProps>(
   ({ title, dismissible = true, children }, ref) => {
-    const [isOpen, setOpen] = useState(false);
-    const fadeAnim = useRef(new Animated.Value(1)).current;
+    const [isOpen, setOpen] = React.useState(false);
+    const fadeAnim = React.useRef(new Animated.Value(1)).current;
 
     const close = () => {
       (ref as any)?.current?.snapTo(SNAP_POINTS.length - 1);
@@ -38,7 +38,7 @@ export const Modal = React.forwardRef<BottomSheet, ModalProps>(
       return false;
     };
 
-    useEffect(() => {
+    React.useEffect(() => {
       BackHandler.addEventListener('hardwareBackPress', onHardwareBackPress);
       return () =>
         BackHandler.removeEventListener(

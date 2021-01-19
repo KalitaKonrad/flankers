@@ -5,12 +5,12 @@ import { StyleSheet, View } from 'react-native';
 import { Container } from '../../components/layout/Container';
 import { RankingList } from '../../components/ranking/RankingList';
 import { AppButton } from '../../components/shared/AppButton';
+import { ListPlaceholder } from '../../components/shared/ListPlaceholder';
 import { Switch } from '../../components/shared/Switch';
 import { useAlert } from '../../hooks/useAlert';
 import { usePlayerLeaderboardsQuery } from '../../hooks/usePlayerLeaderboardsQuery';
 import { useTeamLeaderboardsQuery } from '../../hooks/useTeamLeaderboardsQuery';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
-import { ListPlaceholder } from '../../utils/ListPlaceholder';
 import { RankingScreenStackParamList } from './RankingScreenStack';
 
 type RankingScreenProps = StackScreenProps<

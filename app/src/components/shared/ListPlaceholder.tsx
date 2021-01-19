@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import * as React from 'react';
 import { useWindowDimensions, View } from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
@@ -15,7 +15,7 @@ export const ListPlaceholder: React.FC<ListPlaceholderProps> = ({
 }) => {
   const placeholderWidth = useWindowDimensions().width - 40;
 
-  const placeholderList = useMemo(() => {
+  const placeholderList = React.useMemo(() => {
     return [...Array(placeholderCount)].map((_, index) => (
       <View key={index}>
         <SkeletonPlaceholder.Item
