@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`< WalletTransactionHistoryList> renders correctly when all data is provided 1`] = `
+exports[`<WalletTransactionHistoryList> renders correctly when all data is provided 1`] = `
 <RCTScrollView
   ListEmptyComponent={
     <withTheme(List.Item)
@@ -17,7 +17,7 @@ exports[`< WalletTransactionHistoryList> renders correctly when all data is prov
   data={
     Array [
       Object {
-        "amount": "string",
+        "amount": "10",
         "created_at": 2020-12-31T23:00:00.000Z,
         "source": "game_won",
         "wallet_id": 5,
@@ -138,7 +138,7 @@ exports[`< WalletTransactionHistoryList> renders correctly when all data is prov
                 ]
               }
             >
-              +NaNPLN
+              +10.00PLN
             </Text>
           </View>
           <View
@@ -169,7 +169,7 @@ exports[`< WalletTransactionHistoryList> renders correctly when all data is prov
 </RCTScrollView>
 `;
 
-exports[`< WalletTransactionHistoryList> renders correctly when empty data provided 1`] = `
+exports[`<WalletTransactionHistoryList> renders correctly when empty data provided 1`] = `
 <RCTScrollView
   ListEmptyComponent={
     <withTheme(List.Item)

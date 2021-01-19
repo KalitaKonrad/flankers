@@ -4,7 +4,7 @@ import * as React from 'react';
 import { WalletTransactionHistoryList } from '../../../src/components/wallet/WalletTransactionHistoryList';
 import { WalletChargeSource } from '../../../src/types/payments/wallet';
 
-describe('< WalletTransactionHistoryList>', () => {
+describe('<WalletTransactionHistoryList>', () => {
   it('renders correctly when empty data provided', () => {
     const tree = render(
       <WalletTransactionHistoryList transactions={[]} />
@@ -16,7 +16,7 @@ describe('< WalletTransactionHistoryList>', () => {
     const date = new Date('01/01/2021');
     const mockData = [
       {
-        amount: 'string',
+        amount: '10',
         source: WalletChargeSource.GAME_WON,
         wallet_id: 5,
         created_at: date,
