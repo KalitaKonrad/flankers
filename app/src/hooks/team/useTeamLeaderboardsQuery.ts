@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
 
-import { QUERY_LEADERBOARDS_TEAM } from '../const/query.const';
-import { LeaderboardsResponse } from '../types/leaderboardsResponse';
-import { TeamProfilePayload } from '../types/teamProfile';
-import { useAxios } from './useAxios';
+import { QUERY_LEADERBOARDS_TEAM } from '../../const/query.const';
+import { LeaderboardsResponse } from '../../types/leaderboardsResponse';
+import { TeamProfilePayload } from '../../types/teamProfile';
+import { useAxios } from '../useAxios';
 
 export const useTeamLeaderboardsQuery = (page: number) => {
   const axios = useAxios();

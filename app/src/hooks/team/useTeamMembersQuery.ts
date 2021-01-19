@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 
-import { QUERY_TEAM_MEMBERS } from '../const/query.const';
-import { useAxios } from './useAxios';
+import { QUERY_TEAM_MEMBERS } from '../../const/query.const';
+import { useAxios } from '../useAxios';
 import { TeamMembersResponse } from './useTeamManageQuery';
 
 export const useTeamMembersQuery = (team_id: string | undefined) => {

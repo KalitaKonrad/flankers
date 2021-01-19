@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 
-import { QUERY_TEAM_INVITATION } from '../const/query.const';
-import { useAxios } from './useAxios';
+import { QUERY_TEAM_INVITATION } from '../../const/query.const';
+import { useAxios } from '../useAxios';
 
 interface TeamsInvitationPayload {
   email: string;

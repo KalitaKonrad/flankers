@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 
-import { QUERY_PROFILE_KEY, QUERY_TEAM_KEY } from '../const/query.const';
-import { useAxios } from './useAxios';
+import { QUERY_PROFILE_KEY, QUERY_TEAM_KEY } from '../../const/query.const';
+import { useAxios } from '../useAxios';
 
 interface TeamCreatePayload {
   name: string;

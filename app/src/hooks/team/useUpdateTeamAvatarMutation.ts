@@ -4,8 +4,8 @@ import {
   QUERY_LEADERBOARDS_TEAM,
   QUERY_PROFILE_KEY,
   QUERY_TEAM_KEY,
-} from '../const/query.const';
-import { useAxios } from './useAxios';
+} from '../../const/query.const';
+import { useAxios } from '../useAxios';
 
 interface TeamAvatarPayload {
   avatarUri: string;

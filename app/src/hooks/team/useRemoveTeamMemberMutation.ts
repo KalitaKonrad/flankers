@@ -4,8 +4,8 @@ import {
   QUERY_PROFILE_KEY,
   QUERY_TEAM_KEY,
   QUERY_TEAM_MEMBERS,
-} from '../const/query.const';
-import { useAxios } from './useAxios';
+} from '../../const/query.const';
+import { useAxios } from '../useAxios';
 
 interface RemoveTeamMemberPayload {
   team_id: string;

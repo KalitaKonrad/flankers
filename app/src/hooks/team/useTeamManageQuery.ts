@@ -1,9 +1,9 @@
 import { useQuery } from 'react-query';
 
-import { QUERY_TEAM_KEY } from '../const/query.const';
-import { TeamProfilePayload } from '../types/teamProfile';
-import { UserProfilePayload } from '../types/userProfilePayload';
-import { useAxios } from './useAxios';
+import { QUERY_TEAM_KEY } from '../../const/query.const';
+import { TeamProfilePayload } from '../../types/teamProfile';
+import { UserProfilePayload } from '../../types/userProfilePayload';
+import { useAxios } from '../useAxios';
 
 export type TeamMembersResponse = UserProfilePayload[];
 

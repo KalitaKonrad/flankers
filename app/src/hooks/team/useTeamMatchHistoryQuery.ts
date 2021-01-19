@@ -1,7 +1,7 @@
 import { useInfiniteQuery } from 'react-query';
 
-import { MatchHistoryResponse } from '../types/match';
-import { useAxios } from './useAxios';
+import { MatchHistoryResponse } from '../../types/match';
+import { useAxios } from '../useAxios';
 
 export const useTeamMatchHistoryQuery = (
   { page = 1 },
