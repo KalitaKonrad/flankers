@@ -89,6 +89,10 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
   };
 
   useEffect(() => {
+    register('code');
+  }, [register]);
+
+  useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       queryClient.invalidateQueries(QUERY_GAMES);
     });
