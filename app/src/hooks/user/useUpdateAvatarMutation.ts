@@ -4,8 +4,8 @@ import {
   QUERY_LEADERBOARDS_PLAYER,
   QUERY_PROFILE_KEY,
   QUERY_TEAM_MEMBERS,
-} from '../const/query.const';
-import { useAxios } from './useAxios';
+} from '../../const/query.const';
+import { useAxios } from '../useAxios';
 
 export const useUpdateAvatarMutation = () => {
   const axios = useAxios();

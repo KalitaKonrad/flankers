@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 
-import { QUERY_USER_SETTINGS_KEY } from '../const/query.const';
-import { useAxios } from './useAxios';
+import { QUERY_USER_SETTINGS_KEY } from '../../const/query.const';
+import { useAxios } from '../useAxios';
 
 interface ProfileEditPayload {
   name: string;

@@ -4,7 +4,7 @@ import React from 'react';
 import { useTheme } from 'react-native-paper';
 
 import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
-import { useNotificationHandler } from '../../hooks/useNotificationHandler';
+import { useNotificationHandler } from '../../hooks/notifications/useNotificationHandler';
 import { BottomTabNavigationParamList } from '../AppScreenStack';
 import { WalletPaymentMethodScreen } from './WalletPaymentMethodScreen';
 import { WalletScreen } from './WalletScreen';

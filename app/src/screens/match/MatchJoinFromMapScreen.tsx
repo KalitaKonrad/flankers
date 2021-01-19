@@ -14,7 +14,7 @@ import { AppText } from '../../components/shared/AppText';
 import { Modal } from '../../components/shared/modal/Modal';
 import { useGameInviteQuery } from '../../hooks/game/useGameInviteQuery';
 import { useMatchListQuery } from '../../hooks/match/useMatchListQuery';
-import { useNotificationHandler } from '../../hooks/useNotificationHandler';
+import { useNotificationHandler } from '../../hooks/notifications/useNotificationHandler';
 import { MatchResponse } from '../../types/matchResponse';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { MatchScreenStackParamList } from './MatchScreenStack';

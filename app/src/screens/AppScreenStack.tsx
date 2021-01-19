@@ -4,8 +4,8 @@ import { NavigatorScreenParams } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
 import { useTheme } from 'react-native-paper';
 
-import { useNotification } from '../hooks/useNotification';
-import { useUpdateExpoPushTokenMutation } from '../hooks/useUpdateExpoPushTokenMutation';
+import { useNotification } from '../hooks/notifications/useNotification';
+import { useUpdateExpoPushTokenMutation } from '../hooks/notifications/useUpdateExpoPushTokenMutation';
 import { useUserProfileQuery } from '../hooks/user/useUserProfileQuery';
 import { AuthScreenStackParamList } from './auth/AuthScreenStack';
 import {

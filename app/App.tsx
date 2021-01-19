@@ -8,10 +8,10 @@ import React from 'react';
 import { Provider as PaperProvider } from 'react-native-paper';
 import { QueryClient, QueryClientProvider, setLogger } from 'react-query';
 
+import { NotificationProvider } from './src/hooks/notifications/useNotification';
 import { AlertProvider } from './src/hooks/useAlert';
 import { AuthProvider } from './src/hooks/useAuth';
 import { EchoProvider } from './src/hooks/useEcho';
-import { NotificationProvider } from './src/hooks/useNotification';
 import { AppScreen } from './src/screens/AppScreen';
 import { theme } from './src/theme';
 

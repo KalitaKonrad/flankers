@@ -4,8 +4,8 @@ import React from 'react';
 import { useTheme } from 'react-native-paper';
 
 import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
+import { useNotificationHandler } from '../../hooks/notifications/useNotificationHandler';
 import { useRemoveTeamMemberMutation } from '../../hooks/team/useRemoveTeamMemberMutation';
-import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { useUserProfileQuery } from '../../hooks/user/useUserProfileQuery';
 import { BottomTabNavigationParamList } from '../AppScreenStack';
 import { TeamCreateScreen } from './TeamCreateScreen';

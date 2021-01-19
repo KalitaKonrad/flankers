@@ -9,7 +9,7 @@ import { ListPlaceholder } from '../../components/shared/ListPlaceholder';
 import { Switch } from '../../components/shared/Switch';
 import { useTeamLeaderboardsQuery } from '../../hooks/team/useTeamLeaderboardsQuery';
 import { useAlert } from '../../hooks/useAlert';
-import { usePlayerLeaderboardsQuery } from '../../hooks/usePlayerLeaderboardsQuery';
+import { usePlayerLeaderboardsQuery } from '../../hooks/user/usePlayerLeaderboardsQuery';
 import { useUserProfileQuery } from '../../hooks/user/useUserProfileQuery';
 import { RankingScreenStackParamList } from './RankingScreenStack';
 

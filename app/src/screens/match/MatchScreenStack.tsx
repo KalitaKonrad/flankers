@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 
-import { useNotificationHandler } from '../../hooks/useNotificationHandler';
+import { useNotificationHandler } from '../../hooks/notifications/useNotificationHandler';
 import { MatchLocationSelectMapRoutesParameters } from '../../types/MatchLocationSelectMapRoutesParamaters';
 import { BottomTabNavigationParamList } from '../AppScreenStack';
 import { MatchCreateSelectLocationScreen } from './MatchCreateSelectLocationScreen';
