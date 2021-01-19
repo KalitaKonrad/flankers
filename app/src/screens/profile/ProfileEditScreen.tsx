@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard, StyleSheet, View } from 'react-native';
 import { HelperText } from 'react-native-paper';
+import { useQueryClient } from 'react-query';
 import * as yup from 'yup';
 
 import { ContainerWithAvatar } from '../../components/layout/ContainerWithAvatar';
@@ -12,6 +13,7 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
 import { AvatarSelectButton } from '../../components/shared/AvatarSelectButton';
+import { QUERY_PROFILE_KEY } from '../../const/query.const';
 import { useProfileEditMutation } from '../../hooks/user/useEditProfileMutation';
 import { useUpdateAvatarMutation } from '../../hooks/user/useUpdateAvatarMutation';
 import { setResponseErrors } from '../../utils/setResponseErrors';
@@ -49,6 +51,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
   const { mutate } = useProfileEditMutation();
   const [avatar, setAvatar] = useState<string>(route.params.avatar);
   const mutateAvatar = useUpdateAvatarMutation();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -72,6 +75,7 @@ export const ProfileEditScreen: React.FC<ProfileEditScreenProps> = ({
 
     try {
       await mutate({ name, password: newPassword });
+      await queryClient.invalidateQueries(QUERY_PROFILE_KEY);
       navigation.push('Profile');
     } catch (error) {
       setResponseErrors(error, setError);
