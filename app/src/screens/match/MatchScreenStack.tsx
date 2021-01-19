@@ -38,7 +38,6 @@ export const MatchScreenStack: React.FC<MatchScreenStackProps> = ({
   navigation,
 }) => {
   const theme = useTheme();
-
   useNotificationHandler(navigation);
 
   return (

@@ -37,7 +37,7 @@ export const TeamScreenStack: React.FC<TeamScreenStackProps> = ({
   const removeTeamMember = useRemoveTeamMemberMutation();
   useNotificationHandler(navigation);
 
-  const onLeaveTeamPress = async () => {
+  const onLeaveTeamPress = async (navigation: any) => {
     if (!!userProfile.data?.id && !!userProfile.data?.current_team_id) {
       try {
         await removeTeamMember.mutateAsync(
@@ -47,6 +47,7 @@ export const TeamScreenStack: React.FC<TeamScreenStackProps> = ({
           },
           {}
         );
+        navigation.navigate('TeamCreate');
       } catch (error) {
         if (error.response.status === 403) {
           alert('Jesteś ostatnim członkiem zespołu - nie możesz go opuścić');
@@ -75,11 +76,7 @@ export const TeamScreenStack: React.FC<TeamScreenStackProps> = ({
             </HeaderAppButton>
           ),
           headerRight: () => (
-            <HeaderAppButton
-              onPress={async () => {
-                await onLeaveTeamPress();
-                navigation.navigate('TeamCreate');
-              }}>
+            <HeaderAppButton onPress={() => onLeaveTeamPress(navigation)}>
               Opuść
             </HeaderAppButton>
           ),
