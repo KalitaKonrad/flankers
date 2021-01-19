@@ -3,7 +3,7 @@ import { FlatList, ListRenderItemInfo, StyleSheet } from 'react-native';
 import { List } from 'react-native-paper';
 
 import { MatchElementInHistory } from '../../types/match';
-import { formatDate } from '../../utils/formatBackendTIme';
+import { formatDate } from '../../utils/formatBackendTime';
 
 interface MatchHistoryListProps {
   matchHistory: MatchElementInHistory[];
