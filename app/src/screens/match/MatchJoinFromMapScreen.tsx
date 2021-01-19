@@ -1,9 +1,10 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { StackScreenProps } from '@react-navigation/stack';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Keyboard, StyleSheet, View } from 'react-native';
 import { FAB, HelperText } from 'react-native-paper';
+import { useQueryClient } from 'react-query';
 import BottomSheet from 'reanimated-bottom-sheet';
 import * as yup from 'yup';
 
@@ -12,6 +13,7 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
 import { Modal } from '../../components/shared/modal/Modal';
+import { QUERY_GAMES } from '../../const/query.const';
 import { useGameInviteQuery } from '../../hooks/game/useGameInviteQuery';
 import { useMatchListQuery } from '../../hooks/match/useMatchListQuery';
 import { useNotificationHandler } from '../../hooks/notifications/useNotificationHandler';
@@ -34,6 +36,7 @@ const MatchCodeSchema = yup.object().shape({
 export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
   navigation,
 }) => {
+  const queryClient = useQueryClient();
   const matchList = useMatchListQuery();
   useNotificationHandler(navigation);
   const [matchTemp, setMatchTemp] = useState<MatchResponse>();
@@ -86,8 +89,11 @@ export const MatchJoinFromMapScreen: React.FC<MatchJoinFromMapScreenProps> = ({
   };
 
   useEffect(() => {
-    register('code');
-  }, [register]);
+    const unsubscribe = navigation.addListener('focus', () => {
+      queryClient.invalidateQueries(QUERY_GAMES);
+    });
+    return unsubscribe;
+  }, [navigation, queryClient]);
 
   return (
     <View style={styles.container}>
