@@ -3,6 +3,7 @@ import { CompositeNavigationProp, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useQueryClient } from 'react-query';
 import BottomSheet from 'reanimated-bottom-sheet';
 
 import { Container } from '../../components/layout/Container';
@@ -16,6 +17,7 @@ import {
   GAME_FINISHED_EVENT,
   GAME_VOTING_STARTED_EVENT,
 } from '../../const/events.const';
+import { QUERY_PROFILE_KEY, QUERY_USER_WALLET } from '../../const/query.const';
 import { useAxios } from '../../hooks/useAxios';
 import { useEcho } from '../../hooks/useEcho';
 import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
@@ -57,17 +59,22 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
     ownerId,
   } = route.params;
   const [isPending, setPending] = useState(false);
-
   const modalEndGame = useRef<BottomSheet | null>(null);
   const { echo, isReady: isEchoReady } = useEcho();
+  const [isWaiting, setWaiting] = useState(false);
+  const queryClient = useQueryClient();
 
   const onStartVoting = useCallback((event: StartVotingEvent) => {
     modalEndGame?.current?.snapTo(0);
   }, []);
 
-  const onGameEnded = useCallback(() => {
-    navigation.jumpTo('Profile', { screen: 'Profile' });
-  }, [navigation]);
+  const onGameEnded = useCallback(async () => {
+    await queryClient.invalidateQueries(QUERY_PROFILE_KEY);
+    await queryClient.invalidateQueries(QUERY_USER_WALLET);
+    modalEndGame.current?.snapTo(1);
+    setWaiting(false);
+    navigation.jumpTo('Match', { screen: 'MatchJoinFromMap' });
+  }, [navigation, queryClient]);
 
   const onSubmitGameScore = async (winningSquadId: number | undefined) => {
     try {
@@ -75,8 +82,7 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
         game_id: gameId,
         winning_squad: winningSquadId,
       });
-      modalEndGame?.current?.snapTo(1);
-      navigation.jumpTo('Profile', { screen: 'Profile' });
+      setWaiting(true);
     } catch (e) {
       alert('Wystąpił błąd podczas przesyłania głosu na zwycięską drużynę');
     }
@@ -152,24 +158,33 @@ export const MatchInProgressScreen: React.FC<MatchInProgressScreenProps> = ({
           ref={modalEndGame}
           title="Mecz dobiegł końca"
           dismissible={false}>
-          <AppText style={styles.subtitle}>
-            Wybierz drużynę, która zwyciężyła. Wyniki obliczane są na podstawie
-            głosów wszystkich uczestników
-          </AppText>
-          <View style={styles.endGameButtonsContainer}>
-            <AppButton
-              mode="contained"
-              style={styles.modalButton}
-              onPress={() => onSubmitGameScore(firstSquadId)}>
-              Zespół A
-            </AppButton>
-            <AppButton
-              mode="contained"
-              style={styles.modalButton}
-              onPress={() => onSubmitGameScore(secondSquadId)}>
-              Zespół B
-            </AppButton>
-          </View>
+          {!isWaiting ? (
+            <>
+              <AppText style={styles.subtitle}>
+                Wybierz drużynę, która zwyciężyła. Wyniki obliczane są na
+                podstawie głosów wszystkich uczestników
+              </AppText>
+              <View style={styles.endGameButtonsContainer}>
+                <AppButton
+                  mode="contained"
+                  style={styles.modalButton}
+                  onPress={() => onSubmitGameScore(firstSquadId)}>
+                  Zespół A
+                </AppButton>
+                <AppButton
+                  mode="contained"
+                  style={styles.modalButton}
+                  onPress={() => onSubmitGameScore(secondSquadId)}>
+                  Zespół B
+                </AppButton>
+              </View>
+            </>
+          ) : (
+            <AppText style={styles.subtitle}>
+              Twój głos został zapisany. Głosowanie trwa 30 sekund. Po jego
+              zakończeniu zostaniesz przeniesiony do ekranu startowego.
+            </AppText>
+          )}
         </Modal>
       </PaddedInputScrollView>
     </Container>
