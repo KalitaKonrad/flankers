@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react';
+import * as React from 'react';
+import { useRef, useState } from 'react';
 import { Dimensions, StyleSheet, View } from 'react-native';
 import MapView, { LatLng, MapEvent, Marker } from 'react-native-maps';
 

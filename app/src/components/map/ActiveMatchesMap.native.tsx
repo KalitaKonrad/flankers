@@ -1,4 +1,5 @@
-import React, { useMemo, useRef, useState } from 'react';
+import * as React from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import MapView, { Heatmap, Marker } from 'react-native-maps';
 
