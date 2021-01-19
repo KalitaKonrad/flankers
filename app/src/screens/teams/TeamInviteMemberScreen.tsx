@@ -11,8 +11,8 @@ import { PaddedInputScrollView } from '../../components/layout/PaddedInputScroll
 import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
-import { useTeamInvitationMutation } from '../../hooks/useTeamInvitationMutation';
-import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { useTeamInvitationMutation } from '../../hooks/team/useTeamInvitationMutation';
+import { useUserProfileQuery } from '../../hooks/user/useUserProfileQuery';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 

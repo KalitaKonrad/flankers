@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
 import { useTheme } from 'react-native-paper';
 
-import { useNotificationHandler } from '../../hooks/useNotificationHandler';
+import { useNotificationHandler } from '../../hooks/notifications/useNotificationHandler';
 import { BottomTabNavigationParamList } from '../AppScreenStack';
 import { RankingScreen } from './RankingScreen';
 

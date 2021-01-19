@@ -4,9 +4,9 @@ import React from 'react';
 import { useTheme } from 'react-native-paper';
 
 import { HeaderAppButton } from '../../components/shared/HeaderAppButton';
+import { useNotificationHandler } from '../../hooks/notifications/useNotificationHandler';
 import { useAuth } from '../../hooks/useAuth';
-import { useNotificationHandler } from '../../hooks/useNotificationHandler';
-import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { useUserProfileQuery } from '../../hooks/user/useUserProfileQuery';
 import { ProfileEditRouteParameters } from '../../types/ProfileEditRouteParameters';
 import { BottomTabNavigationParamList } from '../AppScreenStack';
 import { ProfileEditScreen } from './ProfileEditScreen';

@@ -8,7 +8,7 @@ import {
   getToken as getStoredToken,
   setToken as setStoredToken,
 } from '../utils/tokenUtils';
-import { useNotification } from './useNotification';
+import { useNotification } from './notifications/useNotification';
 
 type AuthContextData = ReturnType<typeof useProvideAuth>;
 

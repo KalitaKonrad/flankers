@@ -7,10 +7,10 @@ import { RankingList } from '../../components/ranking/RankingList';
 import { AppButton } from '../../components/shared/AppButton';
 import { ListPlaceholder } from '../../components/shared/ListPlaceholder';
 import { Switch } from '../../components/shared/Switch';
+import { useTeamLeaderboardsQuery } from '../../hooks/team/useTeamLeaderboardsQuery';
 import { useAlert } from '../../hooks/useAlert';
-import { usePlayerLeaderboardsQuery } from '../../hooks/usePlayerLeaderboardsQuery';
-import { useTeamLeaderboardsQuery } from '../../hooks/useTeamLeaderboardsQuery';
-import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { usePlayerLeaderboardsQuery } from '../../hooks/user/usePlayerLeaderboardsQuery';
+import { useUserProfileQuery } from '../../hooks/user/useUserProfileQuery';
 import { RankingScreenStackParamList } from './RankingScreenStack';
 
 type RankingScreenProps = StackScreenProps<

@@ -12,9 +12,9 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
 import { AvatarSelectButton } from '../../components/shared/AvatarSelectButton';
-import { useTeamCreateMutation } from '../../hooks/useTeamCreateMutation';
-import { useUpdateTeamAvatarMutation } from '../../hooks/useUpdateTeamAvatarMutation';
-import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { useTeamCreateMutation } from '../../hooks/team/useTeamCreateMutation';
+import { useUpdateTeamAvatarMutation } from '../../hooks/team/useUpdateTeamAvatarMutation';
+import { useUserProfileQuery } from '../../hooks/user/useUserProfileQuery';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 

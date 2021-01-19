@@ -12,8 +12,8 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
 import { AvatarSelectButton } from '../../components/shared/AvatarSelectButton';
-import { useProfileEditMutation } from '../../hooks/useEditProfileMutation';
-import { useUpdateAvatarMutation } from '../../hooks/useUpdateAvatarMutation';
+import { useProfileEditMutation } from '../../hooks/user/useEditProfileMutation';
+import { useUpdateAvatarMutation } from '../../hooks/user/useUpdateAvatarMutation';
 import { setResponseErrors } from '../../utils/setResponseErrors';
 import { ProfileScreenStackParamList } from './ProfileScreenStack';
 
