@@ -12,14 +12,14 @@ import {
   GAME_UPDATE_EVENT,
   SQUAD_MEMBERS_CHANGED_EVENT,
 } from '../../const/events.const';
-import { useAddUserToGameSquadMutation } from '../../hooks/useAddUserToGameSquadMutation';
 import { useAlert } from '../../hooks/useAlert';
 import { useAxios } from '../../hooks/useAxios';
 import { useEcho } from '../../hooks/useEcho';
 import { useGameDetailsQuery } from '../../hooks/useGameDetailsQuery';
 import { useMoveMemberToAnotherSquadMutation } from '../../hooks/useMoveMemberToAnotherSquadMutation';
 import { useShare } from '../../hooks/useShare';
-import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { useAddUserToGameSquadMutation } from '../../hooks/user/useAddUserToGameSquadMutation';
+import { useUserProfileQuery } from '../../hooks/user/useUserProfileQuery';
 import { theme } from '../../theme';
 import { SquadMembersChangedEvent } from '../../types/UserJoinedSquadEvent';
 import { GameUpdateEvent } from '../../types/gameUpdateEvent';

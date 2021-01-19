@@ -13,7 +13,7 @@ import { useTeamInvitationsQuery } from '../../hooks/team/useTeamInvitationsQuer
 import { useAlert } from '../../hooks/useAlert';
 import { useInvitationAcceptMutation } from '../../hooks/useInvitationAcceptMutation';
 import { useInvitationDeclineMutation } from '../../hooks/useInvitationDeclineMutation';
-import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { useUserProfileQuery } from '../../hooks/user/useUserProfileQuery';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 
 type TeamInvitationsScreenProps = StackScreenProps<

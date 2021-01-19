@@ -1,8 +1,8 @@
 import { useInfiniteQuery } from 'react-query';
 
-import { QUERY_USER_GAMES } from '../const/query.const';
-import { MatchHistoryResponse } from '../types/match';
-import { useAxios } from './useAxios';
+import { QUERY_USER_GAMES } from '../../const/query.const';
+import { MatchHistoryResponse } from '../../types/match';
+import { useAxios } from '../useAxios';
 
 export const useUserMatchHistoryQuery = ({ page = 1 }) => {
   const axios = useAxios();

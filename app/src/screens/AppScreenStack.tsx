@@ -6,7 +6,7 @@ import { useTheme } from 'react-native-paper';
 
 import { useNotification } from '../hooks/useNotification';
 import { useUpdateExpoPushTokenMutation } from '../hooks/useUpdateExpoPushTokenMutation';
-import { useUserProfileQuery } from '../hooks/useUserProfileQuery';
+import { useUserProfileQuery } from '../hooks/user/useUserProfileQuery';
 import { AuthScreenStackParamList } from './auth/AuthScreenStack';
 import {
   MatchScreenStack,

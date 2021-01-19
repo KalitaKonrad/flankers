@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 
-import { QUERY_GAME_SQUAD } from '../const/query.const';
-import { useAxios } from './useAxios';
+import { QUERY_GAME_SQUAD } from '../../const/query.const';
+import { useAxios } from '../useAxios';
 
 export const useAddUserToGameSquadMutation = () => {
   const axios = useAxios();

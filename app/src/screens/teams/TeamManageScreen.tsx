@@ -12,7 +12,7 @@ import { TeamMemberList } from '../../components/team/TeamMembersList';
 import { useTeamMatchHistoryQuery } from '../../hooks/team/useTeamMatchHistoryQuery';
 import { useTeamMembersQuery } from '../../hooks/team/useTeamMembersQuery';
 import { useUpdateTeamAvatarMutation } from '../../hooks/team/useUpdateTeamAvatarMutation';
-import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { useUserProfileQuery } from '../../hooks/user/useUserProfileQuery';
 import { MatchElementInHistory } from '../../types/match';
 import { TeamScreenStackParamList } from './TeamScreenStack';
 

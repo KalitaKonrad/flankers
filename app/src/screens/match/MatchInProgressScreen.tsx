@@ -20,7 +20,7 @@ import {
 import { QUERY_PROFILE_KEY, QUERY_USER_WALLET } from '../../const/query.const';
 import { useAxios } from '../../hooks/useAxios';
 import { useEcho } from '../../hooks/useEcho';
-import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { useUserProfileQuery } from '../../hooks/user/useUserProfileQuery';
 import { theme } from '../../theme';
 import { MembersPayload } from '../../types/squadResponse';
 import { StartVotingEvent } from '../../types/startVotingEvent';

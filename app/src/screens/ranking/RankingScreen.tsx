@@ -10,7 +10,7 @@ import { Switch } from '../../components/shared/Switch';
 import { useTeamLeaderboardsQuery } from '../../hooks/team/useTeamLeaderboardsQuery';
 import { useAlert } from '../../hooks/useAlert';
 import { usePlayerLeaderboardsQuery } from '../../hooks/usePlayerLeaderboardsQuery';
-import { useUserProfileQuery } from '../../hooks/useUserProfileQuery';
+import { useUserProfileQuery } from '../../hooks/user/useUserProfileQuery';
 import { RankingScreenStackParamList } from './RankingScreenStack';
 
 type RankingScreenProps = StackScreenProps<

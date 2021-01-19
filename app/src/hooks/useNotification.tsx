@@ -7,7 +7,7 @@ import { Platform } from 'react-native';
 import { NOTIFICATION_EVENT } from '../const/events.const';
 import { EventBus } from '../utils/eventBus';
 import { useDeleteExpoPushTokenMutation } from './useDeleteExpoPushTokenMutation';
-import { useUserProfileQuery } from './useUserProfileQuery';
+import { useUserProfileQuery } from './user/useUserProfileQuery';
 
 type NotificationContextData = ReturnType<typeof useProvideNotification>;
 
