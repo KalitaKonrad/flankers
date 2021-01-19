@@ -67,7 +67,7 @@ export const WalletScreen: React.FC<WalletScreenProps> = ({ navigation }) => {
       return [];
     }
     const filteredCharges = wallet.data!.charges.filter(
-      (charge) => parseFloat(charge.amount) > 0
+      (charge) => parseFloat(charge.amount) !== 0
     );
     return [...filteredCharges].sort(
       (a, b) =>

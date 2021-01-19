@@ -9,7 +9,7 @@ const TRANSACTION_SOURCE_TO_AMOUNT_SIGN = {
   [WalletChargeSource.GENERIC]: '+',
   [WalletChargeSource.GAME_WON]: '+',
   [WalletChargeSource.PURCHASE]: '+',
-  [WalletChargeSource.GAME_LOST]: '-',
+  [WalletChargeSource.GAME_LOST]: '',
 };
 
 const TRANSACTION_SOURCE_TO_NAME = {
