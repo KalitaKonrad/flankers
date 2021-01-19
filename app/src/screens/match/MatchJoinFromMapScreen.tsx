@@ -12,7 +12,7 @@ import { AppButton } from '../../components/shared/AppButton';
 import { AppInput } from '../../components/shared/AppInput';
 import { AppText } from '../../components/shared/AppText';
 import { Modal } from '../../components/shared/modal/Modal';
-import { useGameInviteQuery } from '../../hooks/useGameInviteQuery';
+import { useGameInviteQuery } from '../../hooks/game/useGameInviteQuery';
 import { useMatchListQuery } from '../../hooks/useMatchListQuery';
 import { useNotificationHandler } from '../../hooks/useNotificationHandler';
 import { MatchResponse } from '../../types/matchResponse';

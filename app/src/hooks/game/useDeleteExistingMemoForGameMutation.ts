@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 
-import { QUERY_GAMES_MEMOS } from '../const/query.const';
-import { useAxios } from './useAxios';
+import { QUERY_GAMES_MEMOS } from '../../const/query.const';
+import { useAxios } from '../useAxios';
 
 export const useDeleteExistingMemoForGameMutation = () => {
   const axios = useAxios();

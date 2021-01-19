@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query';
 
-import { QUERY_GAMES_MEMOS } from '../const/query.const';
-import { GameScoreResponse } from '../types/gameScoreResponse';
-import { useAxios } from './useAxios';
+import { QUERY_GAMES_MEMOS } from '../../const/query.const';
+import { GameScoreResponse } from '../../types/gameScoreResponse';
+import { useAxios } from '../useAxios';
 
 export const useGameScoreQuery = (gameId: number) => {
   const axios = useAxios();

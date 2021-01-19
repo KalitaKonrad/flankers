@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query';
 
-import { QUERY_GAME_INVITATION } from '../const/query.const';
-import { MatchResponse } from '../types/matchResponse';
-import { useAxios } from './useAxios';
+import { QUERY_GAME_INVITATION } from '../../const/query.const';
+import { MatchResponse } from '../../types/matchResponse';
+import { useAxios } from '../useAxios';
 
 export const useGameInviteQuery = (invite_code: string) => {
   const axios = useAxios();

@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from 'react-query';
 
-import { QUERY_GAME_INVITATION } from '../const/query.const';
-import { useAxios } from './useAxios';
+import { QUERY_GAME_INVITATION } from '../../const/query.const';
+import { useAxios } from '../useAxios';
 
 export const useDeleteGameInviteMutation = () => {
   const axios = useAxios();
