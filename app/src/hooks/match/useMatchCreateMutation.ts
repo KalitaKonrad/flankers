@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from 'react-query';
 
-import { QUERY_GAMES } from '../const/query.const';
-import { MatchCreatePayload } from '../types/match';
-import { MatchResponse } from '../types/matchResponse';
-import { useAxios } from './useAxios';
+import { QUERY_GAMES } from '../../const/query.const';
+import { MatchCreatePayload } from '../../types/match';
+import { MatchResponse } from '../../types/matchResponse';
+import { useAxios } from '../useAxios';
 
 export const useMatchCreateMutation = () => {
   const axios = useAxios();

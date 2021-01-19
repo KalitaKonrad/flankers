@@ -5,7 +5,7 @@ import { LatLng } from 'react-native-maps';
 
 import { MatchLocationSelectMap } from '../../components/map/MatchLocationSelectMap.native';
 import { AppButton } from '../../components/shared/AppButton';
-import { useMatchCreateMutation } from '../../hooks/useMatchCreateMutation';
+import { useMatchCreateMutation } from '../../hooks/match/useMatchCreateMutation';
 import { MatchScreenStackParamList } from './MatchScreenStack';
 
 interface Coordinates {
